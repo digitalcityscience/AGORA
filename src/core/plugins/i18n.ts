@@ -10,9 +10,9 @@ const messages={
 }
 const i18n = createI18n({
     legacy:false,
-    locale:'de',
+    locale:"de",
     globalInjection:true,
-    fallbackLocale:'en',
+    fallbackLocale:"en",
     messages
 })
 export default i18n;
