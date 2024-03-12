@@ -1,1 +1,4 @@
 .eslintrc.cjs
+tailwind.config.js
+**/src/presets/**/*.js
+**/vite.config.ts
