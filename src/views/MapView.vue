@@ -3,7 +3,7 @@
         <MapContainer></MapContainer>
         <WorkspaceListing :workspaces="geoserverStore.workspaceList"></WorkspaceListing>
         <MapLayerListing></MapLayerListing>
-        <DrawContainer></DrawContainer>
+        <MapDrawingTool></MapDrawingTool>
     </div>
 </template>
 
@@ -14,7 +14,7 @@ import { useGeoserverStore } from "../store/geoserver";
 import MapContainer from "../components/MapContainer.vue";
 const WorkspaceListing = defineAsyncComponent(async () => await import("../components/WorkspaceListing.vue"));
 const MapLayerListing = defineAsyncComponent(async () => await import("../components/MapLayerListing.vue"));
-const DrawContainer = defineAsyncComponent(async () => await import("../components/DrawContainer.vue"))
+const MapDrawingTool = defineAsyncComponent(async () => await import("../components/MapDrawingTool.vue"))
 
 const geoserverStore = useGeoserverStore()
 onMounted(()=>{

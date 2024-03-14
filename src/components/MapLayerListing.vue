@@ -1,5 +1,5 @@
 <template>
-    <BaseSidebarComponent :id="sidebarID" position="right">
+    <SidebarLayout :id="sidebarID" position="right">
         <div class="w-full" v-if="mapStore.layersOnMap.length > 0">
             <MapLayerListingItem v-for="(layer, index) in mapStore.layersOnMap" :key="index" :layer="layer">
             </MapLayerListingItem>
@@ -7,13 +7,13 @@
         <div class="w-full" v-else>
             <InlineMessage class="w-full" severity="info">There is no layer on map</InlineMessage>
         </div>
-    </BaseSidebarComponent>
+    </SidebarLayout>
 </template>
 
 <script setup lang="ts">
 import InlineMessage from "primevue/inlinemessage";
 // components
-import BaseSidebarComponent from "./BaseSidebarComponent.vue";
+import SidebarLayout from "./SidebarLayout.vue";
 import MapLayerListingItem from "./MapLayerListingItem.vue";
 // JS imports
 import { useMapStore } from "../store/map";

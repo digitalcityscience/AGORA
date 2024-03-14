@@ -1,5 +1,5 @@
 <template>
-        <BaseSidebarComponent :id="sidebarID" position="left" >
+        <SidebarLayout :id="sidebarID" position="left" >
             <div class="w-full" v-if="props.workspaces && props.workspaces.length > 0">
                 <Accordion :multiple="true" :activeIndex="[0]">
                     <AccordionTab headerClass="rounded-lg" v-for="(item, index) in props.workspaces" :key="index">
@@ -13,7 +13,7 @@
             <div class="w-full" v-else>
                 <InlineMessage class="w-full" severity="info">No workspace found</InlineMessage>
             </div>
-        </BaseSidebarComponent>
+        </SidebarLayout>
 </template>
 
 <script setup lang="ts">
@@ -21,7 +21,7 @@
 import Accordion from "primevue/accordion";
 import AccordionTab from "primevue/accordiontab";
 import InlineMessage from "primevue/inlinemessage";
-import BaseSidebarComponent from "./BaseSidebarComponent.vue";
+import SidebarLayout from "./SidebarLayout.vue";
 import WorkspaceListingItem from "./WorkspaceListingItem.vue";
 // JS-TS imports
 import { type WorkspaceListItem } from "../store/geoserver";
