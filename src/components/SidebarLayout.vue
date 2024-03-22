@@ -36,7 +36,7 @@ will be higher than left and/or right component(s).
 interface Props {
     position: "left" | "right" | "bottom",
     id: string,
-    collapsed: boolean
+    collapsed?: boolean
     width?: string,
     height?: string,
     style?: string,
