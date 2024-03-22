@@ -13,7 +13,8 @@ export interface Preset {
     checkbox: any;
     accordion: any;
     inlinemessage: any;
-    chip: any
+    chip: any,
+    tree: any
 }
 declare const agoraPresets: Preset;
 export default agoraPresets;
