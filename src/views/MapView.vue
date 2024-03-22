@@ -4,6 +4,7 @@
         <WorkspaceListing :workspaces="geoserverStore.workspaceList"></WorkspaceListing>
         <MapLayerListing></MapLayerListing>
         <MapDrawingTool></MapDrawingTool>
+        <LIGSidebar></LIGSidebar>
     </div>
 </template>
 
@@ -15,6 +16,7 @@ import MapContainer from "../components/MapContainer.vue";
 const WorkspaceListing = defineAsyncComponent(async () => await import("../components/WorkspaceListing.vue"));
 const MapLayerListing = defineAsyncComponent(async () => await import("../components/MapLayerListing.vue"));
 const MapDrawingTool = defineAsyncComponent(async () => await import("../components/MapDrawingTool.vue"))
+const LIGSidebar = defineAsyncComponent(async () => await import("../components/ligfinder/LIGSidebar.vue"))
 
 const geoserverStore = useGeoserverStore()
 onMounted(()=>{
