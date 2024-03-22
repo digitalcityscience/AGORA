@@ -9,7 +9,7 @@
                                 <i v-else class="pi pi-times"></i>
                             </template></Button>
             </div>
-            <div class="header-content">
+            <div class="header-content grow">
                 <slot name="header"></slot>
             </div>
         </div>
