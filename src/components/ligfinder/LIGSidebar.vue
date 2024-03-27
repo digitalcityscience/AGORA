@@ -1,5 +1,5 @@
 <template>
-	<SidebarLayout :id="sidebarID" position="left" :collapsed=false>
+	<SidebarLayout :id="sidebarID" position="left" :collapsed=false width="25vw">
 		<template #header>
 				<div class="h-full flex flex-col justify-center px-1">
 					<p class="font-bold text-xl text-slate-50 align-middle">LIGFinder</p>
