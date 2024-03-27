@@ -1,7 +1,7 @@
 <template>
 	<Panel toggleable>
 		<template #header>
-			<span class="font-bold">Area Based Filtering</span>
+			<span class="font-bold">Metric Based Filtering</span>
 		</template>
 		<div>
 		</div>

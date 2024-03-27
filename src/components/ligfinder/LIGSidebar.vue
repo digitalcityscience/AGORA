@@ -34,7 +34,7 @@ import { defineAsyncComponent } from "vue";
 
 const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGeometryFilter.vue"))
 const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCriteriaFilter.vue"))
-const LIGAreaFilter = defineAsyncComponent(async () => await import("./LIGAreaFilter.vue"))
+const LIGAreaFilter = defineAsyncComponent(async () => await import("./LIGMetricsFilter.vue"))
 
 const mapStore = useMapStore()
 const sidebarID = "ligfinder-sidebar"
