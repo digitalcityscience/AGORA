@@ -1,5 +1,5 @@
 <template>
-    <div ref="el" :class="sidebarStatusClasses" :id="props.id" class="sidebar group flex grow-0 justify-between absolute rounded-lg p-1  lg:w-[300px] 2xl:w-[350px] 3xl:w-[400px] duration-1000" :style="props.style ? props.style : ''" :data-position="props.position">
+    <div ref="el" :class="sidebarStatusClasses" :id="props.id" class="sidebar group flex grow-0 justify-between absolute rounded-lg p-1  duration-1000" :style="props.style ? props.style : ''" :data-position="props.position">
         <div class="header w-full flex group-[.sidebar-left]:flex-row-reverse group-[.sidebar-right]:flex-row group-[.sidebar-bottom]:flex-row-reverse p-1">
             <div class="close-button">
                 <Button @click="toggleSidebar">
@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
     collapsed: true
 })
 const sidebarStatusClasses = computed(() => {
-    return `sidebar-${props.position} ${props.collapsed ? "collapsed":""}`
+    return `${(props.width !== null && props.width !== undefined && props.width !=="") ? "user-width":"lg:w-[300px] 2xl:w-[350px] 3xl:w-[400px]"} sidebar-${props.position} ${props.collapsed ? "collapsed":""}`
 })
 // to check width prop with css patterns (ends with 'px', 'vw' or '%')
 const widthRegex = /^(\d+(?:\.\d*)?)px$|^(\d+(?:\.\d*)?)vw$|^(\d+(?:\.\d*)?)%$/
@@ -98,6 +98,9 @@ onMounted(()=> {
         el.value.style.setProperty("--width4Vertical", width4Vertical.value);
         el.value.style.setProperty("--height4Horizontal", height4Horizontal.value);
         el.value.style.setProperty("--backgroundClr", backgroundClr.value)
+        if ((props.width !== null && props.width !== undefined && props.width !=="") && (widthRegex.test(props.width))){
+            el.value.style.setProperty("--userWidth", props.width)
+        }
     }
 })
 /**
@@ -138,6 +141,9 @@ defineExpose({
     min-width: 15vw;
     backdrop-filter: invert(100%);
 }
+.sidebar.sidebar-left.user-width{
+    width: var(--userWidth);
+}
 
 .sidebar.sidebar-right {
     top: 10px;
@@ -147,6 +153,9 @@ defineExpose({
     flex-direction: column;
     min-width: 15vw;
     backdrop-filter: invert(100%);
+}
+.sidebar.sidebar-right.user-width{
+    width: var(--userWidth);
 }
 
 .sidebar.sidebar-bottom {
