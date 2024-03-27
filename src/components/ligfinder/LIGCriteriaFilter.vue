@@ -5,7 +5,7 @@
 		</template>
 		<div>
 			<div class="used-criteria">
-				<div class="included py-1">
+				<div class="included py-1" v-if="includedCriteria.length > 0">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
 						Included Criteria
 					</div>
@@ -13,7 +13,7 @@
 						<ChipWrapper v-for="crit in includedCriteria" :key="crit.key" :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="success"/>
 					</div>
 				</div>
-				<div class="excluded py-1">
+				<div class="excluded py-1" v-if="excludedCriteria.length > 0">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
 						Excluded Criteria
 					</div>
