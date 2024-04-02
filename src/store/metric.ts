@@ -5,7 +5,7 @@ export type RangeInput = Record<string, {
     min: number;
     max: number;
 }>;
-export const useLigfinderStore = defineStore("ligfinder", () => {
+export const useMetricStore = defineStore("metric", () => {
     const metricFilters = ref<RangeInput>({
         area_fme:{
             min:0,
@@ -87,5 +87,5 @@ export const useLigfinderStore = defineStore("ligfinder", () => {
 
 /* eslint-disable */
 if (import.meta.hot) {
- import.meta.hot.accept(acceptHMRUpdate(useLigfinderStore, import.meta.hot))
+ import.meta.hot.accept(acceptHMRUpdate(useMetricStore, import.meta.hot))
 }
