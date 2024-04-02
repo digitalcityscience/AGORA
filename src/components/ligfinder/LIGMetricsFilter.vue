@@ -5,7 +5,7 @@
 		</template>
 		<div class="metric-filter">
 			<div class="filter-section">
-                <div class="attribute w-full py-1"  v-for="(filter, key) in ligfinder.metricFilters" :key="key">
+                <div class="attribute w-full py-1"  v-for="(filter, key) in metric.metricFilters" :key="key">
                     <!-- Dynamically display filter name with some formatting -->
                     <p class="font-bold normal-case">{{$t(`metricsFilter.${key}`)}}</p>
                     <div class="range-input flex flex-start">
@@ -30,9 +30,9 @@
 import Panel from "primevue/panel";
 import InputNumber from "primevue/inputnumber";
 import { nextTick, ref } from "vue";
-import { useLigfinderStore } from "../../store/ligfinder";
+import { useMetricStore } from "../../store/metric";
 
-const ligfinder = useLigfinderStore()
+const metric = useMetricStore()
 const validationInProgress = ref(false)
 /**
  * Validates and corrects the min and max values of a given range object. Sets null values to 0 for validation, but does not include
@@ -62,7 +62,7 @@ function validateRangeInput(range: { min: number; max: number }, rangeKey: strin
             [min, max] = [max, min]; // Swap min and max if necessary
         }
         nextTick(() => {
-            ligfinder.metricFilters[rangeKey] = { min, max };
+            metric.metricFilters[rangeKey] = { min, max };
         }).then(() => {}, () => {});
     }
 }
