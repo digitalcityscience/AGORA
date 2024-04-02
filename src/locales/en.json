@@ -1,3 +1,13 @@
 {
-	"hello":"hello"
+	"metricsFilter": {
+		"area_fme":"Land Area in m²",
+		"bgf_sum":"Available Gross Floor in m²",
+		"fl_unbeb_a":"Available Vacant Lots",
+		"ms_dist":"Distance to Nearest Metro Station",
+		"sm_dist":"Distance to Nearest Supermarket",
+		"kita_dist":"Distance to Nearest Kita",
+		"bus_dist":"Distance to Nearest Bus Station",
+		"krankenhaus_dist":"Distance to Nearest Krankenhaus",
+		"park_dist":"Distance to Nearest Park"
+	}
 }

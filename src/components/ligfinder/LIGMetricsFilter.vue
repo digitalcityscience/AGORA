@@ -7,7 +7,7 @@
 			<div class="filter-section">
                 <div class="attribute w-full py-1"  v-for="(filter, key) in ligfinder.metricFilters" :key="key">
                     <!-- Dynamically display filter name with some formatting -->
-                    <p class="font-bold normal-case">{{key}}</p>
+                    <p class="font-bold normal-case">{{$t(`metricsFilter.${key}`)}}</p>
                     <div class="range-input flex flex-start">
 						<div class="input-group flex flex-col font-light text-xs italic">
 							<label :for="`${key}-min`" class="pl-1">Min</label>
