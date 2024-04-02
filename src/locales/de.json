@@ -1,3 +1,13 @@
 {
-	"hello":"Hallo"
+	"metricsFilter": {
+		"area_fme":"Grundstücksfläche in m²",
+		"bgf_sum":"Verfügbare Bruttogeschossfläche in m²",
+		"fl_unbeb_a":"Verfügbare unbebaute Grundstücke",
+		"ms_dist":"Entfernung zur nächsten U-Bahn-Station",
+		"sm_dist":"Entfernung zum nächsten Supermarkt",
+		"kita_dist":"Entfernung zum nächsten Kindergarten",
+		"bus_dist":"Entfernung zur nächsten Bushaltestelle",
+		"krankenhaus_dist":"Entfernung zum nächsten Krankenhaus",
+		"park_dist":"Entfernung zum nächsten Park"
+	}
 }
