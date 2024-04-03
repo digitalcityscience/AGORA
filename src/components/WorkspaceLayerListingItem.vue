@@ -62,19 +62,7 @@ geoserver.getLayerInformation(props.item, props.workspace).then((response) => {
         const url = response.layer.defaultStyle.href.replace(regex, ".mbstyle")
         geoserver.getLayerStyling(url).then(style => {
             if (style.layers.length > 0){
-                const obj: LayerStyleOptions = {
-                    paint:{ ...style.layers[0].paint }
-                }
-                if (Object.prototype.hasOwnProperty.call(style.layers[0] as LayerStyleOptions, "layout")){
-                    obj.layout = style.layers[0].layout
-                }
-                if (Object.prototype.hasOwnProperty.call(style.layers[0] as LayerStyleOptions, "minzoom")){
-                    obj.minzoom = style.layers[0].minzoom
-                }
-                if (Object.prototype.hasOwnProperty.call(style.layers[0] as LayerStyleOptions, "maxzoom")){
-                    obj.maxzoom = style.layers[0].maxzoom
-                }
-                layerStyling.value = obj
+                layerStyling.value = geoserver.convertLayerStylingToMaplibreStyle(style)
             }
         }).catch((error) => {
             window.alert(error)
