@@ -2,6 +2,7 @@
 /* eslint "no-tabs": "off" */
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
+import { type LayerStyleOptions } from "./map";
 export interface GeoServerFeatureType {
   featureType: {
     name: string;
@@ -215,6 +216,21 @@ export const useGeoserverStore = defineStore("geoserver", () => {
     })
     return await response.json()
   }
+  function convertLayerStylingToMaplibreStyle(geoserverStyling:any):LayerStyleOptions{
+    const obj: LayerStyleOptions = {
+      paint:{ ...geoserverStyling.layers[0].paint }
+    }
+    if (Object.prototype.hasOwnProperty.call(geoserverStyling.layers[0] as LayerStyleOptions, "layout")){
+        obj.layout = geoserverStyling.layers[0].layout
+    }
+    if (Object.prototype.hasOwnProperty.call(geoserverStyling.layers[0] as LayerStyleOptions, "minzoom")){
+        obj.minzoom = geoserverStyling.layers[0].minzoom
+    }
+    if (Object.prototype.hasOwnProperty.call(geoserverStyling.layers[0] as LayerStyleOptions, "maxzoom")){
+        obj.maxzoom = geoserverStyling.layers[0].maxzoom
+    }
+    return obj
+  }
   return {
     pointData,
     layerList,
@@ -223,7 +239,8 @@ export const useGeoserverStore = defineStore("geoserver", () => {
     getWorkspaceList,
     getLayerInformation,
     getLayerDetail,
-    getLayerStyling
+    getLayerStyling,
+    convertLayerStylingToMaplibreStyle
   };
 });
 /* eslint-disable */
