@@ -29,8 +29,9 @@ onMounted(() => {
 async function loadParcelDataset(): Promise<void> {
     const layerName: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
     const layerInfoURL: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERINFORMATION_URL}`
+    const workspaceName: string = `${import.meta.env.VITE_PARCEL_DATASET_WORKSPACENAME}`
     if (layerName.length>0 && layerInfoURL.length>0){
-        geoserver.getLayerInformation({ name:"parcel3857", href:"http://dev.geoserver.tosca.dcs.hcu-hamburg.de/geoserver/rest/workspaces/public/layers/parcel3857.json" }, "public")
+        geoserver.getLayerInformation({ name:layerName, href:layerInfoURL }, workspaceName)
             .then((layerInformation) => {
                 let layerStyling: LayerStyleOptions
                 // Currently we are just picking styles which has include mbstyle in name. Further optimization needed after some period
