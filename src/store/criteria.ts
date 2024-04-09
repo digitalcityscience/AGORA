@@ -4,12 +4,12 @@ import { ref } from "vue";
 import { type TreeNode } from "primevue/treenode";
 
 export interface CriteriaValueData {
-    filter: string,
+    filter: "value",
     columns: string[],
     value: string
 }
 export interface CriteriaPercentageData {
-    filter: string,
+    filter: "prozent",
     columns: string[]
 }
 export interface AppliedCriteria extends TreeNode {
@@ -32,11 +32,44 @@ export const useCriteriaStore = defineStore("criteria", () => {
     const removeCriteria = (criteria: AppliedCriteria): void => {
         criteriaInUse.value = criteriaInUse.value.filter(c => c.key !== criteria.key)
     }
+    function createCriteriaExpression(data: CriteriaValueData|CriteriaPercentageData): any[]{
+        const expression = []
+        if (data.filter === "value"){
+            expression.push("any")
+            data.columns.forEach(col => {
+                expression.push(["==", ["get", col], data.value])
+            })
+        } else {
+            expression.push([">", ["get", data.columns[0]], 0])
+        }
+        return expression
+    }
+    function createCriteriaFilter(): any[]{
+        const expression: any[] = []
+        criteriaInUse.value.forEach(crit => {
+            if (crit.data !== undefined && crit.data !== null){
+                const criteriumExpression = createCriteriaExpression(crit.data)
+                if (criteriumExpression.length>0) {
+                    if (crit.status === "included") {
+                        expression.push(criteriumExpression)
+                    } else {
+                        expression.push(["!", criteriumExpression])
+                    }
+                }
+            }
+        })
+        if (expression.length>0) {
+            return ["all", ...expression]
+        } else {
+            return []
+        }
+    }
     return {
         list,
         criteriaInUse,
         addCriteria,
-        removeCriteria
+        removeCriteria,
+        createCriteriaFilter
     }
 })
 /* eslint-disable */
