@@ -3,8 +3,18 @@ import criteria from "../../criteria.json"
 import { ref } from "vue";
 import { type TreeNode } from "primevue/treenode";
 
+export interface CriteriaValueData {
+    filter: string,
+    columns: string[],
+    value: string
+}
+export interface CriteriaPercentageData {
+    filter: string,
+    columns: string[]
+}
 export interface AppliedCriteria extends TreeNode {
-    status: "included"|"excluded"
+    status: "included"|"excluded",
+    data?: CriteriaValueData | CriteriaPercentageData,
 }
 export const useCriteriaStore = defineStore("criteria", () => {
     const list = criteria.items;
@@ -12,7 +22,6 @@ export const useCriteriaStore = defineStore("criteria", () => {
     const addCriteria = (criteria: AppliedCriteria): void => {
         if (criteriaInUse.value.filter((crit)=>{ return crit.key === criteria.key }).length === 0){
             criteriaInUse.value.push(criteria)
-            console.log(criteriaInUse.value)
         } else {
             const index = criteriaInUse.value.findIndex(crit => crit.key === criteria.key)
             if (criteriaInUse.value[index].status !== criteria.status) {

@@ -28,7 +28,7 @@
 					<div class="text flex flex-col justify-center">
 						<span class="label">{{ slotProps.node.label }}</span>
 					</div>
-					<div v-if="slotProps.node.children?.length === 0">
+					<div v-if="!slotProps.node.children">
 						<div class="actions">
 							<Button icon="pi pi-search-plus" @click="addToAppliedCriteria(slotProps.node,'included')" text rounded aria-label="Include"></Button>
 							<Button icon="pi pi-search-minus" @click="addToAppliedCriteria(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
