@@ -1,1080 +1,1088 @@
-{"items":[
-  {
-    "key": "1000",
-    "label": "Sondergebiete",
-    "data": "Folder",
-    "children": [
-      {
-        "key": "1001",
-        "label": "Naturschutzgebiet",
-        "data": "nsg_P",
-        "children": [],
-        "icon": "pi pi-fw pi-file"
-      },
-      {
-        "key": "1002",
-        "label": "Landschaftsschutzgebiet",
-        "data": "lsg_P",
-        "children": [],
-        "icon": "pi pi-fw pi-file"
-      },
-      {
-        "key": "1003",
-        "label": "Biotop",
-        "data": "bio_fl_P",
-        "children": [],
-        "icon": "pi pi-fw pi-file"
-      },
-      {
-        "key": "1004",
-        "label": "Hafengebiet",
-        "data": "hfn_ges_p",
-        "children": [],
-        "icon": "pi pi-fw pi-file"
-      }
-    ],
-    "icon": "pi pi-fw pi-folder"
-  },
-  {
-    "key": "1005",
-    "label": "Eigentum",
-    "data": "Folder",
-    "children": [
-      {
-        "key": "1006",
-        "label": "Landesgrundbesitz",
-        "data": "Folder",
-        "children": [
-          {
-            "key": "1",
-            "label": "081 AGV",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "2",
-                "label": "081 AGV-alle",
-                "data": [
-                  "art_1_47"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "3",
-                "label": "081_2901 AGV (ohne EBR)",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "4",
-                "label": "081_2902 AGV (belastet mit EBR)",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "5",
-            "label": "080 Verwaltungsverm\u00f6gen",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "6",
-                "label": "080 VV - alle",
-                "data": [
-                  "art_50_253"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "7",
-                "label": "080 Fl\u00e4chen des Bezirks",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "8",
-                    "label": "080_2100 Fl\u00e4chen des Bezirks - sonstige Bereiche",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "9",
-                    "label": "080_2631 Fl\u00e4chen des Bezirks - Tiefbau",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B",
-                      "T_50_253_C"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "10",
-                    "label": "080_2642 Fl\u00e4chen des Bezirks - Gew\u00e4sser",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "11",
-                    "label": "080_2661 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B",
-                      "T_50_253_C"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "12",
-                    "label": "084_2009 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "13",
-                    "label": "080_2741 Fl\u00e4chen des Bezirks - Forsten",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "14",
-                    "label": "080_2821 Fl\u00e4chen des Bezirks - Sportfl\u00e4chen",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "15",
-                "label": "080 Justizbeh\u00f6rde",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "16",
-                    "label": "080_2200 Justizbeh\u00f6rde",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "17",
-                    "label": "084_2030 Justizbeh\u00f6rde (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "18",
-                "label": "080 Beh\u00f6rde f\u00fcr Arbeit, Soziales, Familie und Integration (BASFI)",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "19",
-                    "label": "080_2300 BASFI",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "20",
-                    "label": "084_2001 BASFI (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "21",
-                "label": "080 Beh\u00f6rde f\u00fcr Wissenschaft, Forschung und Gleichstellung (BWFG)",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "22",
-                    "label": "080_2340 BWFG",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "23",
-                    "label": "084_2025 BWFG (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "24",
-                "label": "080_2360 Senats\u00e4mter",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "25",
-                "label": "080 Beh\u00f6rde f\u00fcr Kultur und Medien (BKM)",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "26",
-                    "label": "080_2370 BKM",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "27",
-                    "label": "084_2002 BKM (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "28",
-                "label": "080_2430 Beh\u00f6rde f\u00fcr Gesundheit und Verbraucherschutz (BGV)",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "29",
-                "label": "080_2500 Beh\u00f6rde f\u00fcr Stadtentwicklung und Wohnen (BSW)",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "30",
-                "label": "080 Beh\u00f6rde f\u00fcr Umwelt und Energie (BUE)",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "31",
-                    "label": "080_2600 BUE - Sonstiges",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "32",
-                    "label": "080_2610 BUE - Gew\u00e4sser (BUE-U1)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "33",
-                    "label": "080_2649 BUE - Hochwasserschutz",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "34",
-                    "label": "080_2680 BUE - Amt f\u00fcr Naturschutz, Gr\u00fcnplanung u.Energie",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "35",
-                    "label": "084_2004 BUE - Amt f\u00fcr Naturschutz, Gr\u00fcnplanung u.Energie (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "36",
-                "label": "080 Beh\u00f6rde f\u00fcr Wirtschaft, Verkehr und Innovation (BWVI)",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "37",
-                    "label": "080_2700 BWVI - Sonstiges",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "38",
-                    "label": "084_2003 BWVI - Horner Rennbahn (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "39",
-                    "label": "080_2632 BWVI - Schnellbahnbau",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "40",
-                    "label": "080_2710 BWVI - Hauptverkehrsstra\u00dfen",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "41",
-                    "label": "080_2730 BWVI - P+R",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "42",
-                    "label": "080_2740 BWVI - Landwirtschaft",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "43",
-                    "label": "080_2745 BWVI - Forsten",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "44",
-                    "label": "080_2750 Hafennutzungsgebiet (HNG)- Sonstiges",
-                    "data": [
-                      "T_50_253_A",
-                      "T_50_253_B"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "45",
-                    "label": "080_2751 HNG - Wege",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "46",
-                    "label": "080_2752 HNG - Gleisanlagen",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "47",
-                    "label": "080_2753 HNG - Wasserfl\u00e4chen",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              },
-              {
-                "key": "48",
-                "label": "080_2800 Beh\u00f6rde f\u00fcr Inneres (BIS)",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "49",
-                "label": "080 Beh\u00f6rde f\u00fcr Schule und Berufsbildung (BSB)",
-                "data": "Folder",
-                "children": [
-                  {
-                    "key": "50",
-                    "label": "080_2901 BSB-Amt f\u00fcr Bildung (Schulen)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  },
-                  {
-                    "key": "51",
-                    "label": "084_2020 BSB (VV belastet mit EBR)",
-                    "data": [
-                      "T_50_253_A"
-                    ],
-                    "children": [],
-                    "icon": "pi pi-fw pi-file"
-                  }
-                ],
-                "icon": "pi pi-fw pi-folder"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "52",
-            "label": "085 Sonderverm\u00f6gen (SV)",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "53",
-                "label": "085 SV - alle",
-                "data": [
-                  "art_1_47"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "54",
-                "label": "085_0945 SV - Schulimmobilien",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "55",
-                "label": "085_3000 SV - Stadt und Hafen, HafenCity",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "56",
-                "label": "085_3010 SV - Stiftung Borsteler J\u00e4ger",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "57",
-                "label": "085_3020 SV - Naturschutz u. Landschaftspflege (SVNL)",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "58",
-            "label": "082 Landesbetriebe gem. \u00a726 LHO",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "59",
-                "label": "082 Landesbetriebe - alle",
-                "data": [
-                  "art_1_47"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "60",
-                "label": "082_2480 Landesbetrieb Erziehung und Beratung (LEB)",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "61",
-                "label": "082_2520 Landesbetrieb Staatl. Krankenh\u00e4user",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "62",
-                "label": "082_2644 Landesbetrieb Stadtreinigung",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "63",
-                "label": "082_2720 Landesbetrieb Hamburgische M\u00fcnze",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "64",
-                "label": "082_2742 Landesbetrieb Gro\u00dfmarkt",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "65",
-                "label": "082_2743 Landesbetrieb Gro\u00dfmarkt (belastet mit EBR)",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "66",
-            "label": "083 Grundst\u00fccksgleiche Rechte",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "67",
-                "label": "083 Grundst\u00fccksgleiche Rechte - alle",
-                "data": [
-                  "art_1_47"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "68",
-                "label": "083_2950 Grundst\u00fccke Dritter - Erbbaurecht/Wohnungserbbaurecht der FHH",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "69",
-                "label": "083_2951 Grundst\u00fccke Dritter - Miteigentumsanteile der FHH, MEA an Erbbaurechten",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "70",
-                "label": "083_2952 Grundst\u00fccke Dritter - Erbengemeinschaften",
-                "data": [
-                  "T_1_47_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "71",
-            "label": "086 \u00d6ffentliche Unternehmen",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "73",
-                "label": "B\u00e4derland Hamburg",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "74",
-                "label": "Berufsf\u00f6rderwerk Hamburg",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "75",
-                "label": "Deichtorhallen Hamburg GmbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "76",
-                "label": "Elbe-Werkst\u00e4tten GmbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "77",
-                "label": "Elbphilharmonie Hamburg Bau GmbH & Co. KG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "78",
-                "label": "F\u00f6rdern & Wohnen A.\u00f6.R.",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "79",
-                "label": "FEG Fischereihafenentwicklungsges. mbH & Co. KG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "80",
-                "label": "Flughafen Hamburg GmbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "81",
-                "label": "Hamburg Messe und Congress GmbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "82",
-                "label": "Hamburg Port Authority",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "83",
-                "label": "Hamburger Friedh\u00f6fe A.\u00f6.R.",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "84",
-                "label": "Hamburger Gesellschaft f\u00fcr Gewerbebauf\u00f6rderung mbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "85",
-                "label": "Hamburger Hochbahn AG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "86",
-                "label": "Hamburger Stadtentw\u00e4sserung - A.\u00f6.R.",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "87",
-                "label": "Hamburger Wasserwerke GmbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "88",
-                "label": "Hamburgische Investitions- und F\u00f6rderbank",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "89",
-                "label": "Hamburgischer Versorgungsfonds A.\u00f6.R.",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "90",
-                "label": "HGV Hamburger Ges. f\u00fcr Verm\u00f6gens- und Beteiligungsmanagement mbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "91",
-                "label": "KG VHG Verwaltung Hamburgischer Geb\u00e4ude GmbH & Co.KG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "92",
-                "label": "P+R Betriebsgesellschaft mbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "93",
-                "label": "Projektierungsgesellschaft Finkenwerder mbH & Co.KG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "94",
-                "label": "SAGA - Siedlungsaktiengesellschaft Hamburg",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "95",
-                "label": "SpriAG Sprinkenhof AG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "96",
-                "label": "Stadtreinigung Hamburg A.\u00f6.R",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "97",
-                "label": "Universit\u00e4tsklinikum Hamburg-Eppendorf K.\u00f6.R.",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "98",
-                "label": "Elbkinder Vereinigung Hamburger Kindertagesst\u00e4tten gGmbH",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "99",
-                "label": "Verkehrsbetriebe Hamburg-Holstein AG",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "100",
-                "label": "nicht zugeordnet",
-                "data": [
-                  "oeff_Kat"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "101",
-            "label": "087 Treuhandverm\u00f6gen",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "102",
-                "label": "087 Treuhandverm\u00f6gen - alle",
-                "data": [
-                  "art_50_253"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "103",
-                "label": "087_5000 Altonaer Spar- und Bauverein Eg",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "104",
-                "label": "087_5010 Johann Daniel Laweatz-Stiftung",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "105",
-                "label": "087_5020 mgF Gartenstadt Farmsen eG Mieter- und Wohnungsbaugenossenschaft",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "106",
-                "label": "087_5030 STEG Stadterneuerungs und Stadtentwicklungsgesellschaft Hamburg mbH",
-                "data": [
-                  "T_50_253_A"
-                ],
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          }
-        ],
-        "icon": "pi pi-fw pi-folder"
-      }
-    ],
-    "icon": "pi pi-fw pi-folder"
-  },
-  {
-    "key": "107",
-    "label": "Nutzungsart",
-    "data": "Folder",
-    "children": [
-      {
-        "key": "108",
-        "label": "Nutzungsart aktuell",
-        "data": "Folder",
-        "children": [
-          {
-            "key": "109",
-            "label": "Wohnen",
-            "data": "tN_wbfl_P",
-            "children": [],
-            "icon": "pi pi-fw pi-file"
-          },
-          {
-            "key": "110",
-            "label": "Industrie und Gewerbe",
-            "data": "tN_Igew_P",
-            "children": [],
-            "icon": "pi pi-fw pi-file"
-          },
-          {
-            "key": "111",
-            "label": "Landwirtschaft",
-            "data": "tN_Land_P",
-            "children": [],
-            "icon": "pi pi-fw pi-file"
-          },
-          {
-            "key": "112",
-            "label": "Sport, Freizeit und Erholung",
-            "data": "Folder",
-            "children": [
-              {
-                "key": "113",
-                "label": "SFE - alle",
-                "data": "tN_Sport_P",
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "114",
-                "label": "SFE - Kleingarten",
-                "data": "tn_klein_p",
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              },
-              {
-                "key": "115",
-                "label": "SFE - Sportanlagen",
-                "data": "tN_SpAnl_P",
-                "children": [],
-                "icon": "pi pi-fw pi-file"
-              }
-            ],
-            "icon": "pi pi-fw pi-folder"
-          },
-          {
-            "key": "116",
-            "label": "Stra\u00dfen, Wege, Pl\u00e4tze",
-            "data": "tN_StrWP_P",
-            "children": [],
-            "icon": "pi pi-fw pi-file"
-          },
-          {
-            "key": "117",
-            "label": "besondere funktionale Pr\u00e4gung",
-            "data": "tN_besFu_P",
-            "children": [],
-            "icon": "pi pi-fw pi-file"
-          },
-          {
-            "key": "118",
-            "label": "gemischte Nutzung",
-            "data": "tN_gemNu_P",
-            "children": [],
-            "icon": "pi pi-fw pi-file"
-          }
-        ],
-        "icon": "pi pi-fw pi-folder"
-      }
-    ],
-    "icon": "pi pi-fw pi-folder"
-  }
-]}
+{
+	"items": [
+		{
+			"key": "1000",
+			"label": "Sondergebiete",
+			"data": null,
+			"children": [
+				{
+					"key": "1001",
+					"label": "Naturschutzgebiet",
+					"data": {
+						"columns": ["nsg_P"],
+						"filter": "prozent"
+					}
+				},
+				{
+					"key": "1002",
+					"label": "Landschaftsschutzgebiet",
+					"data": {
+						"columns": ["lsg_P"],
+						"filter": "prozent"
+					}
+				},
+				{
+					"key": "1003",
+					"label": "Biotop",
+					"data": {
+						"columns": ["bio_fl_P"],
+						"filter": "prozent"
+					}
+				},
+				{
+					"key": "1004",
+					"label": "Hafengebiet",
+					"data": {
+						"columns": ["hfn_ges_p"],
+						"filter": "prozent"
+					}
+				}
+			]
+		},
+		{
+			"key": "1005",
+			"label": "Eigentum",
+			"data": null,
+			"children": [
+				{
+					"key": "1006",
+					"label": "Landesgrundbesitz",
+					"data": null,
+					"children": [
+						{
+							"key": "1",
+							"label": "081 AGV",
+							"data": null,
+							"children": [
+								{
+									"key": "2",
+									"label": "081 AGV-alle",
+									"data": {
+										"columns": ["art_1_47"],
+										"filter": "value",
+										"value": "081"
+									}
+								},
+								{
+									"key": "3",
+									"label": "081_2901 AGV (ohne EBR)",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "081_2901"
+									}
+								},
+								{
+									"key": "4",
+									"label": "081_2902 AGV (belastet mit EBR)",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "081_2902"
+									}
+								}
+							]
+						},
+						{
+							"key": "5",
+							"label": "080 Verwaltungsverm\u00f6gen",
+							"data": null,
+							"children": [
+								{
+									"key": "6",
+									"label": "080 VV - alle",
+									"data": {
+										"columns": ["art_50_253"],
+										"filter": "value",
+										"value": "080"
+									}
+								},
+								{
+									"key": "7",
+									"label": "080 Fl\u00e4chen des Bezirks",
+									"data": null,
+									"children": [
+										{
+											"key": "8",
+											"label": "080_2100 Fl\u00e4chen des Bezirks - sonstige Bereiche",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B"
+												],
+												"filter": "value",
+												"value": "080_2100"
+											}
+										},
+										{
+											"key": "9",
+											"label": "080_2631 Fl\u00e4chen des Bezirks - Tiefbau",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B",
+													"T_50_253_C"
+												],
+												"filter": "value",
+												"value": "080_2631"
+											}
+										},
+										{
+											"key": "10",
+											"label": "080_2642 Fl\u00e4chen des Bezirks - Gew\u00e4sser",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B"
+												],
+												"filter": "value",
+												"value": "080_2642"
+											}
+										},
+										{
+											"key": "11",
+											"label": "080_2661 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B",
+													"T_50_253_C"
+												],
+												"filter": "value",
+												"value": "080_2661"
+											}
+										},
+										{
+											"key": "12",
+											"label": "084_2009 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2009"
+											}
+										},
+										{
+											"key": "13",
+											"label": "080_2741 Fl\u00e4chen des Bezirks - Forsten",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B"
+												],
+												"filter": "value",
+												"value": "080_2741"
+											}
+										},
+										{
+											"key": "14",
+											"label": "080_2821 Fl\u00e4chen des Bezirks - Sportfl\u00e4chen",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B"
+												],
+												"filter": "value",
+												"value": "080_2821"
+											}
+										}
+									]
+								},
+								{
+									"key": "15",
+									"label": "080 Justizbeh\u00f6rde",
+									"data": null,
+									"children": [
+										{
+											"key": "16",
+											"label": "080_2200 Justizbeh\u00f6rde",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2200"
+											}
+										},
+										{
+											"key": "17",
+											"label": "084_2030 Justizbeh\u00f6rde (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2030"
+											}
+										}
+									]
+								},
+								{
+									"key": "18",
+									"label": "080 Beh\u00f6rde f\u00fcr Arbeit, Soziales, Familie und Integration (BASFI)",
+									"data": null,
+									"children": [
+										{
+											"key": "19",
+											"label": "080_2300 BASFI",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2300"
+											}
+										},
+										{
+											"key": "20",
+											"label": "084_2001 BASFI (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2001"
+											}
+										}
+									]
+								},
+								{
+									"key": "21",
+									"label": "080 Beh\u00f6rde f\u00fcr Wissenschaft, Forschung und Gleichstellung (BWFG)",
+									"data": null,
+									"children": [
+										{
+											"key": "22",
+											"label": "080_2340 BWFG",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2340"
+											}
+										},
+										{
+											"key": "23",
+											"label": "084_2025 BWFG (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2025"
+											}
+										}
+									]
+								},
+								{
+									"key": "24",
+									"label": "080_2360 Senats\u00e4mter",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "080_2360"
+									}
+								},
+								{
+									"key": "25",
+									"label": "080 Beh\u00f6rde f\u00fcr Kultur und Medien (BKM)",
+									"data": null,
+									"children": [
+										{
+											"key": "26",
+											"label": "080_2370 BKM",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2370"
+											}
+										},
+										{
+											"key": "27",
+											"label": "084_2002 BKM (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2002"
+											}
+										}
+									]
+								},
+								{
+									"key": "28",
+									"label": "080_2430 Beh\u00f6rde f\u00fcr Gesundheit und Verbraucherschutz (BGV)",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "080_2430"
+									}
+								},
+								{
+									"key": "29",
+									"label": "080_2500 Beh\u00f6rde f\u00fcr Stadtentwicklung und Wohnen (BSW)",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "080_2500"
+									}
+								},
+								{
+									"key": "30",
+									"label": "080 Beh\u00f6rde f\u00fcr Umwelt und Energie (BUE)",
+									"data": null,
+									"children": [
+										{
+											"key": "31",
+											"label": "080_2600 BUE - Sonstiges",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2600"
+											}
+										},
+										{
+											"key": "32",
+											"label": "080_2610 BUE - Gew\u00e4sser (BUE-U1)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2610"
+											}
+										},
+										{
+											"key": "33",
+											"label": "080_2649 BUE - Hochwasserschutz",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2649"
+											}
+										},
+										{
+											"key": "34",
+											"label": "080_2680 BUE - Amt f\u00fcr Naturschutz, Gr\u00fcnplanung u.Energie",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2680"
+											}
+										},
+										{
+											"key": "35",
+											"label": "084_2004 BUE - Amt f\u00fcr Naturschutz, Gr\u00fcnplanung u.Energie (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2004"
+											}
+										}
+									]
+								},
+								{
+									"key": "36",
+									"label": "080 Beh\u00f6rde f\u00fcr Wirtschaft, Verkehr und Innovation (BWVI)",
+									"data": null,
+									"children": [
+										{
+											"key": "37",
+											"label": "080_2700 BWVI - Sonstiges",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2700"
+											}
+										},
+										{
+											"key": "38",
+											"label": "084_2003 BWVI - Horner Rennbahn (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2003"
+											}
+										},
+										{
+											"key": "39",
+											"label": "080_2632 BWVI - Schnellbahnbau",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2632"
+											}
+										},
+										{
+											"key": "40",
+											"label": "080_2710 BWVI - Hauptverkehrsstra\u00dfen",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2710"
+											}
+										},
+										{
+											"key": "41",
+											"label": "080_2730 BWVI - P+R",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2730"
+											}
+										},
+										{
+											"key": "42",
+											"label": "080_2740 BWVI - Landwirtschaft",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2740"
+											}
+										},
+										{
+											"key": "43",
+											"label": "080_2745 BWVI - Forsten",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2745"
+											}
+										},
+										{
+											"key": "44",
+											"label": "080_2750 Hafennutzungsgebiet (HNG)- Sonstiges",
+											"data": {
+												"columns": [
+													"T_50_253_A",
+													"T_50_253_B"
+												],
+												"filter": "value",
+												"value": "080_2750"
+											}
+										},
+										{
+											"key": "45",
+											"label": "080_2751 HNG - Wege",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2751"
+											}
+										},
+										{
+											"key": "46",
+											"label": "080_2752 HNG - Gleisanlagen",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2752"
+											}
+										},
+										{
+											"key": "47",
+											"label": "080_2753 HNG - Wasserfl\u00e4chen",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2753"
+											}
+										}
+									]
+								},
+								{
+									"key": "48",
+									"label": "080_2800 Beh\u00f6rde f\u00fcr Inneres (BIS)",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "080_2800"
+									}
+								},
+								{
+									"key": "49",
+									"label": "080 Beh\u00f6rde f\u00fcr Schule und Berufsbildung (BSB)",
+									"data": null,
+									"children": [
+										{
+											"key": "50",
+											"label": "080_2901 BSB-Amt f\u00fcr Bildung (Schulen)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "080_2901"
+											}
+										},
+										{
+											"key": "51",
+											"label": "084_2020 BSB (VV belastet mit EBR)",
+											"data": {
+												"columns": ["T_50_253_A"],
+												"filter": "value",
+												"value": "084_2020"
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"key": "52",
+							"label": "085 Sonderverm\u00f6gen (SV)",
+							"data": null,
+							"children": [
+								{
+									"key": "53",
+									"label": "085 SV - alle",
+									"data": {
+										"columns": ["art_1_47"],
+										"filter": "value",
+										"value": "085"
+									}
+								},
+								{
+									"key": "54",
+									"label": "085_0945 SV - Schulimmobilien",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "085_0945"
+									}
+								},
+								{
+									"key": "55",
+									"label": "085_3000 SV - Stadt und Hafen, HafenCity",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "085_3000"
+									}
+								},
+								{
+									"key": "56",
+									"label": "085_3010 SV - Stiftung Borsteler J\u00e4ger",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "085_3010"
+									}
+								},
+								{
+									"key": "57",
+									"label": "085_3020 SV - Naturschutz u. Landschaftspflege (SVNL)",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "085_3020"
+									}
+								}
+							]
+						},
+						{
+							"key": "58",
+							"label": "082 Landesbetriebe gem. \u00a726 LHO",
+							"data": null,
+							"children": [
+								{
+									"key": "59",
+									"label": "082 Landesbetriebe - alle",
+									"data": {
+										"columns": ["art_1_47"],
+										"filter": "value",
+										"value": "082"
+									}
+								},
+								{
+									"key": "60",
+									"label": "082_2480 Landesbetrieb Erziehung und Beratung (LEB)",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "082_2480"
+									}
+								},
+								{
+									"key": "61",
+									"label": "082_2520 Landesbetrieb Staatl. Krankenh\u00e4user",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "082_2520"
+									}
+								},
+								{
+									"key": "62",
+									"label": "082_2644 Landesbetrieb Stadtreinigung",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "082_2644"
+									}
+								},
+								{
+									"key": "63",
+									"label": "082_2720 Landesbetrieb Hamburgische M\u00fcnze",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "082_2720"
+									}
+								},
+								{
+									"key": "64",
+									"label": "082_2742 Landesbetrieb Gro\u00dfmarkt",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "082_2742"
+									}
+								},
+								{
+									"key": "65",
+									"label": "082_2743 Landesbetrieb Gro\u00dfmarkt (belastet mit EBR)",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "082_2743"
+									}
+								}
+							]
+						},
+						{
+							"key": "66",
+							"label": "083 Grundst\u00fccksgleiche Rechte",
+							"data": null,
+							"children": [
+								{
+									"key": "67",
+									"label": "083 Grundst\u00fccksgleiche Rechte - alle",
+									"data": {
+										"columns": ["art_1_47"],
+										"filter": "value",
+										"value": "083"
+									}
+								},
+								{
+									"key": "68",
+									"label": "083_2950 Grundst\u00fccke Dritter - Erbbaurecht/Wohnungserbbaurecht der FHH",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "083_2950"
+									}
+								},
+								{
+									"key": "69",
+									"label": "083_2951 Grundst\u00fccke Dritter - Miteigentumsanteile der FHH, MEA an Erbbaurechten",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "083_2951"
+									}
+								},
+								{
+									"key": "70",
+									"label": "083_2952 Grundst\u00fccke Dritter - Erbengemeinschaften",
+									"data": {
+										"columns": ["T_1_47_A"],
+										"filter": "value",
+										"value": "083_2952"
+									}
+								}
+							]
+						},
+						{
+							"key": "71",
+							"label": "086 \u00d6ffentliche Unternehmen",
+							"data": null,
+							"children": [
+								{
+									"key": "73",
+									"label": "B\u00e4derland Hamburg",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "1"
+									}
+								},
+								{
+									"key": "74",
+									"label": "Berufsf\u00f6rderwerk Hamburg",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "10"
+									}
+								},
+								{
+									"key": "75",
+									"label": "Deichtorhallen Hamburg GmbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "20"
+									}
+								},
+								{
+									"key": "76",
+									"label": "Elbe-Werkst\u00e4tten GmbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "30"
+									}
+								},
+								{
+									"key": "77",
+									"label": "Elbphilharmonie Hamburg Bau GmbH & Co. KG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "40"
+									}
+								},
+								{
+									"key": "78",
+									"label": "F\u00f6rdern & Wohnen A.\u00f6.R.",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "50"
+									}
+								},
+								{
+									"key": "79",
+									"label": "FEG Fischereihafenentwicklungsges. mbH & Co. KG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "60"
+									}
+								},
+								{
+									"key": "80",
+									"label": "Flughafen Hamburg GmbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "70"
+									}
+								},
+								{
+									"key": "81",
+									"label": "Hamburg Messe und Congress GmbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "80"
+									}
+								},
+								{
+									"key": "82",
+									"label": "Hamburg Port Authority",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "90"
+									}
+								},
+								{
+									"key": "83",
+									"label": "Hamburger Friedh\u00f6fe A.\u00f6.R.",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "100"
+									}
+								},
+								{
+									"key": "84",
+									"label": "Hamburger Gesellschaft f\u00fcr Gewerbebauf\u00f6rderung mbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "110"
+									}
+								},
+								{
+									"key": "85",
+									"label": "Hamburger Hochbahn AG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "120"
+									}
+								},
+								{
+									"key": "86",
+									"label": "Hamburger Stadtentw\u00e4sserung - A.\u00f6.R.",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "130"
+									}
+								},
+								{
+									"key": "87",
+									"label": "Hamburger Wasserwerke GmbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "140"
+									}
+								},
+								{
+									"key": "88",
+									"label": "Hamburgische Investitions- und F\u00f6rderbank",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "150"
+									}
+								},
+								{
+									"key": "89",
+									"label": "Hamburgischer Versorgungsfonds A.\u00f6.R.",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "160"
+									}
+								},
+								{
+									"key": "90",
+									"label": "HGV Hamburger Ges. f\u00fcr Verm\u00f6gens- und Beteiligungsmanagement mbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "170"
+									}
+								},
+								{
+									"key": "91",
+									"label": "KG VHG Verwaltung Hamburgischer Geb\u00e4ude GmbH & Co.KG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "180"
+									}
+								},
+								{
+									"key": "92",
+									"label": "P+R Betriebsgesellschaft mbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "190"
+									}
+								},
+								{
+									"key": "93",
+									"label": "Projektierungsgesellschaft Finkenwerder mbH & Co.KG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "200"
+									}
+								},
+								{
+									"key": "94",
+									"label": "SAGA - Siedlungsaktiengesellschaft Hamburg",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "210"
+									}
+								},
+								{
+									"key": "95",
+									"label": "SpriAG Sprinkenhof AG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "220"
+									}
+								},
+								{
+									"key": "96",
+									"label": "Stadtreinigung Hamburg A.\u00f6.R",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "230"
+									}
+								},
+								{
+									"key": "97",
+									"label": "Universit\u00e4tsklinikum Hamburg-Eppendorf K.\u00f6.R.",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "240"
+									}
+								},
+								{
+									"key": "98",
+									"label": "Elbkinder Vereinigung Hamburger Kindertagesst\u00e4tten gGmbH",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "250"
+									}
+								},
+								{
+									"key": "99",
+									"label": "Verkehrsbetriebe Hamburg-Holstein AG",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "260"
+									}
+								},
+								{
+									"key": "100",
+									"label": "nicht zugeordnet",
+									"data": {
+										"columns": ["oeff_Kat"],
+										"filter": "value",
+										"value": "270"
+									}
+								}
+							]
+						},
+						{
+							"key": "101",
+							"label": "087 Treuhandverm\u00f6gen",
+							"data": null,
+							"children": [
+								{
+									"key": "102",
+									"label": "087 Treuhandverm\u00f6gen - alle",
+									"data": {
+										"columns": ["art_50_253"],
+										"filter": "value",
+										"value": "087"
+									}
+								},
+								{
+									"key": "103",
+									"label": "087_5000 Altonaer Spar- und Bauverein Eg",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "087_5000"
+									}
+								},
+								{
+									"key": "104",
+									"label": "087_5010 Johann Daniel Laweatz-Stiftung",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "087_5010"
+									}
+								},
+								{
+									"key": "105",
+									"label": "087_5020 mgF Gartenstadt Farmsen eG Mieter- und Wohnungsbaugenossenschaft",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "087_5020"
+									}
+								},
+								{
+									"key": "106",
+									"label": "087_5030 STEG Stadterneuerungs und Stadtentwicklungsgesellschaft Hamburg mbH",
+									"data": {
+										"columns": ["T_50_253_A"],
+										"filter": "value",
+										"value": "087_5030"
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"key": "107",
+			"label": "Nutzungsart",
+			"data": null,
+			"children": [
+				{
+					"key": "108",
+					"label": "Nutzungsart aktuell",
+					"data": null,
+					"children": [
+						{
+							"key": "109",
+							"label": "Wohnen",
+							"data": {
+								"columns": ["tN_wbfl_P"],
+								"filter": "prozent"
+							}
+						},
+						{
+							"key": "110",
+							"label": "Industrie und Gewerbe",
+							"data": {
+								"columns": ["tN_Igew_P"],
+								"filter": "prozent"
+							}
+						},
+						{
+							"key": "111",
+							"label": "Landwirtschaft",
+							"data": {
+								"columns": ["tN_Land_P"],
+								"filter": "prozent"
+							}
+						},
+						{
+							"key": "112",
+							"label": "Sport, Freizeit und Erholung",
+							"data": null,
+							"children": [
+								{
+									"key": "113",
+									"label": "SFE - alle",
+									"data": {
+										"columns": ["tN_Sport_P"],
+										"filter": "prozent"
+									}
+								},
+								{
+									"key": "114",
+									"label": "SFE - Kleingarten",
+									"data": {
+										"columns": ["tn_klein_p"],
+										"filter": "prozent"
+									}
+								},
+								{
+									"key": "115",
+									"label": "SFE - Sportanlagen",
+									"data": {
+										"columns": ["tN_SpAnl_P"],
+										"filter": "prozent"
+									}
+								}
+							]
+						},
+						{
+							"key": "116",
+							"label": "Stra\u00dfen, Wege, Pl\u00e4tze",
+							"data": {
+								"columns": ["tN_StrWP_P"],
+								"filter": "prozent"
+							}
+						},
+						{
+							"key": "117",
+							"label": "besondere funktionale Pr\u00e4gung",
+							"data": {
+								"columns": ["tN_besFu_P"],
+								"filter": "prozent"
+							}
+						},
+						{
+							"key": "118",
+							"label": "gemischte Nutzung",
+							"data": {
+								"columns": ["tN_gemNu_P"],
+								"filter": "prozent"
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
