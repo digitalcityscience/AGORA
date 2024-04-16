@@ -15,7 +15,10 @@ export interface Preset {
     accordion: any;
     inlinemessage: any;
     chip: any,
-    tree: any
+    tree: any,
+    multiselect: any,
+    datatable: any,
+    iconfield: any
 }
 declare const agoraPresets: Preset;
 export default agoraPresets;
