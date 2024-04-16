@@ -15,6 +15,9 @@ import accordion from "./accordion/index.js";
 import inlinemessage from "./inlinemessage/index.js";
 import chip from "./chip/index.js";
 import tree from "./tree/index.js";
+import multiselect from "./multiselect/index.js";
+import datatable from "./datatable/index.js";
+import iconfield from "./iconfield/index.js";
 
 export default {
     global,
@@ -33,5 +36,8 @@ export default {
     accordion,
     inlinemessage,
     chip,
-    tree
+    tree,
+    multiselect,
+    datatable,
+    iconfield
 }
