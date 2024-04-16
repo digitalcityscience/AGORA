@@ -59,7 +59,7 @@ export const useCriteriaStore = defineStore("criteria", () => {
             }
         })
         if (expression.length>0) {
-            return ["all", ...expression]
+            return ["any", ...expression]
         } else {
             return []
         }
