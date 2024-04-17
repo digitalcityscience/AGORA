@@ -20,6 +20,7 @@ export interface AdministrativeFeature extends AdministrativeBoundariesListItem 
     data: Feature
 }
 export const useGeometryStore = defineStore("geometry", () => {
+    // ADMINISTRATIVE GEOMETRY
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
     async function getAdministrativeBoundariesList(): Promise<AdministrativeBoundariesAPIResponse>{
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/administrative/list`,
@@ -88,6 +89,48 @@ export const useGeometryStore = defineStore("geometry", () => {
             return false;
         }
     }
+    // DRAWN GEOMETRY
+    const selectedDrawnGeometry = ref<Feature[]>([])
+    /**
+     * Adds an administrative feature to the selected administrative features list.
+     * @param item - The feature to add to the list.
+     * @returns A boolean indicating whether the feature was successfully added (`true`) or not (`false`).
+     */
+    function addToSelectedDrawnGeometry(item: Feature): boolean {
+        if (selectedDrawnGeometry.value.length > 0){
+            let alreadySelected = false
+            selectedDrawnGeometry.value.forEach((feature) => {
+                if (feature.id === item.id){
+                    alreadySelected = true
+                }
+            })
+            if (alreadySelected){
+                throw new Error("Feature already selected")
+            } else {
+                selectedDrawnGeometry.value.push(item)
+                console.log(selectedDrawnGeometry.value)
+                return true
+            }
+        } else {
+            selectedDrawnGeometry.value.push(item)
+            console.log(selectedDrawnGeometry.value)
+        }
+        return true
+    }
+    /**
+     * Removes an administrative feature from the selected administrative features list.
+     * @param item - The feature to remove from the list.
+     * @returns A boolean indicating whether the feature was successfully removed (`true`) or not (`false`).
+     */
+    function removeFromSelectedDrawnGeometry(item: Feature): boolean {
+        const index = selectedDrawnGeometry.value.findIndex(feature => feature.id === item.id)
+        if (index !== -1) {
+            selectedDrawnGeometry.value.splice(index, 1);
+            return true;
+        } else {
+            return false;
+        }
+    }
     return {
         administrativeBoundariesList,
         getAdministrativeBoundariesList,
@@ -95,7 +138,10 @@ export const useGeometryStore = defineStore("geometry", () => {
         getAdministrativeBoundaryData,
         selectedAdministrativeFeaturesList,
         addToselectedAdministrativeFeaturesList,
-        removeFromSelectedAdministrativeFeaturesList
+        removeFromSelectedAdministrativeFeaturesList,
+        selectedDrawnGeometry,
+        addToSelectedDrawnGeometry,
+        removeFromSelectedDrawnGeometry
     }
 })
 
