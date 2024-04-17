@@ -3,7 +3,7 @@ import { TerraDraw, TerraDrawLineStringMode, TerraDrawMapLibreGLAdapter, TerraDr
 import { ref } from "vue";
 import { useMapStore } from "./map";
 import { type Map } from "maplibre-gl"
-import { type FeatureCollection } from "geojson";
+import { type Feature, type FeatureCollection } from "geojson";
 
 export const useDrawStore = defineStore("draw", () => {
     const mapStore = useMapStore()
@@ -101,6 +101,12 @@ export const useDrawStore = defineStore("draw", () => {
             console.error("Could not find drawing instance")
         }
     }
+    function getSnapshot(): Feature[]{
+        return draw.getSnapshot()
+    }
+    function clearSnapshot(): void {
+        draw.clear()
+    }
     // Saving draw result as a layer
     function saveAsLayer(): void {
         const featureList = draw.getSnapshot()
@@ -154,6 +160,8 @@ export const useDrawStore = defineStore("draw", () => {
         editMode,
         stopDrawMode,
         saveAsLayer,
+        getSnapshot,
+        clearSnapshot,
         drawMode,
         drawTypes,
         drawOnProgress,
