@@ -1,6 +1,10 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
 import { type FeatureCollection, type Feature } from "geojson"
+export interface IsochroneCenter {
+    lng: number,
+    lat: number
+}
 export interface BaseAdministrativeFeaturePropertyItem {
     gid: number,
     name: string
@@ -18,6 +22,12 @@ export interface AdministrativeFeatureCollection extends AdministrativeBoundarie
 }
 export interface AdministrativeFeature extends AdministrativeBoundariesListItem {
     data: Feature
+}
+export type TravelModes = "walk_network" | "drive_network" | "bike_network"
+export interface IsochroneForm {
+    time: number,
+    center: { "lng": number, "lat": number },
+    mode: TravelModes
 }
 export const useGeometryStore = defineStore("geometry", () => {
     // ADMINISTRATIVE GEOMETRY
@@ -131,6 +141,19 @@ export const useGeometryStore = defineStore("geometry", () => {
             return false;
         }
     }
+    // ISOCHRONE GEOMETRY
+    async function getIsochrone(data: IsochroneForm): Promise<FeatureCollection>{
+        const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/isochrone`,
+            {
+                method: "POST",
+                redirect: "follow",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                }),
+                body: JSON.stringify(data)
+            })
+        return await response.json()
+    }
     return {
         administrativeBoundariesList,
         getAdministrativeBoundariesList,
@@ -141,7 +164,8 @@ export const useGeometryStore = defineStore("geometry", () => {
         removeFromSelectedAdministrativeFeaturesList,
         selectedDrawnGeometry,
         addToSelectedDrawnGeometry,
-        removeFromSelectedDrawnGeometry
+        removeFromSelectedDrawnGeometry,
+        getIsochrone
     }
 })
 

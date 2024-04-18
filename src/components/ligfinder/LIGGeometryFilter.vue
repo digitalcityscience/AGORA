@@ -10,6 +10,9 @@
 			<div class="w-full flex flex-col mt-1">
 				<LIGGeometryDrawnAreas></LIGGeometryDrawnAreas>
 			</div>
+			<div class="w-full flex flex-col mt-1">
+				<LIGGeometryIsochroneAreas></LIGGeometryIsochroneAreas>
+			</div>
 		</Panel>
 	</div>
 </template>
@@ -18,6 +21,7 @@
 import Panel from "primevue/panel";
 import LIGGeometryAdministrativeAreas from "./LIGGeometryAdministrativeAreas.vue"
 import LIGGeometryDrawnAreas from "./LIGGeometryDrawnAreas.vue"
+import LIGGeometryIsochroneAreas from "./LIGGeometryIsochroneAreas.vue"
 </script>
 
 <style scoped>
