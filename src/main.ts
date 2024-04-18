@@ -9,6 +9,7 @@ import PrimeVue from "primevue/config"
 import "./style.css"
 import agoraPresets from "./presets/agora"
 import App from "./App.vue"
+import "@material-design-icons/font";
 
 const pinia = createPinia()
 const i18n = createI18n({
