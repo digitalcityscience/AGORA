@@ -182,6 +182,11 @@ export const useMapStore = defineStore("map", () => {
 	function add2MapLayerList(layerObject: LayerObjectWithAttributes): void {
 		layersOnMap.value.push(layerObject);
 	}
+	function removeFromLayerList(layerId: string): void {
+		layersOnMap.value = layersOnMap.value.filter(
+			(layer) => layer.id !== layerId
+		);
+	}
 	function createRandomPaintObj(
 		type: MapLibreLayerTypes
 	): Record<string, any> {
@@ -236,6 +241,7 @@ export const useMapStore = defineStore("map", () => {
 		addMapDataSource,
 		addMapLayer,
 		geometryConversion,
+		removeFromLayerList
 	};
 });
 /* eslint-disable */
