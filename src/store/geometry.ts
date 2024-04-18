@@ -29,6 +29,10 @@ export interface IsochroneForm {
     center: { "lng": number, "lat": number },
     mode: TravelModes
 }
+interface ExtendedFeatureCollection extends FeatureCollection{
+    union: boolean,
+    tableName: string
+}
 export const useGeometryStore = defineStore("geometry", () => {
     // ADMINISTRATIVE GEOMETRY
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
@@ -166,6 +170,49 @@ export const useGeometryStore = defineStore("geometry", () => {
     function removeSelectedIsochrone(): void{
         selectedIsochrone.value = []
     }
+    // GEOMETRY FILTER
+    async function createGeometryFilter(): Promise<void> {
+        const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON()
+        if (featureCollection.features.length===0){
+            throw new Error("No features selected")
+        }
+        const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/filter`,
+            {
+                method: "POST",
+                redirect: "follow",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                }),
+                body: JSON.stringify(featureCollection)
+            })
+        return await response.json()
+    }
+    const geometryFilterResult = ref<string[]>([])
+    function addToGeometryFilterResult(item: string[]): void {
+        geometryFilterResult.value = item
+    }
+    function clearGeometryFilterResult(): void{
+        geometryFilterResult.value = []
+    }
+    function createSelectedGeometryGeoJSON(): ExtendedFeatureCollection{
+        const allSelectedFeatures: Feature[] = []
+        selectedAdministrativeFeaturesList.value.forEach((feature) => {
+            allSelectedFeatures.push(feature.data)
+        })
+        selectedDrawnGeometry.value.forEach((feature) => {
+            allSelectedFeatures.push(feature)
+        })
+        selectedIsochrone.value.forEach((feature) => {
+            allSelectedFeatures.push(feature)
+        })
+        const featureCollection: ExtendedFeatureCollection = {
+            type: "FeatureCollection",
+            features: allSelectedFeatures,
+            union:true,
+            tableName:"parcel"
+        }
+        return featureCollection
+    }
     return {
         administrativeBoundariesList,
         getAdministrativeBoundariesList,
@@ -180,7 +227,12 @@ export const useGeometryStore = defineStore("geometry", () => {
         getIsochrone,
         selectedIsochrone,
         addToSelectedIsochrone,
-        removeSelectedIsochrone
+        removeSelectedIsochrone,
+        createGeometryFilter,
+        geometryFilterResult,
+        addToGeometryFilterResult,
+        clearGeometryFilterResult,
+        createSelectedGeometryGeoJSON
     }
 })
 
