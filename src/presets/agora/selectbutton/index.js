@@ -4,6 +4,7 @@ export default {
     }),
     button: ({ context, props }) => ({
         class: [
+            "h-full",
             "relative",
             // Font
             "leading-none",
