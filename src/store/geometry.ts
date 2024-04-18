@@ -154,6 +154,18 @@ export const useGeometryStore = defineStore("geometry", () => {
             })
         return await response.json()
     }
+    const selectedIsochrone = ref<Feature[]>([])
+    function addToSelectedIsochrone(item: FeatureCollection): boolean {
+        const itemList: Feature[] = []
+        item.features.forEach((feature) => {
+            itemList.push(feature)
+        })
+        selectedIsochrone.value = itemList
+        return true
+    }
+    function removeSelectedIsochrone(): void{
+        selectedIsochrone.value = []
+    }
     return {
         administrativeBoundariesList,
         getAdministrativeBoundariesList,
@@ -165,7 +177,10 @@ export const useGeometryStore = defineStore("geometry", () => {
         selectedDrawnGeometry,
         addToSelectedDrawnGeometry,
         removeFromSelectedDrawnGeometry,
-        getIsochrone
+        getIsochrone,
+        selectedIsochrone,
+        addToSelectedIsochrone,
+        removeSelectedIsochrone
     }
 })
 

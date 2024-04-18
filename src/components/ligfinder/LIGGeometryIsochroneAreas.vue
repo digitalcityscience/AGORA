@@ -2,6 +2,9 @@
 	<Card class="w-full">
 		<template #title>Isochrone Areas</template>
 		<template #content>
+			<div class="w-full" v-if="geometry.selectedIsochrone.length>0">
+				<ChipWrapper v-for="(_isochrone,index) in geometry.selectedIsochrone" :key="index" label="Isochrone" @remove="geometry.removeSelectedIsochrone" removable severity="primary"/>
+			</div>
 			<div class="w-full flex justify-between">
 				<Button v-if="!selectionOnProgress" size="small" class="text-xs leading-4 grow-0" @click="startCenterSelection">
 					<template #icon>
@@ -22,7 +25,9 @@
 				<InputNumber v-model="travelTime" input-class="grow" suffix="min" :min="0"></InputNumber>
 				<Button class="grow-0" :disabled="centerPoint === undefined" @click="createIsochrone">Create</Button>
 			</div>
-			<div class="applier"></div>
+			<div class="w-full applier" v-if="isochroneOnTheMap && isochroneOnTheMapData">
+				<Button @click="addSelectedIsochrone(isochroneOnTheMapData)">Add to list</Button>
+			</div>
 		</template>
 	</Card>
 </template>
@@ -31,12 +36,14 @@
 import Card from "primevue/card"
 import SelectButton from "primevue/selectbutton";
 import InputNumber from "primevue/inputnumber";
-import { ref } from "vue";
 import Button from "primevue/button";
+import ChipWrapper from "../ChipWrapper.vue";
+import { ref } from "vue";
 import { type IsochroneForm, type IsochroneCenter, type TravelModes, useGeometryStore } from "../../store/geometry"
-import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode, TerraDrawSelectMode } from "terra-draw";
+import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw";
 import { useMapStore } from "../../store/map";
 import { type Map } from "maplibre-gl"
+import { type FeatureCollection } from "geojson";
 
 interface TravelMode {
     name: string,
@@ -52,18 +59,6 @@ const centerSelectDrawer = new TerraDraw({
             styles: {
                 pointColor: "#AA4545",
                 pointWidth: 24
-            }
-        }),
-        new TerraDrawSelectMode({
-            flags: {
-                point: {
-                    feature: {
-                        draggable: true,
-                        coordinates: {
-                            deletable: true
-                        }
-                    },
-                },
             }
         })
     ]
@@ -87,7 +82,7 @@ function createIsochrone(): void {
             mode: selectedTravelMode.value.value
         }
         geometry.getIsochrone(isochroneInfo).then((response)=>{
-            console.log(response)
+            addIsochroneSource(response)
         }).catch((error=>{ console.error(error); })).finally(()=>{
             cancelCenterSelection()
         })
@@ -113,6 +108,24 @@ function centerSelector(): void{
         centerSelectDrawer.removeFeatures([snap[0].id ?? ""])
     }
     centerPoint.value = { ...{ lng:snap[0].geometry.coordinates[0] as number, lat:snap[0].geometry.coordinates[1] as number } }
+}
+const isochroneOnTheMap = ref<boolean>(false)
+const isochroneOnTheMapData = ref<FeatureCollection>()
+function addIsochroneSource(src: FeatureCollection): void{
+    const layerStyle = { paint:{ "fill-color":"#abcdef", "fill-opacity":1 } }
+    mapStore.addMapDataSource("geojson", "isochrone-temp-source", false, undefined, undefined, src).then(()=>{
+        mapStore.addMapLayer("geojson", "isochrone-temp-source", "fill", layerStyle, undefined, undefined, src).then(()=>{
+            isochroneOnTheMap.value = true
+            isochroneOnTheMapData.value = src
+        }).catch((error)=>{ console.log(error) })
+    }).catch((error)=>{ console.error(error) })
+}
+function addSelectedIsochrone(data: FeatureCollection): void{
+    const applied = geometry.addToSelectedIsochrone(data)
+    if (applied) {
+        mapStore.map.removeLayer("isochrone-temp-source")
+        mapStore.map.removeSource("isochrone-temp-source")
+    }
 }
 </script>
 
