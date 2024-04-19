@@ -22,6 +22,15 @@ import Panel from "primevue/panel";
 import LIGGeometryAdministrativeAreas from "./LIGGeometryAdministrativeAreas.vue"
 import LIGGeometryDrawnAreas from "./LIGGeometryDrawnAreas.vue"
 import LIGGeometryIsochroneAreas from "./LIGGeometryIsochroneAreas.vue"
+import { useGeometryStore } from "../../store/ligfinder/geometry";
+import { onMounted } from "vue";
+import { useMapStore } from "../../store/map";
+const geometry = useGeometryStore()
+const mapStore = useMapStore()
+onMounted(()=>{
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (mapStore.map.getSource("selectedAreasTempLayer")) { geometry.createSelectedAreasTempLayer() }
+})
 </script>
 
 <style scoped>
