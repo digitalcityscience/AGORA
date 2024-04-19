@@ -38,6 +38,9 @@ export interface UnionSelectionItem {
     name: string,
     value: "union"|"intersection"
 }
+export interface GeometryFilterAPIResponse {
+    gids: number[]
+}
 export const useGeometryStore = defineStore("geometry", () => {
     // ADMINISTRATIVE GEOMETRY
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
@@ -181,10 +184,10 @@ export const useGeometryStore = defineStore("geometry", () => {
         selectedIsochrone.value = []
     }
     // GEOMETRY FILTER
-    async function createGeometryFilter(): Promise<void> {
+    async function createGeometryFilter(): Promise<GeometryFilterAPIResponse> {
         const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
         if (featureCollection.features.length===0){
-            throw new Error("No features selected")
+            return await Promise.resolve({ gids:[] })
         }
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/filter`,
             {
@@ -195,7 +198,19 @@ export const useGeometryStore = defineStore("geometry", () => {
                 }),
                 body: JSON.stringify(featureCollection)
             })
+        if (!response.ok) {
+            // Handle non-2xx responses
+            const errorText = await response.text(); // Using text() as the response might not always be JSON
+            throw new Error(`Failed to fetch geometry filter: ${response.status} ${errorText}`);
+        }
         return await response.json()
+    }
+    function createGeometryFilterExpression(idList: number[]): any[]{
+        if (idList.length>0){
+            return ["in", ["get", "gid"], ["literal", idList]]
+        } else {
+            return []
+        }
     }
     const geometryFilterResult = ref<string[]>([])
     function addToGeometryFilterResult(item: string[]): void {
@@ -276,6 +291,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         addToSelectedIsochrone,
         removeSelectedIsochrone,
         createGeometryFilter,
+        createGeometryFilterExpression,
         geometryFilterResult,
         addToGeometryFilterResult,
         clearGeometryFilterResult,
