@@ -41,12 +41,13 @@ interface Props {
     height?: string,
     style?: string,
     bgColor?: string
+    classes?: string
 }
 const props = withDefaults(defineProps<Props>(), {
     collapsed: true
 })
 const sidebarStatusClasses = computed(() => {
-    return `${(props.width !== null && props.width !== undefined && props.width !=="") ? "user-width":"lg:w-[300px] 2xl:w-[350px] 3xl:w-[400px]"} sidebar-${props.position} ${props.collapsed ? "collapsed":""}`
+    return `${props.classes ?? ""} ${(props.width !== null && props.width !== undefined && props.width !=="") ? "user-width":"lg:w-[300px] 2xl:w-[350px] 3xl:w-[400px]"} sidebar-${props.position} ${props.collapsed ? "collapsed":""}`
 })
 // to check width prop with css patterns (ends with 'px', 'vw' or '%')
 const widthRegex = /^(\d+(?:\.\d*)?)px$|^(\d+(?:\.\d*)?)vw$|^(\d+(?:\.\d*)?)%$/
