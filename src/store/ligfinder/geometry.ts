@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
 import { type FeatureCollection, type Feature } from "geojson"
+import { useMapStore } from "../map"
 export interface IsochroneCenter {
     lng: number,
     lat: number
@@ -78,10 +79,12 @@ export const useGeometryStore = defineStore("geometry", () => {
                 throw new Error("Feature already selected")
             } else {
                 selectedAdministrativeFeaturesList.value.push(item)
+                updateSelectedAreasTempLayer()
                 return true
             }
         } else {
             selectedAdministrativeFeaturesList.value.push(item)
+            updateSelectedAreasTempLayer()
             return true
         }
     }
@@ -122,11 +125,13 @@ export const useGeometryStore = defineStore("geometry", () => {
                 throw new Error("Feature already selected")
             } else {
                 selectedDrawnGeometry.value.push(item)
+                updateSelectedAreasTempLayer()
                 console.log(selectedDrawnGeometry.value)
                 return true
             }
         } else {
             selectedDrawnGeometry.value.push(item)
+            updateSelectedAreasTempLayer()
             console.log(selectedDrawnGeometry.value)
         }
         return true
@@ -165,6 +170,7 @@ export const useGeometryStore = defineStore("geometry", () => {
             itemList.push(feature)
         })
         selectedIsochrone.value = itemList
+        updateSelectedAreasTempLayer()
         return true
     }
     function removeSelectedIsochrone(): void{
@@ -172,7 +178,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     }
     // GEOMETRY FILTER
     async function createGeometryFilter(): Promise<void> {
-        const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON()
+        const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
         if (featureCollection.features.length===0){
             throw new Error("No features selected")
         }
@@ -190,11 +196,12 @@ export const useGeometryStore = defineStore("geometry", () => {
     const geometryFilterResult = ref<string[]>([])
     function addToGeometryFilterResult(item: string[]): void {
         geometryFilterResult.value = item
+        updateSelectedAreasTempLayer()
     }
     function clearGeometryFilterResult(): void{
         geometryFilterResult.value = []
     }
-    function createSelectedGeometryGeoJSON(): ExtendedFeatureCollection{
+    function createSelectedGeometryGeoJSON(isExtended: boolean): ExtendedFeatureCollection|FeatureCollection{
         const allSelectedFeatures: Feature[] = []
         selectedAdministrativeFeaturesList.value.forEach((feature) => {
             allSelectedFeatures.push(feature.data)
@@ -205,13 +212,43 @@ export const useGeometryStore = defineStore("geometry", () => {
         selectedIsochrone.value.forEach((feature) => {
             allSelectedFeatures.push(feature)
         })
-        const featureCollection: ExtendedFeatureCollection = {
-            type: "FeatureCollection",
-            features: allSelectedFeatures,
-            union:true,
-            tableName:"parcel"
+        if (isExtended){
+            const featureCollection: ExtendedFeatureCollection = {
+                type: "FeatureCollection",
+                features: allSelectedFeatures,
+                union:true,
+                tableName:"parcel"
+            }
+            return featureCollection
+        } else {
+            const featureCollection: FeatureCollection = {
+                type: "FeatureCollection",
+                features: allSelectedFeatures
+            }
+            return featureCollection
         }
-        return featureCollection
+    }
+    const mapStore = useMapStore()
+    function createSelectedAreasTempLayer(): void{
+        const features: FeatureCollection = createSelectedGeometryGeoJSON(false) as FeatureCollection
+        const layerStyle: Record<string, any> = {
+            paint:{
+                "fill-color": "#FF0000",
+                "fill-opacity": 0.6,
+                "fill-outline-color": "#000000"
+            }
+        }
+        mapStore.addMapDataSource("geojson", "selectedAreasTempLayer", false, undefined, undefined, features).then(()=>{
+            mapStore.addMapLayer("geojson", "selectedAreasTempLayer", "fill", layerStyle, undefined, undefined, features).then(()=>{}).catch((error)=>{ console.error(error) })
+        }).catch((error)=>{ console.error(error) })
+    }
+    function updateSelectedAreasTempLayer(): void{
+        mapStore.map.getSource("selectedAreasTempLayer").setData(createSelectedGeometryGeoJSON(false) as FeatureCollection)
+    }
+    function deleteSelectedAreasTempLayer(): void{
+        mapStore.map.removeLayer("selectedAreasTempLayer")
+        mapStore.map.removeSource("selectedAreasTempLayer")
+        mapStore.removeFromLayerList("selectedAreasTempLayer")
     }
     return {
         administrativeBoundariesList,
@@ -232,7 +269,10 @@ export const useGeometryStore = defineStore("geometry", () => {
         geometryFilterResult,
         addToGeometryFilterResult,
         clearGeometryFilterResult,
-        createSelectedGeometryGeoJSON
+        createSelectedGeometryGeoJSON,
+        createSelectedAreasTempLayer,
+        updateSelectedAreasTempLayer,
+        deleteSelectedAreasTempLayer
     }
 })
 

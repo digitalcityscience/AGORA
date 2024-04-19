@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
-import criteria from "../../criteria.json"
+import criteria from "../../../criteria.json"
 import { ref } from "vue";
 import { type TreeNode } from "primevue/treenode";
 

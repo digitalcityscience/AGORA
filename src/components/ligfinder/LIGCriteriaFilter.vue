@@ -46,7 +46,7 @@ import Panel from "primevue/panel";
 import Tree from "primevue/tree";
 import Button from "primevue/button";
 import ChipWrapper from "../ChipWrapper.vue"
-import { type AppliedCriteria, useCriteriaStore } from "../../store/criteria"
+import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria"
 import { type TreeNode } from "primevue/treenode";
 import { computed } from "vue";
 const criteria = useCriteriaStore()
