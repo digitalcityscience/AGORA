@@ -30,7 +30,7 @@
 import Panel from "primevue/panel";
 import InputNumber from "primevue/inputnumber";
 import { nextTick, ref } from "vue";
-import { useMetricStore } from "../../store/metric";
+import { useMetricStore } from "../../store/ligfinder/metric";
 
 const metric = useMetricStore()
 const validationInProgress = ref(false)

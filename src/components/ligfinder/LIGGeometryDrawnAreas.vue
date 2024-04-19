@@ -31,7 +31,7 @@ import Card from "primevue/card"
 import Button from "primevue/button"
 import ChipWrapper from "../ChipWrapper.vue"
 import { useDrawStore } from "../../store/draw"
-import { useGeometryStore } from "../../store/geometry";
+import { useGeometryStore } from "../../store/ligfinder/geometry";
 import { type Feature } from "geojson"
 
 const geometry = useGeometryStore()

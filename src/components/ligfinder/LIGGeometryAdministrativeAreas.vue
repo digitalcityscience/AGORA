@@ -54,7 +54,7 @@
 import Card from "primevue/card"
 import Dropdown from "primevue/dropdown"
 import { onMounted, ref, computed, type Ref } from "vue";
-import { type AdministrativeBoundariesListItem, useGeometryStore, type AdministrativeFeature } from "../../store/geometry";
+import { type AdministrativeBoundariesListItem, useGeometryStore, type AdministrativeFeature } from "../../store/ligfinder/geometry";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Button from "primevue/button";
