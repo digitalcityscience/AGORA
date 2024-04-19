@@ -1,6 +1,6 @@
 <template>
     <div class="py-1">
-        <Panel @update:collapsed="collapsedState" toggleable>
+        <Panel @update:collapsed="collapsedState" :collapsed="true" toggleable>
             <template #header>
                 <Checkbox v-model="checked" :binary="true" @update:model-value="changeLayerVisibility" />
                 <h3 class="capitalize mr-auto ml-2">{{ props.layer.source.replaceAll("_", " ") }}</h3>
@@ -46,7 +46,7 @@ export interface Props {
 }
 const props = defineProps<Props>()
 const mapStore = useMapStore()
-const collapsed = ref<boolean>(false)
+const collapsed = ref<boolean>(true)
 const color = ref<string>("000000")
 const opacity = ref<number>(1)
 const checked = ref<boolean>(true)
