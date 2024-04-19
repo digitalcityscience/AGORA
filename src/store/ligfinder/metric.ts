@@ -44,10 +44,10 @@ export const useMetricStore = defineStore("metric", () => {
             max:0
         },
     })
-    async function createGeneralExpression(): Promise<any[]> {
+    function createGeneralExpression(): any[] {
         const metricExpressions = createRangeExpressions(metricFilters.value)
         const expression = [...metricExpressions]
-        return await Promise.resolve([...expression])
+        return [...expression]
     }
     /**
      * Creates an array of MapLibre GL JS expressions for filtering based on the specified range filters. Each filter is

@@ -35,12 +35,20 @@ export const useCriteriaStore = defineStore("criteria", () => {
     function createCriteriaExpression(data: CriteriaValueData|CriteriaPercentageData): any[]{
         const expression = []
         if (data.filter === "value"){
-            expression.push("any")
-            data.columns.forEach(col => {
-                expression.push(["==", ["get", col], data.value])
-            })
+            if (data.columns.length > 1) {
+                expression.push("any")
+                data.columns.forEach(col => {
+                    expression.push(["==", ["get", col], data.value])
+                })
+            } else {
+                expression.push("==")
+                expression.push(["get", data.columns[0]])
+                expression.push(data.value)
+            }
         } else {
-            expression.push([">", ["get", data.columns[0]], 0])
+            expression.push(">")
+            expression.push(["get", data.columns[0]])
+            expression.push("0")
         }
         return expression
     }
@@ -50,6 +58,7 @@ export const useCriteriaStore = defineStore("criteria", () => {
             if (crit.data !== undefined && crit.data !== null){
                 const criteriumExpression = createCriteriaExpression(crit.data)
                 if (criteriumExpression.length>0) {
+                    console.log("criterium", criteriumExpression)
                     if (crit.status === "included") {
                         expression.push(criteriumExpression)
                     } else {
@@ -58,10 +67,14 @@ export const useCriteriaStore = defineStore("criteria", () => {
                 }
             }
         })
-        if (expression.length>0) {
+        if (expression.length>1) {
             return ["any", ...expression]
         } else {
-            return []
+            if (expression.length === 1) {
+                return expression[0]
+            } else {
+                return []
+            }
         }
     }
     return {
