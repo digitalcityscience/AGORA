@@ -1,6 +1,6 @@
 <template>
     <SidebarLayout :id="sidebarID" position="right">
-        <div class="w-full" v-if="mapStore.layersOnMap.length > 0">
+        <div class="w-full flex flex-col-reverse" v-if="mapStore.layersOnMap.length > 0">
             <MapLayerListingItem v-for="(layer, index) in mapStore.layersOnMap" :key="index" :layer="layer">
             </MapLayerListingItem>
         </div>
