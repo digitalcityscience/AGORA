@@ -7,13 +7,13 @@
 		</template>
 		<div class="w-full">
 			<div class="py-1">
-				<LIGGeometryFilter></LIGGeometryFilter>
-			</div>
-			<div class="py-1">
 				<LIGCriteriaFilter></LIGCriteriaFilter>
 			</div>
 			<div class="py-1">
 				<LIGAreaFilter></LIGAreaFilter>
+			</div>
+			<div class="py-1">
+				<LIGGeometryFilter></LIGGeometryFilter>
 			</div>
 		</div>
 		<template #footer>
