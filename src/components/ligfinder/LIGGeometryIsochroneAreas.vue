@@ -2,10 +2,10 @@
 	<Card class="w-full">
 		<template #title>Isochrone Areas</template>
 		<template #content>
-			<div class="w-full" v-if="geometry.selectedIsochrone.length>0">
-				<ChipWrapper v-for="(_isochrone,index) in geometry.selectedIsochrone" :key="index" label="Isochrone" @remove="geometry.removeSelectedIsochrone" removable severity="primary"/>
+			<div class="w-full py-1" v-if="geometry.selectedIsochrone.length>0">
+				<ChipWrapper v-for="(_isochrone,index) in geometry.selectedIsochrone" :key="index" label="Isochrone" @remove="geometry.removeSelectedIsochrone" removable severity="success"/>
 			</div>
-			<div class="w-full flex justify-between">
+			<div class="w-full flex justify-between p-1">
 				<Button v-if="!selectionOnProgress" size="small" class="text-xs leading-4 grow-0" @click="startCenterSelection">
 					<template #icon>
 						<i class="material-icons">add_location_alt</i>
@@ -25,8 +25,13 @@
 				<InputNumber v-model="travelTime" input-class="grow" suffix="min" :min="0"></InputNumber>
 				<Button class="grow-0" :disabled="centerPoint === undefined" @click="createIsochrone">Create</Button>
 			</div>
-			<div class="w-full applier" v-if="isochroneOnTheMap && isochroneOnTheMapData">
-				<Button @click="addSelectedIsochrone(isochroneOnTheMapData)">Add to list</Button>
+			<div class="w-full grid grid-cols-3 pt-1" v-if="isochroneOnTheMap && isochroneOnTheMapData">
+                <div class="p-1">
+                    <Button class="w-full" size="small" @click="addSelectedIsochrone(isochroneOnTheMapData)">Add to list</Button>
+                </div>
+                <div class="p-1">
+                    <Button class="w-full" size="small" @click="cancelIsochroneSelection()">Cancel</Button>
+                </div>
 			</div>
 		</template>
 	</Card>
@@ -39,7 +44,7 @@ import InputNumber from "primevue/inputnumber";
 import Button from "primevue/button";
 import ChipWrapper from "../ChipWrapper.vue";
 import { ref } from "vue";
-import { type IsochroneForm, type IsochroneCenter, type TravelModes, useGeometryStore } from "../../store/geometry"
+import { type IsochroneForm, type IsochroneCenter, type TravelModes, useGeometryStore } from "../../store/ligfinder/geometry"
 import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw";
 import { useMapStore } from "../../store/map";
 import { type Map } from "maplibre-gl"
@@ -58,7 +63,7 @@ const centerSelectDrawer = new TerraDraw({
         new TerraDrawPointMode({
             styles: {
                 pointColor: "#AA4545",
-                pointWidth: 24
+                pointWidth: 12
             }
         })
     ]
@@ -123,9 +128,14 @@ function addIsochroneSource(src: FeatureCollection): void{
 function addSelectedIsochrone(data: FeatureCollection): void{
     const applied = geometry.addToSelectedIsochrone(data)
     if (applied) {
-        mapStore.map.removeLayer("isochrone-temp-source")
-        mapStore.map.removeSource("isochrone-temp-source")
+        cancelIsochroneSelection()
     }
+}
+function cancelIsochroneSelection(): void{
+    mapStore.map.removeLayer("isochrone-temp-source")
+    mapStore.removeFromLayerList("isochrone-temp-source")
+    mapStore.map.removeSource("isochrone-temp-source")
+    isochroneOnTheMap.value = false
 }
 </script>
 
