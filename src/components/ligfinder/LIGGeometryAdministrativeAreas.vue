@@ -1,11 +1,20 @@
 <template>
     <Card class="w-full">
-        <template #title>Administrative Areas</template>
+        <template #title>
+            <div class="flex justify-start">
+                <div class="self-center">
+                    Administrative Areas
+                </div>
+                <div class="pl-2">
+                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList" option-label="name"></SelectButton>
+                </div>
+            </div>
+        </template>
         <template #content>
             <div class="w-full py-1"  v-if="geometry.selectedAdministrativeFeaturesList.length>0">
                 <ChipWrapper v-for="(feature) in geometry.selectedAdministrativeFeaturesList" :key="`${feature.name}-${feature.data.properties!.name}`" :label="`${feature.name}-${feature.data.properties!.name}`" @remove="removeFromSelectedGeometries(feature)" removable severity="success"/>
                 </div>
-            <div class="w-full flex flex-col">
+            <div class="w-full flex flex-col py-1">
                 <div class="w-full py-1">
                     <Dropdown class="min-w-32" v-model="activeAdministrativeArea"
                         :options="geometry.administrativeBoundariesList" option-label="name"
@@ -23,7 +32,7 @@
                 </div>
                 <div class="w-full py-1" v-if="activeAdministrativeArea">
                     <DataTable v-model:filters="featureListFilters" :value="activeAdministrativeAreaFeaturesList"
-                        scrollable scrollHeight="400px" size="small"
+                        scrollable scrollHeight="300px" size="small"
                         :pt="{ thead: { class: ['hidden'] } }">
                         <template #header>
                             <IconField iconPosition="left">
@@ -61,6 +70,7 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import IconField from "primevue/iconfield"
 import InputIcon from "primevue/inputicon"
+import SelectButton from "primevue/selectbutton";
 import ChipWrapper from "../ChipWrapper.vue";
 import { FilterMatchMode } from "primevue/api";
 
@@ -88,17 +98,19 @@ const activeAdministrativeAreaFeaturesList: Ref<AdministrativeFeature[]> = compu
         if (activeDataFeaturesList.length > 0) {
             const options: AdministrativeFeature[] = []
             activeDataFeaturesList[0].data.features.forEach(feature => options.push({ data:{ ...feature }, id:activeAdministrativeArea.value!.id, name:activeAdministrativeArea.value!.name, table_name:activeAdministrativeArea.value!.table_name }))
-            options.sort((a, b) => {
-                const nameA = a.data.properties!.name.toLowerCase();
-                const nameB = b.data.properties!.name.toLowerCase();
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            });
+            if (!(typeof options[0].data.properties!.name === "number")){
+                options.sort((a, b) => {
+                    const nameA = String(a.data.properties!.name).toLowerCase();
+                    const nameB = String(b.data.properties!.name).toLowerCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
             console.log(options)
             return options
         } else {
