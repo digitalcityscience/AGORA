@@ -2,7 +2,7 @@
 	<Card class="w-full">
 		<template #title>Drawn Areas</template>
 		<template #content>
-			<div class="w-full" v-if="geometry.selectedDrawnGeometry.length>0">
+			<div class="w-full py-1" v-if="geometry.selectedDrawnGeometry.length>0">
 				<ChipWrapper v-for="(feature,index) in geometry.selectedDrawnGeometry" :key="feature.id" :label="`Area-${index}`" @remove="removeFromSelectedDrawnGeometries(feature)" removable severity="success"/>
 			</div>
 			<div class="w-full grid grid-cols-3">

@@ -34,6 +34,10 @@ interface ExtendedFeatureCollection extends FeatureCollection{
     union: boolean,
     tableName: string
 }
+export interface UnionSelectionItem {
+    name: string,
+    value: "union"|"intersection"
+}
 export const useGeometryStore = defineStore("geometry", () => {
     // ADMINISTRATIVE GEOMETRY
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
@@ -201,6 +205,8 @@ export const useGeometryStore = defineStore("geometry", () => {
     function clearGeometryFilterResult(): void{
         geometryFilterResult.value = []
     }
+    const unionSelectionList = ref<UnionSelectionItem[]>([{ name:"union", value:"union" }, { name:"intersection", value:"intersection" }])
+    const isUnion = ref<UnionSelectionItem>({ name:"union", value:"union" })
     function createSelectedGeometryGeoJSON(isExtended: boolean): ExtendedFeatureCollection|FeatureCollection{
         const allSelectedFeatures: Feature[] = []
         selectedAdministrativeFeaturesList.value.forEach((feature) => {
@@ -216,7 +222,7 @@ export const useGeometryStore = defineStore("geometry", () => {
             const featureCollection: ExtendedFeatureCollection = {
                 type: "FeatureCollection",
                 features: allSelectedFeatures,
-                union:true,
+                union:isUnion.value.value === "union",
                 tableName:"parcel"
             }
             return featureCollection
@@ -243,6 +249,10 @@ export const useGeometryStore = defineStore("geometry", () => {
         }).catch((error)=>{ console.error(error) })
     }
     function updateSelectedAreasTempLayer(): void{
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        if (!(mapStore.map.getSource("selectedAreasTempLayer"))){
+            createSelectedAreasTempLayer()
+        }
         mapStore.map.getSource("selectedAreasTempLayer").setData(createSelectedGeometryGeoJSON(false) as FeatureCollection)
     }
     function deleteSelectedAreasTempLayer(): void{
@@ -269,6 +279,8 @@ export const useGeometryStore = defineStore("geometry", () => {
         geometryFilterResult,
         addToGeometryFilterResult,
         clearGeometryFilterResult,
+        isUnion,
+        unionSelectionList,
         createSelectedGeometryGeoJSON,
         createSelectedAreasTempLayer,
         updateSelectedAreasTempLayer,
