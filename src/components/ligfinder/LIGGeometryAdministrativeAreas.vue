@@ -20,7 +20,7 @@
                         :options="geometry.administrativeBoundariesList" option-label="name"
                         :option-disabled="(option) => { return option.name === geometry.activeAdministrativeArea?.name }"
                         placeholder="Please select" checkmark show-clear
-                        @change="changeActiveAdminLayerOnMap()">
+                        @change="geometry.changeActiveAdminLayerOnMap()">
                         <template #value="slotProps">
                             <div v-if="slotProps.value" class="flex align-items-center">
                                 <div>{{ slotProps.value.name }}</div>
@@ -74,7 +74,6 @@ import InputIcon from "primevue/inputicon"
 import SelectButton from "primevue/selectbutton";
 import ChipWrapper from "../ChipWrapper.vue";
 import { FilterMatchMode } from "primevue/api";
-import { type FeatureCollection } from "geojson";
 
 const geometry = useGeometryStore()
 onMounted(() => {
@@ -135,19 +134,6 @@ function removeFromSelectedGeometries(data: AdministrativeFeature): void {
         geometry.removeFromSelectedAdministrativeFeaturesList(data)
     } catch (error){
         console.error(error)
-    }
-}
-function changeActiveAdminLayerOnMap(): void{
-    console.log("current layer is: ", geometry.activeAdministrativeArea?.table_name)
-    if (geometry.activeAdministrativeArea !== null) {
-        const activeData = geometry.administrativeDataList.filter((item) => { return item.table_name === geometry.activeAdministrativeArea?.table_name })
-        geometry.updateActiveAdminLayer(activeData[0].data)
-    } else {
-        const emptyGeojson: FeatureCollection = {
-            type: "FeatureCollection",
-            features:[]
-        }
-        geometry.updateActiveAdminLayer(emptyGeojson)
     }
 }
 </script>

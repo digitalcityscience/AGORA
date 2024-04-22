@@ -122,6 +122,19 @@ export const useGeometryStore = defineStore("geometry", () => {
             return false;
         }
     }
+
+    function changeActiveAdminLayerOnMap(): void{
+        if (activeAdministrativeArea.value !== null) {
+            const activeData = administrativeDataList.value.filter((item) => { return item.table_name === activeAdministrativeArea.value!.table_name })
+            updateActiveAdminLayer(activeData[0].data)
+        } else {
+            const emptyGeojson: FeatureCollection = {
+                type: "FeatureCollection",
+                features:[]
+            }
+            updateActiveAdminLayer(emptyGeojson)
+        }
+    }
     // DRAWN GEOMETRY
     const selectedDrawnGeometry = ref<Feature[]>([])
     /**
@@ -432,6 +445,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         selectedAdministrativeFeaturesList,
         addToselectedAdministrativeFeaturesList,
         removeFromSelectedAdministrativeFeaturesList,
+        changeActiveAdminLayerOnMap,
         selectedDrawnGeometry,
         addToSelectedDrawnGeometry,
         removeFromSelectedDrawnGeometry,
