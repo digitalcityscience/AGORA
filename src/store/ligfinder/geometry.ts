@@ -2,6 +2,7 @@ import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
 import { type FeatureCollection, type Feature } from "geojson"
 import { useMapStore } from "../map"
+import { type MapMouseEvent } from "maplibre-gl"
 export interface IsochroneCenter {
     lng: number,
     lat: number
@@ -43,6 +44,7 @@ export interface GeometryFilterAPIResponse {
 }
 export const useGeometryStore = defineStore("geometry", () => {
     // ADMINISTRATIVE GEOMETRY
+    const activeAdministrativeArea = ref<AdministrativeBoundariesListItem | null>(null)
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
     async function getAdministrativeBoundariesList(): Promise<AdministrativeBoundariesAPIResponse>{
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/administrative/list`,
@@ -104,10 +106,8 @@ export const useGeometryStore = defineStore("geometry", () => {
         const index = selectedAdministrativeFeaturesList.value.findIndex(feature =>
             feature.table_name === item.table_name && feature.data.properties!.gid === item.data.properties!.gid)
         if (index !== -1) {
-            console.log("todelete", selectedAdministrativeFeaturesList.value[index])
-            console.log("totalbefore", selectedAdministrativeFeaturesList.value.length)
             selectedAdministrativeFeaturesList.value.splice(index, 1);
-            console.log("totalafter", selectedAdministrativeFeaturesList.value.length)
+            updateSelectedAreasTempLayer()
             return true;
         } else {
             return false;
@@ -255,7 +255,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         const layerStyle: Record<string, any> = {
             paint:{
                 "fill-color": "#FF0000",
-                "fill-opacity": 0.6,
+                "fill-opacity": 0.2,
                 "fill-outline-color": "#000000"
             }
         }
@@ -275,7 +275,59 @@ export const useGeometryStore = defineStore("geometry", () => {
         mapStore.map.removeSource("selectedAreasTempLayer")
         mapStore.removeFromLayerList("selectedAreasTempLayer")
     }
+    // active administrative area layer operations
+    function adminAreaClickEventHandler(e: any): void{
+        (e as MapMouseEvent).originalEvent.stopPropagation()
+        console.log("event", e as Event)
+        console.log(mapStore.map.getLayersOrder())
+        const activeDataFeaturesList = administrativeDataList.value.filter((item) => { return item.table_name === activeAdministrativeArea.value?.table_name })
+        const clickedFeatureGID = e.features[0].properties.gid
+        if (activeDataFeaturesList.length > 0) {
+            const clickedItemFeature: Feature = activeDataFeaturesList[0].data.features.filter((feature)=>{ return feature.properties!.gid === clickedFeatureGID })[0]
+            const clickedItem: AdministrativeFeature = { data:{ ...clickedItemFeature }, id:activeAdministrativeArea.value!.id, name:activeAdministrativeArea.value!.name, table_name:activeAdministrativeArea.value!.table_name }
+            console.log("from click event: ", clickedItem)
+            let alreadySelected = false
+            selectedAdministrativeFeaturesList.value.forEach((feature) => {
+                if ((feature.table_name === clickedItem.table_name) && (feature.data.properties!.gid === clickedItem.data.properties!.gid)){
+                    alreadySelected = true
+                }
+            })
+            if (alreadySelected){
+                removeFromSelectedAdministrativeFeaturesList(clickedItem)
+            } else {
+                addToselectedAdministrativeFeaturesList(clickedItem)
+            }
+        }
+    }
+    function createActiveAdminLayer(data: FeatureCollection): void{
+        const layerStyle: Record<string, any> = {
+            paint:{
+                "fill-color": "#BE9FCF",
+                "fill-opacity": 0.6,
+                "fill-outline-color": "#FF0000"
+            }
+        }
+        mapStore.addMapDataSource("geojson", "active-admin", false, undefined, undefined, data).then(()=>{
+            mapStore.addMapLayer("geojson", "active-admin", "fill", layerStyle, undefined, undefined, data).then(()=>{
+                mapStore.map.on("click", "active-admin", adminAreaClickEventHandler)
+            }).catch((error)=>{ console.error(error) })
+        }).catch((error)=>{ console.error(error) })
+    }
+    function updateActiveAdminLayer(data: FeatureCollection): void{
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+        if (!(mapStore.map.getSource("active-admin"))){
+            createActiveAdminLayer(data)
+        }
+        mapStore.map.getSource("active-admin").setData(data)
+    }
+    function deleteActiveAdminLayer(): void{
+        mapStore.map.removeLayer("active-admin")
+        mapStore.map.removeSource("active-admin")
+        mapStore.removeFromLayerList("active-admin")
+        mapStore.map.off("click", adminAreaClickEventHandler)
+    }
     return {
+        activeAdministrativeArea,
         administrativeBoundariesList,
         getAdministrativeBoundariesList,
         administrativeDataList,
@@ -300,7 +352,10 @@ export const useGeometryStore = defineStore("geometry", () => {
         createSelectedGeometryGeoJSON,
         createSelectedAreasTempLayer,
         updateSelectedAreasTempLayer,
-        deleteSelectedAreasTempLayer
+        deleteSelectedAreasTempLayer,
+        createActiveAdminLayer,
+        updateActiveAdminLayer,
+        deleteActiveAdminLayer
     }
 })
 
