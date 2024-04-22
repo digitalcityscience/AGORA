@@ -48,11 +48,11 @@ function addToDrawnArea(): void{
             drawnAreas.forEach((feature)=> {
                 try {
                     geometry.addToSelectedDrawnGeometry(feature)
-                    drawTool.clearSnapshot()
                 } catch (error) {
                     console.error(error)
                 }
             })
+            drawTool.stopDrawMode()
         } else {
             console.error("there is no polygon to add")
         }
