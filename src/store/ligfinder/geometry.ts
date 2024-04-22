@@ -2,10 +2,17 @@ import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
 import { type FeatureCollection, type Feature } from "geojson"
 import { useMapStore } from "../map"
-import { type MapMouseEvent } from "maplibre-gl"
+import { type MapMouseEvent, type Map } from "maplibre-gl"
+import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw"
+import { useDrawStore } from "../draw"
 export interface IsochroneCenter {
     lng: number,
     lat: number
+}
+interface TravelMode {
+    name: string,
+    icon: string,
+    value: TravelModes
 }
 export interface BaseAdministrativeFeaturePropertyItem {
     gid: number,
@@ -43,6 +50,8 @@ export interface GeometryFilterAPIResponse {
     gids: number[]
 }
 export const useGeometryStore = defineStore("geometry", () => {
+    const mapStore = useMapStore()
+    const drawTool = useDrawStore()
     // ADMINISTRATIVE GEOMETRY
     const activeAdministrativeArea = ref<AdministrativeBoundariesListItem | null>(null)
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
@@ -158,6 +167,95 @@ export const useGeometryStore = defineStore("geometry", () => {
         }
     }
     // ISOCHRONE GEOMETRY
+    const selectionOnProgress = ref<boolean>(false)
+    const traveModeList = ref<TravelMode[]>([{ name: "walk", icon: "directions_walk", value: "walk_network" }, { name: "bike", icon: "directions_bike", value: "bike_network" }, { name: "drive", icon: "directions_car", value: "drive_network" }])
+    const selectedTravelMode = ref<TravelMode>({ name: "walk", icon: "pi-user", value: "walk_network" })
+    const centerPoint = ref<IsochroneCenter>()
+    const travelTime = ref<number>(0)
+    const centerSelectDrawer = new TerraDraw({
+        adapter: new TerraDrawMapLibreGLAdapter({ map: mapStore.map as unknown as Map }),
+        modes: [
+            new TerraDrawPointMode({
+                styles: {
+                    pointColor: "#AA4545",
+                    pointWidth: 12
+                }
+            })
+        ]
+    })
+    function createIsochrone(): void {
+        if (centerPoint.value === undefined) {
+            console.error("There is no center point")
+        }
+        if (!(travelTime.value > 0)) {
+            console.error("There is not enough travel time")
+        }
+        if (centerPoint.value?.lat !== undefined && centerPoint.value.lng !== undefined) {
+            const isochroneInfo: IsochroneForm = {
+                time: travelTime.value,
+                center: { ...centerPoint.value },
+                mode: selectedTravelMode.value.value
+            }
+            getIsochrone(isochroneInfo).then((response) => {
+                addIsochroneSource(response)
+            }).catch((error => { console.error(error); })).finally(() => {
+                cancelCenterSelection()
+            })
+        }
+    }
+    function startCenterSelection(): void {
+        selectionOnProgress.value = true
+        drawTool.stopDrawMode()
+        centerSelectDrawer.start()
+        centerSelectDrawer.setMode("point")
+        centerSelectDrawer.on("change", centerSelector)
+    }
+    function cancelCenterSelection(): void {
+        console.log("canceling center selection")
+        selectionOnProgress.value = false
+        centerSelectDrawer.setMode("static")
+        centerSelectDrawer.off("change", centerSelector)
+        centerSelectDrawer.stop()
+        centerPoint.value = undefined
+        travelTime.value = 0
+    }
+    function centerSelector(): void {
+        const snap = centerSelectDrawer.getSnapshot()
+        if (snap.length > 1) {
+            centerSelectDrawer.removeFeatures([snap[0].id ?? ""])
+        }
+        centerPoint.value = { ...{ lng: snap[0].geometry.coordinates[0] as number, lat: snap[0].geometry.coordinates[1] as number } }
+    }
+    const isochroneOnTheMap = ref<boolean>(false)
+    const isochroneOnTheMapData = ref<FeatureCollection>()
+    function addIsochroneSource(src: FeatureCollection): void {
+        const layerStyle = { paint: { "fill-color": "#abcdef", "fill-opacity": 1 } }
+        mapStore.addMapDataSource("geojson", "isochrone-temp-source", false, undefined, undefined, src).then(() => {
+            mapStore.addMapLayer("geojson", "isochrone-temp-source", "fill", layerStyle, undefined, undefined, src).then(() => {
+                isochroneOnTheMap.value = true
+                isochroneOnTheMapData.value = src
+            }).catch((error) => { console.log(error) })
+        }).catch((error) => { console.error(error) })
+    }
+    function addSelectedIsochrone(data: FeatureCollection): void {
+        const applied = addToSelectedIsochrone(data)
+        if (applied) {
+            cancelIsochroneSelection()
+        }
+    }
+    function cancelIsochroneSelection(): void {
+        console.log("canceling isochrone selection")
+        console.log(centerSelectDrawer.enabled)
+        if (mapStore.map.getLayer("isochrone-temp-source") !== undefined){
+            mapStore.map.removeLayer("isochrone-temp-source")
+            mapStore.removeFromLayerList("isochrone-temp-source")
+            mapStore.map.removeSource("isochrone-temp-source")
+            isochroneOnTheMap.value = false
+        }
+        if (centerSelectDrawer.enabled){
+            cancelCenterSelection()
+        }
+    }
     async function getIsochrone(data: IsochroneForm): Promise<FeatureCollection>{
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/isochrone`,
             {
@@ -249,7 +347,6 @@ export const useGeometryStore = defineStore("geometry", () => {
             return featureCollection
         }
     }
-    const mapStore = useMapStore()
     function createSelectedAreasTempLayer(): void{
         const features: FeatureCollection = createSelectedGeometryGeoJSON(false) as FeatureCollection
         const layerStyle: Record<string, any> = {
@@ -342,6 +439,19 @@ export const useGeometryStore = defineStore("geometry", () => {
         selectedIsochrone,
         addToSelectedIsochrone,
         removeSelectedIsochrone,
+        centerSelectDrawer,
+        centerPoint,
+        traveModeList,
+        isochroneOnTheMap,
+        isochroneOnTheMapData,
+        travelTime,
+        selectedTravelMode,
+        createIsochrone,
+        startCenterSelection,
+        cancelCenterSelection,
+        addSelectedIsochrone,
+        cancelIsochroneSelection,
+        selectionOnProgress,
         createGeometryFilter,
         createGeometryFilterExpression,
         geometryFilterResult,
