@@ -4,9 +4,11 @@ import { ref } from "vue";
 import { useMapStore } from "./map";
 import { type Map } from "maplibre-gl"
 import { type Feature, type FeatureCollection } from "geojson";
+import { useGeometryStore } from "./ligfinder/geometry";
 
 export const useDrawStore = defineStore("draw", () => {
     const mapStore = useMapStore()
+    const geometry = useGeometryStore()
     const drawTypes = ref([{ name: "point", mode: "Point" }, { name: "linestring", mode: "Line" }, { name: "polygon", mode: "Polygon" }])
     const drawMode = ref("polygon")
     const drawOnProgress = ref(false)
@@ -77,6 +79,7 @@ export const useDrawStore = defineStore("draw", () => {
                 drawOnProgress.value = true
                 editOnProgress.value = false
             }
+            geometry.cancelIsochroneSelection()
         } else {
             console.error("Could not find drawing instance")
         }
