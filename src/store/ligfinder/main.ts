@@ -45,6 +45,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
                 mapStore.map.setFilter(layerName, null);
                 throw new Error("No filters applied");
             }
+            geometry.activeAdministrativeArea = null
+            geometry.changeActiveAdminLayerOnMap()
         } catch (error) {
             // Handle different kinds of errors appropriately
             console.error("Error applying filters:", error);
