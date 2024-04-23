@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import maplibre from "maplibre-gl"
+import maplibre, { type MapMouseEvent } from "maplibre-gl"
 import { onMounted } from "vue";
 import { type LayerStyleOptions, useMapStore } from "../store/map";
 import { useGeoserverStore } from "../store/geoserver";
@@ -15,7 +15,7 @@ const geoserver = useGeoserverStore()
 onMounted(() => {
     mapStore.map = new maplibre.Map({
         container: "map",
-        style: `https://api.maptiler.com/maps/a2eb63ba-7d0e-4b25-9cfc-9ef74d786ec4/style.json?key=${import.meta.env.VITE_MAPTILER_API_KEY}`, // stylesheet location
+        style: `https://api.maptiler.com/maps/${import.meta.env.VITE_MAPTILER_MAP_ID}/style.json?key=${import.meta.env.VITE_MAPTILER_API_KEY}`, // stylesheet location
         center: [9.993163, 53.552123], // starting position [lng, lat]
         zoom: 15 // starting zoom
     })
@@ -69,6 +69,15 @@ async function loadParcelDataset(): Promise<void> {
                                         detail,
                                         `${detail.featureType.name}`
                                     ).then(()=>{
+                                        mapStore.map.on("click", detail.featureType.name, (e: MapMouseEvent)=>{
+                                            const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
+                                            console.log("clicked features", clickedFeatures)
+                                            const activeAdminIndex = clickedFeatures.findIndex((feature)=>{ return feature.layer.id === "active-admin" })
+                                            const parcelIndex = clickedFeatures.findIndex((feature)=>{ return feature.layer.id === detail.featureType.name })
+                                            if (activeAdminIndex === -1 || activeAdminIndex>parcelIndex){
+                                                console.log("parcel event:", e)
+                                            }
+                                        })
                                     }).catch(error => {
                                         window.alert(error)
                                     })
