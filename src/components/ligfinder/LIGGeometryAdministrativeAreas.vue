@@ -5,9 +5,6 @@
                 <div class="self-center">
                     Administrative Areas
                 </div>
-                <div class="pl-2">
-                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList" option-label="name"></SelectButton>
-                </div>
             </div>
         </template>
         <template #content>
@@ -71,7 +68,6 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import IconField from "primevue/iconfield"
 import InputIcon from "primevue/inputicon"
-import SelectButton from "primevue/selectbutton";
 import ChipWrapper from "../ChipWrapper.vue";
 import { FilterMatchMode } from "primevue/api";
 
