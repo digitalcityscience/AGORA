@@ -10,7 +10,8 @@ export interface CriteriaValueData {
 }
 export interface CriteriaPercentageData {
     filter: "prozent",
-    columns: string[]
+    columns: string[],
+    value: number
 }
 export interface AppliedCriteria extends TreeNode {
     status: "included"|"excluded",
@@ -35,20 +36,14 @@ export const useCriteriaStore = defineStore("criteria", () => {
     function createCriteriaExpression(data: CriteriaValueData|CriteriaPercentageData): any[]{
         const expression = []
         if (data.filter === "value"){
-            if (data.columns.length > 1) {
-                expression.push("any")
-                data.columns.forEach(col => {
-                    expression.push(["==", ["get", col], data.value])
-                })
-            } else {
-                expression.push("==")
-                expression.push(["get", data.columns[0]])
-                expression.push(data.value)
-            }
+            expression.push("any")
+            data.columns.forEach(col => {
+                expression.push(["==", ["get", col], data.value])
+            })
         } else {
             expression.push(">")
             expression.push(["get", data.columns[0]])
-            expression.push("0")
+            expression.push(data.value)
         }
         return expression
     }
@@ -67,14 +62,10 @@ export const useCriteriaStore = defineStore("criteria", () => {
                 }
             }
         })
-        if (expression.length>1) {
+        if (expression.length>0) {
             return ["any", ...expression]
         } else {
-            if (expression.length === 1) {
-                return expression[0]
-            } else {
-                return []
-            }
+            return []
         }
     }
     function resetCriteriaFilters(): void {
