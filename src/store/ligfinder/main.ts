@@ -55,6 +55,9 @@ export const useLigfinderMainStore = defineStore("main", () => {
     }
     function resetFilters(): void{
         mapStore.map.setFilter(layerName, null)
+        metric.resetMetricFilters()
+        criteria.resetCriteriaFilters()
+        geometry.resetSelectedAreas()
     }
     return {
         applyAllFilters,

@@ -77,12 +77,16 @@ export const useCriteriaStore = defineStore("criteria", () => {
             }
         }
     }
+    function resetCriteriaFilters(): void {
+        criteriaInUse.value = []
+    }
     return {
         list,
         criteriaInUse,
         addCriteria,
         removeCriteria,
-        createCriteriaFilter
+        createCriteriaFilter,
+        resetCriteriaFilters
     }
 })
 /* eslint-disable */
