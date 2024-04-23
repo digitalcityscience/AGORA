@@ -4,7 +4,7 @@
 			<span class="font-bold">Properties Based Filtering</span>
 		</template>
 		<div>
-			<div class="used-criteria">
+			<div class="used-criteria" v-if="criteria.criteriaInUse.length > 0">
 				<div class="included py-1">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
 						Included Criteria
@@ -21,6 +21,9 @@
 						<ChipWrapper v-for="crit in excludedCriteria" :key="crit.key" :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="danger"/>
 					</div>
 				</div>
+			</div>
+			<div class="no-criteria py-1" v-else>
+				<InlineMessage severity="info">No criteria selected</InlineMessage>
 			</div>
 			<Tree :value="criteria.list" :filter="true" filterMode="strict" class="w-full md:w-30rem">
 			<template #default="slotProps">
@@ -45,6 +48,7 @@
 import Panel from "primevue/panel";
 import Tree from "primevue/tree";
 import Button from "primevue/button";
+import InlineMessage from "primevue/inlinemessage";
 import ChipWrapper from "../ChipWrapper.vue"
 import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria"
 import { type TreeNode } from "primevue/treenode";

@@ -4,7 +4,12 @@
 			<template #header>
 				<span class="font-bold">Location Based Filtering</span>
 			</template>
-			<div class="w-full flex flex-col">
+			<div class="w-full">
+				<div class="pl-2">
+                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList" option-label="name"></SelectButton>
+                </div>
+			</div>
+			<div class="w-full flex flex-col mt-1">
 				<LIGGeometryAdministrativeAreas/>
 			</div>
 			<div class="w-full flex flex-col mt-1">
@@ -19,6 +24,7 @@
 
 <script setup lang="ts">
 import Panel from "primevue/panel";
+import SelectButton from "primevue/selectbutton";
 import LIGGeometryAdministrativeAreas from "./LIGGeometryAdministrativeAreas.vue"
 import LIGGeometryDrawnAreas from "./LIGGeometryDrawnAreas.vue"
 import LIGGeometryIsochroneAreas from "./LIGGeometryIsochroneAreas.vue"
