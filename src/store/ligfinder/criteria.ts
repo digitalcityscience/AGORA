@@ -48,6 +48,8 @@ export const useCriteriaStore = defineStore("criteria", () => {
         return expression
     }
     function createCriteriaFilter(): any[]{
+        const includedExpression: any[] = []
+        const excludedExpression: any[] = []
         const expression: any[] = []
         criteriaInUse.value.forEach(crit => {
             if (crit.data !== undefined && crit.data !== null){
@@ -55,15 +57,22 @@ export const useCriteriaStore = defineStore("criteria", () => {
                 if (criteriumExpression.length>0) {
                     console.log("criterium", criteriumExpression)
                     if (crit.status === "included") {
-                        expression.push(criteriumExpression)
+                        includedExpression.push(criteriumExpression)
                     } else {
-                        expression.push(["!", criteriumExpression])
+                        excludedExpression.push(["!", criteriumExpression])
                     }
                 }
             }
         })
+        if (includedExpression.length>0) {
+            expression.push(["any", ...includedExpression])
+        }
+        if (excludedExpression.length>0) {
+            expression.push(["any", ...excludedExpression])
+        }
         if (expression.length>0) {
-            return ["any", ...expression]
+            console.log("expression", expression)
+            return ["all", ...expression]
         } else {
             return []
         }
