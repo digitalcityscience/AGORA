@@ -9,24 +9,27 @@
 					"key": "1001",
 					"label": "Naturschutzgebiet",
 					"data": {
-						"columns": ["nsg_P"],
-						"filter": "prozent"
+						"columns": ["nsg_p"],
+						"filter": "prozent",
+						"value": 0
 					}
 				},
 				{
 					"key": "1002",
 					"label": "Landschaftsschutzgebiet",
 					"data": {
-						"columns": ["lsg_P"],
-						"filter": "prozent"
+						"columns": ["lsg_p"],
+						"filter": "prozent",
+						"value": 0
 					}
 				},
 				{
 					"key": "1003",
 					"label": "Biotop",
 					"data": {
-						"columns": ["bio_fl_P"],
-						"filter": "prozent"
+						"columns": ["bio_fl_p"],
+						"filter": "prozent",
+						"value": 0
 					}
 				},
 				{
@@ -34,7 +37,8 @@
 					"label": "Hafengebiet",
 					"data": {
 						"columns": ["hfn_ges_p"],
-						"filter": "prozent"
+						"filter": "prozent",
+						"value": 0
 					}
 				}
 			]
@@ -67,7 +71,7 @@
 									"key": "3",
 									"label": "081_2901 AGV (ohne EBR)",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "081_2901"
 									}
@@ -76,7 +80,7 @@
 									"key": "4",
 									"label": "081_2902 AGV (belastet mit EBR)",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "081_2902"
 									}
@@ -107,8 +111,8 @@
 											"label": "080_2100 Fl\u00e4chen des Bezirks - sonstige Bereiche",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B"
+													"t_50_253_a",
+													"t_50_253_b"
 												],
 												"filter": "value",
 												"value": "080_2100"
@@ -119,9 +123,9 @@
 											"label": "080_2631 Fl\u00e4chen des Bezirks - Tiefbau",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B",
-													"T_50_253_C"
+													"t_50_253_a",
+													"t_50_253_b",
+													"t_50_253_c"
 												],
 												"filter": "value",
 												"value": "080_2631"
@@ -132,8 +136,8 @@
 											"label": "080_2642 Fl\u00e4chen des Bezirks - Gew\u00e4sser",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B"
+													"t_50_253_a",
+													"t_50_253_b"
 												],
 												"filter": "value",
 												"value": "080_2642"
@@ -144,9 +148,9 @@
 											"label": "080_2661 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B",
-													"T_50_253_C"
+													"t_50_253_a",
+													"t_50_253_b",
+													"t_50_253_c"
 												],
 												"filter": "value",
 												"value": "080_2661"
@@ -156,7 +160,7 @@
 											"key": "12",
 											"label": "084_2009 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2009"
 											}
@@ -166,8 +170,8 @@
 											"label": "080_2741 Fl\u00e4chen des Bezirks - Forsten",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B"
+													"t_50_253_a",
+													"t_50_253_b"
 												],
 												"filter": "value",
 												"value": "080_2741"
@@ -178,8 +182,8 @@
 											"label": "080_2821 Fl\u00e4chen des Bezirks - Sportfl\u00e4chen",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B"
+													"t_50_253_a",
+													"t_50_253_b"
 												],
 												"filter": "value",
 												"value": "080_2821"
@@ -196,7 +200,7 @@
 											"key": "16",
 											"label": "080_2200 Justizbeh\u00f6rde",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2200"
 											}
@@ -205,7 +209,7 @@
 											"key": "17",
 											"label": "084_2030 Justizbeh\u00f6rde (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2030"
 											}
@@ -221,7 +225,7 @@
 											"key": "19",
 											"label": "080_2300 BASFI",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2300"
 											}
@@ -230,7 +234,7 @@
 											"key": "20",
 											"label": "084_2001 BASFI (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2001"
 											}
@@ -246,7 +250,7 @@
 											"key": "22",
 											"label": "080_2340 BWFG",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2340"
 											}
@@ -255,7 +259,7 @@
 											"key": "23",
 											"label": "084_2025 BWFG (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2025"
 											}
@@ -266,7 +270,7 @@
 									"key": "24",
 									"label": "080_2360 Senats\u00e4mter",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "080_2360"
 									}
@@ -280,7 +284,7 @@
 											"key": "26",
 											"label": "080_2370 BKM",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2370"
 											}
@@ -289,7 +293,7 @@
 											"key": "27",
 											"label": "084_2002 BKM (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2002"
 											}
@@ -300,7 +304,7 @@
 									"key": "28",
 									"label": "080_2430 Beh\u00f6rde f\u00fcr Gesundheit und Verbraucherschutz (BGV)",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "080_2430"
 									}
@@ -309,7 +313,7 @@
 									"key": "29",
 									"label": "080_2500 Beh\u00f6rde f\u00fcr Stadtentwicklung und Wohnen (BSW)",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "080_2500"
 									}
@@ -323,7 +327,7 @@
 											"key": "31",
 											"label": "080_2600 BUE - Sonstiges",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2600"
 											}
@@ -332,7 +336,7 @@
 											"key": "32",
 											"label": "080_2610 BUE - Gew\u00e4sser (BUE-U1)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2610"
 											}
@@ -341,7 +345,7 @@
 											"key": "33",
 											"label": "080_2649 BUE - Hochwasserschutz",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2649"
 											}
@@ -350,7 +354,7 @@
 											"key": "34",
 											"label": "080_2680 BUE - Amt f\u00fcr Naturschutz, Gr\u00fcnplanung u.Energie",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2680"
 											}
@@ -359,7 +363,7 @@
 											"key": "35",
 											"label": "084_2004 BUE - Amt f\u00fcr Naturschutz, Gr\u00fcnplanung u.Energie (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2004"
 											}
@@ -375,7 +379,7 @@
 											"key": "37",
 											"label": "080_2700 BWVI - Sonstiges",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2700"
 											}
@@ -384,7 +388,7 @@
 											"key": "38",
 											"label": "084_2003 BWVI - Horner Rennbahn (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2003"
 											}
@@ -393,7 +397,7 @@
 											"key": "39",
 											"label": "080_2632 BWVI - Schnellbahnbau",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2632"
 											}
@@ -402,7 +406,7 @@
 											"key": "40",
 											"label": "080_2710 BWVI - Hauptverkehrsstra\u00dfen",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2710"
 											}
@@ -411,7 +415,7 @@
 											"key": "41",
 											"label": "080_2730 BWVI - P+R",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2730"
 											}
@@ -420,7 +424,7 @@
 											"key": "42",
 											"label": "080_2740 BWVI - Landwirtschaft",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2740"
 											}
@@ -429,7 +433,7 @@
 											"key": "43",
 											"label": "080_2745 BWVI - Forsten",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2745"
 											}
@@ -439,8 +443,8 @@
 											"label": "080_2750 Hafennutzungsgebiet (HNG)- Sonstiges",
 											"data": {
 												"columns": [
-													"T_50_253_A",
-													"T_50_253_B"
+													"t_50_253_a",
+													"t_50_253_b"
 												],
 												"filter": "value",
 												"value": "080_2750"
@@ -450,7 +454,7 @@
 											"key": "45",
 											"label": "080_2751 HNG - Wege",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2751"
 											}
@@ -459,7 +463,7 @@
 											"key": "46",
 											"label": "080_2752 HNG - Gleisanlagen",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2752"
 											}
@@ -468,7 +472,7 @@
 											"key": "47",
 											"label": "080_2753 HNG - Wasserfl\u00e4chen",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2753"
 											}
@@ -479,7 +483,7 @@
 									"key": "48",
 									"label": "080_2800 Beh\u00f6rde f\u00fcr Inneres (BIS)",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "080_2800"
 									}
@@ -493,7 +497,7 @@
 											"key": "50",
 											"label": "080_2901 BSB-Amt f\u00fcr Bildung (Schulen)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "080_2901"
 											}
@@ -502,7 +506,7 @@
 											"key": "51",
 											"label": "084_2020 BSB (VV belastet mit EBR)",
 											"data": {
-												"columns": ["T_50_253_A"],
+												"columns": ["t_50_253_a"],
 												"filter": "value",
 												"value": "084_2020"
 											}
@@ -529,7 +533,7 @@
 									"key": "54",
 									"label": "085_0945 SV - Schulimmobilien",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "085_0945"
 									}
@@ -538,7 +542,7 @@
 									"key": "55",
 									"label": "085_3000 SV - Stadt und Hafen, HafenCity",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "085_3000"
 									}
@@ -547,7 +551,7 @@
 									"key": "56",
 									"label": "085_3010 SV - Stiftung Borsteler J\u00e4ger",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "085_3010"
 									}
@@ -556,7 +560,7 @@
 									"key": "57",
 									"label": "085_3020 SV - Naturschutz u. Landschaftspflege (SVNL)",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "085_3020"
 									}
@@ -581,7 +585,7 @@
 									"key": "60",
 									"label": "082_2480 Landesbetrieb Erziehung und Beratung (LEB)",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "082_2480"
 									}
@@ -590,7 +594,7 @@
 									"key": "61",
 									"label": "082_2520 Landesbetrieb Staatl. Krankenh\u00e4user",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "082_2520"
 									}
@@ -599,7 +603,7 @@
 									"key": "62",
 									"label": "082_2644 Landesbetrieb Stadtreinigung",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "082_2644"
 									}
@@ -608,7 +612,7 @@
 									"key": "63",
 									"label": "082_2720 Landesbetrieb Hamburgische M\u00fcnze",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "082_2720"
 									}
@@ -617,7 +621,7 @@
 									"key": "64",
 									"label": "082_2742 Landesbetrieb Gro\u00dfmarkt",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "082_2742"
 									}
@@ -626,7 +630,7 @@
 									"key": "65",
 									"label": "082_2743 Landesbetrieb Gro\u00dfmarkt (belastet mit EBR)",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "082_2743"
 									}
@@ -651,7 +655,7 @@
 									"key": "68",
 									"label": "083_2950 Grundst\u00fccke Dritter - Erbbaurecht/Wohnungserbbaurecht der FHH",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "083_2950"
 									}
@@ -660,7 +664,7 @@
 									"key": "69",
 									"label": "083_2951 Grundst\u00fccke Dritter - Miteigentumsanteile der FHH, MEA an Erbbaurechten",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "083_2951"
 									}
@@ -669,7 +673,7 @@
 									"key": "70",
 									"label": "083_2952 Grundst\u00fccke Dritter - Erbengemeinschaften",
 									"data": {
-										"columns": ["T_1_47_A"],
+										"columns": ["t_1_47_a"],
 										"filter": "value",
 										"value": "083_2952"
 									}
@@ -685,7 +689,7 @@
 									"key": "73",
 									"label": "B\u00e4derland Hamburg",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "1"
 									}
@@ -694,7 +698,7 @@
 									"key": "74",
 									"label": "Berufsf\u00f6rderwerk Hamburg",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "10"
 									}
@@ -703,7 +707,7 @@
 									"key": "75",
 									"label": "Deichtorhallen Hamburg GmbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "20"
 									}
@@ -712,7 +716,7 @@
 									"key": "76",
 									"label": "Elbe-Werkst\u00e4tten GmbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "30"
 									}
@@ -721,7 +725,7 @@
 									"key": "77",
 									"label": "Elbphilharmonie Hamburg Bau GmbH & Co. KG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "40"
 									}
@@ -730,7 +734,7 @@
 									"key": "78",
 									"label": "F\u00f6rdern & Wohnen A.\u00f6.R.",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "50"
 									}
@@ -739,7 +743,7 @@
 									"key": "79",
 									"label": "FEG Fischereihafenentwicklungsges. mbH & Co. KG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "60"
 									}
@@ -748,7 +752,7 @@
 									"key": "80",
 									"label": "Flughafen Hamburg GmbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "70"
 									}
@@ -757,7 +761,7 @@
 									"key": "81",
 									"label": "Hamburg Messe und Congress GmbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "80"
 									}
@@ -766,7 +770,7 @@
 									"key": "82",
 									"label": "Hamburg Port Authority",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "90"
 									}
@@ -775,7 +779,7 @@
 									"key": "83",
 									"label": "Hamburger Friedh\u00f6fe A.\u00f6.R.",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "100"
 									}
@@ -784,7 +788,7 @@
 									"key": "84",
 									"label": "Hamburger Gesellschaft f\u00fcr Gewerbebauf\u00f6rderung mbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "110"
 									}
@@ -793,7 +797,7 @@
 									"key": "85",
 									"label": "Hamburger Hochbahn AG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "120"
 									}
@@ -802,7 +806,7 @@
 									"key": "86",
 									"label": "Hamburger Stadtentw\u00e4sserung - A.\u00f6.R.",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "130"
 									}
@@ -811,7 +815,7 @@
 									"key": "87",
 									"label": "Hamburger Wasserwerke GmbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "140"
 									}
@@ -820,7 +824,7 @@
 									"key": "88",
 									"label": "Hamburgische Investitions- und F\u00f6rderbank",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "150"
 									}
@@ -829,7 +833,7 @@
 									"key": "89",
 									"label": "Hamburgischer Versorgungsfonds A.\u00f6.R.",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "160"
 									}
@@ -838,7 +842,7 @@
 									"key": "90",
 									"label": "HGV Hamburger Ges. f\u00fcr Verm\u00f6gens- und Beteiligungsmanagement mbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "170"
 									}
@@ -847,7 +851,7 @@
 									"key": "91",
 									"label": "KG VHG Verwaltung Hamburgischer Geb\u00e4ude GmbH & Co.KG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "180"
 									}
@@ -856,7 +860,7 @@
 									"key": "92",
 									"label": "P+R Betriebsgesellschaft mbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "190"
 									}
@@ -865,7 +869,7 @@
 									"key": "93",
 									"label": "Projektierungsgesellschaft Finkenwerder mbH & Co.KG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "200"
 									}
@@ -874,7 +878,7 @@
 									"key": "94",
 									"label": "SAGA - Siedlungsaktiengesellschaft Hamburg",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "210"
 									}
@@ -883,7 +887,7 @@
 									"key": "95",
 									"label": "SpriAG Sprinkenhof AG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "220"
 									}
@@ -892,7 +896,7 @@
 									"key": "96",
 									"label": "Stadtreinigung Hamburg A.\u00f6.R",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "230"
 									}
@@ -901,7 +905,7 @@
 									"key": "97",
 									"label": "Universit\u00e4tsklinikum Hamburg-Eppendorf K.\u00f6.R.",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "240"
 									}
@@ -910,7 +914,7 @@
 									"key": "98",
 									"label": "Elbkinder Vereinigung Hamburger Kindertagesst\u00e4tten gGmbH",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "250"
 									}
@@ -919,7 +923,7 @@
 									"key": "99",
 									"label": "Verkehrsbetriebe Hamburg-Holstein AG",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "260"
 									}
@@ -928,7 +932,7 @@
 									"key": "100",
 									"label": "nicht zugeordnet",
 									"data": {
-										"columns": ["oeff_Kat"],
+										"columns": ["oeff_kat"],
 										"filter": "value",
 										"value": "270"
 									}
@@ -953,7 +957,7 @@
 									"key": "103",
 									"label": "087_5000 Altonaer Spar- und Bauverein Eg",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "087_5000"
 									}
@@ -962,7 +966,7 @@
 									"key": "104",
 									"label": "087_5010 Johann Daniel Laweatz-Stiftung",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "087_5010"
 									}
@@ -971,7 +975,7 @@
 									"key": "105",
 									"label": "087_5020 mgF Gartenstadt Farmsen eG Mieter- und Wohnungsbaugenossenschaft",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "087_5020"
 									}
@@ -980,7 +984,7 @@
 									"key": "106",
 									"label": "087_5030 STEG Stadterneuerungs und Stadtentwicklungsgesellschaft Hamburg mbH",
 									"data": {
-										"columns": ["T_50_253_A"],
+										"columns": ["t_50_253_a"],
 										"filter": "value",
 										"value": "087_5030"
 									}
@@ -1005,24 +1009,27 @@
 							"key": "109",
 							"label": "Wohnen",
 							"data": {
-								"columns": ["tN_wbfl_P"],
-								"filter": "prozent"
+								"columns": ["tn_wbfl_p"],
+								"filter": "prozent",
+								"value": 0
 							}
 						},
 						{
 							"key": "110",
 							"label": "Industrie und Gewerbe",
 							"data": {
-								"columns": ["tN_Igew_P"],
-								"filter": "prozent"
+								"columns": ["tn_igew_p"],
+								"filter": "prozent",
+								"value": 0
 							}
 						},
 						{
 							"key": "111",
 							"label": "Landwirtschaft",
 							"data": {
-								"columns": ["tN_Land_P"],
-								"filter": "prozent"
+								"columns": ["tn_land_p"],
+								"filter": "prozent",
+								"value": 0
 							}
 						},
 						{
@@ -1034,8 +1041,9 @@
 									"key": "113",
 									"label": "SFE - alle",
 									"data": {
-										"columns": ["tN_Sport_P"],
-										"filter": "prozent"
+										"columns": ["tn_sport_p"],
+										"filter": "prozent",
+										"value": 0
 									}
 								},
 								{
@@ -1043,15 +1051,17 @@
 									"label": "SFE - Kleingarten",
 									"data": {
 										"columns": ["tn_klein_p"],
-										"filter": "prozent"
+										"filter": "prozent",
+										"value": 0
 									}
 								},
 								{
 									"key": "115",
 									"label": "SFE - Sportanlagen",
 									"data": {
-										"columns": ["tN_SpAnl_P"],
-										"filter": "prozent"
+										"columns": ["tn_spanl_p"],
+										"filter": "prozent",
+										"value": 0
 									}
 								}
 							]
@@ -1060,24 +1070,27 @@
 							"key": "116",
 							"label": "Stra\u00dfen, Wege, Pl\u00e4tze",
 							"data": {
-								"columns": ["tN_StrWP_P"],
-								"filter": "prozent"
+								"columns": ["tn_strwp_p"],
+								"filter": "prozent",
+								"value": 0
 							}
 						},
 						{
 							"key": "117",
 							"label": "besondere funktionale Pr\u00e4gung",
 							"data": {
-								"columns": ["tN_besFu_P"],
-								"filter": "prozent"
+								"columns": ["tN_besFu_p"],
+								"filter": "prozent",
+								"value": 0
 							}
 						},
 						{
 							"key": "118",
 							"label": "gemischte Nutzung",
 							"data": {
-								"columns": ["tN_gemNu_P"],
-								"filter": "prozent"
+								"columns": ["tn_gemnu_p"],
+								"filter": "prozent",
+								"value": 0
 							}
 						}
 					]
