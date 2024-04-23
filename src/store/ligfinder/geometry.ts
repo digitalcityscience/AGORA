@@ -436,6 +436,17 @@ export const useGeometryStore = defineStore("geometry", () => {
         mapStore.removeFromLayerList("active-admin")
         mapStore.map.off("click", adminAreaClickEventHandler)
     }
+
+    // reset selected areas
+    function resetSelectedAreas(): void{
+        removeSelectedIsochrone()
+        selectedAdministrativeFeaturesList.value.forEach((feature) => {
+            removeFromSelectedAdministrativeFeaturesList(feature)
+        })
+        selectedDrawnGeometry.value.forEach((feature) => {
+            removeFromSelectedDrawnGeometry(feature)
+        })
+    }
     return {
         activeAdministrativeArea,
         administrativeBoundariesList,
@@ -479,7 +490,8 @@ export const useGeometryStore = defineStore("geometry", () => {
         deleteSelectedAreasTempLayer,
         createActiveAdminLayer,
         updateActiveAdminLayer,
-        deleteActiveAdminLayer
+        deleteActiveAdminLayer,
+        resetSelectedAreas
     }
 })
 

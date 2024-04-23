@@ -6,44 +6,23 @@ export type RangeInput = Record<string, {
     max: number;
 }>;
 export const useMetricStore = defineStore("metric", () => {
-    const metricFilters = ref<RangeInput>({
-        area_fme:{
-            min:0,
-            max:0
-        },
-        bgf_sum:{
-            min:0,
-            max:0
-        },
-        fl_unbeb_a:{
-            min:0,
-            max:0
-        },
-        ms_dist:{
-            min:0,
-            max:0
-        },
-        sm_dist:{
-            min:0,
-            max:0
-        },
-        kita_dist:{
-            min:0,
-            max:0
-        },
-        bus_dist:{
-            min:0,
-            max:0
-        },
-        krankenhaus_dist:{
-            min:0,
-            max:0
-        },
-        park_dist:{
-            min:0,
-            max:0
-        },
-    })
+    const metricFilters = ref<RangeInput>(getDefaultMetricFilters())
+    function getDefaultMetricFilters(): RangeInput {
+        return {
+            area_fme: { min: 0, max: 0 },
+            bgf_sum: { min: 0, max: 0 },
+            fl_unbeb_a: { min: 0, max: 0 },
+            ms_dist: { min: 0, max: 0 },
+            sm_dist: { min: 0, max: 0 },
+            kita_dist: { min: 0, max: 0 },
+            bus_dist: { min: 0, max: 0 },
+            krankenhaus_dist: { min: 0, max: 0 },
+            park_dist: { min: 0, max: 0 },
+        };
+    }
+    function resetMetricFilters(): void {
+        metricFilters.value = getDefaultMetricFilters()
+    }
     function createGeneralExpression(): any[] {
         const metricExpressions = createRangeExpressions(metricFilters.value)
         const expression = [...metricExpressions]
@@ -80,6 +59,7 @@ export const useMetricStore = defineStore("metric", () => {
     }
     return {
         metricFilters,
+        resetMetricFilters,
         createGeneralExpression,
         createRangeExpressions
     }
