@@ -18,6 +18,7 @@ import tree from "./tree/index.js";
 import multiselect from "./multiselect/index.js";
 import datatable from "./datatable/index.js";
 import iconfield from "./iconfield/index.js";
+import paginator from "./paginator/index.js";
 
 export default {
     global,
@@ -39,5 +40,6 @@ export default {
     tree,
     multiselect,
     datatable,
-    iconfield
+    iconfield,
+    paginator
 }
