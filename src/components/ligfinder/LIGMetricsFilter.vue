@@ -1,13 +1,13 @@
 <template>
 	<Panel toggleable>
 		<template #header>
-			<span class="font-bold">Metric Based Filtering</span>
+			<span class="font-bold">{{ $t('ligfinder.filter.metrics.title')}}</span>
 		</template>
 		<div class="metric-filter">
 			<div class="filter-section">
                 <div class="attribute w-full py-1"  v-for="(filter, key) in metric.metricFilters" :key="key">
                     <!-- Dynamically display filter name with some formatting -->
-                    <p class="font-bold normal-case">{{$t(`metricsFilter.${key}`)}}</p>
+                    <p class="font-bold normal-case">{{$t(`ligfinder.filter.metrics.labels.${key}`)}}</p>
                     <div class="range-input flex flex-start">
 						<div class="input-group flex flex-col font-light text-xs italic">
 							<label :for="`${key}-min`" class="pl-1">Min</label>

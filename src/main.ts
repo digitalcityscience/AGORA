@@ -12,8 +12,14 @@ import App from "./App.vue"
 import "@material-design-icons/font";
 
 const pinia = createPinia()
+
+// Get the browser language
+const browserLanguage = navigator.language.split("-")[0]; // This will extract "en" from "en-US"
+// Set locale based on the browser language
+const locale = browserLanguage === "de" ? "de" : "en";
+
 const i18n = createI18n({
-	locale: "en",
+	locale,
 	messages
 })
 

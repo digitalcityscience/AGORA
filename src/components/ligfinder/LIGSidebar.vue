@@ -2,7 +2,7 @@
 	<SidebarLayout :id="sidebarID" position="left" :collapsed=false classes="lg:w-2/5 2xl:w-1/4 3xl:w-1/4" width="33vw">
 		<template #header>
 				<div class="h-full flex flex-col justify-center px-1">
-					<p class="font-bold text-xl text-slate-50 align-middle">LIGFinder</p>
+					<p class="font-bold text-xl text-slate-50 align-middle">{{ $t('ligfinder.title') }}</p>
 				</div>
 		</template>
 		<div class="w-full">
@@ -18,9 +18,9 @@
 		</div>
 		<template #footer>
 			<div class="apply-filter w-full flex justify-around py-2">
-				<Button @click="applier">Apply</Button>
-				<Button @click="resetAplliedFilters" severity="danger">Reset All</Button>
-				<Button v-if="resultStore.isFilterApplied" @click="getTable()">Get Table</Button>
+				<Button @click="applier">{{ $t('ligfinder.filter.apply') }}</Button>
+				<Button @click="resetAplliedFilters" severity="danger">{{ $t('ligfinder.filter.reset') }}</Button>
+				<Button v-if="resultStore.isFilterApplied" @click="getTable()">{{ $t('ligfinder.filter.getTable') }}</Button>
 			</div>
 		</template>
 	</SidebarLayout>
