@@ -1,8 +1,9 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { useCriteriaStore } from "./criteria"
 import { useMetricStore } from "./metric"
-import { useGeometryStore } from "./geometry"
+import { useGeometryStore, type ExtendedFeatureCollection } from "./geometry"
 import { useMapStore } from "../map"
+import { ref } from "vue"
 
 export const useLigfinderMainStore = defineStore("main", () => {
     const criteria = useCriteriaStore()
@@ -10,6 +11,9 @@ export const useLigfinderMainStore = defineStore("main", () => {
     const geometry = useGeometryStore()
     const mapStore = useMapStore()
     const layerName: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
+
+    const appliedGeometryFilterResult = ref<number[]>([])
+    const appliedGeometry = ref<ExtendedFeatureCollection|null>(null)
     async function applyAllFilters(): Promise<void> {
         try {
             const mainExpression: any[] = [];
@@ -31,6 +35,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
             const areaFilterResult = await geometry.createGeometryFilter(); // Ensure this function is available and imported
             console.log("s3.1", areaFilterResult)
             if (areaFilterResult.gids.length > 0) {
+                appliedGeometryFilterResult.value = areaFilterResult.gids
+                appliedGeometry.value = geometry.createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
                 const areaFilterExpression = geometry.createGeometryFilterExpression(areaFilterResult.gids);
                 mainExpression.push(areaFilterExpression);
                 console.log("s3", mainExpression)
@@ -61,7 +67,9 @@ export const useLigfinderMainStore = defineStore("main", () => {
     }
     return {
         applyAllFilters,
-        resetFilters
+        resetFilters,
+        appliedGeometry,
+        appliedGeometryFilterResult
     }
 })
 
