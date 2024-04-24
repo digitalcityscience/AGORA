@@ -3,7 +3,7 @@
         <template #title>
             <div class="flex justify-start">
                 <div class="self-center">
-                    Administrative Areas
+                    {{ $t('ligfinder.filter.geometry.administrative.title')}}
                 </div>
             </div>
         </template>
@@ -16,7 +16,7 @@
                     <Dropdown class="min-w-32" v-model="geometry.activeAdministrativeArea"
                         :options="geometry.administrativeBoundariesList" option-label="name"
                         :option-disabled="(option) => { return option.name === geometry.activeAdministrativeArea?.name }"
-                        placeholder="Please select" checkmark show-clear
+                        :placeholder="$t('helpers.dropdownSelect')" checkmark show-clear
                         @change="geometry.changeActiveAdminLayerOnMap()">
                         <template #value="slotProps">
                             <div v-if="slotProps.value" class="flex align-items-center">
@@ -37,15 +37,15 @@
                                 <InputIcon>
                                     <i class="pi pi-search" />
                                 </InputIcon>
-                                <InputText v-model="featureListFilters['global'].value" placeholder="Search area" />
+                                <InputText v-model="featureListFilters['global'].value" :placeholder="$t('ligfinder.geometry.administrative.search')" />
                             </IconField>
                         </template>
                         <Column field="data.properties.name"></Column>
-                        <Column header="Actions">
+                        <Column :header="$t('ligfinder.geometry.administrative.actions')">
                             <template #body="slotProps">
                                 <div class="actions text-right">
                                     <Button icon="pi pi-search-plus" @click="addToSelectedGeometries(slotProps.data)"
-                                        severity="primary" text rounded aria-label="Add Geometry"></Button>
+                                        severity="primary" text rounded :aria-label="$t('ligfinder.geometry.administrative.add')"></Button>
                                 </div>
                             </template>
                         </Column>

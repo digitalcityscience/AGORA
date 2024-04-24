@@ -2,11 +2,15 @@
 	<div class="w-full">
 		<Panel toggleable>
 			<template #header>
-				<span class="font-bold">Location Based Filtering</span>
+				<span class="font-bold">{{ $t('ligfinder.filter.geometry.title')}}</span>
 			</template>
 			<div class="w-full">
 				<div class="pl-2">
-                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList" option-label="name"></SelectButton>
+                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList">
+						<template #option="slotProps">
+							{{ $t(`ligfinder.filter.geometry.methods.${slotProps.option.name}`)}}
+						</template>
+					</SelectButton>
                 </div>
 			</div>
 			<div class="w-full flex flex-col mt-1">

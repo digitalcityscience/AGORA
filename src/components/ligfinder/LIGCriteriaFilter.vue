@@ -1,13 +1,13 @@
 <template>
 	<Panel toggleable>
 		<template #header>
-			<span class="font-bold">Properties Based Filtering</span>
+			<span class="font-bold">{{ $t('ligfinder.filter.criteria.title')}}</span>
 		</template>
 		<div>
 			<div class="used-criteria" v-if="criteria.criteriaInUse.length > 0">
 				<div class="included py-1">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
-						Included Criteria
+						{{ $t('ligfinder.filter.criteria.included')}}
 					</div>
 					<div class="w-full p-1">
 						<ChipWrapper v-for="crit in includedCriteria" :key="crit.key" :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="success"/>
@@ -15,7 +15,7 @@
 				</div>
 				<div class="excluded py-1">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
-						Excluded Criteria
+						{{ $t('ligfinder.filter.criteria.excluded')}}
 					</div>
 					<div class="w-full p-1">
 						<ChipWrapper v-for="crit in excludedCriteria" :key="crit.key" :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="danger"/>
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 			<div class="no-criteria py-1" v-else>
-				<InlineMessage severity="info">No criteria selected</InlineMessage>
+				<InlineMessage severity="info">{{ $t('ligfinder.filter.criteria.none')}}</InlineMessage>
 			</div>
 			<Tree :value="criteria.list" :filter="true" filterMode="strict" class="w-full md:w-30rem">
 			<template #default="slotProps">

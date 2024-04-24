@@ -1,13 +1,70 @@
 {
-	"metricsFilter": {
-		"area_fme":"Land Area in m²",
-		"bgf_sum":"Available Gross Floor in m²",
-		"fl_unbeb_a":"Available Vacant Lots",
-		"ms_dist":"Distance to Nearest Metro Station",
-		"sm_dist":"Distance to Nearest Supermarket",
-		"kita_dist":"Distance to Nearest Kita",
-		"bus_dist":"Distance to Nearest Bus Station",
-		"krankenhaus_dist":"Distance to Nearest Krankenhaus",
-		"park_dist":"Distance to Nearest Park"
+	"ligfinder": {
+		"title": "LigFinder",
+		"filter": {
+			"apply":"Apply",
+			"reset":"Reset All",
+			"getTable":"Get Table",
+			"criteria":{
+				"title": "Properties Based Filtering",
+				"included":"Included Criteria",
+				"excluded":"Excluded Criteria",
+				"none":"No criteria selected"
+			},
+			"metrics":{
+				"title":"Metric Based Filtering",
+				"labels": {
+					"area_fme":"Parcel Size in m2",
+					"bgf_sum":"Available Gross Floor in m²",
+					"fl_unbeb_a":"Available undeveloped area on parcel in m2",
+					"ms_dist":"Distance to Nearest Rapid Transit Station",
+					"sm_dist":"Distance to Nearest Supermarket",
+					"kita_dist":"Distance to Nearest Kita",
+					"bus_dist":"Distance to Nearest Bus Station",
+					"krankenhaus_dist":"Distance to Nearest Hospital",
+					"park_dist":"Distance to Nearest Park"
+				}
+			},
+			"geometry":{
+				"title":"Geometry Based Filtering",
+				"methods":{
+					"union":"Union",
+					"intersection":"Intersection"
+				},
+				"administrative":{
+					"title":"Administrative Boundaries",
+					"search":"Search area",
+					"actions":"Actions",
+					"add":"Add administrative area"
+				},
+				"drawn":{
+					"title":"Draw area",
+					"start":"Start drawing",
+					"edit":"Edit drawing",
+					"cancel":"Cancel drawing",
+					"continue":"Continue drawing",
+					"add":"Add drawing"
+				},
+				"isochrone":{
+					"title":"Isochrone Area",
+					"create":"Create",
+					"add":"Add Isochrone",
+					"cancel":"Cancel"
+				}
+			}
+		},
+		"table":{
+			"title":"LigFinder Results",
+			"count":"You have {0} parcels",
+			"noResults":"No results found",
+			"noFilter":"No filter applied",
+			"layerName":"Layer Name",
+			"add":"Add as a Layer",
+			"fileName":"File Name",
+			"download":"Download as GeoJSON"
+		}
+	},
+	"helpers":{
+		"dropdownSelect":"Please select {0}"
 	}
 }

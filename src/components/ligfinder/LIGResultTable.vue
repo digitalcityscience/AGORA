@@ -3,7 +3,7 @@
 		width="40vw">
 		<template #header>
 			<div class="h-full flex flex-col justify-center px-1">
-				<p class="font-bold text-xl text-slate-50 align-middle">LIGFinder Result Table</p>
+				<p class="font-bold text-xl text-slate-50 align-middle">{{ $t('ligfinder.table.title') }}</p>
 			</div>
 		</template>
 		<Card>
@@ -14,10 +14,9 @@
 							<div v-if="filterResultTableItems.length > 0">
 								<DataTable :value="filterResultTableItems" paginator :rows="10"
 									:rowsPerPageOptions="[10, 20, 50]" class="w-full" size="small" table-class="w-full"
-									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-									currentPageReportTemplate="{first} to {last} of {totalRecords}">
+									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink">
 									<template #header>
-										You have {{ filterResultTableItems.length }} parcels
+										{{ $t('ligfinder.table.count',[`${filterResultTableItems.length}`]) }}
 									</template>
 									<Column v-for="(column, index) in resultStore.tableHeaders"
 										:field="`properties.${column.value}`" :header="column.text" :key="index">
@@ -25,12 +24,12 @@
 								</DataTable>
 							</div>
 							<div v-else>
-								<InlineMessage severity="info">No result for applied filters</InlineMessage>
+								<InlineMessage severity="info">{{ $t('ligfinder.table.noResult') }}</InlineMessage>
 							</div>
 						</div>
 					</div>
 					<div class="w-full flex justify-around" v-else>
-						<InlineMessage severity="info">No filter applied</InlineMessage>
+						<InlineMessage severity="info">{{ $t('ligfinder.table.noFilter') }}</InlineMessage>
 					</div>
 				</div>
 			</template>
@@ -38,18 +37,18 @@
 				<div class="w-full 2xl:grid 2xl:grid-cols-2" v-if="resultStore.isFilterApplied && resultStore.appliedFilterResult && resultStore.appliedFilterResult?.features.length >0">
 					<div class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
 						<div class="w-full lg:col-span-2">
-							<InputText class="h-10" type="text" v-model="layerName" placeholder="Layer Name"></InputText>
+							<InputText class="h-10" type="text" v-model="layerName" :placeholder="$t('ligfinder.table.layerName')"></InputText>
 						</div>
 						<div class="w-full flex lg:col-span-2">
-							<Button @click="addAsLayer" :disabled="layerName.length === 0" class="lg:w-full 2xl:w-auto" size="small">Add as a Layer</Button>
+							<Button @click="addAsLayer" :disabled="layerName.length === 0" class="lg:w-full 2xl:w-auto" size="small">{{$t('ligfinder.table.add')}}</Button>
 						</div>
 					</div>
 					<div class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
 						<div class="w-full lg:col-span-2">
-							<InputText class="h-10" type="text" v-model="fileName" placeholder="File Name"></InputText>
+							<InputText class="h-10" type="text" v-model="fileName" :placeholder="$t('ligfinder.table.fileName')"></InputText>
 						</div>
 						<div class="w-full flex lg:col-span-2">
-							<Button @click="downloadAsGeojson" :disabled="fileName.length === 0" class="lg:w-full 2xl:w-auto" size="small">Download as GeoJSON</Button>
+							<Button @click="downloadAsGeojson" :disabled="fileName.length === 0" class="lg:w-full 2xl:w-auto" size="small">{{$t('ligfinder.table.download')}}</Button>
 						</div>
 
 					</div>

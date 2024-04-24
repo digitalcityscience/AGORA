@@ -1,25 +1,25 @@
 <template>
 	<Card class="w-full">
-		<template #title>Drawn Areas</template>
+		<template #title>{{ $t('ligfinder.filter.geometry.drawn.title')}}</template>
 		<template #content>
 			<div class="w-full py-1" v-if="geometry.selectedDrawnGeometry.length>0">
 				<ChipWrapper v-for="(feature,index) in geometry.selectedDrawnGeometry" :key="feature.id" :label="`Area-${index}`" @remove="removeFromSelectedDrawnGeometries(feature)" removable severity="success"/>
 			</div>
 			<div class="w-full grid lg:grid-cols-1 2xl:grid-cols-3">
 				<div class="p-1" v-if="!drawTool.drawOnProgress && !drawTool.editOnProgress">
-					<Button class="w-full" size="small" @click="startDraw">Start Draw</Button>
+					<Button class="w-full" size="small" @click="startDraw">{{ $t('ligfinder.filter.geometry.drawn.start')}}</Button>
 				</div>
 				<div class="p-1" v-if="(drawTool.drawOnProgress || drawTool.editOnProgress)">
-					<Button class="w-full" size="small"  :disabled="!(drawTool.drawOnProgress || drawTool.editOnProgress)" @click="drawTool.stopDrawMode">Cancel Draw</Button>
+					<Button class="w-full" size="small"  :disabled="!(drawTool.drawOnProgress || drawTool.editOnProgress)" @click="drawTool.stopDrawMode">{{ $t('ligfinder.filter.geometry.drawn.cancel')}}</Button>
 				</div>
 				<div class="p-1" v-if="!drawTool.editOnProgress && drawTool.drawOnProgress">
-					<Button class="w-full" size="small" :disabled="!drawTool.drawOnProgress" @click="drawTool.editMode">Edit Draw</Button>
+					<Button class="w-full" size="small" :disabled="!drawTool.drawOnProgress" @click="drawTool.editMode">{{ $t('ligfinder.filter.geometry.drawn.edit')}}</Button>
 				</div>
 				<div class="p-1" v-else>
-					<Button class="w-full" size="small" :disabled="!drawTool.editOnProgress" @click="startDraw">Continue Draw</Button>
+					<Button class="w-full" size="small" :disabled="!drawTool.editOnProgress" @click="startDraw">{{ $t('ligfinder.filter.geometry.drawn.continue')}}</Button>
 				</div>
 				<div class="p-1">
-					<Button class="w-full" size="small" :disabled="drawTool.drawMode !== 'polygon' " @click="addToDrawnArea">Add Drawn Area</Button>
+					<Button class="w-full" size="small" :disabled="drawTool.drawMode !== 'polygon' " @click="addToDrawnArea">{{ $t('ligfinder.filter.geometry.drawn.add')}}</Button>
 				</div>
 			</div>
 		</template>

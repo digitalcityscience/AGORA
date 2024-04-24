@@ -1,13 +1,70 @@
 {
-	"metricsFilter": {
-		"area_fme":"Grundstücksfläche in m²",
-		"bgf_sum":"Verfügbare Bruttogeschossfläche in m²",
-		"fl_unbeb_a":"Verfügbare unbebaute Grundstücke",
-		"ms_dist":"Entfernung zur nächsten U-Bahn-Station",
-		"sm_dist":"Entfernung zum nächsten Supermarkt",
-		"kita_dist":"Entfernung zum nächsten Kindergarten",
-		"bus_dist":"Entfernung zur nächsten Bushaltestelle",
-		"krankenhaus_dist":"Entfernung zum nächsten Krankenhaus",
-		"park_dist":"Entfernung zum nächsten Park"
-	}
+    "ligfinder": {
+        "title": "LigFinder",
+        "filter": {
+            "apply": "Anwenden",
+            "reset": "Alles zurücksetzen",
+            "getTable": "Tabelle anzeigen",
+            "criteria": {
+                "title": "Filterung nach Eigenschaften",
+                "included": "Eingeschlossene Kriterien",
+                "excluded": "Ausgeschlossene Kriterien",
+                "none": "Keine Kriterien ausgewählt"
+            },
+            "metrics": {
+                "title": "Filterung nach Metriken",
+                "labels": {
+                    "area_fme": "Grundstücksgröße in m2",
+                    "bgf_sum": "Verfügbare Bruttogeschossfläche in m²",
+                    "fl_unbeb_a": "Verfügbare unbebaute Fläche auf Flurstück in m2",
+                    "ms_dist": "Distanz zur nächsten Schnellbahn-Haltestelle",
+                    "sm_dist": "Entfernung zum nächsten Supermarkt",
+                    "kita_dist": "Entfernung zur nächsten Kita",
+                    "bus_dist": "Entfernung zur nächsten Bushaltestelle",
+                    "krankenhaus_dist": "Entfernung zum nächsten Krankenhaus",
+                    "park_dist": "Entfernung zum nächsten Park"
+                }
+            },
+            "geometry": {
+                "title": "Filterung nach Geometrie",
+                "methods": {
+                    "union": "Vereinigung",
+                    "intersection": "Schnittmenge"
+                },
+                "administrative": {
+                    "title": "Verwaltungsgrenzen",
+                    "search": "Suchbereich",
+                    "actions": "Aktionen",
+                    "add": "Verwaltungsbereich hinzufügen"
+                },
+                "drawn": {
+                    "title": "Zeichnenbereich",
+                    "start": "Zeichnung beginnen",
+                    "edit": "Zeichnung bearbeiten",
+                    "cancel": "Zeichnung abbrechen",
+                    "continue": "Zeichnung fortsetzen",
+                    "add": "Zeichnung hinzufügen"
+                },
+                "isochrone": {
+                    "title": "Isochrone Bereiche",
+                    "create": "Erstellen",
+                    "add": "Isochrone hinzufügen",
+                    "cancel": "Abbrechen"
+                }
+            }
+        },
+        "table": {
+            "title": "LigFinder Ergebnisse",
+            "count": "Sie haben {0} Grundstücke",
+            "noResults": "Keine Ergebnisse gefunden",
+            "noFilter": "Kein Filter angewendet",
+            "layerName": "Ebenenname",
+            "add": "Als Ebene hinzufügen",
+            "fileName": "Dateiname",
+            "download": "Als GeoJSON herunterladen"
+        }
+    },
+    "helpers": {
+        "dropdownSelect": "Bitte wählen Sie {0}"
+    }
 }

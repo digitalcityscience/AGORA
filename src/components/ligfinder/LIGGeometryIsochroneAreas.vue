@@ -1,6 +1,6 @@
 <template>
     <Card class="w-full isochrone-filter">
-        <template #title>Isochrone Areas</template>
+        <template #title>{{ $t('ligfinder.filter.geometry.isochrone.title')}}</template>
         <template #content>
             <div class="w-full py-1" v-if="geometry.selectedIsochrone.length > 0">
                 <ChipWrapper v-for="(_isochrone, index) in geometry.selectedIsochrone" :key="index" label="Isochrone"
@@ -32,16 +32,15 @@
                     <InputNumber v-model="geometry.travelTime" input-class="grow lg:col-span-4" suffix="min" :min="0"></InputNumber>
                 </div>
                 <div class="lg:grid lg:grid-cols-subgrid lg:col-span-4 2xl:grid-cols-none">
-                    <Button class="lg:col-span-4 2xl:grow-0" :disabled="geometry.centerPoint === undefined" @click="geometry.createIsochrone">Create</Button>
+                    <Button size="small" class="lg:col-span-4 2xl:grow-0" :disabled="geometry.centerPoint === undefined" @click="geometry.createIsochrone">{{ $t('ligfinder.filter.geometry.isochrone.create')}}</Button>
                 </div>
             </div>
             <div class="w-full grid grid-cols-4 pt-1" v-if="geometry.isochroneOnTheMap && geometry.isochroneOnTheMapData">
                 <div class="p-1 lg:col-span-2">
-                    <Button class="w-full" size="small" @click="geometry.addSelectedIsochrone(geometry.isochroneOnTheMapData)">Add to
-                        list</Button>
+                    <Button class="w-full" size="small" @click="geometry.addSelectedIsochrone(geometry.isochroneOnTheMapData)">{{ $t('ligfinder.filter.geometry.isochrone.add')}}</Button>
                 </div>
                 <div class="p-1 lg:col-span-2">
-                    <Button class="w-full" size="small" @click="geometry.cancelIsochroneSelection()">Cancel</Button>
+                    <Button class="w-full" size="small" @click="geometry.cancelIsochroneSelection()">{{ $t('ligfinder.filter.geometry.isochrone.cancel')}}</Button>
                 </div>
             </div>
         </template>
