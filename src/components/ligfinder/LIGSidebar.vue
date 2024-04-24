@@ -43,7 +43,10 @@ const resultStore = useResultStore()
 const ligFilterStore = useLigfinderMainStore()
 const mapStore = useMapStore()
 const sidebarID = "ligfinder-sidebar"
-const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"))
+const iconElement = document.createElement("span")
+iconElement.classList.add("material-icons-outlined")
+iconElement.textContent = "filter_alt"
+const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"), iconElement)
 mapStore.map.addControl(sidebarControl, "top-left")
 function applier(): void{
     ligFilterStore.applyAllFilters().then(()=>{

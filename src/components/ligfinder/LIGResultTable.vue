@@ -74,7 +74,10 @@ import { computed, ref } from "vue";
 const mapStore = useMapStore()
 const resultStore = useResultStore()
 const sidebarID = "ligfinder-result-table"
-const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"))
+const iconElement = document.createElement("span")
+iconElement.classList.add("material-icons-outlined")
+iconElement.textContent = "table_chart"
+const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"), iconElement)
 const layerName = ref<string>("")
 const fileName = ref<string>("")
 const filterResultTableItems = computed(() => {
@@ -84,6 +87,7 @@ const filterResultTableItems = computed(() => {
         return []
     }
 })
+
 mapStore.map.addControl(sidebarControl, "top-left")
 
 function addAsLayer(): void {
