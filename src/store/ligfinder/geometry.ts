@@ -38,7 +38,7 @@ export interface IsochroneForm {
     center: { "lng": number, "lat": number },
     mode: TravelModes
 }
-interface ExtendedFeatureCollection extends FeatureCollection{
+export interface ExtendedFeatureCollection extends FeatureCollection{
     union: boolean,
     tableName: string
 }
@@ -330,6 +330,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     }
     function clearGeometryFilterResult(): void{
         geometryFilterResult.value = []
+        updateSelectedAreasTempLayer()
     }
     const unionSelectionList = ref<UnionSelectionItem[]>([{ name:"union", value:"union" }, { name:"intersection", value:"intersection" }])
     const isUnion = ref<UnionSelectionItem>({ name:"union", value:"union" })

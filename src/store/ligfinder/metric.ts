@@ -1,6 +1,11 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue";
 
+export interface ResultMetric {
+    column: string,
+    operation: "<"|">",
+    value: string
+}
 export type RangeInput = Record<string, {
     min: number;
     max: number;
@@ -57,11 +62,28 @@ export const useMetricStore = defineStore("metric", () => {
             return []
         }
     }
+    function createMetricFilter(filters: RangeInput): ResultMetric[] {
+        const list: ResultMetric[] = []
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value.min !== 0) {
+                list.push({ operation:">", column: key, value: String(value.min) })
+            }
+            if (value.max !== 0) {
+                list.push({ operation:"<", column: key, value: String(value.max) })
+            }
+        })
+        if (list.length > 0) {
+            return list
+        } else {
+            return []
+        }
+    }
     return {
         metricFilters,
         resetMetricFilters,
         createGeneralExpression,
-        createRangeExpressions
+        createRangeExpressions,
+        createMetricFilter
     }
 })
 
