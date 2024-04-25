@@ -20,7 +20,10 @@
 			<div class="apply-filter w-full flex justify-around py-2">
 				<Button @click="applier">{{ $t('ligfinder.filter.apply') }}</Button>
 				<Button @click="resetAplliedFilters" severity="danger">{{ $t('ligfinder.filter.reset') }}</Button>
-				<Button v-if="resultStore.isFilterApplied" @click="getTable()">{{ $t('ligfinder.filter.getTable') }}</Button>
+				<Button v-if="resultStore.isFilterApplied" @click="getTable()">
+					<span v-if="isTableDataLoading" class="pi pi-spinner animate-spin mr-1"></span>
+					{{ $t('ligfinder.filter.getTable') }}
+				</Button>
 			</div>
 		</template>
 	</SidebarLayout>
@@ -32,7 +35,7 @@ import Button from "primevue/button";
 import { useMapStore } from "../../store/map";
 import { useLigfinderMainStore } from "../../store/ligfinder/main"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, ref } from "vue";
 import { useResultStore } from "../../store/ligfinder/result";
 
 const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGeometryFilter.vue"))
@@ -59,11 +62,17 @@ function resetAplliedFilters(): void{
     ligFilterStore.resetFilters()
     resultStore.resetResultInfo()
 }
+const isTableDataLoading = ref<boolean>(false)
 function getTable(): void {
+    isTableDataLoading.value = true
     resultStore.fetchAppliedFilterResult().then((response) => {
         resultStore.appliedFilterResult = response
+        isTableDataLoading.value = false
         console.info(response)
-    }).catch((error) => { console.error(error) });
+    }).catch((error) => {
+        console.error(error)
+        isTableDataLoading.value = false
+    });
 }
 </script>
 
