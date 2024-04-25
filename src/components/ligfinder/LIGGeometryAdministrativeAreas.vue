@@ -37,15 +37,15 @@
                                 <InputIcon>
                                     <i class="pi pi-search" />
                                 </InputIcon>
-                                <InputText v-model="featureListFilters['global'].value" :placeholder="$t('ligfinder.geometry.administrative.search')" />
+                                <InputText v-model="featureListFilters['global'].value" :placeholder="$t('ligfinder.filter.geometry.administrative.search')" />
                             </IconField>
                         </template>
                         <Column field="data.properties.name"></Column>
-                        <Column :header="$t('ligfinder.geometry.administrative.actions')">
+                        <Column :header="$t('ligfinder.filter.geometry.administrative.actions')">
                             <template #body="slotProps">
                                 <div class="actions text-right">
                                     <Button icon="pi pi-search-plus" @click="addToSelectedGeometries(slotProps.data)"
-                                        severity="primary" text rounded :aria-label="$t('ligfinder.geometry.administrative.add')"></Button>
+                                        severity="primary" text rounded :aria-label="$t('ligfinder.filter.geometry.administrative.add')"></Button>
                                 </div>
                             </template>
                         </Column>
