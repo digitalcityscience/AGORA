@@ -14,8 +14,10 @@ export const useLigfinderMainStore = defineStore("main", () => {
 
     const appliedGeometryFilterResult = ref<number[]>([])
     const appliedGeometry = ref<ExtendedFeatureCollection|null>(null)
+    const isFilterApplying = ref<boolean>(false)
     async function applyAllFilters(): Promise<void> {
         try {
+            isFilterApplying.value = true
             const mainExpression: any[] = [];
             console.log("s0", mainExpression)
 
@@ -49,13 +51,16 @@ export const useLigfinderMainStore = defineStore("main", () => {
             } else {
                 // If no filters are to be applied, consider if you should indeed clear the filter or just not set it at all
                 mapStore.map.setFilter(layerName, null);
+                isFilterApplying.value = false
                 throw new Error("No filters applied");
             }
             geometry.activeAdministrativeArea = null
             geometry.changeActiveAdminLayerOnMap()
+            isFilterApplying.value = false
         } catch (error) {
             // Handle different kinds of errors appropriately
             console.error("Error applying filters:", error);
+            isFilterApplying.value = false
             throw error; // Optionally re-throw error if you need calling function to handle it
         }
     }
@@ -69,7 +74,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
         applyAllFilters,
         resetFilters,
         appliedGeometry,
-        appliedGeometryFilterResult
+        appliedGeometryFilterResult,
+        isFilterApplying
     }
 })
 
