@@ -1,5 +1,5 @@
 <template>
-	<SidebarLayout :id="sidebarID" position="right" :collapsed=false classes="lg:w-1/2 2xl:w-1/2 3xl:w-1/2"
+	<SidebarLayout :id="sidebarID" position="right" classes="lg:w-1/2 2xl:w-1/2 3xl:w-1/2"
 		width="40vw">
 		<template #header>
 			<div class="h-full flex flex-col justify-center px-1">
@@ -18,6 +18,11 @@
 									<template #header>
 										{{ $t('ligfinder.table.count',[`${filterResultTableItems.length}`]) }}
 									</template>
+									<Column :header="$t('ligfinder.table.focus')">
+										<template #body="slotProps">
+											<Button icon="pi pi-search-plus" @click="focusOnSelectedParcel(slotProps.data)" text rounded aria-label="Include"></Button>
+										</template>
+									</Column>
 									<Column v-for="(column, index) in resultStore.tableHeaders"
 										:field="`properties.${column.value}`" :header="column.text" :key="index">
 									</Column>
@@ -70,6 +75,7 @@ import { useMapStore } from "../../store/map"
 import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
+import center from "@turf/center";
 const mapStore = useMapStore()
 const resultStore = useResultStore()
 const sidebarID = "ligfinder-result-table"
@@ -102,6 +108,19 @@ function downloadAsGeojson(): void {
     document.body.appendChild(downloadAnchorNode); // required for Firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+}
+function focusOnSelectedParcel(parcel: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    const parcelCenter = [...center(parcel).geometry.coordinates]
+    mapStore.map.flyTo({
+        center: parcelCenter,
+        zoom: 16,
+        speed: 0.2,
+        curve: 1,
+        easing(t: any) {
+            return t;
+        }
+    });
 }
 </script>
 
