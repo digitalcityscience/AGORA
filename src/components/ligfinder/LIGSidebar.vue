@@ -18,7 +18,9 @@
 		</div>
 		<template #footer>
 			<div class="apply-filter w-full flex justify-around py-2">
-				<Button @click="applier">{{ $t('ligfinder.filter.apply') }}</Button>
+				<Button @click="applier">
+					<span v-if="ligFilterStore.isFilterApplying" class="pi pi-spinner animate-spin mr-1"></span>
+					{{ $t('ligfinder.filter.apply') }}</Button>
 				<Button @click="resetAplliedFilters" severity="danger">{{ $t('ligfinder.filter.reset') }}</Button>
 				<Button v-if="resultStore.isFilterApplied" @click="getTable()">
 					<span v-if="isTableDataLoading" class="pi pi-spinner animate-spin mr-1"></span>
