@@ -12,7 +12,7 @@
 					<div v-if="resultStore.isFilterApplied">
 						<div v-if="resultStore.appliedFilterResult !== undefined">
 							<div v-if="filterResultTableItems.length > 0">
-								<DataTable :value="filterResultTableItems" paginator :rows="10"
+								<DataTable :value="filterResultTableItems" paginator :rows="10" removableSort
 									:rowsPerPageOptions="[10, 20, 50]" class="w-full" size="small" table-class="w-full"
 									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink">
 									<template #header>
@@ -24,12 +24,12 @@
 										</template>
 									</Column>
 									<Column v-for="(column, index) in resultStore.tableHeaders"
-										:field="`properties.${column.value}`" :header="column.text" :key="index">
+										:field="`properties.${column.value}`" :header="column.text" :key="index" :sortable="column.value === 'area_fme'">
 									</Column>
 								</DataTable>
 							</div>
 							<div v-else>
-								<InlineMessage severity="info">{{ $t('ligfinder.table.noResult') }}</InlineMessage>
+								<InlineMessage severity="info">{{ $t('ligfinder.table.noResults') }}</InlineMessage>
 							</div>
 						</div>
 					</div>
@@ -122,6 +122,7 @@ function focusOnSelectedParcel(parcel: any): void {
         }
     });
 }
+
 </script>
 
 <style scoped></style>
