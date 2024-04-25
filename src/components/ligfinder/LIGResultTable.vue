@@ -14,7 +14,8 @@
 							<div v-if="filterResultTableItems.length > 0">
 								<DataTable :value="filterResultTableItems" paginator :rows="10" removableSort
 									:rowsPerPageOptions="[10, 20, 50]" class="w-full" size="small" table-class="w-full"
-									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink">
+									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink"
+									v-model:filters="filters" filter-display="row">
 									<template #header>
 										{{ $t('ligfinder.table.count',[`${filterResultTableItems.length}`]) }}
 									</template>
@@ -23,9 +24,19 @@
 											<Button icon="pi pi-search-plus" @click="focusOnSelectedParcel(slotProps.data)" text rounded aria-label="Include"></Button>
 										</template>
 									</Column>
-									<Column v-for="(column, index) in resultStore.tableHeaders"
-										:field="`properties.${column.value}`" :header="column.text" :key="index" :sortable="column.value === 'area_fme'">
-									</Column>
+									<span v-for="(column,index) in resultStore.tableHeaders" :key="`column-${index}`">
+										<Column v-if="column.value === 'bezname'"
+											:field="`properties.${column.value}`" :filter-field="column.value==='bezname'?undefined:`properties.${column.value}`" :header="column.text" :key="`bezname-${index}`">
+											<template #filter="{ filterModel, filterCallback }">
+												<span v-if="column.value === 'bezname'">
+													<InputText size="small" v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by bezirke" />
+												</span>
+											</template>
+										</Column>
+										<Column v-else
+											:field="`properties.${column.value}`" :header="column.text" :key="`other-${index}`" :sortable="column.value === 'area_fme'">
+										</Column>
+									</span>
 								</DataTable>
 							</div>
 							<div v-else>
@@ -76,6 +87,7 @@ import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
 import center from "@turf/center";
+import { FilterMatchMode } from "primevue/api";
 const mapStore = useMapStore()
 const resultStore = useResultStore()
 const sidebarID = "ligfinder-result-table"
@@ -123,6 +135,9 @@ function focusOnSelectedParcel(parcel: any): void {
     });
 }
 
+const filters = ref({
+    "properties.bezname": { value: null, matchMode: FilterMatchMode.CONTAINS }
+});
 </script>
 
 <style scoped></style>
