@@ -441,12 +441,9 @@ export const useGeometryStore = defineStore("geometry", () => {
     // reset selected areas
     function resetSelectedAreas(): void{
         removeSelectedIsochrone()
-        selectedAdministrativeFeaturesList.value.forEach((feature) => {
-            removeFromSelectedAdministrativeFeaturesList(feature)
-        })
-        selectedDrawnGeometry.value.forEach((feature) => {
-            removeFromSelectedDrawnGeometry(feature)
-        })
+        selectedAdministrativeFeaturesList.value = []
+        selectedDrawnGeometry.value = []
+        updateSelectedAreasTempLayer()
     }
     return {
         activeAdministrativeArea,
