@@ -127,7 +127,7 @@ function focusOnSelectedParcel(parcel: any): void {
     mapStore.map.flyTo({
         center: parcelCenter,
         zoom: 16,
-        speed: 0.2,
+        speed: 0.7,
         curve: 1,
         easing(t: any) {
             return t;
