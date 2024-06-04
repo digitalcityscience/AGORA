@@ -2,7 +2,7 @@
     <div class="py-1">
         <Panel @update:collapsed="collapsedState" :collapsed="true" toggleable>
             <template #header>
-                <Checkbox v-model="checked" :binary="true" @update:model-value="changeLayerVisibility" />
+                <InputSwitch v-model="checked" @update:model-value="changeLayerVisibility" />
                 <h3 class="capitalize mr-auto ml-2">{{ props.layer.source.replaceAll("_", " ") }}</h3>
             </template>
             <div>
@@ -35,7 +35,7 @@ import { type LayerObjectWithAttributes, useMapStore } from "../store/map"
 import Panel from "primevue/panel";
 import ColorPicker from "primevue/colorpicker";
 import Slider from "primevue/slider";
-import Checkbox from "primevue/checkbox";
+import InputSwitch from "primevue/inputswitch";
 import AttributeFiltering from "./AttributeFiltering.vue";
 import { isNullOrEmpty } from "../core/helpers/functions";
 
