@@ -19,6 +19,7 @@ import multiselect from "./multiselect/index.js";
 import datatable from "./datatable/index.js";
 import iconfield from "./iconfield/index.js";
 import paginator from "./paginator/index.js";
+import inputswitch from "./inputswitch/index.js";
 
 export default {
     global,
@@ -41,5 +42,6 @@ export default {
     multiselect,
     datatable,
     iconfield,
-    paginator
+    paginator,
+    inputswitch
 }
