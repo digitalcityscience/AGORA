@@ -19,7 +19,8 @@ export interface Preset {
     multiselect: any,
     datatable: any,
     iconfield: any,
-    paginator: any
+    paginator: any,
+    inputswitch: any
 }
 declare const agoraPresets: Preset;
 export default agoraPresets;
