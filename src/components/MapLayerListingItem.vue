@@ -4,6 +4,15 @@
             <template #header>
                 <InputSwitch v-model="checked" @update:model-value="changeLayerVisibility" />
                 <h3 class="capitalize mr-auto ml-2">{{ props.layer.source.replaceAll("_", " ") }}</h3>
+                <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
+                    @click="confirmDialogVisibility = true"></Button>
+                <Dialog v-model:visible="confirmDialogVisibility" modal header="Delete Map Layer" :style="{ width: '25rem' }">
+                    <span class="p-text-secondary block mb-5">Are you sure want to delete {{ props.layer.source.replaceAll("_", " ") }} layer?</span>
+                    <div class="flex justify-content-end gap-2">
+                        <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false"></Button>
+                        <Button size="small" type="button" label="Delete" severity="danger" @click="deleteLayerConfirmation(props.layer)"></Button>
+                    </div>
+                </Dialog>
             </template>
             <div>
                 <label class="flex w-full leading-none pointer-events-none items-baseline">
@@ -37,6 +46,9 @@ import ColorPicker from "primevue/colorpicker";
 import Slider from "primevue/slider";
 import InputSwitch from "primevue/inputswitch";
 import AttributeFiltering from "./AttributeFiltering.vue";
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import { useToast } from "primevue/usetoast"
 import { isNullOrEmpty } from "../core/helpers/functions";
 
 const GeometryFiltering = defineAsyncComponent(async () => await import("../components/GeometryFiltering.vue"));
@@ -112,6 +124,20 @@ function changeLayerVisibility(layerVisibility: boolean): void {
 }
 function collapsedState(isCollapsed: boolean): void {
     collapsed.value = isCollapsed
+}
+const confirmDialogVisibility = ref<boolean>(false)
+const toast = useToast();
+function deleteLayerConfirmation(layer: LayerObjectWithAttributes): void {
+    mapStore.deleteMapLayer(layer.id).then(()=>{
+        mapStore.deleteMapDataSource(layer.source).then(()=>{
+            toast.add({ severity: "success", summary: "Deleted", detail: "Layer deleted", life: 3000 });
+        }).catch((error)=>{
+            toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
+        })
+    }).catch((error)=>{
+        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
+    })
+    confirmDialogVisibility.value = false
 }
 </script>
 
