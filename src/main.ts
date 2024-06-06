@@ -6,6 +6,7 @@ import { createPinia } from "pinia"
 import { createI18n } from "vue-i18n"
 import messages from "@intlify/unplugin-vue-i18n/messages"
 import PrimeVue from "primevue/config"
+import ToastService from "primevue/toastservice"
 import "./style.css"
 import agoraPresets from "./presets/agora"
 import App from "./App.vue"
@@ -23,4 +24,4 @@ const i18n = createI18n({
 	messages
 })
 
-createApp(App).use(pinia).use(PrimeVue, { unstyled: true, pt: agoraPresets }).use(i18n).mount("#app")
+createApp(App).use(pinia).use(PrimeVue, { unstyled: true, pt: agoraPresets }).use(ToastService).use(i18n).mount("#app")
