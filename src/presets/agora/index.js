@@ -20,6 +20,8 @@ import datatable from "./datatable/index.js";
 import iconfield from "./iconfield/index.js";
 import paginator from "./paginator/index.js";
 import inputswitch from "./inputswitch/index.js";
+import dialog from "./dialog/index.js";
+import toast from "./toast/index.js";
 
 export default {
     global,
@@ -43,5 +45,7 @@ export default {
     datatable,
     iconfield,
     paginator,
-    inputswitch
+    inputswitch,
+    dialog,
+    toast
 }
