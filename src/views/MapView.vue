@@ -6,6 +6,7 @@
         <MapDrawingTool></MapDrawingTool>
         <LIGSidebar></LIGSidebar>
         <LIGResultTable></LIGResultTable>
+        <Toast/>
     </div>
 </template>
 
@@ -19,6 +20,7 @@ const MapLayerListing = defineAsyncComponent(async () => await import("../compon
 const MapDrawingTool = defineAsyncComponent(async () => await import("../components/MapDrawingTool.vue"))
 const LIGSidebar = defineAsyncComponent(async () => await import("../components/ligfinder/LIGSidebar.vue"))
 const LIGResultTable = defineAsyncComponent(async() => await import("../components/ligfinder/LIGResultTable.vue"))
+const Toast = defineAsyncComponent(async () => await import("primevue/toast"))
 
 const geoserverStore = useGeoserverStore()
 onMounted(()=>{
