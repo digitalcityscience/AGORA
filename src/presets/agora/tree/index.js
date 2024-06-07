@@ -204,7 +204,7 @@ export default {
         ]
     },
     subgroup: {
-        class: ['m-0 list-none p-0 pl-2 mt-1']
+        class: ['m-0 list-none p-0 pl-1 mt-1']
     },
     filtercontainer: {
         class: [
