@@ -4,14 +4,17 @@
 </template>
 
 <script setup lang="ts">
-import maplibre, { type MapMouseEvent } from "maplibre-gl"
-import { onMounted } from "vue";
+import maplibre, { type MapMouseEvent, type Map } from "maplibre-gl"
+import { h, nextTick, onMounted, ref, render } from "vue";
 import { type LayerStyleOptions, useMapStore } from "../store/map";
+import { useDrawStore } from "../store/draw";
 import { useGeoserverStore } from "../store/geoserver";
 import { isNullOrEmpty } from "../core/helpers/functions";
+import MapAttributeModal from "./MapAttributeModal.vue"
 
 const mapStore = useMapStore()
 const geoserver = useGeoserverStore()
+const clickedLayers = ref()
 onMounted(() => {
     mapStore.map = new maplibre.Map({
         container: "map",
@@ -24,6 +27,33 @@ onMounted(() => {
     mapStore.map.addControl(zoomControl, "top-right");
     // Add parcel dataset after map is ready.
     loadParcelDataset().then(()=>{}, ()=>{})
+    if (mapStore.map !== undefined) {
+        mapStore.map.on("click", (e: MapMouseEvent)=>{
+            if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress)) {
+                const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
+                if (clickedFeatures.length > 0) {
+                    const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return l.source === clickedLayer.source }) })
+                    if (matchedFeatures.length > 0){
+                        console.log("matched features", matchedFeatures)
+                        console.log(e)
+                        clickedLayers.value = matchedFeatures
+                        console.log("clicked layers", clickedLayers.value)
+                        new maplibre.Popup({ maxWidth:"none" })
+                            .setLngLat(e.lngLat)
+                            .setHTML("<div id='map-popup-content'></div>")
+                            .addTo(mapStore.map as Map)
+                        nextTick(() => {
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                            const popupComp = h(MapAttributeModal, {
+                                features: [...matchedFeatures],
+                            });
+                            render(popupComp, document.getElementById("map-popup-content")!);
+                        }).then(()=>{}, ()=>{})
+                    }
+                }
+            }
+        })
+    }
 })
 
 async function loadParcelDataset(): Promise<void> {
