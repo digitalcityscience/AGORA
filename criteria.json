@@ -108,7 +108,7 @@
 									"children": [
 										{
 											"key": "8",
-											"label": "080_2100 Fl\u00e4chen des Bezirks - sonstige Bereiche",
+											"label": "080_2100 sonstige Bereiche",
 											"data": {
 												"columns": [
 													"t_50_253_a",
@@ -120,7 +120,7 @@
 										},
 										{
 											"key": "9",
-											"label": "080_2631 Fl\u00e4chen des Bezirks - Tiefbau",
+											"label": "080_2631 Tiefbau",
 											"data": {
 												"columns": [
 													"t_50_253_a",
@@ -133,7 +133,7 @@
 										},
 										{
 											"key": "10",
-											"label": "080_2642 Fl\u00e4chen des Bezirks - Gew\u00e4sser",
+											"label": "080_2642 Gew\u00e4sser",
 											"data": {
 												"columns": [
 													"t_50_253_a",
@@ -145,7 +145,7 @@
 										},
 										{
 											"key": "11",
-											"label": "080_2661 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn",
+											"label": "080_2661 Stadtgr\u00fcn",
 											"data": {
 												"columns": [
 													"t_50_253_a",
@@ -158,7 +158,7 @@
 										},
 										{
 											"key": "12",
-											"label": "084_2009 Fl\u00e4chen des Bezirks - Stadtgr\u00fcn (VV belastet mit EBR)",
+											"label": "084_2009 Stadtgr\u00fcn (VV belastet mit EBR)",
 											"data": {
 												"columns": ["t_50_253_a"],
 												"filter": "value",
@@ -167,7 +167,7 @@
 										},
 										{
 											"key": "13",
-											"label": "080_2741 Fl\u00e4chen des Bezirks - Forsten",
+											"label": "080_2741 Forsten",
 											"data": {
 												"columns": [
 													"t_50_253_a",
@@ -179,7 +179,7 @@
 										},
 										{
 											"key": "14",
-											"label": "080_2821 Fl\u00e4chen des Bezirks - Sportfl\u00e4chen",
+											"label": "080_2821 Sportfl\u00e4chen",
 											"data": {
 												"columns": [
 													"t_50_253_a",
