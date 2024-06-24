@@ -20,6 +20,8 @@ const browserLanguage = navigator.language.split("-")[0]; // This will extract "
 const locale = browserLanguage === "de" ? "de" : "en";
 
 const i18n = createI18n({
+	legacy:false,
+	missingWarn: false,
 	locale,
 	messages
 })
