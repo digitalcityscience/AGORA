@@ -58,6 +58,10 @@ function applier(): void{
         console.info("filter applied", mapStore.map.getFilter(`${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`))
         resultStore.isFilterApplied = true
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody()
+        const tableBar = document.getElementById("ligfinder-result-table")
+        if (tableBar !== null && !tableBar.classList.contains("collapsed")) {
+            tableBar?.classList.add("collapsed")
+        }
     }).catch((error)=>{ console.error(error) })
 }
 function resetAplliedFilters(): void{
