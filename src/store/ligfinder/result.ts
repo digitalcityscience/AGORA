@@ -5,6 +5,7 @@ import { useMetricStore, type ResultMetric } from "./metric"
 import { type FeatureCollection } from "geojson"
 import { useLigfinderMainStore } from "./main"
 import { useMapStore } from "../map"
+import { type GeoServerFeatureTypeAttribute } from "../geoserver"
 interface TableHeader {
     text: string,
     value: string
@@ -27,6 +28,7 @@ export const useResultStore = defineStore("result", () => {
     const criteria = useCriteriaStore()
     const metric = useMetricStore()
     const ligfinder = useLigfinderMainStore()
+    const attributeList = ref<GeoServerFeatureTypeAttribute[]>([])
     const isFilterApplied = ref<boolean>(false)
     const appliedFilterResult = ref<FeatureCollection>()
     const lastAppliedFilter = ref<ResultTableAPIRequestBody>()
@@ -125,6 +127,7 @@ export const useResultStore = defineStore("result", () => {
     ]
     return {
         isFilterApplied,
+        attributeList,
         fetchAppliedFilterResult,
         createAppliedFilterBody,
         resetResultInfo,
