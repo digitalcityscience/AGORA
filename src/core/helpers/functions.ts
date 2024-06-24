@@ -43,7 +43,7 @@ export function formatNumber(num: number): string {
     if (isNaN(num)) {
         return String(num);
     }
-    const fixedNum = num.toFixed(2);
+    const fixedNum = Number(num).toFixed(2);
     const [integerPart, decimalPart] = fixedNum.split(".");
     const integerWithThousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return `${integerWithThousandsSeparator},${decimalPart}`;
