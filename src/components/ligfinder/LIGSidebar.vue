@@ -60,7 +60,7 @@ function applier(): void{
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody()
         const tableBar = document.getElementById("ligfinder-result-table")
         if (tableBar !== null && !tableBar.classList.contains("collapsed")) {
-            tableBar?.classList.add("collapsed")
+            tableBar.classList.add("collapsed")
         }
     }).catch((error)=>{ console.error(error) })
 }
@@ -74,6 +74,10 @@ function getTable(): void {
     resultStore.fetchAppliedFilterResult().then((response) => {
         resultStore.appliedFilterResult = response
         isTableDataLoading.value = false
+        const tableBar = document.getElementById("ligfinder-result-table")
+        if (tableBar !== null && tableBar.classList.contains("collapsed")) {
+            tableBar.classList.remove("collapsed")
+        }
         console.info(response)
     }).catch((error) => {
         console.error(error)
