@@ -15,7 +15,7 @@
 								<div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
 									:key="i">
 									<p class="font-bold">{{ property.name }}</p>
-									<p class="font-normal italic text-sm">{{ property.value }}</p>
+									<p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
 								</div>
 							</div>
 						</div>
@@ -35,6 +35,7 @@ import cardPTOptions from "../presets/agora/card/index.ts"
 import accordPTOptions from "../presets/agora/accordion/index.ts"
 import { computed } from "vue";
 import { type MapGeoJSONFeature } from "maplibre-gl";
+import { formatNumber } from "../core/helpers/functions";
 
 const mapStore = useMapStore()
 interface Props {
@@ -63,6 +64,18 @@ function createDisplayName(source: string): string {
         return layer.source.replaceAll("_", " ")
     } else {
         return "-x-x-x-"
+    }
+}
+function attrIsNumber(source: string, attrName: string): boolean {
+    const layer = mapStore.layersOnMap.filter((layer) => { return source === layer.source })[0]
+    if (layer?.details !== undefined && layer.details.featureType.attributes.attribute.length > 0){
+        const attr = layer.details.featureType.attributes.attribute.find((attr)=>{ return attr.name===attrName })
+        if (attr !== undefined && attr.binding !== "java.lang.String") {
+            return true
+        }
+        return false
+    } else {
+        return false
     }
 }
 </script>
