@@ -19,23 +19,57 @@
 									<template #header>
 										{{ $t('ligfinder.table.count',[`${filterResultTableItems.length}`]) }}
 									</template>
-									<Column :header="$t('ligfinder.table.focus')">
-										<template #body="slotProps">
-											<Button icon="pi pi-search-plus" @click="focusOnSelectedParcel(slotProps.data)" text rounded aria-label="Include"></Button>
-										</template>
-									</Column>
-									<span v-for="(column,index) in resultStore.tableHeaders" :key="`column-${index}`">
-										<Column v-if="column.value === 'bezname'"
-											:field="`properties.${column.value}`" :filter-field="column.value==='bezname'?undefined:`properties.${column.value}`" :header="column.text" :key="`bezname-${index}`">
-											<template #filter="{ filterModel, filterCallback }">
-												<span v-if="column.value === 'bezname'">
-													<InputText size="small" v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by bezirke" />
-												</span>
+									<span v-if="resultStore.attributeList.length > 0">
+										<Column :header="$t('ligfinder.table.focus')">
+											<template #body="slotProps">
+												<Button icon="pi pi-search-plus" @click="focusOnSelectedParcel(slotProps.data)" text rounded aria-label="Include"></Button>
 											</template>
 										</Column>
-										<Column v-else
-											:field="`properties.${column.value}`" :header="column.text" :key="`other-${index}`" :sortable="column.value === 'area_fme'">
+										<span v-for="(column,index) in resultStore.attributeList" :key="`column-${index}`">
+											<Column
+												:field="`properties.${column.name}`"
+												:header="getHeaderText(column.name)"
+												:key="column.name==='bezname'?`bezname-${index}`:`other-${index}`"
+												:filter-field="column.name==='bezname'?undefined:`properties.${column.name}`"
+												:sortable="column.name === 'area_fme'"
+												:hidden="isHidden(column.name)"
+												resizableColumns
+												columnResizeMode="fit">
+												<template #filter="{ filterModel, filterCallback }">
+														<span v-if="column.name === 'bezname'">
+															<InputText size="small" v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by bezirke" />
+														</span>
+												</template>
+												<template #body="{data}">
+														<span v-if="column.binding ==='java.lang.String'">
+															{{data.properties[`${column.name}`]}}
+														</span>
+														<span v-else>
+															{{ formatNumber(data.properties[`${column.name}`]) }}
+														</span>
+												</template>
+											</Column>
+										</span>
+									</span>
+									<span v-else>
+										<Column :header="$t('ligfinder.table.focus')">
+											<template #body="slotProps">
+												<Button icon="pi pi-search-plus" @click="focusOnSelectedParcel(slotProps.data)" text rounded aria-label="Include"></Button>
+											</template>
 										</Column>
+										<span v-for="(column,index) in resultStore.tableHeaders" :key="`column-${index}`">
+											<Column v-if="column.value === 'bezname'"
+												:field="`properties.${column.value}`" :filter-field="column.value==='bezname'?undefined:`properties.${column.value}`" :header="column.text" :key="`bezname-${index}`">
+												<template #filter="{ filterModel, filterCallback }">
+													<span v-if="column.value === 'bezname'">
+														<InputText size="small" v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" placeholder="Search by bezirke" />
+													</span>
+												</template>
+											</Column>
+											<Column v-else
+												:field="`properties.${column.value}`" :header="column.text" :key="`other-${index}`" :sortable="column.value === 'area_fme'">
+											</Column>
+										</span>
 									</span>
 								</DataTable>
 							</div>
@@ -64,7 +98,7 @@
 							<InputText class="h-10" type="text" v-model="fileName" :placeholder="$t('ligfinder.table.fileName')"></InputText>
 						</div>
 						<div class="w-full flex lg:col-span-2">
-							<Button @click="downloadAsGeojson" :disabled="fileName.length === 0" class="lg:w-full 2xl:w-auto" size="small">{{$t('ligfinder.table.download')}}</Button>
+							<Button @click="downloadAsGeojson" :disabled="fileName.length === 0" class="lg:w-full 2xl:w-auto" size="small">{{$t('ligfinder.table.downloadGeoJSON')}}</Button>
 						</div>
 
 					</div>
@@ -88,6 +122,10 @@ import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
 import center from "@turf/center";
 import { FilterMatchMode } from "primevue/api";
+import { formatNumber } from "../../core/helpers/functions";
+import { useI18n } from "vue-i18n"
+
+const { t } = useI18n()
 const mapStore = useMapStore()
 const resultStore = useResultStore()
 const sidebarID = "ligfinder-result-table"
@@ -134,7 +172,22 @@ function focusOnSelectedParcel(parcel: any): void {
         }
     });
 }
-
+function getHeaderText(attributeName: string): string {
+    const key = `ligfinder.table.headers.${attributeName}`
+    if (key !== t(key)) {
+        return t(key)
+    } else {
+        return key
+    }
+}
+function isHidden(attributeName: string): boolean {
+    const key = `ligfinder.table.headers.${attributeName}`
+    if (key !== t(key)) {
+        return false
+    } else {
+        return true
+    }
+}
 const filters = ref({
     "properties.bezname": { value: null, matchMode: FilterMatchMode.CONTAINS }
 });

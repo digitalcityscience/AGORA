@@ -11,6 +11,7 @@ import { useDrawStore } from "../store/draw";
 import { useGeoserverStore } from "../store/geoserver";
 import { isNullOrEmpty } from "../core/helpers/functions";
 import MapAttributeModal from "./MapAttributeModal.vue"
+import { useResultStore } from "../store/ligfinder/result";
 
 const mapStore = useMapStore()
 const geoserver = useGeoserverStore()
@@ -99,6 +100,7 @@ async function loadParcelDataset(): Promise<void> {
                                         detail,
                                         `${detail.featureType.name}`
                                     ).then(()=>{
+                                        useResultStore().attributeList = detail.featureType.attributes.attribute.filter((att) => { return att.name !== "geom" })
                                         mapStore.map.on("click", detail.featureType.name, (e: MapMouseEvent)=>{
                                             const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
                                             console.log("clicked features", clickedFeatures)
