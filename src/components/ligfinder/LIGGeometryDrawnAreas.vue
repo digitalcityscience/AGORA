@@ -63,6 +63,7 @@ function addToDrawnArea(): void{
 function removeFromSelectedDrawnGeometries(item: Feature): void {
     try {
         geometry.removeFromSelectedDrawnGeometry(item)
+        geometry.updateSelectedAreasTempLayer()
     } catch (error) {
         console.error(error)
     }
