@@ -11,7 +11,7 @@
                 </Accordion>
             </div>
             <div class="w-full" v-else>
-                <InlineMessage class="w-full" severity="info">No workspace found</InlineMessage>
+                <InlineMessage class="w-full" severity="info">{{$t('datastore.notFound')}}</InlineMessage>
             </div>
         </SidebarLayout>
 </template>

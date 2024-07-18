@@ -8,29 +8,29 @@
                 <span class="line-clamp-3 hover:line-clamp-none xl:line-clamp-none">{{ layerDetail.featureType.abstract }}</span></template>
             <template #content v-if="layerDetail">
                 <div class="grid grid-cols-4 w-full pt-1">
-                    <span class="font-bold col-span-1 self-center">Keywords:</span>
-                    <span class="col-span-3 pl-1">
-                        <Chip class="ml-1 first:ml-0" v-for="(keyword,index) in layerDetail.featureType.keywords.string" :key="index" :label="keyword" :pt="passThroughChip"></Chip>
+                    <span class="font-bold lg:col-span-2 2xl:col-span-2 3xl:col-span-2 4xl:col-span-1 self-center">{{$t('datastore.layer.keywords')}}:</span>
+                    <span class="lg:col-span-2 2xl:col-span-2 3xl:col-span-2 4xl:col-span-3 pl-1">
+                        <Tag class="mb-1 mr-1 last:mr-0" severity="primary" v-for="(keyword,index) in layerDetail.featureType.keywords.string" :key="index" :value="keyword"></Tag>
                     </span>
                 </div>
                 <div class="grid grid-cols-4 w-full pt-1" v-if="dataType">
-                    <span class="font-bold col-span-1">Data Type:</span>
+                    <span class="font-bold col-span-1">{{$t('datastore.layer.datatype')}}:</span>
                     <span class="col-span-3 pl-1">{{ dataType }}</span>
                 </div>
             </template>
             <template #footer>
-                <Button size="small" @click="add2Map">Add to map</button>
+                <Button size="small" @click="add2Map">{{$t('datastore.layer.add')}}</button>
             </template>
         </Card>
     </div>
     <div v-else class="first:pt-0 pt-1 w-full">
-        <InlineMessage class="w-full" severity="info">No information about layer.</InlineMessage>
+        <InlineMessage class="w-full" severity="info">{{$t('datastore.layer.noInfo')}}</InlineMessage>
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import Chip from "primevue/chip";
+import Tag from "primevue/tag"
 import Button from "primevue/button"
 import InlineMessage from "primevue/inlinemessage";
 import { type GeoServerFeatureType, type GeoserverLayerInfo, type GeoserverLayerListItem, useGeoserverStore } from "../store/geoserver";
@@ -109,23 +109,4 @@ function add2Map(): void{
         })
     }
 }
-// special styling variable for chip component
-const passThroughChip = ref({
-    root: {
-        class: [
-        // Flexbox
-            "inline-flex items-center",
-
-            // Spacing
-            "px-2",
-
-            // Shape
-            "rounded-[1rem]",
-
-            // Colors
-            "text-white dark:text-surface-700",
-            "bg-primary-500 dark:bg-primary-400/85"
-        ]
-    }
-})
 </script>

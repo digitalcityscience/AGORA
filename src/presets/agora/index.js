@@ -22,7 +22,7 @@ import paginator from "./paginator/index.js";
 import inputswitch from "./inputswitch/index.js";
 import dialog from "./dialog/index.js";
 import toast from "./toast/index.js";
-
+import tag from "./tag/index.js";
 export default {
     global,
     dropdown,
@@ -47,5 +47,6 @@ export default {
     paginator,
     inputswitch,
     dialog,
-    toast
+    toast,
+    tag
 }
