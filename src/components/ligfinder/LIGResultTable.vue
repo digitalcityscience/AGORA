@@ -1,5 +1,5 @@
 <template>
-	<SidebarLayout :id="sidebarID" position="right" classes="lg:w-1/2 2xl:w-1/2 3xl:w-1/2" width="40vw">
+	<SidebarLayout :id="sidebarID" position="right" classes="lg:w-1/2 2xl:w-1/2 3xl:w-1/2" width="50vw">
 		<template #header>
 			<div class="h-full flex flex-col justify-center px-1">
 				<p class="font-bold text-xl text-slate-50 align-middle">{{ $t('ligfinder.table.title') }}</p>
@@ -89,7 +89,7 @@
 										</span>
 									</DataTable>
 								</div>
-								<div v-else>
+								<div class="w-full flex justify-around" v-else>
 									<InlineMessage severity="info">{{ $t('ligfinder.table.noResults') }}</InlineMessage>
 								</div>
 							</div>
@@ -182,7 +182,7 @@
 									</span>
 								</DataTable>
 							</div>
-							<div v-else>
+							<div class="w-full flex justify-around" v-else>
 								<InlineMessage severity="info">{{ $t('ligfinder.table.noResults') }}</InlineMessage>
 							</div>
 						</div>
