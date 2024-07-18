@@ -21,7 +21,8 @@ export interface Preset {
     iconfield: any,
     paginator: any,
     inputswitch: any,
-    dialog: any
+    dialog: any,
+    tag: any
 }
 declare const agoraPresets: Preset;
 export default agoraPresets;
