@@ -1079,7 +1079,7 @@
 							"key": "117",
 							"label": "besondere funktionale Pr\u00e4gung",
 							"data": {
-								"columns": ["tN_besFu_p"],
+								"columns": ["tn_besfu_p"],
 								"filter": "prozent",
 								"value": 0
 							}
