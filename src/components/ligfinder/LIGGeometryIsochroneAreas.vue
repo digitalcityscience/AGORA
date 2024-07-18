@@ -24,7 +24,7 @@
                     <SelectButton class="2xl:grow-0 lg:col-span-3 travel-mode flex" v-model="geometry.selectedTravelMode" :options="geometry.traveModeList"
                         optionLabel="name" dataKey="value" aria-labelledby="custom">
                         <template #option="slotProps">
-                            <i class="material-icons">{{ slotProps.option.icon }}</i>
+                            <i class="material-icons  mx-auto">{{ slotProps.option.icon }}</i>
                         </template>
                     </SelectButton>
                 </div>
