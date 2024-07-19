@@ -371,7 +371,7 @@ export const useGeometryStore = defineStore("geometry", () => {
             }
         }
         mapStore.addMapDataSource("geojson", "selectedAreasTempLayer", false, undefined, undefined, features).then(()=>{
-            mapStore.addMapLayer("geojson", "selectedAreasTempLayer", "fill", layerStyle, undefined, undefined, features).then(()=>{}).catch((error)=>{ console.error(error) })
+            mapStore.addMapLayer("geojson", "selectedAreasTempLayer", "fill", layerStyle, undefined, undefined, features, false, undefined, undefined, false).then(()=>{}).catch((error)=>{ console.error(error) })
         }).catch((error)=>{ console.error(error) })
     }
     function updateSelectedAreasTempLayer(): void{
@@ -419,7 +419,7 @@ export const useGeometryStore = defineStore("geometry", () => {
             }
         }
         mapStore.addMapDataSource("geojson", "active-admin", false, undefined, undefined, data).then(()=>{
-            mapStore.addMapLayer("geojson", "active-admin", "fill", layerStyle, undefined, undefined, data).then(()=>{
+            mapStore.addMapLayer("geojson", "active-admin", "fill", layerStyle, undefined, undefined, data, false, undefined, undefined, false).then(()=>{
                 mapStore.map.on("click", "active-admin", adminAreaClickEventHandler)
             }).catch((error)=>{ console.error(error) })
         }).catch((error)=>{ console.error(error) })

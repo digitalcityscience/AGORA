@@ -33,7 +33,7 @@ onMounted(() => {
             if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress)) {
                 const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
                 if (clickedFeatures.length > 0) {
-                    const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return l.source === clickedLayer.source }) })
+                    const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return l.source === clickedLayer.source && l.showOnLayerList }) })
                     if (matchedFeatures.length > 0){
                         console.log("matched features", matchedFeatures)
                         console.log(e)
