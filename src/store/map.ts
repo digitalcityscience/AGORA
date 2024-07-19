@@ -23,6 +23,8 @@ export interface CustomAddLayerObject {
 	layout?: Record<string, unknown>;
 	filterLayer?: boolean;
 	filterLayerData?: FeatureCollection
+	displayName?: string,
+	showOnLayerList?: boolean
 }
 export interface LayerObjectWithAttributes extends CustomAddLayerObject {
 	details?: GeoServerFeatureType;
@@ -133,6 +135,9 @@ export const useMapStore = defineStore("map", () => {
 	 * @param {string} [sourceLayer] - Specifies the target layer within a vector tile source. Required for vector tile sources containing multiple layers.
 	 * @param {FeatureCollection} [geoJSONSrc] - GeoJSON data for the layer. Required if the source type is "geojson" and isFilterLayer is true.
 	 * @param {boolean} [isFilterLayer=false] - If true, marks the layer as a filter layer, which can be used for geometry filtering. Default is false.
+	 * @param {string} [displayName] - Optional display name for the layer, used for UI purposes.
+	 * @param {string} [sourceIdentifier] - Optional source identifier if the source is already added to the map.
+	 * @param {boolean} [showOnLayerList=true] - If true, the layer will be shown in the layer list UI. Default is true.
 	 * @returns {Promise<any|undefined>} A promise that resolves with the added layer object if the addition is successful, or rejects with an error message if it fails.
 	 * @throws {Error} Throws an error if the map is not initialized, if required parameters are missing, or if the layer cannot be added.
 	 */
@@ -144,7 +149,10 @@ export const useMapStore = defineStore("map", () => {
 		geoserverLayerDetails?: GeoServerFeatureType,
 		sourceLayer?: string,
 		geoJSONSrc?: FeatureCollection,
-		isFilterLayer: boolean=false
+		isFilterLayer: boolean=false,
+		displayName?: string,
+		sourceIdentifier?: string,
+		showOnLayerList: boolean=true,
 	): Promise<any|undefined>{
 		if (isNullOrEmpty(map.value)) {
 			throw new Error("There is no map to add layer");
@@ -161,14 +169,24 @@ export const useMapStore = defineStore("map", () => {
 		throw new Error("GeoJSON data required to add GeoJSON layers");
 		}
 		const styling = generateStyling(layerType, layerStyle);
+		let source;
+		if (sourceIdentifier !== undefined) {
+			source = sourceIdentifier;
+		} else if (sourceType === "geojson") {
+			source = isFilterLayer ? `drawn-${identifier}` : identifier;
+		} else {
+			source = identifier;
+		}
 		const layerObject: CustomAddLayerObject = {
 			id: identifier,
-			source: sourceType === "geojson" ? isFilterLayer ? `drawn-${identifier}` : identifier : identifier,
+			source,
 			type: layerType,
+			showOnLayerList,
 			...styling,
 			// Conditional properties
 			...(sourceLayer !== undefined && sourceLayer !== "" ? { "source-layer": sourceLayer } : {}),
 			...(isFilterLayer ? { filterLayer: isFilterLayer, filterLayerData: geoJSONSrc } : {}),
+			...(displayName !== undefined && displayName !== "" ? { displayName }:{})
 		};
 		// add layer object to map
 		map.value.addLayer(layerObject as AddLayerObject);
