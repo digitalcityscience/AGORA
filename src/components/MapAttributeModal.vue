@@ -61,7 +61,7 @@ const mergedFeatures = computed(() => {
 function createDisplayName(source: string): string {
     const layer = mapStore.layersOnMap.filter((layer) => { return source === layer.source })[0]
     if (layer !== undefined) {
-        return layer.source.replaceAll("_", " ")
+        return (layer.displayName !== undefined && layer.displayName !== "") ? layer.displayName.replaceAll("_", " ") : layer.source.replaceAll("_", " ")
     } else {
         return "-x-x-x-"
     }
