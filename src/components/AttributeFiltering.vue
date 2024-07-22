@@ -1,17 +1,16 @@
 <template>
     <Card class="attribute-filtering w-full">
-        <template #title>Attribute Filtering</template>
-        <template #subtitle>Select an attribute and operand to filter this layer</template>
+        <template #title>{{ $t("mapLayers.attributeFiltering.title") }}</template>
+        <template #subtitle>{{ $t("mapLayers.attributeFiltering.subtitle") }}</template>
         <template #content>
             <div class="current-filters" v-if="filterStore.appliedFiltersList.find((listItem)=>{return listItem.layerName === props.layer.id && ((listItem.attributeFilters !== undefined && listItem.attributeFilters?.length > 0) || listItem.geometryFilters !== undefined)})">
                 <DataTable :value="currentFilters" class="w-full" size="small" table-class="w-full">
-                    <template #header></template>
-                    <Column>
+                    <Column header="">
                         <template #body="filter">
                             <span>{{ filter.data.attribute.name }} {{ filterStore.filterNames[filter.data.operand as IntegerFilters | StringFilters] }} {{ filter.data.value }}</span>
                         </template>
                     </Column>
-                    <Column>
+                    <Column header="">
                         <template #body="filter">
                             <div class="w-full flex flex-row-reverse">
                                 <Button @click="deleteAttributeFilter(filter.data)" severity="danger" text rounded>
@@ -25,30 +24,33 @@
                 </DataTable>
             </div>
             <div class="w-full no-current-filter py-2" v-else>
-                <InlineMessage class="w-full" severity="info">You have no filter</InlineMessage>
+                <InlineMessage class="w-full" severity="info">{{ $t("mapLayers.attributeFiltering.noFilter") }}</InlineMessage>
             </div>
             <div class="filter-control">
                 <div v-if="currentFilters.length" class="relation-control w-full flex flex-row ml-auto py-2 justify-between">
-                    <span class="self-center" v-if="relationType==='AND'">(Match all selections)</span>
-                    <span class="self-center" v-else>(Match at least one selection)</span>
+                    <span class="self-center" v-if="relationType==='AND'">{{ $t("mapLayers.attributeFiltering.matchAll") }}</span>
+                    <span class="self-center" v-else>{{ $t("mapLayers.attributeFiltering.matchAny") }}</span>
                     <SelectButton v-model="relationType" :options="relationList" :allow-empty="false" @change="applyAttributeFilter"></SelectButton>
                 </div>
             </div>
             <div class="new-filter flex flex-col w-full">
+                <div class="w-full font-thin italic text-sm py-1 text-surface-600/50 dark:text-surface-0/50">
+                    <p>{{ $t("mapLayers.attributeFiltering.addNew") }}</p>
+                </div>
                 <div class="attribute w-full">
                     <Dropdown class="min-w-32 w-full h-10" v-model="selectedAttribute" :options="filteredAttributes" option-label="name" filter show-clear
-                        placeholder="Select an attribute" :virtual-scroller-options="{ itemSize: 30 }" @change="clearOperand">
+                        :placeholder="$t('mapLayers.attributeFiltering.selectAttribute')" :virtual-scroller-options="{ itemSize: 30 }" @change="clearOperand">
                     </Dropdown>
                 </div>
                 <div class="operand w-full pt-2">
                     <Dropdown class="min-w-32 w-full h-10" v-if="selectedAttribute && selectedAttribute.binding == 'java.lang.String'"
                         v-model="selectedOperand" :options="filterStore.stringFilters" show-clear
-                        placeholder="Select an operand"></Dropdown>
+                        :placeholder="$t('mapLayers.attributeFiltering.selectOperand')"></Dropdown>
                     <Dropdown
                         class="min-w-32 w-full h-10"
                         v-else-if="selectedAttribute && (selectedAttribute.binding == 'java.lang.Integer' || selectedAttribute.binding == 'java.lang.Long' || selectedAttribute.binding == 'java.lang.Double')"
                         v-model="selectedOperand" :options="filterStore.integerFilters" show-clear
-                        placeholder="Select an operand"></Dropdown>
+                        :placeholder="$t('mapLayers.attributeFiltering.selectOperand')"></Dropdown>
                 </div>
                 <div class="value w-full pt-2" v-if="selectedOperand">
                     <InputText class="min-w-32 w-full h-10" v-if="selectedAttribute && selectedAttribute.binding == 'java.lang.String'" type="text"
@@ -56,7 +58,7 @@
                     <InputText class="min-w-32 w-full h-10" v-else type="number" v-model="filterValue"></InputText>
                 </div>
                 <div class="applier w-full flex flex-row-reverse pt-2">
-                    <Button size="small" @click=applyAttributeFilter :disabled="!(selectedAttribute && selectedOperand && filterValue)">Apply</Button>
+                    <Button size="small" @click=applyAttributeFilter :disabled="!(selectedAttribute && selectedOperand && filterValue)">{{ $t("mapLayers.attributeFiltering.apply") }}</Button>
                 </div>
             </div>
         </template>
@@ -189,4 +191,7 @@ async function deleteAttributeFilter(targetFilter: AppliedFilter): Promise<void>
 </script>
 
 <style scoped>
+.current-filters:deep(th){
+    display: none;
+}
 </style>

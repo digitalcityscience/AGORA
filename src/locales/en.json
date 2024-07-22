@@ -65,7 +65,7 @@
 		},
 		"table": {
 			"title": "LigFinder Results",
-			"count": "You have {0} parcels",
+			"count": "There were {0} plots found",
 			"focus": "Focus",
 			"noResults": "No results found",
 			"noFilter": "No filter applied",
@@ -84,6 +84,19 @@
 				"alkis_grz": "GRZ (Alkis)",
 				"bplan_grz": "GRZ (B-Plan)"
 			}
+		}
+	},
+	"mapLayers": {
+		"attributeFiltering":{
+			"title":"Attribute Filtering",
+			"subtitle":"Select an attribute and operand to filter this layer",
+			"noFilter":"No filter applied",
+			"matchAll":"Match all selections",
+			"matchAny":"Match at lest one selection",
+			"addNew":"Add new attribute filter",
+			"selectAttribute":"Select attribute",
+			"selectOperand":"Select operand",
+			"apply":"Apply"
 		}
 	},
 	"helpers": {
