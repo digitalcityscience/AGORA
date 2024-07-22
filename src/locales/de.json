@@ -65,7 +65,7 @@
 		},
 		"table": {
 			"title": "LigFinder Ergebnisse",
-			"count": "Sie haben {0} Grundstücke",
+			"count": "Es wurden {0} Grundstücke gefunden",
 			"focus": "Fokus",
 			"noResults": "Keine Ergebnisse gefunden",
 			"noFilter": "Kein Filter angewendet",
@@ -84,6 +84,19 @@
 				"alkis_grz": "GRZ (Alkis)",
 				"bplan_grz": "GRZ (B-Plan)"
 			}
+		}
+	},
+	"mapLayers": {
+		"attributeFiltering":{
+			"title":"Attributfilterung",
+			"subtitle":"Wählen Sie ein Attribut und einen Operand, um diese Ebene zu filtern",
+			"noFilter":"Kein Filter angewendet",
+			"matchAll":"Alle Auswahlen entsprechen",
+			"matchAny":"Mindestens eine Auswahl entspricht",
+			"addNew":"Neuen Attributfilter hinzufügen",
+			"selectAttribute":"Attribut auswählen",
+			"selectOperand":"Operand auswählen",
+			"apply":"Anwenden"
 		}
 	},
 	"helpers": {
