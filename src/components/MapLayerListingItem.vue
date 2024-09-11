@@ -2,7 +2,7 @@
     <div class="py-1">
         <Panel @update:collapsed="collapsedState" :collapsed="true" toggleable>
             <template #header>
-                <InputSwitch v-model="checked" @update:model-value="changeLayerVisibility" />
+                <ToggleSwitch v-model="checked" @update:model-value="changeLayerVisibility"></ToggleSwitch>
                 <h3 class="capitalize mr-auto ml-2">{{ props.layer.source.replaceAll("_", " ") }}</h3>
                 <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
                     @click="confirmDialogVisibility = true"></Button>
@@ -44,7 +44,7 @@ import { type LayerObjectWithAttributes, useMapStore } from "../store/map"
 import Panel from "primevue/panel";
 import ColorPicker from "primevue/colorpicker";
 import Slider from "primevue/slider";
-import InputSwitch from "primevue/inputswitch";
+import ToggleSwitch from "primevue/toggleswitch";
 import AttributeFiltering from "./AttributeFiltering.vue";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";

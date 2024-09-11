@@ -2,12 +2,14 @@
         <SidebarLayout :id="sidebarID" position="left" >
             <div class="w-full" v-if="props.workspaces && props.workspaces.length > 0">
                 <Accordion :multiple="true" :activeIndex="[0]">
-                    <AccordionTab headerClass="rounded-lg" v-for="(item, index) in props.workspaces" :key="index">
-                        <template #header>
+                    <AccordionPanel v-for="(item, index) in props.workspaces" :key="index">
+                        <AccordionHeader>
                             <h2 class="text-xl font-semibold capitalize">{{ item.name }}</h2>
-                        </template>
-                        <WorkspaceListingItem :workspace="item"></WorkspaceListingItem>
-                    </AccordionTab>
+                        </AccordionHeader>
+                        <AccordionContent>
+                            <WorkspaceListingItem :workspace="item"></WorkspaceListingItem>
+                        </AccordionContent>
+                    </AccordionPanel>
                 </Accordion>
             </div>
             <div class="w-full" v-else>
@@ -19,7 +21,9 @@
 <script setup lang="ts">
 // Components
 import Accordion from "primevue/accordion";
-import AccordionTab from "primevue/accordiontab";
+import AccordionPanel from "primevue/accordionpanel";
+import AccordionHeader from "primevue/accordionheader";
+import AccordionContent from "primevue/accordioncontent";
 import InlineMessage from "primevue/inlinemessage";
 import SidebarLayout from "./SidebarLayout.vue";
 import WorkspaceListingItem from "./WorkspaceListingItem.vue";

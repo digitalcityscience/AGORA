@@ -1,6 +1,6 @@
 <template>
     <div>
-        <OverlayPanel ref="op" :dismissable="false" showCloseIcon :pt="closeButtonStyles">
+        <Popover ref="op" :dismissable="false" :close-on-escape="false">
             <div class="flex flex-col min-w-72">
                 <div class="w-full">
                     <Card>
@@ -47,14 +47,14 @@
                     </Card>
                 </div>
             </div>
-        </OverlayPanel>
+        </Popover>
     </div>
 </template>
 
 <script setup lang="ts">
 import Card from "primevue/card";
 import RadioButton from "primevue/radiobutton";
-import OverlayPanel from "primevue/overlaypanel";
+import Popover from "primevue/popover";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { ref } from "vue";
@@ -73,18 +73,6 @@ function toggle(event: Event): void {
 const drawControl = new DrawControl(toggle)
 if (mapStore.map !== null || mapStore.map !== undefined) {
     mapStore.map.addControl(drawControl, "top-right")
-}
-const closeButtonStyles= {
-    closeButton:{
-        class: [
-            "absolute top-2 left-2 p-2",
-            "rounded-full",
-            "bg-transparent border",
-            "text-primary-500 dark:text-primary-400",
-            "hover:bg-primary-600 dark:hover:bg-primary-300 hover:border-primary-600 dark:hover:border-primary-300 text-primary-300 dark:text-primary-600",
-            "focus:ring-primary-400/50 dark:focus:ring-primary-300/50"
-        ]
-    }
 }
 </script>
 
