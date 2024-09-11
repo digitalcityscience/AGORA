@@ -239,7 +239,7 @@ import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
 import center from "@turf/center";
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode } from "@primevue/core/api";
 import { formatNumber } from "../../core/helpers/functions";
 import { useI18n } from "vue-i18n"
 

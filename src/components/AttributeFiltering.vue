@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import Dropdown from "primevue/dropdown";
+import Dropdown from "primevue/select";
 import Button from "primevue/button";
 import SelectButton from "primevue/selectbutton";
 import Card from "primevue/card"

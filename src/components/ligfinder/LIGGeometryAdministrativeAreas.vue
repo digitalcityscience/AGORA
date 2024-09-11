@@ -15,7 +15,7 @@
                 <div class="w-full py-1">
                     <Dropdown class="min-w-32" v-model="geometry.activeAdministrativeArea"
                         :options="geometry.administrativeBoundariesList" option-label="name"
-                        :option-disabled="(option) => { return option.name === geometry.activeAdministrativeArea?.name }"
+                        :option-disabled="(option: any) => { return option.name === geometry.activeAdministrativeArea?.name }"
                         :placeholder="$t('helpers.dropdownSelect')" checkmark show-clear
                         @change="geometry.changeActiveAdminLayerOnMap()">
                         <template #value="slotProps">
@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import Card from "primevue/card"
-import Dropdown from "primevue/dropdown"
+import Dropdown from "primevue/select"
 import { onMounted, ref, computed, type Ref } from "vue";
 import { useGeometryStore, type AdministrativeFeature } from "../../store/ligfinder/geometry";
 import DataTable from "primevue/datatable";
@@ -69,7 +69,7 @@ import InputText from "primevue/inputtext";
 import IconField from "primevue/iconfield"
 import InputIcon from "primevue/inputicon"
 import ChipWrapper from "../ChipWrapper.vue";
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode } from "@primevue/core/api";
 
 const geometry = useGeometryStore()
 onMounted(() => {

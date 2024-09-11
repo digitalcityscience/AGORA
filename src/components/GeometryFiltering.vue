@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import Dropdown, { type DropdownChangeEvent } from "primevue/dropdown";
+import Dropdown, { type SelectChangeEvent } from "primevue/select";
 import Card from "primevue/card";
 import Button from "primevue/button";
 import InlineMessage from "primevue/inlinemessage";
@@ -77,7 +77,7 @@ const isPolygonTiles = computed(()=>{
         return false
     }
 })
-function dropdownFitter(event: DropdownChangeEvent): void{
+function dropdownFitter(event: SelectChangeEvent): void{
     if (!isNullOrEmpty(event.value)){
         fitToFilterLayer((event.value as CustomAddLayerObject).filterLayerData!).then(
             () => {},
