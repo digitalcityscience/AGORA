@@ -238,10 +238,11 @@ import { useMapStore } from "../../store/map"
 import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
-import center from "@turf/center";
 import { FilterMatchMode } from "@primevue/core/api";
 import { formatNumber } from "../../core/helpers/functions";
 import { useI18n } from "vue-i18n"
+import bbox from "@turf/bbox";
+import { type Feature } from "geojson";
 
 const { t } = useI18n()
 const mapStore = useMapStore()
@@ -278,17 +279,25 @@ function downloadAsGeojson(): void {
     downloadAnchorNode.remove();
 }
 function focusOnSelectedParcel(parcel: any): void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const parcelCenter = [...center(parcel).geometry.coordinates]
-    mapStore.map.flyTo({
-        center: parcelCenter,
-        zoom: 16,
-        speed: 0.7,
-        curve: 1,
-        easing(t: any) {
-            return t;
+    mapStore.map.fitBounds(bbox(parcel as Feature), {
+        padding: {
+            top: 20,
+            bottom: 200,
+            left: 20,
+            right: 500
         }
     });
+    const originalStyle = mapStore.map.getPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color");
+    mapStore.map.setPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color", [
+        "case",
+        ["==", ["get", "gid"], (parcel as Feature).properties!.gid],
+        "#fefefe", // Highlight color
+        originalStyle // Original color
+    ]);
+    // Reset the style after 10 seconds
+    setTimeout(() => {
+        mapStore.map.setPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color", originalStyle);
+    }, 10000);
 }
 function getHeaderText(attributeName: string): string {
     const key = `ligfinder.table.headers.${attributeName}`
