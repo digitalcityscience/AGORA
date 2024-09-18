@@ -29,15 +29,43 @@ onMounted(() => {
     // Add parcel dataset after map is ready.
     loadParcelDataset().then(()=>{}, ()=>{})
     if (mapStore.map !== undefined) {
-        mapStore.map.on("click", (e: MapMouseEvent)=>{
+        mapStore.map.on("click", async (e: MapMouseEvent)=>{
             if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress)) {
                 const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
                 if (clickedFeatures.length > 0) {
-                    const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return l.source === clickedLayer.source && l.showOnLayerList }) })
+                    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                    const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return !(clickedLayer.layer.id.includes("cluster")) && l.source === clickedLayer.source && l.showOnLayerList }) })
                     if (matchedFeatures.length > 0){
                         console.log("matched features", matchedFeatures)
                         console.log(e)
-                        clickedLayers.value = matchedFeatures
+                        const clustered = matchedFeatures.filter((feature)=>{ return feature.properties.cluster })
+                        console.log("clustered", clustered)
+                        const unclusteredFeatures: any[] = []
+                        if (clustered.length>0) {
+                            const firstCluster = clustered.pop()
+                            const leaves: any[] = await mapStore.map.getSource(firstCluster.source).getClusterLeaves(firstCluster.properties.cluster_id, firstCluster.properties.point_count)
+                            leaves.forEach((leaf)=>{
+                                leaf.source = firstCluster.source
+                            })
+                            console.log("clustered leaves", leaves)
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                            unclusteredFeatures.push(...leaves)
+                        }
+                        if (clustered.length>0) {
+                            const firstCluster = clustered.pop()
+                            const leaves2: any[] = await mapStore.map.getSource(firstCluster.source).getClusterLeaves(firstCluster.properties.cluster_id, firstCluster.properties.point_count)
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                            leaves2.forEach((leaf)=>{
+                                leaf.source = firstCluster.source
+                            })
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                            unclusteredFeatures.push(...leaves2)
+                        }
+                        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                        const nonClustered = matchedFeatures.filter((feature)=>{ return !(feature.properties.cluster) })
+                        console.log("non clustered", nonClustered)
+                        console.log("unclustered", unclusteredFeatures)
+                        clickedLayers.value = nonClustered.concat(unclusteredFeatures)
                         console.log("clicked layers", clickedLayers.value)
                         new maplibre.Popup({ maxWidth:"none" })
                             .setLngLat(e.lngLat)
@@ -46,7 +74,7 @@ onMounted(() => {
                         nextTick(() => {
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                             const popupComp = h(MapAttributeModal, {
-                                features: [...matchedFeatures],
+                                features: [...nonClustered.concat(unclusteredFeatures)],
                             });
                             render(popupComp, document.getElementById("map-popup-content")!);
                         }).then(()=>{}, ()=>{})

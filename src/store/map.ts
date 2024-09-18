@@ -4,7 +4,7 @@ import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
 import { type GeoServerFeatureType } from "./geoserver";
 import { type SourceSpecification, type AddLayerObject } from "maplibre-gl";
-import { getRandomHexColor, isNullOrEmpty } from "../core/helpers/functions";
+import { generateDistinctHexColors, getRandomHexColor, isNullOrEmpty } from "../core/helpers/functions";
 import { type FeatureCollection } from "geojson";
 import { useToast } from "primevue/usetoast";
 export interface LayerStyleOptions {
@@ -24,7 +24,8 @@ export interface CustomAddLayerObject {
 	filterLayer?: boolean;
 	filterLayerData?: FeatureCollection
 	displayName?: string,
-	showOnLayerList?: boolean
+	showOnLayerList?: boolean,
+	clustered?: boolean
 }
 export interface LayerObjectWithAttributes extends CustomAddLayerObject {
 	details?: GeoServerFeatureType;
@@ -44,6 +45,7 @@ export const useMapStore = defineStore("map", () => {
 	 * @param {string} [workspaceName] - The workspace name for the Geoserver source. Required only for Geoserver sources.
 	 * @param {GeoServerFeatureType} [layer] - The layer details. Required only for Geoserver sources.
 	 * @param {FeatureCollection} [geoJSONSrc] - The GeoJSON data for the source. Required only for GeoJSON sources.
+	 * @param {boolean} [clustered] - If true, the source is clustered. Default is false. Only possible for GeoJSON sources.
 	 * @returns {Promise<SourceSpecification>} A promise that resolves to the added source specification if successful, or rejects with an error.
 	 * @throws {Error} Throws an error if the map is not initialized, if required parameters are missing, or if adding the source fails.
 	 */
@@ -53,7 +55,8 @@ export const useMapStore = defineStore("map", () => {
 		isFilterLayer: boolean,
 		workspaceName?: string,
 		layer?: GeoServerFeatureType,
-		geoJSONSrc?: FeatureCollection
+		geoJSONSrc?: FeatureCollection,
+		clustered?: boolean
 	): Promise<SourceSpecification> {
 		if (isNullOrEmpty(map.value)) {
 			throw new Error("There is no map to add source");
@@ -90,7 +93,8 @@ export const useMapStore = defineStore("map", () => {
 			const sourceIdentifier = isFilterLayer ? "drawn-"+identifier : identifier
 			map.value.addSource(sourceIdentifier, {
 				type:"geojson",
-				data: geoJSONSrc
+				data: geoJSONSrc,
+				...((clustered ?? false) ? { cluster: true, clusterMaxZoom: 16, clusterRadius: 100 } : {}),
 			})
 		}
 		const addedSource = map.value.getSource(sourceType === "geojson" ? isFilterLayer ? "drawn-"+identifier : identifier : identifier);
@@ -149,11 +153,12 @@ export const useMapStore = defineStore("map", () => {
 		geoserverLayerDetails?: GeoServerFeatureType,
 		sourceLayer?: string,
 		geoJSONSrc?: FeatureCollection,
-		isFilterLayer: boolean=false,
+		isFilterLayer: boolean = false,
 		displayName?: string,
 		sourceIdentifier?: string,
-		showOnLayerList: boolean=true,
-	): Promise<any|undefined>{
+		showOnLayerList: boolean = true,
+		clustered: boolean = false
+	): Promise<any | undefined> {
 		if (isNullOrEmpty(map.value)) {
 			throw new Error("There is no map to add layer");
 		}
@@ -162,13 +167,49 @@ export const useMapStore = defineStore("map", () => {
 		}
 		// Additional validation for geoserver source type
 		if (sourceType === "geoserver" && geoserverLayerDetails === undefined) {
-		throw new Error("Layer details required to add geoserver layers");
+			throw new Error("Layer details required to add geoserver layers");
 		}
 		// Additional validation for geojson source type
 		if (sourceType === "geojson" && geoJSONSrc === undefined) {
-		throw new Error("GeoJSON data required to add GeoJSON layers");
+			throw new Error("GeoJSON data required to add GeoJSON layers");
 		}
-		const styling = generateStyling(layerType, layerStyle);
+
+		let styling;
+		if (layerType === "circle" && sourceType === "geojson" && clustered) {
+			const clusterColors = generateDistinctHexColors(4);
+			styling = {
+				paint: {
+					"circle-color": [
+						"case",
+						["has", "point_count"],
+						[
+							"step",
+							["get", "point_count"],
+							clusterColors[0], // Small clusters
+							100, clusterColors[1], // Medium clusters
+							750, clusterColors[2] // Large clusters
+						],
+						clusterColors[3] // Unclustered points
+					],
+					"circle-radius": [
+						"case",
+						["has", "point_count"],
+						[
+							"step",
+							["get", "point_count"],
+							20,
+							100, 30,
+							750, 40
+						],
+						4
+					],
+					"circle-stroke-width": 1,
+					"circle-stroke-color": "#fff"
+				}
+			};
+		} else {
+			styling = generateStyling(layerType, layerStyle);
+		}
 		let source;
 		if (sourceIdentifier !== undefined) {
 			source = sourceIdentifier;
@@ -185,8 +226,9 @@ export const useMapStore = defineStore("map", () => {
 			...styling,
 			// Conditional properties
 			...(sourceLayer !== undefined && sourceLayer !== "" ? { "source-layer": sourceLayer } : {}),
-			...(isFilterLayer ? { filterLayer: isFilterLayer, filterLayerData: geoJSONSrc } : {}),
-			...(displayName !== undefined && displayName !== "" ? { displayName }:{})
+			...(isFilterLayer ? { filterLayer: isFilterLayer, filterLayerData: geoJSONSrc } : geoJSONSrc !== undefined ? { filterLayerData: geoJSONSrc } : {}),
+			...(displayName !== undefined && displayName !== "" ? { displayName } : {}),
+			...(clustered ? { clustered } : {})
 		};
 		// add layer object to map
 		map.value.addLayer(layerObject as AddLayerObject);

@@ -86,6 +86,43 @@
 			}
 		}
 	},
+	"geoparsing":{
+		"parliament":{
+			"topics":{
+				"info_table_pdfs_baugb": "federal building law",
+				"info_table_pdfs_hafenbahn": "port railway",
+				"info_table_pdfs_hauptbahnhof": "main train station",
+				"info_table_pdfs_reeperbahn": "reeperbahn",
+				"info_table_pdfs_stadtentwicklung": "urban development",
+				"info_table_pdfs_baulandmobilisierung": "land mobilization",
+				"info_table_pdfs_busbeschleunigungsprogramm": "bus acceleration program",
+				"info_table_pdfs_entwicklungsplan": "development plan",
+				"info_table_pdfs_finanzbehörde": "financial authority",
+				"info_table_pdfs_erbbaurechts": "hereditary building right",
+				"info_table_pdfs_fernwärme": "district heating",
+				"info_table_pdfs_hochwasser": "flood",
+				"info_table_pdfs_immobilien": "real estate",
+				"info_table_pdfs_denkmalschutz": "monument protection",
+				"info_table_pdfs_bildung": "education",
+				"info_table_pdfs_verkehr": "traffic",
+				"info_table_pdfs_stadtgrün": "urban greenery",
+				"info_table_pdfs_wohnungsbau": "housing construction",
+				"info_table_pdfs_erholung": "recreation",
+				"info_table_pdfs_grundvermögen": "real estate assets",
+				"info_table_pdfs_vorkaufsrecht": "right of first refusal",
+				"hafenentwicklungsgesetz": "port development law"
+			  }
+		},
+		"elbe": {
+			"modalAttrs": {
+				"Elbe_Wochenblatt_Text_Title": "Category",
+				"Elbe_Wochenblatt_Text_Date": "Date",
+				"word": "Location",
+				"keywords": "Keywords",
+				"Elbe_Wochenblatt_Article_Full": "Full article"
+			  }
+		}
+	},
 	"mapLayers": {
 		"attributeFiltering":{
 			"title":"Attribute Filtering",
