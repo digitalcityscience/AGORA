@@ -139,7 +139,7 @@ defineExpose({
     z-index: 11;
     height: 90vh;
     flex-direction: column;
-    min-width: 15vw;
+    min-width: 25vw;
     backdrop-filter: invert(100%);
 }
 .sidebar.sidebar-left.user-width{
@@ -152,7 +152,7 @@ defineExpose({
     z-index: 11;
     height: 90vh;
     flex-direction: column;
-    min-width: 15vw;
+    min-width: 25vw;
     backdrop-filter: invert(100%);
 }
 .sidebar.sidebar-right.user-width{

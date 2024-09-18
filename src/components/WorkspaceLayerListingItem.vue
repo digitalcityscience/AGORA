@@ -85,28 +85,89 @@ const dataType = computed(() => {
 const mapStore = useMapStore()
 function add2Map(): void{
     if (!isNullOrEmpty(layerDetail.value)) {
-        mapStore.addMapDataSource(
-            "geoserver",
-            layerDetail.value!.featureType.name,
-            false,
-            props.workspace,
-            layerDetail.value).then(() => {
-            if (!isNullOrEmpty(dataType) && !isNullOrEmpty(layerDetail.value)) {
-                mapStore.addMapLayer(
-                    "geoserver",
+        if (layerDetail.value!.featureType.name === "parliament_database" || layerDetail.value!.featureType.name === "elbe_wochenblatt"){
+            /** @todo download layers as a geojson and add */
+            const box = layerDetail.value!.featureType.latLonBoundingBox
+            geoserver.getLayerDataGeoJSON(layerDetail.value!.featureType.name, props.workspace, [box.minx, box.miny, box.maxx, box.maxy].join(",")).then((response)=>{
+                console.log(response)
+                mapStore.addMapDataSource(
+                    "geojson",
                     layerDetail.value!.featureType.name,
-                    mapStore.geometryConversion(dataType.value),
-                    !isNullOrEmpty(layerStyling.value) ? { ...layerStyling.value }: undefined,
+                    false,
+                    props.workspace,
                     layerDetail.value,
-                    `${layerDetail.value!.featureType.name}`
-                ).then(()=>{
+                    response,
+                    true
+                ).then(() => {
+                    if (!isNullOrEmpty(dataType) && !isNullOrEmpty(layerDetail.value)) {
+                        mapStore.addMapLayer(
+                            "geojson",
+                            layerDetail.value!.featureType.name,
+                            "circle",
+                            undefined,
+                            layerDetail.value,
+                            undefined,
+                            response,
+                            undefined,
+                            layerDetail.value!.featureType.title?? layerDetail.value!.featureType.name,
+                            undefined,
+                            undefined,
+                            true,
+                        ).then(()=>{
+                            mapStore.map.addLayer({
+                                id: `${layerDetail.value!.featureType.name}-cluster`,
+                                type: "symbol",
+                                source: `${layerDetail.value!.featureType.name}`,
+                                filter: ["has", "point_count"],
+                                layout: {
+                                    "text-field": "{point_count_abbreviated}",
+                                    "text-font": ["Helvetica", "Arial Unicode MS Bold"],
+                                    "text-size": 12
+                                }
+                            });
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    }
                 }).catch(error => {
-                    window.alert(error)
+                    console.log(error)
                 })
-            }
-        }).catch(error => {
-            window.alert(error)
-        })
+            }).catch(error => {
+                console.log(error)
+            })
+        } else {
+            mapStore.addMapDataSource(
+                "geoserver",
+                layerDetail.value!.featureType.name,
+                false,
+                props.workspace,
+                layerDetail.value,
+                undefined,
+                !!(layerDetail.value!.featureType.name === "parliament_database" || layerDetail.value!.featureType.name === "elbe_wochenblatt")
+            ).then(() => {
+                if (!isNullOrEmpty(dataType) && !isNullOrEmpty(layerDetail.value)) {
+                    mapStore.addMapLayer(
+                        "geoserver",
+                        layerDetail.value!.featureType.name,
+                        mapStore.geometryConversion(dataType.value),
+                        !isNullOrEmpty(layerStyling.value) ? { ...layerStyling.value }: undefined,
+                        layerDetail.value,
+                        `${layerDetail.value!.featureType.name}`,
+                        undefined,
+                        undefined,
+                        layerDetail.value!.featureType.title?? layerDetail.value!.featureType.name,
+                        undefined,
+                        undefined,
+                        !!((layerDetail.value!.featureType.name === "parliament_database" || layerDetail.value!.featureType.name === "elbe_wochenblatt")),
+                    ).then(()=>{
+                    }).catch(error => {
+                        console.log(error)
+                    })
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     }
 }
 </script>

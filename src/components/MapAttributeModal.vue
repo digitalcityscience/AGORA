@@ -2,23 +2,61 @@
 	<div class="w-full text-base">
 		<Card class="w-72 h-72 overflow-y-auto">
 			<template v-if="props.features !== undefined" #content>
-				<Accordion :multiple="true" :activeIndex="[]">
+				<Accordion :multiple="true" :value="[]">
                     <AccordionPanel v-for="(source, index) in Object.entries(mergedFeatures).map(([name, value]) => ({ name, value }))"
-                    :key="index">
+                    :key="index" :value="index">
                         <AccordionHeader>
                             <span class="capitalize">{{ createDisplayName(source.name) }}</span>
                         </AccordionHeader>
                         <AccordionContent>
-                            <div class="max-h-60 overflow-y-auto">
-							<div v-for="(feature, ind) in source.value" :key="ind"
-								class="rounded-md border mt-1 px-1 first:mt-0 divide-y-2 divide-dashed">
-								<div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
-									:key="i">
-									<p class="font-bold">{{ property.name }}</p>
-									<p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
-								</div>
-							</div>
-						</div>
+                            <div v-if="source.name==='parliament_database'" class="max-h-60 overflow-y-auto">
+                                <div v-for="(feature, ind) in source.value" :key="ind" class="rounded-md mt-1 px-1 first:mt-0 odd:bg-slate-300 even:bg-slate-100">
+                                    <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
+                                        :key="i">
+                                        <div class="p-1" v-if="allowedParliamentColumns.findIndex((columnName)=> {return columnName === property.name})>=0">
+                                            <p class="font-bold">{{ property.name }}</p>
+                                            <span v-if="property.name ==='hyperlink'">
+                                            <p class="font-normal italic text-sm">
+                                                <span class="underline" v-html="property.value"></span>
+                                            </p>
+                                            </span>
+                                            <span v-else>
+                                                <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else-if="source.name==='elbe_wochenblatt'" class="max-h-60 overflow-y-auto">
+                                <div v-for="(feature, ind) in source.value" :key="ind" class="rounded-md mt-1 px-1 first:mt-0 odd:bg-slate-300 even:bg-slate-100">
+                                    <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
+                                        :key="i">
+                                        <div class="p-1" v-if="allowedEWBColumns.findIndex((columnName)=> {return columnName === property.name})>=0">
+                                            <p class="font-bold">{{ elbeColumnNames[property.name] }}</p>
+                                            <span v-if="property.name ==='Elbe_Wochenblatt_text_Article_Full'">
+                                            <p class="font-normal italic text-sm">
+                                                <span class="underline">
+                                                    <a href="#" @click.prevent="openTextInNewTab(property.value)" >{{property.value.substring(0,20)}}...</a>
+                                                </span>
+                                            </p>
+                                            </span>
+                                            <span v-else>
+                                                <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else class="max-h-60 overflow-y-auto">
+                                <div v-for="(feature, ind) in source.value" :key="ind"
+                                    class="rounded-md border mt-1 px-1 first:mt-0 divide-y-2 divide-dashed">
+                                    <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
+                                        :key="i">
+                                        <p class="font-bold">{{ property.name }}</p>
+                                        <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </AccordionContent>
                     </AccordionPanel>
 				</Accordion>
@@ -78,6 +116,32 @@ function attrIsNumber(source: string, attrName: string): boolean {
     } else {
         return false
     }
+}
+function openTextInNewTab(text: string): void {
+    const newWindow = window.open();
+    const content = text;
+    newWindow!.document.write(`<html><body><pre>${content}</pre></body></html>`);
+    newWindow!.document.close();
+}
+const allowedParliamentColumns: string[] = [
+    "word",
+    "hyperlink",
+    "doc_num",
+    "date"
+]
+const allowedEWBColumns: string[] = [
+    "word",
+    "keywords",
+    "Elbe_Wochenblatt_text_Title",
+    "Elbe_Wochenblatt_text_Date",
+    "Elbe_Wochenblatt_text_Article_Full"
+]
+const elbeColumnNames: Record<string, string> = {
+    Elbe_Wochenblatt_text_Title: "Kategorie",
+    Elbe_Wochenblatt_text_Date: "Datum",
+    word: "Ort",
+    keywords: "Schlüsselwörter",
+    Elbe_Wochenblatt_text_Article_Full: "vollständiger Artikel"
 }
 </script>
 

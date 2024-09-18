@@ -1,105 +1,142 @@
 {
-	"datastore": {
-		"notFound":"Keine workspace verfügbar",
-		"layer": {
-			"keywords": "Schlüsselwörter",
-			"datatype": "Typ",
-			"add": "Zur Karte hinzufügen",
-			"noInfo": "Keine Informationen verfügbar",
-            "noLayer":"Keine Layer verfügbar"
-		}
-	},
-	"ligfinder": {
-		"title": "LigFinder",
-		"filter": {
-			"apply": "Anwenden",
-			"reset": "Alles zurücksetzen",
-			"getTable": "Tabelle anzeigen",
-			"criteria": {
-				"title": "Filterung nach Eigenschaften",
-				"included": "Eingeschlossene Kriterien",
-				"excluded": "Ausgeschlossene Kriterien",
-				"none": "Keine Kriterien ausgewählt"
-			},
-			"metrics": {
-				"title": "Filterung nach Metriken",
-				"labels": {
-					"area_fme": "Grundstücksgröße in m2",
-					"bgf_sum": "Verfügbare Bruttogeschossfläche in m²",
-					"fl_unbeb_a": "Verfügbare unbebaute Fläche auf Flurstück in m2",
-					"ms_dist": "Distanz zur nächsten Schnellbahn-Haltestelle",
-					"sm_dist": "Entfernung zum nächsten Supermarkt",
-					"kita_dist": "Entfernung zur nächsten Kita",
-					"bus_dist": "Entfernung zur nächsten Bushaltestelle",
-					"krankenhaus_dist": "Entfernung zum nächsten Krankenhaus",
-					"park_dist": "Entfernung zum nächsten Park"
-				}
-			},
-			"geometry": {
-				"title": "Filterung nach Geometrie",
-				"methods": {
-					"union": "Vereinigung",
-					"intersection": "Schnittmenge"
-				},
-				"administrative": {
-					"title": "Verwaltungsgrenzen",
-					"search": "Suchbereich",
-					"actions": "Aktionen",
-					"add": "Verwaltungsbereich hinzufügen"
-				},
-				"drawn": {
-					"title": "Zeichnenbereich",
-					"start": "Zeichnung beginnen",
-					"edit": "Zeichnung bearbeiten",
-					"cancel": "Zeichnung abbrechen",
-					"continue": "Zeichnung fortsetzen",
-					"add": "Zeichnung hinzufügen"
-				},
-				"isochrone": {
-					"title": "Isochrone Bereiche",
-					"create": "Erstellen",
-					"add": "Isochrone hinzufügen",
-					"cancel": "Abbrechen"
-				}
-			}
-		},
-		"table": {
-			"title": "LigFinder Ergebnisse",
-			"count": "Es wurden {0} Grundstücke gefunden",
-			"focus": "Fokus",
-			"noResults": "Keine Ergebnisse gefunden",
-			"noFilter": "Kein Filter angewendet",
-			"layerName": "Ebenenname",
-			"add": "Als Ebene hinzufügen",
-			"fileName": "Dateiname",
-			"downloadGeoJSON": "Als GeoJSON herunterladen",
-			"downloadCSV": "Als CSV herunterladen",
-			"headers": {
-				"flurst_hh": "Flurstücknummer",
-				"bezname": "Bezirk",
-				"stadtteil": "Stadtteil",
-				"area_fme": "Land Area in m²",
-				"geb_grf_a": "Gebäudegrundfläche in m²",
-				"fl_unbeb_a": "Unbebaute Fläche in m²",
-				"alkis_grz": "GRZ (Alkis)",
-				"bplan_grz": "GRZ (B-Plan)"
-			}
-		}
-	},
-	"mapLayers": {
-		"attributeFiltering":{
-			"title":"Attributfilterung",
-			"subtitle":"Wählen Sie ein Attribut und einen Operand, um diese Ebene zu filtern",
-			"noFilter":"Kein Filter angewendet",
-			"matchAll":"Alle Auswahlen entsprechen",
-			"matchAny":"Mindestens eine Auswahl entspricht",
-			"addNew":"Neuen Attributfilter hinzufügen",
-			"selectAttribute":"Attribut auswählen",
-			"selectOperand":"Operand auswählen",
-			"apply":"Anwenden"
-		}
-	},
-	"helpers": {
-		"dropdownSelect": "Bitte wählen Sie {0}"
-	}
+  "datastore": {
+    "notFound": "Keine workspace verfügbar",
+    "layer": {
+      "keywords": "Schlüsselwörter",
+      "datatype": "Typ",
+      "add": "Zur Karte hinzufügen",
+      "noInfo": "Keine Informationen verfügbar",
+      "noLayer": "Keine Layer verfügbar"
+    }
+  },
+  "ligfinder": {
+    "title": "LigFinder",
+    "filter": {
+      "apply": "Anwenden",
+      "reset": "Alles zurücksetzen",
+      "getTable": "Tabelle anzeigen",
+      "criteria": {
+        "title": "Filterung nach Eigenschaften",
+        "included": "Eingeschlossene Kriterien",
+        "excluded": "Ausgeschlossene Kriterien",
+        "none": "Keine Kriterien ausgewählt"
+      },
+      "metrics": {
+        "title": "Filterung nach Metriken",
+        "labels": {
+          "area_fme": "Grundstücksgröße in m2",
+          "bgf_sum": "Verfügbare Bruttogeschossfläche in m²",
+          "fl_unbeb_a": "Verfügbare unbebaute Fläche auf Flurstück in m2",
+          "ms_dist": "Distanz zur nächsten Schnellbahn-Haltestelle",
+          "sm_dist": "Entfernung zum nächsten Supermarkt",
+          "kita_dist": "Entfernung zur nächsten Kita",
+          "bus_dist": "Entfernung zur nächsten Bushaltestelle",
+          "krankenhaus_dist": "Entfernung zum nächsten Krankenhaus",
+          "park_dist": "Entfernung zum nächsten Park"
+        }
+      },
+      "geometry": {
+        "title": "Filterung nach Geometrie",
+        "methods": {
+          "union": "Vereinigung",
+          "intersection": "Schnittmenge"
+        },
+        "administrative": {
+          "title": "Verwaltungsgrenzen",
+          "search": "Suchbereich",
+          "actions": "Aktionen",
+          "add": "Verwaltungsbereich hinzufügen"
+        },
+        "drawn": {
+          "title": "Zeichnenbereich",
+          "start": "Zeichnung beginnen",
+          "edit": "Zeichnung bearbeiten",
+          "cancel": "Zeichnung abbrechen",
+          "continue": "Zeichnung fortsetzen",
+          "add": "Zeichnung hinzufügen"
+        },
+        "isochrone": {
+          "title": "Isochrone Bereiche",
+          "create": "Erstellen",
+          "add": "Isochrone hinzufügen",
+          "cancel": "Abbrechen"
+        }
+      }
+    },
+    "table": {
+      "title": "LigFinder Ergebnisse",
+      "count": "Es wurden {0} Grundstücke gefunden",
+      "focus": "Fokus",
+      "noResults": "Keine Ergebnisse gefunden",
+      "noFilter": "Kein Filter angewendet",
+      "layerName": "Ebenenname",
+      "add": "Als Ebene hinzufügen",
+      "fileName": "Dateiname",
+      "downloadGeoJSON": "Als GeoJSON herunterladen",
+      "downloadCSV": "Als CSV herunterladen",
+      "headers": {
+        "flurst_hh": "Flurstücknummer",
+        "bezname": "Bezirk",
+        "stadtteil": "Stadtteil",
+        "area_fme": "Land Area in m²",
+        "geb_grf_a": "Gebäudegrundfläche in m²",
+        "fl_unbeb_a": "Unbebaute Fläche in m²",
+        "alkis_grz": "GRZ (Alkis)",
+        "bplan_grz": "GRZ (B-Plan)"
+      }
+    }
+  },
+  "geoparsing": {
+    "parliament": {
+      "topics": {
+        "info_table_pdfs_baugb": "baugb",
+        "info_table_pdfs_hafenbahn": "hafenbahn",
+        "info_table_pdfs_hauptbahnhof": "hauptbahnhof",
+        "info_table_pdfs_reeperbahn": "reeperbahn",
+        "info_table_pdfs_stadtentwicklung": "stadtentwicklung",
+        "info_table_pdfs_baulandmobilisierung": "baulandmobilisierung",
+        "info_table_pdfs_busbeschleunigungsprogramm": "busbeschleunigungsprogramm",
+        "info_table_pdfs_entwicklungsplan": "entwicklungsplan",
+        "info_table_pdfs_finanzbehörde": "finanzbehörde",
+        "info_table_pdfs_erbbaurechts": "erbbaurechts",
+        "info_table_pdfs_fernwärme": "fernwärme",
+        "info_table_pdfs_hochwasser": "hochwasser",
+        "info_table_pdfs_immobilien": "immobilien",
+        "info_table_pdfs_denkmalschutz": "denkmalschutz",
+        "info_table_pdfs_bildung": "bildung",
+        "info_table_pdfs_verkehr": "verkehr",
+        "info_table_pdfs_stadtgrün": "stadtgrün",
+        "info_table_pdfs_wohnungsbau": "wohnungsbau",
+        "info_table_pdfs_erholung": "erholung",
+        "info_table_pdfs_grundvermögen": "grundvermögen",
+        "info_table_pdfs_vorkaufsrecht": "vorkaufsrecht",
+        "hafenentwicklungsgesetz": "hafenentwicklungsgesetz"
+      }
+    },
+    "elbe": {
+      "modalAttrs": {
+        "Elbe_Wochenblatt_Text_Title": "Kategorie",
+        "Elbe_Wochenblatt_Text_Date": "Datum",
+        "word": "Ort",
+        "keywords": "Schlüsselwörter",
+        "Elbe_Wochenblatt_Article_Full": "vollständiger Artikel"
+      }
+    }
+  },
+  "mapLayers": {
+    "attributeFiltering": {
+      "title": "Attributfilterung",
+      "subtitle": "Wählen Sie ein Attribut und einen Operand, um diese Ebene zu filtern",
+      "noFilter": "Kein Filter angewendet",
+      "matchAll": "Alle Auswahlen entsprechen",
+      "matchAny": "Mindestens eine Auswahl entspricht",
+      "addNew": "Neuen Attributfilter hinzufügen",
+      "selectAttribute": "Attribut auswählen",
+      "selectOperand": "Operand auswählen",
+      "apply": "Anwenden"
+    }
+  },
+  "helpers": {
+    "dropdownSelect": "Bitte wählen Sie {0}"
+  }
 }

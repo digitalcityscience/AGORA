@@ -3,6 +3,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
 import { type LayerStyleOptions } from "./map";
+import { type FeatureCollection } from "geojson";
 export interface GeoServerFeatureType {
   featureType: {
     name: string;
@@ -113,6 +114,29 @@ export const useGeoserverStore = defineStore("geoserver", () => {
   );
   const layerList = ref<GeoserverLayerListItem[]>();
   const workspaceList = ref<WorkspaceListItem[]>();
+  async function getLayerDataGeoJSON(layer: string, workspace: string, bbox: string): Promise<FeatureCollection> {
+    const url = new URL(
+      `${import.meta.env.VITE_GEOSERVER_BASE_URL}/${workspace}/wms?service=WMS&version=1.1.0&request=GetMap&layers=${workspace}:${layer}&bbox=${bbox}&width=512&height=512&srs=EPSG:4326&format=geojson&styles=`
+    );
+    if (workspace === undefined || workspace === "") {
+      throw new Error("Workspace is required");
+    }
+    if (layer === undefined || layer === "") {
+      throw new Error("Layer is required");
+    }
+    if (bbox === undefined || bbox === "") {
+      throw new Error("Bounding box is required");
+    }
+    const response = await fetch(url, {
+      method: "GET",
+      redirect: "follow",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: `Basic ${auth}`,
+      }),
+    });
+    return await response.json();
+  }
   /**
    * Gets layer list from geoserver. If optional workspace argument used it returns only layer list under this workspace.
    * @returns
@@ -235,6 +259,7 @@ export const useGeoserverStore = defineStore("geoserver", () => {
     pointData,
     layerList,
     workspaceList,
+    getLayerDataGeoJSON,
     getLayerList,
     getWorkspaceList,
     getLayerInformation,

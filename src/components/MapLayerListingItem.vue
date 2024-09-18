@@ -15,7 +15,7 @@
                 </Dialog>
             </template>
             <div>
-                <label class="flex w-full leading-none pointer-events-none items-baseline">
+                <label v-if="!(props.layer.clustered !== undefined && props.layer.clustered)" class="flex w-full leading-none pointer-events-none items-baseline">
                     <span class="mt-2 min-w-[25%]">Color</span>
                     <ColorPicker aria-label="Change Color" class="pointer-events-auto" format="hex" v-model="color" :baseZIndex="10"
                         @update:model-value="changeLayerColor"></ColorPicker>
@@ -29,11 +29,19 @@
                         }" />
                 </label>
             </div>
-            <div v-if="props.layer.filterLayer == undefined || props.layer.filterLayer === false" class="py-2">
-                <AttributeFiltering :layer="props.layer"></AttributeFiltering>
-                <GeometryFiltering :layer="props.layer"></GeometryFiltering>
+            <div v-if="props.layer.id === 'parliament_database'">
+                <ParliamentDBFilter :layer="props.layer"></ParliamentDBFilter>
             </div>
-            <div class="py-1" v-else></div>
+            <div v-else-if="props.layer.id==='ewb_elbe_wochenblatt'">
+                <ElbewochenblattDBFilter></ElbewochenblattDBFilter>
+            </div>
+            <div v-else>
+                <div v-if="props.layer.filterLayer == undefined || props.layer.filterLayer === false" class="py-2">
+                    <AttributeFiltering :layer="props.layer"></AttributeFiltering>
+                    <GeometryFiltering :layer="props.layer"></GeometryFiltering>
+                </div>
+                <div class="py-1" v-else></div>
+            </div>
         </Panel>
     </div>
 </template>
@@ -50,6 +58,8 @@ import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import { useToast } from "primevue/usetoast"
 import { isNullOrEmpty } from "../core/helpers/functions";
+import ParliamentDBFilter from "./geoparsing/ParliamentDBFilter.vue";
+import ElbewochenblattDBFilter from "./geoparsing/ElbewochenblattDBFilter.vue";
 
 const GeometryFiltering = defineAsyncComponent(async () => await import("../components/GeometryFiltering.vue"));
 
@@ -78,7 +88,7 @@ onMounted(() => {
         opac = "line-opacity"
     }
     if (!isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, prop))) {
-        color.value = (mapStore.map.getPaintProperty(props.layer.id, prop) as string).substring(1)
+        color.value = (props.layer.clustered !== undefined && props.layer.clustered)?"000000":(mapStore.map.getPaintProperty(props.layer.id, prop) as string).substring(1)
     }
     if (!isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, opac))) {
         opacity.value = mapStore.map.getPaintProperty(props.layer.id, opac)
@@ -129,11 +139,20 @@ const confirmDialogVisibility = ref<boolean>(false)
 const toast = useToast();
 function deleteLayerConfirmation(layer: LayerObjectWithAttributes): void {
     mapStore.deleteMapLayer(layer.id).then(()=>{
-        mapStore.deleteMapDataSource(layer.source).then(()=>{
-            toast.add({ severity: "success", summary: "Deleted", detail: "Layer deleted", life: 3000 });
-        }).catch((error)=>{
-            toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
-        })
+        if (layer.id === "elbe_wochenblatt"||layer.id === "parliament_database"){
+            mapStore.map.removeLayer(`${layer.id}-cluster`)
+            mapStore.deleteMapDataSource(layer.source).then(()=>{
+                toast.add({ severity: "success", summary: "Deleted", detail: "Layer deleted", life: 3000 });
+            }).catch((error)=>{
+                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
+            })
+        } else {
+            mapStore.deleteMapDataSource(layer.source).then(()=>{
+                toast.add({ severity: "success", summary: "Deleted", detail: "Layer deleted", life: 3000 });
+            }).catch((error)=>{
+                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
+            })
+        }
     }).catch((error)=>{
         toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
     })
