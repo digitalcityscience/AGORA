@@ -110,7 +110,8 @@
 				"info_table_pdfs_erholung": "recreation",
 				"info_table_pdfs_grundvermögen": "real estate assets",
 				"info_table_pdfs_vorkaufsrecht": "right of first refusal",
-				"hafenentwicklungsgesetz": "port development law"
+				"hafenentwicklungsgesetz": "port development law",
+				"info_table_pdfs_summary": "summary"
 			  }
 		},
 		"elbe": {

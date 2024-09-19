@@ -127,7 +127,8 @@ const allowedParliamentColumns: string[] = [
     "word",
     "hyperlink",
     "doc_num",
-    "date"
+    "date",
+    "info_table_pdfs_summary"
 ]
 const allowedEWBColumns: string[] = [
     "word",
