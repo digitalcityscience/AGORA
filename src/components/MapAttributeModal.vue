@@ -36,7 +36,7 @@
                                             <span v-if="property.name ==='Elbe_Wochenblatt_text_Article_Full'">
                                             <p class="font-normal italic text-sm">
                                                 <span class="underline">
-                                                    <a href="#" @click.prevent="openTextInNewTab(property.value)" >{{property.value.substring(0,20)}}...</a>
+                                                    <a href="#" @click.prevent="openTextInNewTab(property.value)" >"{{property.value.substring(0,20)}}..."</a>
                                                 </span>
                                             </p>
                                             </span>
