@@ -129,7 +129,7 @@
 			"subtitle":"Select an attribute and operand to filter this layer",
 			"noFilter":"No filter applied",
 			"matchAll":"Match all selections",
-			"matchAny":"Match at lest one selection",
+			"matchAny":"Match at least one selection",
 			"addNew":"Add new attribute filter",
 			"selectAttribute":"Select attribute",
 			"selectOperand":"Select operand",

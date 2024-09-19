@@ -1,8 +1,8 @@
 <template>
         <SidebarLayout :id="sidebarID" position="left" >
             <div class="w-full" v-if="props.workspaces && props.workspaces.length > 0">
-                <Accordion :multiple="true" :activeIndex="[0]">
-                    <AccordionPanel v-for="(item, index) in props.workspaces" :key="index">
+                <Accordion :multiple="true" :value="[0]">
+                    <AccordionPanel v-for="(item, index) in props.workspaces" :key="index" :value="index">
                         <AccordionHeader>
                             <h2 class="text-xl font-semibold capitalize">{{ item.name }}</h2>
                         </AccordionHeader>
