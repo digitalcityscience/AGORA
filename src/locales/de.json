@@ -24,15 +24,15 @@
       "metrics": {
         "title": "Filterung nach Metriken",
         "labels": {
-          "area_fme": "Grundstücksgröße in m2",
+          "area_fme": "Grundstücksgröße in m²",
           "bgf_sum": "Verfügbare Bruttogeschossfläche in m²",
-          "fl_unbeb_a": "Verfügbare unbebaute Fläche auf Flurstück in m2",
-          "ms_dist": "Distanz zur nächsten Schnellbahn-Haltestelle",
-          "sm_dist": "Entfernung zum nächsten Supermarkt",
-          "kita_dist": "Entfernung zur nächsten Kita",
-          "bus_dist": "Entfernung zur nächsten Bushaltestelle",
-          "krankenhaus_dist": "Entfernung zum nächsten Krankenhaus",
-          "park_dist": "Entfernung zum nächsten Park"
+          "fl_unbeb_a": "Verfügbare unbebaute Fläche auf Flurstück in m²",
+          "ms_dist": "Distanz zur nächsten Schnellbahn-Haltestelle in meter",
+          "sm_dist": "Entfernung zum nächsten Supermarkt in meter",
+          "kita_dist": "Entfernung zur nächsten Kita in meter",
+          "bus_dist": "Entfernung zur nächsten Bushaltestelle in meter",
+          "krankenhaus_dist": "Entfernung zum nächsten Krankenhaus in meter",
+          "park_dist": "Entfernung zum nächsten Park in meter"
         }
       },
       "geometry": {
