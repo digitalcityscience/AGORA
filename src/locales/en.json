@@ -24,15 +24,15 @@
 			"metrics": {
 				"title": "Metric Based Filtering",
 				"labels": {
-					"area_fme": "Parcel Size in m2",
+					"area_fme": "Parcel Size in m²",
 					"bgf_sum": "Available Gross Floor in m²",
-					"fl_unbeb_a": "Available undeveloped area on parcel in m2",
-					"ms_dist": "Distance to Nearest Rapid Transit Station",
-					"sm_dist": "Distance to Nearest Supermarket",
-					"kita_dist": "Distance to Nearest Kita",
-					"bus_dist": "Distance to Nearest Bus Station",
-					"krankenhaus_dist": "Distance to Nearest Hospital",
-					"park_dist": "Distance to Nearest Park"
+					"fl_unbeb_a": "Available undeveloped area on parcel in m²",
+					"ms_dist": "Distance to Nearest Rapid Transit Station in meters",
+					"sm_dist": "Distance to Nearest Supermarket in meters",
+					"kita_dist": "Distance to Nearest Kita in meters",
+					"bus_dist": "Distance to Nearest Bus Station in meters",
+					"krankenhaus_dist": "Distance to Nearest Hospital in meters",
+					"park_dist": "Distance to Nearest Park in meters"
 				}
 			},
 			"geometry": {
