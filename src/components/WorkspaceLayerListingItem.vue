@@ -10,7 +10,7 @@
                 <div class="grid grid-cols-4 w-full pt-1">
                     <span class="font-bold lg:col-span-2 2xl:col-span-2 3xl:col-span-2 4xl:col-span-1 self-center">{{$t('datastore.layer.keywords')}}:</span>
                     <span class="lg:col-span-2 2xl:col-span-2 3xl:col-span-2 4xl:col-span-3 pl-1">
-                        <Tag class="mb-1 mr-1 last:mr-0" severity="primary" v-for="(keyword,index) in layerDetail.featureType.keywords.string" :key="index" :value="keyword"></Tag>
+                        <Tag class="mb-1 mr-1 last:mr-0" severity="secondary" v-for="(keyword,index) in layerDetail.featureType.keywords.string" :key="index" :value="keyword"></Tag>
                     </span>
                 </div>
                 <div class="grid grid-cols-4 w-full pt-1" v-if="dataType">

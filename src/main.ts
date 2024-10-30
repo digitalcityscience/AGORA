@@ -86,6 +86,11 @@ const agoraPresets = definePreset(Lara, {
 					}
 				}
 			}
+		},
+		tag: {
+			font: {
+				weight: "thin"
+			}
 		}
 	}
 })
