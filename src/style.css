@@ -44,6 +44,9 @@ html, body {
 .p-colorpicker-panel{
   z-index: 12 !important;
 }
+.p-tag-label{
+  font-style: italic;
+}
 .maplibregl-popup-close-button{
   @apply absolute right-0 top-0 items-center inline-flex text-center align-bottom justify-center leading-[normal] transition duration-200 ease-in-out cursor-pointer overflow-hidden select-none
   bg-transparent rounded-full
