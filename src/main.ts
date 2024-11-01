@@ -85,6 +85,9 @@ const agoraPresets = definePreset(Lara, {
 						background: "{surface.50}"
 					}
 				}
+			},
+			content: {
+				padding: "1rem"
 			}
 		},
 		tag: {
@@ -96,6 +99,20 @@ const agoraPresets = definePreset(Lara, {
 			padding: {
 				x: "0.25rem",
 				y: "0.25rem"
+			}
+		},
+		card: {
+			body: {
+				padding: "1rem"
+			}
+		},
+		togglebutton: {
+			padding: "0.5rem 1rem"
+		},
+		inputtext: {
+			padding: {
+				x: "0.625rem",
+				y: "0.5rem"
 			}
 		}
 	}

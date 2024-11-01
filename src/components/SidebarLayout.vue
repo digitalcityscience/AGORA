@@ -2,7 +2,7 @@
     <div ref="el" :class="sidebarStatusClasses" :id="props.id" class="sidebar group flex grow-0 justify-between absolute rounded-lg p-1  duration-1000" :style="props.style ? props.style : ''" :data-position="props.position">
         <div class="header w-full flex group-[.sidebar-left]:flex-row-reverse group-[.sidebar-right]:flex-row group-[.sidebar-bottom]:flex-row-reverse p-1">
             <div class="close-button">
-                <Button @click="toggleSidebar">
+                <Button @click="toggleSidebar" rounded>
                             <template #icon>
                                 <i v-if="props.position === 'left'" class="pi pi-angle-double-left"></i>
                                 <i v-else-if="props.position === 'right'" class="pi pi-angle-double-right"></i>
