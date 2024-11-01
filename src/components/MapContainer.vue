@@ -129,7 +129,22 @@ async function loadParcelDataset(): Promise<void> {
                             layerStyling = geoserver.convertLayerStylingToMaplibreStyle(style)
                         }
                     }).catch((error) => {
-                        window.alert(error)
+                        layerStyling = geoserver.convertLayerStylingToMaplibreStyle({
+                            version: 8,
+                            name: "lig-polygon-mbstyle",
+                            layers: [
+                                {
+                                    id: "lig-polygon-mbstyle",
+                                    type: "fill",
+                                    paint: {
+                                        "fill-color": "#D6333A",
+                                        "fill-opacity": 0.7,
+                                        "fill-outline-color":"#000000"
+                                    }
+                                }
+                            ]
+                        })
+                        console.log(error)
                     })
                 }
                 if (layerInformation !== undefined) {
