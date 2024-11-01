@@ -1,6 +1,6 @@
 <template>
 	<div class="w-full text-base">
-		<Card class="w-72 h-72 overflow-y-auto">
+		<Card class="w-96 h-72 overflow-y-auto">
 			<template v-if="props.features !== undefined" #content>
 				<Accordion :multiple="true" :value="[]">
                     <AccordionPanel v-for="(source, index) in Object.entries(mergedFeatures).map(([name, value]) => ({ name, value }))"
@@ -11,40 +11,58 @@
                         <AccordionContent>
                             <div v-if="source.name==='parliament_database'" class="max-h-60 overflow-y-auto">
                                 <div v-for="(feature, ind) in source.value" :key="ind" class="rounded-md mt-1 px-1 first:mt-0 odd:bg-slate-300 even:bg-slate-100">
-                                    <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
-                                        :key="i">
-                                        <div class="p-1" v-if="allowedParliamentColumns.findIndex((columnName)=> {return columnName === property.name})>=0">
-                                            <p class="font-bold">{{ property.name }}</p>
-                                            <span v-if="property.name ==='hyperlink'">
-                                            <p class="font-normal italic text-sm">
-                                                <span class="underline" v-html="property.value"></span>
-                                            </p>
-                                            </span>
-                                            <span v-else>
-                                                <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
-                                            </span>
+                                    <Panel class="featurePanel" toggleable :collapsed="true">
+                                        <template #toggleicon="slotProps">
+                                            <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
+                                            <i v-else class="pi pi-chevron-down"></i>
+                                        </template>
+                                        <template #header>
+                                            <span class="panel-title">{{feature.properties.word}}</span>
+                                        </template>
+                                        <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
+                                            :key="i">
+                                            <div class="p-1" v-if="allowedParliamentColumns.findIndex((columnName)=> {return columnName === property.name})>=0">
+                                                <p class="font-bold">{{ property.name }}</p>
+                                                <span v-if="property.name ==='hyperlink'">
+                                                <p class="font-normal italic text-sm">
+                                                    <span class="underline" v-html="property.value"></span>
+                                                </p>
+                                                </span>
+                                                <span v-else>
+                                                    <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Panel>
                                 </div>
                             </div>
                             <div v-else-if="source.name==='elbe_wochenblatt'" class="max-h-60 overflow-y-auto">
                                 <div v-for="(feature, ind) in source.value" :key="ind" class="rounded-md mt-1 px-1 first:mt-0 odd:bg-slate-300 even:bg-slate-100">
-                                    <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
-                                        :key="i">
-                                        <div class="p-1" v-if="allowedEWBColumns.findIndex((columnName)=> {return columnName === property.name})>=0">
-                                            <p class="font-bold">{{ elbeColumnNames[property.name] }}</p>
-                                            <span v-if="property.name ==='Elbe_Wochenblatt_text_Article_Full'">
-                                            <p class="font-normal italic text-sm">
-                                                <span class="underline">
-                                                    <a href="#" @click.prevent="openTextInNewTab(property.value)" >"{{property.value.substring(0,20)}}..."</a>
+                                    <Panel class="featurePanel" toggleable :collapsed="true">
+                                        <template #toggleicon="slotProps">
+                                            <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
+                                            <i v-else class="pi pi-chevron-down"></i>
+                                        </template>
+                                        <template #header>
+                                            <span class="panel-title">{{feature.properties.word}}</span>
+                                        </template>
+                                        <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
+                                            :key="i">
+                                            <div class="p-1" v-if="allowedEWBColumns.findIndex((columnName)=> {return columnName === property.name})>=0">
+                                                <p class="font-bold">{{ elbeColumnNames[property.name] }}</p>
+                                                <span v-if="property.name ==='Elbe_Wochenblatt_text_Article_Full'">
+                                                <p class="font-normal italic text-sm">
+                                                    <span class="underline">
+                                                        <a href="#" @click.prevent="openTextInNewTab(property.value)" >"{{property.value.substring(0,20)}}..."</a>
+                                                    </span>
+                                                </p>
                                                 </span>
-                                            </p>
-                                            </span>
-                                            <span v-else>
-                                                <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
-                                            </span>
+                                                <span v-else>
+                                                    <p class="font-normal italic text-sm">{{ attrIsNumber(source.name,property.name) ? formatNumber(property.value) : property.value}}</p>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Panel>
                                 </div>
                             </div>
                             <div v-else class="max-h-60 overflow-y-auto">
@@ -71,6 +89,7 @@ import Accordion from "primevue/accordion";
 import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
+import Panel from "primevue/panel";
 import { useMapStore } from "../store/map"
 import { computed } from "vue";
 import { type MapGeoJSONFeature } from "maplibre-gl";
@@ -146,4 +165,19 @@ const elbeColumnNames: Record<string, string> = {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.featurePanel {
+    background-color: transparent;
+    border:none;
+}
+.featurePanel:deep(.p-panel-header) {
+    background-color: transparent;
+    border:none;
+    padding:0;
+}
+.featurePanel:deep(.panel-title) {
+    background-color: transparent;
+    border:none;
+    padding-left: 0.5rem;
+}
+</style>
