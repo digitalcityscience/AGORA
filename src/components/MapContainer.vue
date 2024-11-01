@@ -35,7 +35,7 @@ onMounted(() => {
         mapStore.map.on("click", async (e: MapMouseEvent)=>{
             if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress || useGeometryStore().selectionOnProgress)) {
                 const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
-                if (clickedFeatures.length > 0) {
+                if (clickedFeatures.length > 0 && clickedFeatures[0].layer.id !== "active-admin" && clickedFeatures[0].layer.id !== "selectedAreasTempLayer") {
                     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                     const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return !(clickedLayer.layer.id.includes("cluster")) && l.source === clickedLayer.source && l.showOnLayerList }) })
                     if (matchedFeatures.length > 0){
