@@ -13,9 +13,11 @@ import { isNullOrEmpty } from "../core/helpers/functions";
 import MapAttributeModal from "./MapAttributeModal.vue"
 import { useResultStore } from "../store/ligfinder/result";
 import { useGeometryStore } from "../store/ligfinder/geometry";
+import { useToast } from "primevue/usetoast";
 
 const mapStore = useMapStore()
 const geoserver = useGeoserverStore()
+const toast = useToast()
 const clickedLayers = ref()
 onMounted(() => {
     mapStore.map = new maplibre.Map({
@@ -180,18 +182,18 @@ async function loadParcelDataset(): Promise<void> {
                                             }
                                         })
                                     }).catch(error => {
-                                        window.alert(error)
+                                        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
                                     })
                                 }
                             }).catch(error => {
-                                window.alert(error)
+                                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
                             })
                         }
-                    }).catch(err => { window.alert(err) })
+                    }).catch(err => { toast.add({ severity: "error", summary: "Error", detail: err, life: 3000 }); })
                 }
-            }).catch(err => { window.alert(err) })
+            }).catch(err => { toast.add({ severity: "error", summary: "Error", detail: err, life: 3000 }); })
     } else {
-        window.alert("could not find parcel dataset information")
+        toast.add({ severity: "error", summary: "Error", detail: "could not find parcel dataset information", life: 3000 });
     }
 }
 </script>
