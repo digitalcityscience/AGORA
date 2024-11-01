@@ -4,7 +4,7 @@
         <template #content>
             <div class="w-full py-1" v-if="geometry.selectedIsochrone.length > 0">
                 <ChipWrapper v-for="(_isochrone, index) in geometry.selectedIsochrone" :key="index" label="Isochrone"
-                    @remove="geometry.removeSelectedIsochrone" removable severity="success" />
+                    @remove="geometry.removeSelectedIsochrone" removable severity="secondary" />
             </div>
             <div class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
                 <div class="">

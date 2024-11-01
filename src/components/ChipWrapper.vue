@@ -48,7 +48,6 @@ const ptClasses = computed(()=>{
                 "inline-flex items-center",
 
                 // Spacing
-                "px-2",
                 "ml-1",
                 "first:ml-0",
                 // Shape
