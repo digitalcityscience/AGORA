@@ -234,10 +234,13 @@ export const useGeoserverStore = defineStore("geoserver", () => {
       method: "GET",
       redirect: "follow",
       headers: new Headers({
-        "Content-Type": "application/mbstyle",
+        "Content-Type": "application/vnd.geoserver.mbstyle+json",
         Authorization: `Basic ${auth}`,
       }),
     })
+    if (!response.ok) {
+      throw new Error("Failed to fetch layer styling.");
+    }
     return await response.json()
   }
   function convertLayerStylingToMaplibreStyle(geoserverStyling:any):LayerStyleOptions{
