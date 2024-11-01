@@ -68,7 +68,32 @@ onMounted(() => {
                         console.log("unclustered", unclusteredFeatures)
                         clickedLayers.value = nonClustered.concat(unclusteredFeatures)
                         console.log("clicked layers", clickedLayers.value)
-                        new maplibre.Popup({ maxWidth:"none" })
+                        function calculatePopupAnchor(lngLat: maplibregl.LngLat, map: maplibregl.Map): "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" {
+                            // Modal boyutlarını piksel cinsine çevirin
+                            const modalWidthPx = 384;
+                            const modalHeightPx = 288;
+
+                            const mapBounds = map.getBounds();
+                            const northEastPx = map.project(mapBounds.getNorthEast());
+                            const southWestPx = map.project(mapBounds.getSouthWest());
+                            const pointPx = map.project(lngLat);
+                            // Kuzey, güney, doğu ve batıya olan piksel uzaklıklarını hesapla
+                            const distanceToNorthPx = pointPx.y - northEastPx.y;
+                            const distanceToSouthPx = southWestPx.y - pointPx.y;
+                            const distanceToEastPx = northEastPx.x - pointPx.x;
+                            const distanceToWestPx = pointPx.x - southWestPx.x;
+
+                            const t = distanceToNorthPx > modalHeightPx ? distanceToSouthPx > modalHeightPx ? "" : "bottom" : "top";
+                            const u = distanceToEastPx > modalWidthPx ? distanceToWestPx > modalWidthPx ? "" : "left" : "right";
+
+                            if ((t.length > 0) && (u.length > 0)) return `${t}-${u}` as "top-left" | "top-right" | "bottom-left" | "bottom-right";
+                            if (t.length > 0) return t as "top" | "bottom";
+                            if (u.length > 0) return u as "left" | "right";
+                            return "bottom"; // Varsayılan değer
+                        }
+
+                        const anchor = calculatePopupAnchor(e.lngLat, mapStore.map as Map);
+                        new maplibre.Popup({ maxWidth:"none", anchor })
                             .setLngLat(e.lngLat)
                             .setHTML("<div id='map-popup-content'></div>")
                             .addTo(mapStore.map as Map)
