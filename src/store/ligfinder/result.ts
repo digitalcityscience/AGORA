@@ -6,6 +6,7 @@ import { type FeatureCollection } from "geojson"
 import { useLigfinderMainStore } from "./main"
 import { useMapStore } from "../map"
 import { type GeoServerFeatureTypeAttribute } from "../geoserver"
+import { useToast } from "primevue/usetoast"
 interface TableHeader {
     text: string,
     value: string
@@ -28,6 +29,7 @@ export const useResultStore = defineStore("result", () => {
     const criteria = useCriteriaStore()
     const metric = useMetricStore()
     const ligfinder = useLigfinderMainStore()
+    const toast = useToast()
     const attributeList = ref<GeoServerFeatureTypeAttribute[]>([])
     const isFilterApplied = ref<boolean>(false)
     const appliedFilterResult = ref<FeatureCollection>()
@@ -76,11 +78,11 @@ export const useResultStore = defineStore("result", () => {
     }
     function saveAsLayer(layerName: string): void {
         if (appliedFilterResult.value === undefined){
-            window.alert("No filter applied!")
+            toast.add({ severity: "error", summary: "Error", detail: "No filter applied!", life: 3000 });
             return
         }
         if (appliedFilterResult.value.features.length === 0){
-            window.alert("No result found!")
+            toast.add({ severity: "error", summary: "Error", detail: "No result found!", life: 3000 });
             return
         }
         const isOnMap = mapStore.layersOnMap.filter((layer) => layer.id === layerName).length > 0
@@ -106,13 +108,13 @@ export const useResultStore = defineStore("result", () => {
                     .then(() => {
                     }).catch(error => {
                         mapStore.map.value.removeSource(layerName)
-                        window.alert(error)
+                        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
                     })
             }).catch((error) => {
-                window.alert(error)
+                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
             })
         } else {
-            window.alert("Layer name already in use!")
+            toast.add({ severity: "error", summary: "Error", detail: "Layer name already in use!", life: 3000 });
         }
     }
     const tableHeaders: TableHeader[] =[
