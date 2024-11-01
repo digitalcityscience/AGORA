@@ -91,6 +91,12 @@ const agoraPresets = definePreset(Lara, {
 			font: {
 				weight: "thin"
 			}
+		},
+		chip: {
+			padding: {
+				x: "0.25rem",
+				y: "0.25rem"
+			}
 		}
 	}
 })

@@ -3,7 +3,7 @@
 		<template #title>{{ $t('ligfinder.filter.geometry.drawn.title')}}</template>
 		<template #content>
 			<div class="w-full py-1" v-if="geometry.selectedDrawnGeometry.length>0">
-				<ChipWrapper v-for="(feature,index) in geometry.selectedDrawnGeometry" :key="feature.id" :label="`Area-${index}`" @remove="removeFromSelectedDrawnGeometries(feature)" removable severity="success"/>
+				<ChipWrapper v-for="(feature,index) in geometry.selectedDrawnGeometry" :key="feature.id" :label="`Area-${index}`" @remove="removeFromSelectedDrawnGeometries(feature)" removable severity="secondary"/>
 			</div>
 			<div class="w-full grid lg:grid-cols-1 2xl:grid-cols-3">
 				<div class="p-1" v-if="!drawTool.drawOnProgress && !drawTool.editOnProgress">

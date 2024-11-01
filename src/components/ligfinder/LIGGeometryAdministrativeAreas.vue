@@ -9,7 +9,7 @@
         </template>
         <template #content>
             <div class="w-full py-1"  v-if="geometry.selectedAdministrativeFeaturesList.length>0">
-                <ChipWrapper v-for="(feature) in geometry.selectedAdministrativeFeaturesList" :key="`${feature.name}-${feature.data.properties!.name}`" :label="`${feature.name}-${feature.data.properties!.name}`" @remove="removeFromSelectedGeometries(feature)" removable severity="success"/>
+                <ChipWrapper v-for="(feature) in geometry.selectedAdministrativeFeaturesList" :key="`${feature.name}-${feature.data.properties!.name}`" :label="`${feature.name}-${feature.data.properties!.name}`" @remove="removeFromSelectedGeometries(feature)" removable severity="secondary"/>
                 </div>
             <div class="w-full flex flex-col py-1">
                 <div class="w-full py-1">
