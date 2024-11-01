@@ -74,6 +74,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import InlineMessage from "primevue/inlinemessage";
 import InputText from "primevue/inputtext";
+import { useToast } from "primevue/usetoast"
 import { computed, ref } from "vue";
 import { type GeoServerFeatureTypeAttribute } from "../store/geoserver";
 import { type IntegerFilters, type StringFilters, useFilterStore, type RelationTypes, type AttributeFilterItem } from "../store/filter";
@@ -91,6 +92,7 @@ interface AppliedFilter {
 const props = defineProps<Props>()
 const filterStore = useFilterStore()
 const mapStore = useMapStore()
+const toast = useToast();
 
 const currentFilters = computed(()=>{
     if (filterStore.appliedFiltersList.length>0){
@@ -133,13 +135,13 @@ async function applyAttributeFilter(): Promise<void> {
                     }
                 }).catch((error)=>{
                     mapStore.map.setFilter(props.layer.id, null)
-                    window.alert(error)
+                    toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
                 })
             } else {
                 mapStore.map.setFilter(props.layer.id, null)
             }
         }).catch((error)=> {
-            window.alert(error)
+            toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
         })
         cancelNewFilter()
     } else {
@@ -155,7 +157,7 @@ async function applyAttributeFilter(): Promise<void> {
                 }
             }).catch((error)=>{
                 mapStore.map.setFilter(props.layer.id, null)
-                window.alert(error)
+                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
             })
         } else {
             mapStore.map.setFilter(props.layer.id, null)
@@ -182,10 +184,10 @@ async function deleteAttributeFilter(targetFilter: AppliedFilter): Promise<void>
             }
         }).catch((error)=>{
             mapStore.map.setFilter(props.layer.id, null)
-            window.alert(error)
+            toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
         })
     }).catch((error)=>{
-        window.alert(error)
+        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
     })
 }
 </script>

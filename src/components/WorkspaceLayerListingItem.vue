@@ -37,6 +37,7 @@ import { type GeoServerFeatureType, type GeoserverLayerInfo, type GeoserverLayer
 import { type LayerStyleOptions, useMapStore } from "../store/map";
 import Card from "primevue/card";
 import { isNullOrEmpty } from "../core/helpers/functions";
+import { useToast } from "primevue/usetoast";
 
 export interface Props {
     item: GeoserverLayerListItem
@@ -50,6 +51,7 @@ const cleanLayerName = computed(() => {
     return props.item.name.replaceAll("_", " ")
 })
 const geoserver = useGeoserverStore()
+const toast = useToast()
 const layerInformation = ref<GeoserverLayerInfo>()
 const layerDetail = ref<GeoServerFeatureType>()
 const layerStyling = ref<LayerStyleOptions>()
@@ -65,15 +67,15 @@ geoserver.getLayerInformation(props.item, props.workspace).then((response) => {
                 layerStyling.value = geoserver.convertLayerStylingToMaplibreStyle(style)
             }
         }).catch((error) => {
-            window.alert(error)
+            toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
         })
     }
     if (layerInformation.value !== undefined) {
         geoserver.getLayerDetail(layerInformation.value?.resource.href).then((detail) => {
             layerDetail.value = detail
-        }).catch(err => { window.alert(err) })
+        }).catch(err => { toast.add({ severity: "error", summary: "Error", detail: err, life: 3000 }); })
     }
-}).catch(err => { window.alert(err) })
+}).catch(err => { toast.add({ severity: "error", summary: "Error", detail: err, life: 3000 }); })
 
 const dataType = computed(() => {
     if (!isNullOrEmpty(layerDetail.value)) {
