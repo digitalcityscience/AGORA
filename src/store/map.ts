@@ -176,7 +176,14 @@ export const useMapStore = defineStore("map", () => {
 
 		let styling;
 		if (layerType === "circle" && sourceType === "geojson" && clustered) {
-			const clusterColors = generateDistinctHexColors(4);
+			let clusterColors = []
+			if (identifier === "parliament_database") {
+				clusterColors = ["#B5AE1F", "#B5431F", "#1FB58F", "#AF89B6"];
+			} else if (identifier === "elbe_wochenblatt") {
+				clusterColors = ["#B5701F", "#AF51B7", "#63B51F", "#B86A74"];
+			} else {
+				clusterColors = generateDistinctHexColors(4);
+			}
 			styling = {
 				paint: {
 					"circle-color": [
@@ -201,10 +208,10 @@ export const useMapStore = defineStore("map", () => {
 							100, 30,
 							750, 40
 						],
-						4
+						10
 					],
 					"circle-stroke-width": 1,
-					"circle-stroke-color": "#fff"
+					"circle-stroke-color": "#000"
 				}
 			};
 		} else {
