@@ -1,8 +1,10 @@
 <template>
     <SidebarLayout :id="sidebarID" position="right">
-        <div class="w-full flex flex-col-reverse" v-if="mapStore.layersOnMap.length > 0">
-            <MapLayerListingItem v-for="(layer, index) in mapStore.layersOnMap" :key="index" :layer="layer">
-            </MapLayerListingItem>
+        <div class="w-full" v-if="mapStore.layersOnMap.length > 0">
+            <div v-for="(layer, index) in mapStore.layersOnMap" :key="index">
+                <MapLayerListingItem v-if="layer.showOnLayerList !== false" :layer="layer">
+                </MapLayerListingItem>
+            </div>
         </div>
         <div class="w-full" v-else>
             <InlineMessage class="w-full" severity="info">There is no layer on map</InlineMessage>
