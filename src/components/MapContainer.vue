@@ -12,6 +12,7 @@ import { useGeoserverStore } from "../store/geoserver";
 import { isNullOrEmpty } from "../core/helpers/functions";
 import MapAttributeModal from "./MapAttributeModal.vue"
 import { useResultStore } from "../store/ligfinder/result";
+import { useGeometryStore } from "../store/ligfinder/geometry";
 
 const mapStore = useMapStore()
 const geoserver = useGeoserverStore()
@@ -30,7 +31,7 @@ onMounted(() => {
     loadParcelDataset().then(()=>{}, ()=>{})
     if (mapStore.map !== undefined) {
         mapStore.map.on("click", async (e: MapMouseEvent)=>{
-            if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress)) {
+            if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress || useGeometryStore().selectionOnProgress)) {
                 const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
                 if (clickedFeatures.length > 0) {
                     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
