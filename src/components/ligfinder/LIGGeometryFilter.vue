@@ -1,6 +1,10 @@
 <template>
 	<div class="w-full">
 		<Panel toggleable>
+            <template #toggleicon="slotProps">
+                <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
+                <i v-else class="pi pi-chevron-down"></i>
+            </template>
 			<template #header>
 				<span class="font-bold">{{ $t('ligfinder.filter.geometry.title')}}</span>
 			</template>
