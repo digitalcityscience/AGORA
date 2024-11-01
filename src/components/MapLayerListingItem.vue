@@ -1,6 +1,10 @@
 <template>
     <div class="py-1">
         <Panel @update:collapsed="collapsedState" :collapsed="true" toggleable>
+            <template #toggleicon="slotProps">
+                <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
+                <i v-else class="pi pi-chevron-down"></i>
+            </template>
             <template #header>
                 <ToggleSwitch v-model="checked" @update:model-value="changeLayerVisibility"></ToggleSwitch>
                 <h3 class="capitalize mr-auto ml-2">{{ props.layer.source.replaceAll("_", " ") }}</h3>
