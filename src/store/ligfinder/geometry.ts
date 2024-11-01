@@ -242,7 +242,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     const isochroneOnTheMap = ref<boolean>(false)
     const isochroneOnTheMapData = ref<FeatureCollection>()
     function addIsochroneSource(src: FeatureCollection): void {
-        const layerStyle = { paint: { "fill-color": "#abcdef", "fill-opacity": 1 } }
+        const layerStyle = { paint: { "fill-color": "#abcdef", "fill-opacity": 0.6 } }
         mapStore.addMapDataSource("geojson", "isochrone-temp-source", false, undefined, undefined, src).then(() => {
             mapStore.addMapLayer("geojson", "isochrone-temp-source", "fill", layerStyle, undefined, undefined, src).then(() => {
                 isochroneOnTheMap.value = true
