@@ -17,7 +17,7 @@
                                             <i v-else class="pi pi-chevron-down"></i>
                                         </template>
                                         <template #header>
-                                            <span class="panel-title">{{feature.properties.word}}</span>
+                                            <span class="panel-title">{{feature.properties.info_table_pdfs_title?.substring(0,30) || ''}}</span>
                                         </template>
                                         <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
                                             :key="i">
@@ -44,7 +44,7 @@
                                             <i v-else class="pi pi-chevron-down"></i>
                                         </template>
                                         <template #header>
-                                            <span class="panel-title">{{feature.properties.word}}</span>
+                                            <span class="panel-title">{{feature.properties.Elbe_Wochenblatt_text_Title?.substring(0,30) || ''}}</span>
                                         </template>
                                         <div v-for="(property, i) in Object.entries(feature.properties).map(([name, value]) => ({ name, value }))"
                                             :key="i">
