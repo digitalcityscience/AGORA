@@ -132,8 +132,14 @@ function changeLayerOpac(layerOpacity: any): void {
 function changeLayerVisibility(layerVisibility: boolean): void {
     if (layerVisibility) {
         mapStore.map.setLayoutProperty(props.layer.id, "visibility", "visible")
+        if (props.layer.clustered !== undefined && props.layer.clustered){
+            mapStore.map.setLayoutProperty(`${props.layer.id}-cluster`, "visibility", "visible")
+        }
     } else {
         mapStore.map.setLayoutProperty(props.layer.id, "visibility", "none")
+        if (props.layer.clustered !== undefined && props.layer.clustered){
+            mapStore.map.setLayoutProperty(`${props.layer.id}-cluster`, "visibility", "none")
+        }
     }
 }
 function collapsedState(isCollapsed: boolean): void {
