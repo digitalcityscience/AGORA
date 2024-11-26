@@ -19,7 +19,7 @@
                 </Dialog>
             </template>
             <div>
-                <label v-if="!(props.layer.clustered !== undefined && props.layer.clustered)" class="flex w-full leading-none pointer-events-none items-baseline">
+                <label v-if="!(props.layer.clustered !== undefined && props.layer.clustered && typeof mapStore.map.getPaintProperty(props.layer.id, props.layer.type ==='circle' ? 'circle-color' : props.layer.type === 'fill' ? 'fill-color' : 'line-color') !== 'string')" class="flex w-full leading-none pointer-events-none items-baseline">
                     <span class="mt-2 min-w-[25%]">Color</span>
                     <ColorPicker aria-label="Change Color" class="pointer-events-auto" format="hex" v-model="color" :baseZIndex="10"
                         @update:model-value="changeLayerColor"></ColorPicker>
@@ -92,7 +92,7 @@ onMounted(() => {
         opac = "line-opacity"
     }
     if (!isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, prop))) {
-        color.value = (props.layer.clustered !== undefined && props.layer.clustered)?"000000":(mapStore.map.getPaintProperty(props.layer.id, prop) as string).substring(1)
+        color.value = ((props.layer.clustered !== undefined && props.layer.clustered) || typeof mapStore.map.getPaintProperty(props.layer.id, prop) !== "string")?"000000":(mapStore.map.getPaintProperty(props.layer.id, prop) as string).substring(1)
     }
     if (!isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, opac))) {
         opacity.value = mapStore.map.getPaintProperty(props.layer.id, opac)
