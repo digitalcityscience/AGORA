@@ -13,10 +13,6 @@
                         <Tag class="mb-1 mr-1 last:mr-0" severity="secondary" v-for="(keyword,index) in layerDetail.featureType.keywords.string" :key="index" :value="keyword"></Tag>
                     </span>
                 </div>
-                <div class="grid grid-cols-4 w-full pt-1" v-if="dataType">
-                    <span class="font-bold col-span-1">{{$t('datastore.layer.datatype')}}:</span>
-                    <span class="col-span-3 pl-1">{{ dataType }}</span>
-                </div>
             </template>
             <template #footer>
                 <Button size="small" @click="add2Map">{{$t('datastore.layer.add')}}</button>
