@@ -4,7 +4,7 @@
                 <Accordion :multiple="true" :value="[0]">
                     <AccordionPanel v-for="(item, index) in props.workspaces" :key="index" :value="index">
                         <AccordionHeader>
-                            <h2 class="text-xl font-semibold capitalize">{{ item.name }}</h2>
+                            <h2 class="text-xl font-semibold capitalize">{{ item.name.replace(/[_-]/g, ' ') }}</h2>
                         </AccordionHeader>
                         <AccordionContent>
                             <WorkspaceListingItem :workspace="item"></WorkspaceListingItem>
