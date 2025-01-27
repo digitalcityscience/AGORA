@@ -10,7 +10,7 @@
 			</template>
 			<div class="w-full">
 				<div>
-                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList" option-value="value" option-label="name">
+                    <SelectButton v-model="geometry.isUnion" :options="geometry.unionSelectionList" option-label="name">
 						<template #option="slotProps">
 							{{ $t(`ligfinder.filter.geometry.methods.${slotProps.option.name}`)}}
 						</template>
