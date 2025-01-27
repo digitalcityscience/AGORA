@@ -125,6 +125,15 @@
 		}
 	},
 	"mapLayers": {
+		"styling":{
+			"color":"Color",
+			"opacity":"Opacity"
+		},
+		"actions":{
+			"deleteQuestion":"Are you sure want to delete {0} layer?",
+			"delete":"Delete",
+			"cancel":"Cancel"
+		},
 		"attributeFiltering":{
 			"title":"Attribute Filtering",
 			"subtitle":"Select an attribute and operand to filter this layer",

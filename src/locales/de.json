@@ -125,6 +125,15 @@
     }
   },
   "mapLayers": {
+    "styling":{
+      "color":"Farbe",
+      "opacity":"Deckkraft"
+    },
+    "actions":{
+      "deleteQuestion":"Möchten Sie die Ebene {0} wirklich löschen?",
+      "delete":"Löschen",
+      "cancel":"Abbrechen"
+    },
     "attributeFiltering": {
       "title": "Attributfilterung",
       "subtitle": "Wählen Sie ein Attribut und einen Operand, um diese Ebene zu filtern",
