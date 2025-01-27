@@ -11,16 +11,16 @@
                 <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
                     @click="confirmDialogVisibility = true"></Button>
                 <Dialog v-model:visible="confirmDialogVisibility" modal header="Delete Map Layer" :style="{ width: '25rem' }">
-                    <span class="p-text-secondary block mb-5">Are you sure want to delete {{ props.layer.source.replaceAll("_", " ") }} layer?</span>
+                    <span class="p-text-secondary block mb-5">{{ $t("mapLayers.actions.deleteQuestion",[props.layer.source.replaceAll("_", " ")])}}</span>
                     <div class="flex justify-content-end gap-2">
-                        <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false"></Button>
-                        <Button size="small" type="button" label="Delete" severity="danger" @click="deleteLayerConfirmation(props.layer)"></Button>
+                        <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false">{{ $t("mapLayers.actions.delete") }}</Button>
+                        <Button size="small" type="button" label="Delete" severity="danger" @click="deleteLayerConfirmation(props.layer)">{{ $t("mapLayers.actions.cancel") }}</Button>
                     </div>
                 </Dialog>
             </template>
             <div>
                 <label v-if="!(props.layer.clustered !== undefined && props.layer.clustered || typeof mapStore.map.getPaintProperty(props.layer.id, props.layer.type ==='circle' ? 'circle-color' : props.layer.type === 'fill' ? 'fill-color' : 'line-color') !== 'string')" class="flex w-full leading-none pointer-events-none items-baseline">
-                    <span class="mt-2 min-w-[25%]">Color</span>
+                    <span class="mt-2 min-w-[25%]">{{ $t("mapLayers.styling.color")}}</span>
                     <ColorPicker aria-label="Change Color" class="pointer-events-auto" format="hex" v-model="color" :baseZIndex="10"
                         @update:model-value="changeLayerColor"></ColorPicker>
                 </label>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <label class="flex w-full leading-none items-center mt-2 pr-1">
-                    <span class="mt-2 min-w-[25%]">Opacity</span>
+                    <span class="mt-2 min-w-[25%]">{{ $t("mapLayers.styling.opacity") }}</span>
                     <Slider aria-label="Change Opacity" class="mt-2 ml-2 flex-grow" v-model="opacity" :step="0.1" :min=0 :max=1
                         @update:model-value="changeLayerOpac" :pt="{
                             range: { style: { 'background': `#${color}` } },
