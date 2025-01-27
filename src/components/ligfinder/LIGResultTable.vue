@@ -186,6 +186,9 @@
 								<InlineMessage severity="info">{{ $t('ligfinder.table.noResults') }}</InlineMessage>
 							</div>
 						</div>
+						<div class="w-full flex justify-around" v-else>
+							<InlineMessage severity="info">{{ $t('ligfinder.table.noFilter') }}</InlineMessage>
+						</div>
 					</div>
 					<div class="w-full flex justify-around" v-else>
 						<InlineMessage severity="info">{{ $t('ligfinder.table.noFilter') }}</InlineMessage>
