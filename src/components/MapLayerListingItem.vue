@@ -19,12 +19,19 @@
                 </Dialog>
             </template>
             <div>
-                <label v-if="!(props.layer.clustered !== undefined && props.layer.clustered && typeof mapStore.map.getPaintProperty(props.layer.id, props.layer.type ==='circle' ? 'circle-color' : props.layer.type === 'fill' ? 'fill-color' : 'line-color') !== 'string')" class="flex w-full leading-none pointer-events-none items-baseline">
+                <label v-if="!(props.layer.clustered !== undefined && props.layer.clustered || typeof mapStore.map.getPaintProperty(props.layer.id, props.layer.type ==='circle' ? 'circle-color' : props.layer.type === 'fill' ? 'fill-color' : 'line-color') !== 'string')" class="flex w-full leading-none pointer-events-none items-baseline">
                     <span class="mt-2 min-w-[25%]">Color</span>
                     <ColorPicker aria-label="Change Color" class="pointer-events-auto" format="hex" v-model="color" :baseZIndex="10"
                         @update:model-value="changeLayerColor"></ColorPicker>
                 </label>
-                <label class="flex w-full leading-none items-center mt-2">
+                <div v-else>
+                    <div v-if="(typeof mapStore.map.getPaintProperty(props.layer.id, props.layer.type ==='circle' ? 'circle-color' : props.layer.type === 'fill' ? 'fill-color' : 'line-color') === 'object')">
+                        <div class="legend">
+                            <MBStyleLegend :mbstyle="mapStore.map.getPaintProperty(props.layer.id, props.layer.type ==='circle' ? 'circle-color' : props.layer.type === 'fill' ? 'fill-color' : 'line-color')"></MBStyleLegend>
+                        </div>
+                    </div>
+                </div>
+                <label class="flex w-full leading-none items-center mt-2 pr-1">
                     <span class="mt-2 min-w-[25%]">Opacity</span>
                     <Slider aria-label="Change Opacity" class="mt-2 ml-2 flex-grow" v-model="opacity" :step="0.1" :min=0 :max=1
                         @update:model-value="changeLayerOpac" :pt="{
@@ -64,6 +71,7 @@ import { useToast } from "primevue/usetoast"
 import { isNullOrEmpty } from "../core/helpers/functions";
 import ParliamentDBFilter from "./geoparsing/ParliamentDBFilter.vue";
 import ElbewochenblattDBFilter from "./geoparsing/ElbewochenblattDBFilter.vue";
+import MBStyleLegend from "./MBStyleLegend.vue";
 
 const GeometryFiltering = defineAsyncComponent(async () => await import("../components/GeometryFiltering.vue"));
 
