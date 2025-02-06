@@ -72,8 +72,9 @@
 			"layerName": "Layer Name",
 			"add": "Add as a Layer",
 			"fileName": "File Name",
-			"downloadGeoJSON": "Download as GeoJSON",
-			"downloadCSV": "Download as CSV",
+			"download": "Download",
+			"downloadGeoJSON": ".geojson",
+			"downloadCSV": ".csv",
 			"headers": {
 				"flurst_hh": "Flurstücknummer",
 				"bezname": "Bezirk",
