@@ -2,6 +2,8 @@
     Please add your multi project focused functions in this file and use in the project from here.
 */
 
+import { type FeatureCollection } from "geojson";
+
 /**
  * Creates a random hexadecimal formatted color
  * @returns
@@ -92,4 +94,106 @@ export function formatNumber(num: number): string {
     const [integerPart, decimalPart] = fixedNum.split(".");
     const integerWithThousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return `${integerWithThousandsSeparator},${decimalPart}`;
+}
+/**
+ * Escapes a field for CSV output by wrapping it in double quotes and doubling any quotes inside.
+ * @param field - The field value to escape.
+ * @returns The escaped field.
+ */
+function escapeCsv(field: unknown): string {
+    const fieldStr = field == null ? "" : String(field);
+    return `"${fieldStr.replace(/"/g, "\"\"")}"`;
+}
+
+/**
+   * Sanitizes a filename by removing characters that are not allowed on most filesystems.
+   * @param input - The input filename.
+   * @returns The sanitized filename.
+   */
+function sanitizeFilename(input: string): string {
+    // Remove characters like / \ ? % * : | " < > and trim whitespace.
+    return input.replace(/[/\\?%*:|"<>]/g, "").trim();
+}
+
+/**
+   * Converts a GeoJSON FeatureCollection to CSV and triggers a download.
+   * @param geojson - The GeoJSON FeatureCollection.
+   * @param fileName - The desired filename for the CSV.
+   */
+export function downloadCSVFromGeoJSON(geojson: FeatureCollection, fileName: string): void {
+    // Validate the input.
+    if (geojson === null || geojson === undefined || !Array.isArray(geojson.features) || geojson.features.length === 0) {
+        console.error("Invalid GeoJSON FeatureCollection provided.");
+        return;
+    }
+
+    // Sanitize the provided filename.
+    let sanitizedFilename = sanitizeFilename(fileName);
+    if (sanitizedFilename.length === 0) {
+        sanitizedFilename = "data";
+    }
+    if (!sanitizedFilename.toLowerCase().endsWith(".csv")) {
+        sanitizedFilename += ".csv";
+    }
+
+    // 1. Collect all property keys from the features.
+    const propertyKeys = new Set<string>();
+    geojson.features.forEach(feature => {
+        // Ensure feature and its properties are valid.
+        if (((feature?.properties) != null) && typeof feature.properties === "object") {
+            Object.keys(feature.properties).forEach(key => propertyKeys.add(key));
+        }
+    });
+    // Convert the set to a sorted array for predictable ordering and add "geometry" as the last column.
+    const headers: string[] = [...propertyKeys].sort();
+    headers.push("geometry");
+
+    // 2. Build CSV rows.
+    const csvRows: string[] = [];
+    // Add header row.
+    csvRows.push(headers.join(","));
+
+    // Process each feature.
+    geojson.features.forEach(feature => {
+        const row = headers.map(header => {
+            if (header === "geometry") {
+                // Use JSON.stringify to convert the geometry object.
+                // If geometry is null or undefined, JSON.stringify returns undefined,
+                // so fallback to an empty string.
+                return escapeCsv(JSON.stringify(feature.geometry) ?? "");
+            } else {
+                // Use optional chaining to retrieve the property value.
+                const value = feature.properties?.[header] ?? "";
+                return escapeCsv(value);
+            }
+        });
+        csvRows.push(row.join(","));
+    });
+
+    const csvContent = csvRows.join("\n");
+
+    // 3. Create a Blob from the CSV string.
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+    // 4. Trigger the download.
+    if (typeof (navigator as any).msSaveBlob === "function") {
+        // For Internet Explorer.
+        (navigator as any).msSaveBlob(blob, sanitizedFilename);
+    } else {
+        const link = document.createElement("a");
+        if (typeof link.download !== "undefined") { // Feature detection.
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = sanitizedFilename;
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            // Revoke the object URL after a short delay to free up memory.
+            setTimeout(() => { URL.revokeObjectURL(url); }, 100);
+        } else {
+        // Fallback for older browsers.
+            window.open(URL.createObjectURL(blob));
+        }
+    }
 }
