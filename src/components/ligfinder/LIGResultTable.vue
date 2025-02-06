@@ -200,25 +200,28 @@
 					v-if="resultStore.isFilterApplied && resultStore.appliedFilterResult && resultStore.appliedFilterResult?.features.length > 0">
 					<div
 						class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
-						<div class="w-full lg:col-span-2">
-							<InputText class="h-10" type="text" v-model="layerName"
+						<div class="w-full flex flex-row-reverse lg:col-span-2">
+							<InputText class="h-full" type="text" v-model="layerName"
 								:placeholder="$t('ligfinder.table.layerName')"></InputText>
 						</div>
 						<div class="w-full flex lg:col-span-2">
-							<Button @click="addAsLayer" :disabled="layerName.length === 0" class="lg:w-full 2xl:w-auto"
+							<Button @click="addAsLayer" :disabled="layerName.length === 0" class="2xl:ml-3 lg:w-full 2xl:w-auto"
 								size="small">{{ $t('ligfinder.table.add') }}</Button>
 						</div>
 					</div>
 					<div
 						class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
-						<div class="w-full lg:col-span-2">
-							<InputText class="h-10" type="text" v-model="fileName"
-								:placeholder="$t('ligfinder.table.fileName')"></InputText>
+						<div class="w-full flex flex-row-reverse lg:col-span-2">
+							<InputGroup>
+								<InputText class="h-full rounded-l-lg" type="text" v-model="fileName"
+									:placeholder="$t('ligfinder.table.fileName')"></InputText>
+								<InputGroupAddon>
+									<ToggleButton unstyled v-model="format" :offLabel="$t('ligfinder.table.downloadGeoJSON')" :onLabel="$t('ligfinder.table.downloadCSV')" class="rounded-l-none"/>
+								</InputGroupAddon>
+							</InputGroup>
 						</div>
 						<div class="w-full flex lg:col-span-2">
-							<Button @click="downloadAsGeojson" :disabled="fileName.length === 0"
-								class="lg:w-full 2xl:w-auto"
-								size="small">{{ $t('ligfinder.table.downloadGeoJSON') }}</Button>
+							<Button :disabled="fileName.length === 0" class="ml-3" @click="format ? downloadCSVFromGeoJSON(resultStore.appliedFilterResult,fileName):downloadAsGeojson()">{{$t('ligfinder.table.download')}}</Button>
 						</div>
 
 					</div>
@@ -235,6 +238,9 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import InlineMessage from "primevue/inlinemessage";
 import Button from "primevue/button";
+import ToggleButton from "primevue/togglebutton";
+import InputGroup from "primevue/inputgroup";
+import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
 import SidebarLayout from "../SidebarLayout.vue";
 import { useMapStore } from "../../store/map"
@@ -242,7 +248,7 @@ import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
 import { FilterMatchMode } from "@primevue/core/api";
-import { formatNumber } from "../../core/helpers/functions";
+import { formatNumber, downloadCSVFromGeoJSON } from "../../core/helpers/functions";
 import { useI18n } from "vue-i18n"
 import bbox from "@turf/bbox";
 import { type Feature } from "geojson";
@@ -264,7 +270,7 @@ const filterResultTableItems = computed(() => {
         return []
     }
 })
-
+const format = ref<boolean>(false)
 mapStore.map.addControl(sidebarControl, "top-left")
 
 function addAsLayer(): void {
