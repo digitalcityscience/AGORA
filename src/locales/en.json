@@ -84,6 +84,12 @@
 				"fl_unbeb_a": "Unbebaute Fläche in m²",
 				"alkis_grz": "GRZ (Alkis)",
 				"bplan_grz": "GRZ (B-Plan)"
+			},
+			"summary": {
+				"title":"Used filters",
+				"included":"{0} is included",
+				"excluded":"{0} is excluded",
+				"geometry":"Geometry filter applied"
 			}
 		}
 	},
@@ -148,6 +154,15 @@
 		}
 	},
 	"helpers": {
-		"dropdownSelect": "Please select {0}"
+		"dropdownSelect": "Please select {0}",
+		"filterNames": {
+			">": "greater than",
+			">=": "greater than or equal to",
+			"<": "less than",
+			"<=": "less than or equal to",
+			"==": "equal to",
+			"!=": "not equal to",
+			"in": "in"
+		  }
 	}
 }
