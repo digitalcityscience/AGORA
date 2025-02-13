@@ -19,7 +19,23 @@
 										paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink"
 										v-model:filters="filters" filter-display="menu">
 										<template #header>
-											{{ $t('ligfinder.table.count', [`${filterResultTableItems.length}`]) }}
+											<div class="w-full pb-2">
+												{{ $t('ligfinder.table.count', [`${filterResultTableItems.length}`]) }}
+											</div>
+											<h2 class="w-full flex flex-row font-bold">
+												{{$t('ligfinder.table.summary.title')}}
+											</h2>
+											<div v-if="resultStore.lastAppliedFilter != undefined" class="w-full flex flex-row flex-wrap gap-2 first:ml-0 and sm:ml-0">
+												<span v-for="(criteria,index) in resultStore.lastAppliedFilter.criteria" :key="index" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
+													{{ criteria.status == "included" ? $t('ligfinder.table.summary.included',[criteria.data.label]) : $t('ligfinder.table.summary.excluded',[criteria.data.label]) }}
+												</span>
+												<span v-for="(metric,index) in resultStore.lastAppliedFilter.metric" :key="index" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
+													{{ $t(`ligfinder.filter.metrics.labels.${metric.column}`) }} {{$t(`helpers.filterNames.${metric.operation}`) }} {{ metric.value }}
+												</span>
+												<span v-if="resultStore.lastAppliedFilter.geometry.length > 0" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
+													{{ $t('ligfinder.table.summary.geometry') }}
+												</span>
+											</div>
 										</template>
 										<span v-if="resultStore.attributeList.length > 0">
 											<Column :header="$t('ligfinder.table.focus')">
@@ -117,6 +133,20 @@
 													<i class="material-icons">open_in_full</i>
 												</template>
 											</Button>
+										</div>
+										<h2 class="w-full flex flex-row font-bold">
+											{{$t('ligfinder.table.summary.title')}}
+										</h2>
+										<div v-if="resultStore.lastAppliedFilter != undefined" class="w-full flex flex-row gap-2 first:ml-0 and sm:ml-0 flex-wrap">
+											<span v-for="(criteria,index) in resultStore.lastAppliedFilter.criteria" :key="index" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
+												{{ criteria.data.label }} is {{ criteria.status }}
+											</span>
+											<span v-for="(metric,index) in resultStore.lastAppliedFilter.metric" :key="index" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
+												{{ $t(`ligfinder.filter.metrics.labels.${metric.column}`) }} {{$t(`helpers.filterNames.${metric.operation}`) }} {{ metric.value }}
+											</span>
+											<span v-if="resultStore.lastAppliedFilter.geometry.length > 0" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
+												Geometry filter applied.
+											</span>
 										</div>
 									</template>
 									<span v-if="resultStore.attributeList.length > 0">

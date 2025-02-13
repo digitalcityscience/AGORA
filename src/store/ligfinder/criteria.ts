@@ -16,11 +16,13 @@ export interface CriteriaPercentageData {
 export interface AppliedCriteria extends TreeNode {
     status: "included"|"excluded",
     data?: CriteriaValueData | CriteriaPercentageData,
+    label: string
 }
 export const useCriteriaStore = defineStore("criteria", () => {
     const list = criteria.items;
     const criteriaInUse = ref<AppliedCriteria[]>([])
     const addCriteria = (criteria: AppliedCriteria): void => {
+        console.log("incoming criteria", criteria)
         if (criteriaInUse.value.filter((crit)=>{ return crit.key === criteria.key }).length === 0){
             criteriaInUse.value.push(criteria)
         } else {
@@ -29,6 +31,7 @@ export const useCriteriaStore = defineStore("criteria", () => {
                 criteriaInUse.value[index].status = criteria.status
             }
         }
+        console.log("criteriaInUse", criteriaInUse.value)
     }
     const removeCriteria = (criteria: AppliedCriteria): void => {
         criteriaInUse.value = criteriaInUse.value.filter(c => c.key !== criteria.key)

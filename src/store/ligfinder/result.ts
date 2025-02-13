@@ -16,7 +16,8 @@ interface FilterCriteria {
     data: {
         type: "value"|"prozent",
         column: string[],
-        value: string
+        value: string,
+        label: string
     }
 }
 export interface ResultTableAPIRequestBody {
@@ -59,7 +60,8 @@ export const useResultStore = defineStore("result", () => {
                     data: {
                         type: item.data!.filter,
                         column: item.data!.columns,
-                        value: String(item.data!.value)
+                        value: String(item.data!.value),
+                        label: item.label
                     }
                 }
             })
