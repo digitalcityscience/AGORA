@@ -1,28 +1,19 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
-import { useCriteriaStore } from "./criteria"
 import { useMetricStore, type ResultMetric } from "./metric"
 import { type FeatureCollection } from "geojson"
 import { useLigfinderMainStore } from "./main"
 import { useMapStore } from "../map"
 import { type GeoServerFeatureTypeAttribute } from "../geoserver"
 import { useToast } from "primevue/usetoast"
+import { useCriteriaStore, type AppliedCriteria } from "./criteria"
 interface TableHeader {
     text: string,
     value: string
 }
-interface FilterCriteria {
-    status: "included"|"excluded",
-    data: {
-        type: "value"|"prozent",
-        column: string[],
-        value: string,
-        label: string
-    }
-}
 export interface ResultTableAPIRequestBody {
     geometry: number[],
-    criteria: FilterCriteria[],
+    criteria: AppliedCriteria[],
     metric: ResultMetric[]
 }
 export const useResultStore = defineStore("result", () => {
@@ -53,22 +44,9 @@ export const useResultStore = defineStore("result", () => {
     function createAppliedFilterBody(): ResultTableAPIRequestBody{
         const usedMetrics = metric.createMetricFilter(metric.metricFilters)
         const usedGeometryResult = ligfinder.appliedGeometryFilterResult
-        const convertedCriteria = criteria.criteriaInUse.length>0
-            ? criteria.criteriaInUse.map((item) => {
-                return {
-                    status: item.status,
-                    data: {
-                        type: item.data!.filter,
-                        column: item.data!.columns,
-                        value: String(item.data!.value),
-                        label: item.label
-                    }
-                }
-            })
-            : []
         const filter: ResultTableAPIRequestBody = {
             geometry: usedGeometryResult,
-            criteria: convertedCriteria,
+            criteria: criteria.criteriaInUse,
             metric: usedMetrics
         }
         return filter

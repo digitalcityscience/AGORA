@@ -1,0 +1,1089 @@
+{
+  "meta": "this data means something",
+  "data": [
+    {
+      "key": "art-080",
+      "label": "080 Verwaltungsvermögen",
+      "label_en": "080 Public Assets",
+      "art": ["080"],
+      "children": [
+        {
+          "key": "080-2100",
+          "art": ["080"],
+          "typ": ["2100"],
+          "label": "2100 Flächen des Bezirks - Sonstige Bereiche (080-2100)",
+          "label_en": "2100 District Areas - Other Areas (080-2100)"
+        },
+        {
+          "key": "080-2200",
+          "art": ["080"],
+          "typ": ["2200"],
+          "label": "2200 BJV - Behörde für Justiz und Verbraucherschutz (080-2200)",
+          "label_en": "2200 BJV - Authority for Justice and Consumer Protection (080-2200)"
+        },
+        {
+          "key": "080-2300",
+          "art": ["080"],
+          "typ": ["2300"],
+          "label": "2300 Sozialbehörde - Amt für Familie (080-2300)",
+          "label_en": "2300 Social Authority - Family Office (080-2300)"
+        },
+        {
+          "key": "080-2340",
+          "art": ["080"],
+          "typ": ["2340"],
+          "label": "2340 BWFGB - Behörde für Wissenschaft, Forschung, Gleichstellung und Bezirke (080-2340)",
+          "label_en": "2340 BWFGB - Authority for Science, Research, Equality and Districts (080-2340)"
+        },
+        {
+          "key": "080-2360",
+          "art": ["080"],
+          "typ": ["2360"],
+          "label": "2360 Senatsämter - Senatskanzlei (080-2360)",
+          "label_en": "2360 Senate Offices - Senate Chancellery (080-2360)"
+        },
+        {
+          "key": "080-2370",
+          "art": ["080"],
+          "typ": ["2370"],
+          "label": "2370 BKM - Behörde für Kultur und Medien (080-2370)",
+          "label_en": "2370 BKM - Authority for Culture and Media (080-2370)"
+        },
+        {
+          "key": "080-2400",
+          "art": ["080"],
+          "typ": ["2400"],
+          "label": "2400 ehemaliger Schlüssel für BWA - Behörde für Wirtschaft und Arbeit (080-2400);",
+          "label_en": "2400 Former Key for BWA - Authority for Economy and Labor (080-2400);"
+        },
+        {
+          "key": "080-2430",
+          "art": ["080"],
+          "typ": ["2430"],
+          "label": "2430 Sozialbehörde - Amt für Zentrale Dienste",
+          "label_en": "2430 Social Authority - Central Services Office"
+        },
+        {
+          "key": "080-2500",
+          "art": ["080"],
+          "typ": ["2500"],
+          "label": "2500 BSW - Behörde für Stadtentwicklung und Wohnen (080-2500)",
+          "label_en": "2500 BSW - Authority for Urban Development and Housing (080-2500)"
+        },
+        {
+          "key": "080-2600",
+          "art": ["080"],
+          "typ": ["2600"],
+          "label": "2600 BUKEA - Sonstige (080-2600)",
+          "label_en": "2600 BUKEA - Other (080-2600)"
+        },
+        {
+          "key": "080-2610",
+          "art": ["080"],
+          "typ": ["2610"],
+          "label": "2610 BUKEA - Gewässer (W1) (080-2610)",
+          "label_en": "2610 BUKEA - Water Bodies (W1) (080-2610)"
+        },
+        {
+          "key": "080-2630",
+          "art": ["080"],
+          "typ": ["2630"],
+          "label": "2630 BVM - Behörde für Verkehr und Mobilitätswende - Sonstige (080-2630)",
+          "label_en": "2630 BVM - Authority for Transport and Mobility - Other (080-2630)"
+        },
+        {
+          "key": "080-2631",
+          "art": ["080"],
+          "typ": ["2631"],
+          "label": "2631 Flächen des Bezirks - Tiefbau (080-2631)",
+          "label_en": "2631 District Areas - Civil Engineering (080-2631)"
+        },
+        {
+          "key": "080-2632",
+          "art": ["080"],
+          "typ": ["2632"],
+          "label": "2632 BVM - Behörde für Verkehr und Mobilitätswende - Schnellbahnbau (080-2632)",
+          "label_en": "2632 BVM - Authority for Transport and Mobility - Rapid Transit Construction (080-2632)"
+        },
+        {
+          "key": "080-2642",
+          "art": ["080"],
+          "typ": ["2642"],
+          "label": "2642 Flächen des Bezirks - Gewässer (080-2642)",
+          "label_en": "2642 District Areas - Water Bodies (080-2642)"
+        },
+        {
+          "key": "080-2649",
+          "art": ["080"],
+          "typ": ["2649"],
+          "label": "2649 BUKEA - Hochwasserschutz (W1) (080-2649)",
+          "label_en": "2649 BUKEA - Flood Protection (W1) (080-2649)"
+        },
+        {
+          "key": "080-2661",
+          "art": ["080"],
+          "typ": ["2661"],
+          "label": "2661 Flächen des Bezirks - Stadtgrün (080-2661)",
+          "label_en": "2661 District Areas - Urban Green Spaces (080-2661)"
+        },
+        {
+          "key": "080-2680",
+          "art": ["080"],
+          "typ": ["2680"],
+          "label": "2680 BUKEA - Naturschutz (N3) (080-2680)",
+          "label_en": "2680 BUKEA - Nature Conservation (N3) (080-2680)"
+        },
+        {
+          "key": "080-2685",
+          "art": ["080"],
+          "typ": ["2685"],
+          "label": "2685 BUKEA - Pferdezucht, Rennwettbetrieb (A1) (080-2685)",
+          "label_en": "2685 BUKEA - Horse Breeding, Racing Operations (A1) (080-2685)"
+        },
+        {
+          "key": "080-2700",
+          "art": ["080"],
+          "typ": ["2700"],
+          "label": "2700 BWI - Behörde für Wirtschaft und Innovation - Sonstige (080-2700)",
+          "label_en": "2700 BWI - Authority for Economy and Innovation - Other (080-2700)"
+        },
+        {
+          "key": "080-2710",
+          "art": ["080"],
+          "typ": ["2710"],
+          "label": "2710 BVM - Behörde für Verkehr und Mobilitätswende - Hauptverkehrsstraßen (080-2710)",
+          "label_en": "2710 BVM - Authority for Transport and Mobility - Main Traffic Roads (080-2710)"
+        },
+        {
+          "key": "080-2730",
+          "art": ["080"],
+          "typ": ["2730"],
+          "label": "2730 BVM - Behörde für Verkehr und Mobilitätswende - P+R (080-2730)",
+          "label_en": "2730 BVM - Authority for Transport and Mobility - Park & Ride (080-2730)"
+        },
+        {
+          "key": "080-2740",
+          "art": ["080"],
+          "typ": ["2740"],
+          "label": "2740 BWI - Behörde für Wirtschaft und Innovation - Pflanzenschutzamt (080-2740)",
+          "label_en": "2740 BWI - Authority for Economy and Innovation - Plant Protection Office (080-2740)"
+        },
+        {
+          "key": "080-2741",
+          "art": ["080"],
+          "typ": ["2741"],
+          "label": "2741 Flächen des Bezirks - Forsten (080-2741)",
+          "label_en": "2741 District Areas - Forestry (080-2741)"
+        },
+        {
+          "key": "080-2745",
+          "art": ["080"],
+          "typ": ["2745"],
+          "label": "2745 BUKEA - Forsten (A1) (080-2745)",
+          "label_en": "2745 BUKEA - Forestry (A1) (080-2745)"
+        },
+        {
+          "key": "080-2750",
+          "art": ["080"],
+          "typ": ["2750"],
+          "label": "2750 BWI - Hafennutzungsgebiet (HNG) Sonstige (080-2750)",
+          "label_en": "2750 BWI - Port Use Area (HNG) Other (080-2750)"
+        },
+        {
+          "key": "080-2751",
+          "art": ["080"],
+          "typ": ["2751"],
+          "label": "2751 BWI - Hafennutzungsgebiet (HNG) Öffentl. Grund, Wege (080-2751)",
+          "label_en": "2751 BWI - Port Use Area (HNG) Public Land, Roads (080-2751)"
+        },
+        {
+          "key": "080-2752",
+          "art": ["080"],
+          "typ": ["2752"],
+          "label": "2752 BWI - Hafennutzungsgebiet (HNG) Gleisanlagen (080-2752)",
+          "label_en": "2752 BWI - Port Use Area (HNG) Track Facilities (080-2752)"
+        },
+        {
+          "key": "080-2753",
+          "art": ["080"],
+          "typ": ["2753"],
+          "label": "2753 BWI - Hafennutzungsgebiet (HNG) Wasserflächen (080-2753)",
+          "label_en": "2753 BWI - Port Use Area (HNG) Water Areas (080-2753)"
+        },
+        {
+          "key": "080-2800",
+          "art": ["080"],
+          "typ": ["2800"],
+          "label": "2800 BIS - Behörde für Inneres - Öffentl.Sicherheit (080-2800)",
+          "label_en": "2800 BIS - Authority for Interior - Public Security (080-2800)"
+        },
+        {
+          "key": "080-2820",
+          "art": ["080"],
+          "typ": ["2820"],
+          "label": "2820 BSB - Behörde für Schule und Berufsbildung (080-2820)",
+          "label_en": "2820 BSB - Authority for Schools and Vocational Education (080-2820)"
+        },
+        {
+          "key": "080-2821",
+          "art": ["080"],
+          "typ": ["2821"],
+          "label": "2821 Flächen des Bezirks - Sportflächen (080-2821)",
+          "label_en": "2821 District Areas - Sports Areas (080-2821)"
+        },
+        {
+          "key": "080-2882",
+          "art": ["080"],
+          "typ": ["2882"],
+          "label": "2882 ehemaliger Schlüssel für Umweltbehörde - Gartenbauabteilung (080-2882)",
+          "label_en": "2882 Former Key for Environmental Authority - Horticulture Department (080-2882)"
+        },
+        {
+          "key": "080-2999",
+          "art": ["080"],
+          "typ": ["2999"],
+          "label": "2999 Werterstattung offen (080-2999); Verwaltungsvermögen - Werterstattung offen",
+          "label_en": "2999 Value Reimbursement Open (080-2999); Public Assets - Open Value Reimbursement"
+        },
+        {
+          "key": "080-2350",
+          "art": ["080"],
+          "typ": ["2350"],
+          "label": "2350 Finanzbehörde - Interner Service und Steuerung (080-2350)",
+          "label_en": "2350 Ministry of Finance - Internal Service and Management (080-2350)"
+        }
+      ]
+    },
+    {
+      "key": "art-081",
+      "label": "081 Allgemeines Grundvermögen",
+      "label_en": "081 General Basic Assets",
+      "art": ["081"],
+      "children": [
+        {
+          "key": "081-2901",
+          "art": ["081"],
+          "typ": ["2901"],
+          "label": "2901 AGV ohne Erbbaurecht / Wohnungserbbaurecht (081-2901)",
+          "label_en": "2901 AGV Without Leasehold / Housing Leasehold (081-2901)"
+        },
+        {
+          "key": "081-2902",
+          "art": ["081"],
+          "typ": ["2902"],
+          "label": "2902 AGV belastet mit Erbbaurecht / Wohnungserbbaurecht (081-2902)",
+          "label_en": "2902 AGV Encumbered with Leasehold / Housing Leasehold (081-2902)"
+        }
+      ]
+    },
+    {
+      "key": "art-082",
+      "label": "082 Landesbetrieb gem. § 26 LHO",
+      "label_en": "082 State-Owned Enterprise per § 26 LHO",
+      "art": ["082"],
+      "children": [
+        {
+          "key": "082-2425",
+          "art": ["082"],
+          "typ": ["2425"],
+          "label": "2425 Pflegen und Wohnen (082-2425); Landesbetrieb gem. § 26 LHO",
+          "label_en": "2425 Care and Housing (082-2425); State-Owned Enterprise per § 26 LHO"
+        },
+        {
+          "key": "082-2480",
+          "art": ["082"],
+          "typ": ["2480"],
+          "label": "2480 LEB - LB Erziehung und Beratung (082-2480); Landesbetrieb gem. § 26 LHO / Werkstätten für Behinderte",
+          "label_en": "2480 LEB - LB Education and Counseling (082-2480); State-Owned Enterprise per § 26 LHO / Workshops for Disabled People"
+        },
+        {
+          "key": "082-2520",
+          "art": ["082"],
+          "typ": ["2520"],
+          "label": "2520 Staatliche Krankenhäuser (082-2520); Landesbetrieb gem. § 26 LHO",
+          "label_en": "2520 State Hospitals (082-2520); State-Owned Enterprise per § 26 LHO"
+        },
+        {
+          "key": "082-2644",
+          "art": ["082"],
+          "typ": ["2644"],
+          "label": "2644 Stadtreinigung (082-2644); Landesbetrieb gem. § 26 LHO",
+          "label_en": "2644 City Cleaning (082-2644); State-Owned Enterprise per § 26 LHO"
+        },
+        {
+          "key": "082-2720",
+          "art": ["082"],
+          "typ": ["2720"],
+          "label": "2720 Hamburgische Münze (082-2720); Landesbetrieb gem. § 26 LHO",
+          "label_en": "2720 Hamburg Mint (082-2720); State-Owned Enterprise per § 26 LHO"
+        },
+        {
+          "key": "082-2742",
+          "art": ["082"],
+          "typ": ["2742"],
+          "label": "2742 Großmarkt (082-2742); Landesbetrieb gem. § 26 LHO",
+          "label_en": "2742 Wholesale Market (082-2742); State-Owned Enterprise per § 26 LHO"
+        },
+        {
+          "key": "082-2743",
+          "art": ["082"],
+          "typ": ["2743"],
+          "label": "2743 Großmarkt belastet mit Erbbaurecht (082-2743)",
+          "label_en": "2743 Wholesale Market Encumbered with Leasehold (082-2743)"
+        }
+      ]
+    },
+    {
+      "key": "art-083",
+      "label": "083 Miteigentumsanteile",
+      "label_en": "083 Co-Ownership Shares",
+      "art": ["083"],
+      "children": [
+        {
+          "key": "083-2950",
+          "art": ["083"],
+          "typ": ["2950"],
+          "label": "2950 Erbbaurecht / Wohnungserbbaurecht der FHH (083-2950)",
+          "label_en": "2950 Leasehold / Housing Leasehold of FHH (083-2950)"
+        },
+        {
+          "key": "083-2951",
+          "art": ["083"],
+          "typ": ["2951"],
+          "label": "2951 Miteigentumsanteile der FHH im AGV (083-2951)",
+          "label_en": "2951 Co-Ownership Shares of FHH in AGV (083-2951)"
+        },
+        {
+          "key": "083-2952",
+          "art": ["083"],
+          "typ": ["2952"],
+          "label": "2952 Anteile der FHH an Erbengemeinschaften im AGV (083-2952)",
+          "label_en": "2952 Shares of FHH in Heir Communities in AGV (083-2952)"
+        },
+        {
+          "key": "083-2953",
+          "art": ["083"],
+          "typ": ["2953"],
+          "label": "2953 Miteigentumsanteile der FHH im AGV mit Erbbaurecht (083-2953)",
+          "label_en": "2953 Co-Ownership Shares of FHH in AGV with Leasehold (083-2953)"
+        },
+        {
+          "key": "083-2954",
+          "art": ["083"],
+          "typ": ["2954"],
+          "label": "2954 Miteigentumsanteile der FHH im VV (083-2954)",
+          "label_en": "2954 Co-Ownership Shares of FHH in Public Assets (083-2954)"
+        },
+        {
+          "key": "083-2955",
+          "art": ["083"],
+          "typ": ["2955"],
+          "label": "2955 Miteigentumsanteile der FHH im Sondervermögen (083-2955)",
+          "label_en": "2955 Co-Ownership Shares of FHH in Special Assets (083-2955)"
+        }
+      ]
+    },
+    {
+      "key": "art-084",
+      "label": "084 Verwaltungsvermögen belastet mit Erbbaurecht",
+      "label_en": "084 Public Assets Encumbered with Leasehold",
+      "art": ["084"],
+      "children": [
+        {
+          "key": "084-2001",
+          "art": ["084"],
+          "typ": ["2001"],
+          "label": "2001 Sozialbehörde - Amt für Familie (084-2001)",
+          "label_en": "2001 Social Authority - Family Office (084-2001)"
+        },
+        {
+          "key": "084-2002",
+          "art": ["084"],
+          "typ": ["2002"],
+          "label": "2002 BKM - Behörde für Kultur und Medien (084-2002)",
+          "label_en": "2002 BKM - Authority for Culture and Media (084-2002)"
+        },
+        {
+          "key": "084-2003",
+          "art": ["084"],
+          "typ": ["2003"],
+          "label": "2003 BWI - Behörde für Wirtschaft und Innovation (084-2003)",
+          "label_en": "2003 BWI - Authority for Economy and Innovation (084-2003)"
+        },
+        {
+          "key": "084-2004",
+          "art": ["084"],
+          "typ": ["2004"],
+          "label": "2004 BUKEA - Naturschutz (N3) (084-2004)",
+          "label_en": "2004 BUKEA - Nature Conservation (N3) (084-2004)"
+        },
+        {
+          "key": "084-2005",
+          "art": ["084"],
+          "typ": ["2005"],
+          "label": "2005 BUKEA - Pferdezucht, Rennwettbetrieb (A1) (084-2005)",
+          "label_en": "2005 BUKEA - Horse Breeding, Racing Operations (A1) (084-2005)"
+        },
+        {
+          "key": "084-2009",
+          "art": ["084"],
+          "typ": ["2009"],
+          "label": "2009 Flächen des Bezirks - Stadtgrün (084-2009)",
+          "label_en": "2009 District Areas - Urban Green Spaces (084-2009)"
+        },
+        {
+          "key": "084-2020",
+          "art": ["084"],
+          "typ": ["2020"],
+          "label": "2020 BSB - Behörde für Schule und Berufsbildung (084-2020)",
+          "label_en": "2020 BSB - Authority for Schools and Vocational Education (084-2020)"
+        },
+        {
+          "key": "084-2025",
+          "art": ["084"],
+          "typ": ["2025"],
+          "label": "2025 BWFGB - Behörde für Wissenschaft, Forschung, Gleichstellung und Bezirke (084-2025)",
+          "label_en": "2025 BWFGB - Authority for Science, Research, Equality and Districts (084-2025)"
+        },
+        {
+          "key": "084-2030",
+          "art": ["084"],
+          "typ": ["2030"],
+          "label": "2030 BJV - Behörde für Justiz und Verbraucherschutz (084-2030)",
+          "label_en": "2030 BJV - Authority for Justice and Consumer Protection (084-2030)"
+        }
+      ]
+    },
+    {
+      "key": "art-085",
+      "label": "085 Sondervermögen",
+      "label_en": "085 Special Assets",
+      "art": ["085"],
+      "children": [
+        {
+          "key": "085-945",
+          "art": ["085"],
+          "typ": ["945"],
+          "label": "0945 Sondervermögen Schulimmobilien (SoV) (085-0945)",
+          "label_en": "0945 Special Assets School Properties (SoV) (085-0945)"
+        },
+        {
+          "key": "085-946",
+          "art": ["085"],
+          "typ": ["946"],
+          "label": "0946 Sondervermögen Schulimmobilien (SoV) belastet mit Erbbaurecht (085-0946)",
+          "label_en": "0946 Special Assets School Properties (SoV) Encumbered with Leasehold (085-0946)"
+        },
+        {
+          "key": "085-3000",
+          "art": ["085"],
+          "typ": ["3000"],
+          "label": "3000 Sondervermögen Stadt und Hafen, Hafencity (085-3000)",
+          "label_en": "3000 Special Assets City and Port, HafenCity (085-3000)"
+        },
+        {
+          "key": "085-3001",
+          "art": ["085"],
+          "typ": ["3001"],
+          "label": "3001 Sondervermögen Stadt und Hafen, Hafencity belastet mit Erbbaurecht (085-3001)",
+          "label_en": "3001 Special Assets City and Port, HafenCity Encumbered with Leasehold (085-3001)"
+        },
+        {
+          "key": "085-3010",
+          "art": ["085"],
+          "typ": ["3010"],
+          "label": "3010 Stiftung Borsteler Jäger (085-3010)",
+          "label_en": "3010 Borsteler Hunters Foundation (085-3010)"
+        },
+        {
+          "key": "085-3020",
+          "art": ["085"],
+          "typ": ["3020"],
+          "label": "3020 Sondervermögen für Naturschutz und Landschaftspflege [SVNL] (085-3020)",
+          "label_en": "3020 Special Assets for Nature Conservation and Landscape Management [SVNL] (085-3020)"
+        }
+      ]
+    },
+    {
+      "key": "art-086",
+      "label": "086 Öffentliche Unternehmen",
+      "label_en": "086 Public Enterprises",
+      "art": ["086"],
+      "children": [
+        {
+          "key": "086-4000",
+          "art": ["086"],
+          "typ": ["4000"],
+          "label": "4000 Bäderland Hamburg GmbH",
+          "label_en": "4000 Bäderland Hamburg GmbH"
+        },
+        {
+          "key": "086-4002",
+          "art": ["086"],
+          "typ": ["4002"],
+          "label": "4002 ABB Immobilienverwaltung GmbH & Co. KG",
+          "label_en": "4002 ABB Real Estate Management GmbH & Co. KG"
+        },
+        {
+          "key": "086-4005",
+          "art": ["086"],
+          "typ": ["4005"],
+          "label": "4005 AKK Altonaer Kinderkrankenhaus gGmbH",
+          "label_en": "4005 AKK Altona Children's Hospital gGmbH"
+        },
+        {
+          "key": "086-4010",
+          "art": ["086"],
+          "typ": ["4010"],
+          "label": "4010 Berufsförderungswerk Hamburg GmbH",
+          "label_en": "4010 Vocational Training Center Hamburg GmbH"
+        },
+        {
+          "key": "086-4015",
+          "art": ["086"],
+          "typ": ["4015"],
+          "label": "4015 Billebogen Entwicklungsgesellschaft mbH & Co. KG",
+          "label_en": "4015 Billebogen Development Company mbH & Co. KG"
+        },
+        {
+          "key": "086-4020",
+          "art": ["086"],
+          "typ": ["4020"],
+          "label": "4020 Deichtorhallen Hamburg GmbH",
+          "label_en": "4020 Deichtorhallen Hamburg GmbH"
+        },
+        {
+          "key": "086-4030",
+          "art": ["086"],
+          "typ": ["4030"],
+          "label": "4030 Elbe-Werkstätten GmbH",
+          "label_en": "4030 Elbe Workshops GmbH"
+        },
+        {
+          "key": "086-4040",
+          "art": ["086"],
+          "typ": ["4040"],
+          "label": "4040 Elbphilharmonie Hamburg Bau GmbH & Co. KG",
+          "label_en": "4040 Elbphilharmonie Hamburg Construction GmbH & Co. KG"
+        },
+        {
+          "key": "086-4050",
+          "art": ["086"],
+          "typ": ["4050"],
+          "label": "4050 f & w fördern und wohnen -A.ö.R.-",
+          "label_en": "4050 f & w promote and live -A.ö.R.-"
+        },
+        {
+          "key": "086-4060",
+          "art": ["086"],
+          "typ": ["4060"],
+          "label": "4060 FEG Fischereihafenentwicklungsges. mbH & Co. KG",
+          "label_en": "4060 FEG Fishery Port Development Company mbH & Co. KG"
+        },
+        {
+          "key": "086-4065",
+          "art": ["086"],
+          "typ": ["4065"],
+          "label": "4065 FFG Fahrzeugwerkstätten Falkenried GmbH",
+          "label_en": "4065 FFG Falkenried Vehicle Workshops GmbH"
+        },
+        {
+          "key": "086-4070",
+          "art": ["086"],
+          "typ": ["4070"],
+          "label": "4070 Flughafen Hamburg GmbH",
+          "label_en": "4070 Hamburg Airport GmbH"
+        },
+        {
+          "key": "086-4072",
+          "art": ["086"],
+          "typ": ["4072"],
+          "label": "4072 Gasnetz Hamburg GmbH",
+          "label_en": "4072 Gas Network Hamburg GmbH"
+        },
+        {
+          "key": "086-4075",
+          "art": ["086"],
+          "typ": ["4075"],
+          "label": "4075 GMH Gebäudemanagement Hamburg GmbH",
+          "label_en": "4075 GMH Building Management Hamburg GmbH"
+        },
+        {
+          "key": "086-4080",
+          "art": ["086"],
+          "typ": ["4080"],
+          "label": "4080 Hamburg Messe und Congress GmbH",
+          "label_en": "4080 Hamburg Messe und Congress GmbH"
+        },
+        {
+          "key": "086-4085",
+          "art": ["086"],
+          "typ": ["4085"],
+          "label": "4085 HamburgMusik gGmbH - Elbphilharmonie und Laeiszhalle Betriebsgesellschaft",
+          "label_en": "4085 HamburgMusik gGmbH - Elbphilharmonie and Laeiszhalle Operating Company"
+        },
+        {
+          "key": "086-4090",
+          "art": ["086"],
+          "typ": ["4090"],
+          "label": "4090 Hamburg Port Authority -A.ö.R.-",
+          "label_en": "4090 Hamburg Port Authority -A.ö.R.-"
+        },
+        {
+          "key": "086-4095",
+          "art": ["086"],
+          "typ": ["4095"],
+          "label": "4095 Hamburg Verkehrsanlagen GmbH",
+          "label_en": "4095 Hamburg Traffic Systems GmbH"
+        },
+        {
+          "key": "086-4100",
+          "art": ["086"],
+          "typ": ["4100"],
+          "label": "4100 Hamburger Friedhöfe -A.ö.R.-",
+          "label_en": "4100 Hamburg Cemeteries -A.ö.R.-"
+        },
+        {
+          "key": "086-4110",
+          "art": ["086"],
+          "typ": ["4110"],
+          "label": "4110 HaGG Hamburger Gesellschaft für Gewerbebauförderung mbH",
+          "label_en": "4110 HaGG Hamburg Company for Business Development mbH"
+        },
+        {
+          "key": "086-4120",
+          "art": ["086"],
+          "typ": ["4120"],
+          "label": "4120 Hamburger Hochbahn AG",
+          "label_en": "4120 Hamburg Elevated Railway AG"
+        },
+        {
+          "key": "086-4121",
+          "art": ["086"],
+          "typ": ["4121"],
+          "label": "4121 HSG Hanseatische Siedlungs-Gesellschaft mbH",
+          "label_en": "4121 HSG Hanseatic Settlement Society mbH"
+        },
+        {
+          "key": "086-4130",
+          "art": ["086"],
+          "typ": ["4130"],
+          "label": "4130 Hamburger Stadtentwässerung -A.ö.R.-",
+          "label_en": "4130 Hamburg City Drainage -A.ö.R.-"
+        },
+        {
+          "key": "086-4140",
+          "art": ["086"],
+          "typ": ["4140"],
+          "label": "4140 Hamburger Wasserwerke GmbH",
+          "label_en": "4140 Hamburg Waterworks GmbH"
+        },
+        {
+          "key": "086-4150",
+          "art": ["086"],
+          "typ": ["4150"],
+          "label": "4150 Hamburgische Investitions- und Förderbank",
+          "label_en": "4150 Hamburg Investment and Development Bank"
+        },
+        {
+          "key": "086-4160",
+          "art": ["086"],
+          "typ": ["4160"],
+          "label": "4160 Hamburgischer Versorgungsfonds -A.ö.R.-",
+          "label_en": "4160 Hamburg Public Utilities Fund -A.ö.R.-"
+        },
+        {
+          "key": "086-4165",
+          "art": ["086"],
+          "typ": ["4165"],
+          "label": "4165 HEG Hamburger Entsorgungsgesellschaft mbH",
+          "label_en": "4165 HEG Hamburg Waste Management Company mbH"
+        },
+        {
+          "key": "086-4170",
+          "art": ["086"],
+          "typ": ["4170"],
+          "label": "4170 HGV Hamburger Ges. für Vermögens- und Beteiligungsmanagement mbH",
+          "label_en": "4170 HGV Hamburg Company for Asset and Investment Management mbH"
+        },
+        {
+          "key": "086-4172",
+          "art": ["086"],
+          "typ": ["4172"],
+          "label": "4172 HOVG Hamburger Objekt Verwaltungs GmbH & Co. KG",
+          "label_en": "4172 HOVG Hamburg Object Management GmbH & Co. KG"
+        },
+        {
+          "key": "086-4175",
+          "art": ["086"],
+          "typ": ["4175"],
+          "label": "4175 HIE Hamburg Invest Entwicklungsgesellschaft mbH & Co. KG",
+          "label_en": "4175 HIE Hamburg Invest Development Company mbH & Co. KG"
+        },
+        {
+          "key": "086-4176",
+          "art": ["086"],
+          "typ": ["4176"],
+          "label": "4176 HIM Hamburgische Immobiliengesellschaft für Museen mbH & Co. KG",
+          "label_en": "4176 HIM Hamburg Real Estate Company for Museums mbH & Co. KG"
+        },
+        {
+          "key": "086-4177",
+          "art": ["086"],
+          "typ": ["4177"],
+          "label": "4177 IVFL Immobilienverwaltung für Forschung und Lehre Hamburg GmbH & Co. KG",
+          "label_en": "4177 IVFL Real Estate Management for Research and Teaching Hamburg GmbH & Co. KG"
+        },
+        {
+          "key": "086-4178",
+          "art": ["086"],
+          "typ": ["4178"],
+          "label": "4178 IVK Immobilienverwaltung für Kultur GmbH & Co. KG",
+          "label_en": "4178 IVK Real Estate Management for Culture GmbH & Co. KG"
+        },
+        {
+          "key": "086-4179",
+          "art": ["086"],
+          "typ": ["4179"],
+          "label": "4179 IVJV Immobilienverwaltung für Justizvollzug GmbH & Co. KG",
+          "label_en": "4179 IVJV Real Estate Management for Correctional Facilities GmbH & Co. KG"
+        },
+        {
+          "key": "086-4180",
+          "art": ["086"],
+          "typ": ["4180"],
+          "label": "4180 Kommanditgesellschaft VHG Verwaltung Hamburgischer Gebäude GmbH & Co.KG",
+          "label_en": "4180 KG VHG Administration of Hamburg Buildings GmbH & Co.KG"
+        },
+        {
+          "key": "086-4181",
+          "art": ["086"],
+          "typ": ["4181"],
+          "label": "4181 IVB Immobilienverwaltung für Bezirke GmbH & Co. KG",
+          "label_en": "4181 IVB Real Estate Management for Districts GmbH & Co. KG"
+        },
+        {
+          "key": "086-4182",
+          "art": ["086"],
+          "typ": ["4182"],
+          "label": "4182 IBA Projektentwicklungs GmbH & Co. KG",
+          "label_en": "4182 IBA Project Development GmbH & Co. KG"
+        },
+        {
+          "key": "086-4183",
+          "art": ["086"],
+          "typ": ["4183"],
+          "label": "4183 IVS Immobilienverwaltung für Sport GmbH & Co. KG",
+          "label_en": "4183 IVS Real Estate Management for Sports GmbH & Co. KG"
+        },
+        {
+          "key": "086-4185",
+          "art": ["086"],
+          "typ": ["4185"],
+          "label": "4185 MVB Müllverwertung Borsigstraße GmbH",
+          "label_en": "4185 MVB Waste Utilization Borsigstraße GmbH"
+        },
+        {
+          "key": "086-4186",
+          "art": ["086"],
+          "typ": ["4186"],
+          "label": "4186 MVR Müllverwertung Rugenberger Damm GmbH",
+          "label_en": "4186 MVR Waste Utilization Rugenberger Damm GmbH"
+        },
+        {
+          "key": "086-4190",
+          "art": ["086"],
+          "typ": ["4190"],
+          "label": "4190 P+R Betriebsgesellschaft mbH",
+          "label_en": "4190 P+R Operating Company mbH"
+        },
+        {
+          "key": "086-4200",
+          "art": ["086"],
+          "typ": ["4200"],
+          "label": "4200 Projektierungsgesellschaft Finkenwerder mbH & Co.KG",
+          "label_en": "4200 Project Development Company Finkenwerder mbH & Co.KG"
+        },
+        {
+          "key": "086-4210",
+          "art": ["086"],
+          "typ": ["4210"],
+          "label": "4210 SAGA – GWG – HIG",
+          "label_en": "4210 SAGA – GWG – HIG"
+        },
+        {
+          "key": "086-4220",
+          "art": ["086"],
+          "typ": ["4220"],
+          "label": "4220 Sprinkenhof GmbH",
+          "label_en": "4220 Sprinkenhof GmbH"
+        },
+        {
+          "key": "086-4230",
+          "art": ["086"],
+          "typ": ["4230"],
+          "label": "4230 Stadtreinigung Hamburg -A.ö.R.-",
+          "label_en": "4230 Hamburg City Cleaning -A.ö.R.-"
+        },
+        {
+          "key": "086-4235",
+          "art": ["086"],
+          "typ": ["4235"],
+          "label": "4235 Stromnetz Hamburg GmbH",
+          "label_en": "4235 Hamburg Power Grid GmbH"
+        },
+        {
+          "key": "086-4238",
+          "art": ["086"],
+          "typ": ["4238"],
+          "label": "4238 Tu Tech Innovation GmbH",
+          "label_en": "4238 Tu Tech Innovation GmbH"
+        },
+        {
+          "key": "086-4240",
+          "art": ["086"],
+          "typ": ["4240"],
+          "label": "4240 Universitätsklinikum Hamburg-Eppendorf -K.ö.R.-",
+          "label_en": "4240 University Medical Center Hamburg-Eppendorf -K.ö.R.-"
+        },
+        {
+          "key": "086-4250",
+          "art": ["086"],
+          "typ": ["4250"],
+          "label": "4250 Elbkinder Vereinigung Hamburger Kitas gGmbH",
+          "label_en": "4250 Elbkinder Association of Hamburg Daycare Centers gGmbH"
+        },
+        {
+          "key": "086-4260",
+          "art": ["086"],
+          "typ": ["4260"],
+          "label": "4260 Verkehrsbetriebe Hamburg-Holstein AG",
+          "label_en": "4260 Hamburg-Holstein Transport Company AG"
+        },
+        {
+          "key": "086-4265",
+          "art": ["086"],
+          "typ": ["4265"],
+          "label": "4265 HEnW Hamburger Energiewerke GmbH",
+          "label_en": "4265 HEnW Hamburg Energy Works GmbH"
+        },
+        {
+          "key": "086-4270",
+          "art": ["086"],
+          "typ": ["4270"],
+          "label": "4270 AKN Eisenbahn GmbH",
+          "label_en": "4270 AKN Railway GmbH"
+        }
+      ]
+    },
+    {
+      "key": "art-087",
+      "label": "087 Treuhandvermögen",
+      "label_en": "087 Trust Assets",
+      "art": ["087"],
+      "children": [
+        {
+          "key": "087-5000",
+          "art": ["087"],
+          "typ": ["5000"],
+          "label": "5000 Altonaer Spar- und Bauverein eG (087-5000)",
+          "label_en": "5000 Altona Savings and Building Cooperative eG (087-5000)"
+        },
+        {
+          "key": "087-5010",
+          "art": ["087"],
+          "typ": ["5010"],
+          "label": "5010 Johann Daniel Lawaetz-Stiftung (087-5010)",
+          "label_en": "5010 Johann Daniel Lawaetz Foundation (087-5010)"
+        },
+        {
+          "key": "087-5020",
+          "art": ["087"],
+          "typ": ["5020"],
+          "label": "5020 mgf Gartenstadt Farmsen eG Mieter- und Wohnungsbaugenossenschaft (087-5020)",
+          "label_en": "5020 mgf Gartenstadt Farmsen eG Tenant and Housing Cooperative (087-5020)"
+        },
+        {
+          "key": "087-5030",
+          "art": ["087"],
+          "typ": ["5030"],
+          "label": "5030 steg Stadterneuerungs- und Stadtentwicklungsgesellschaft Hamburg mbH (087-5030)",
+          "label_en": "5030 steg Urban Renewal and Urban Development Company Hamburg mbH (087-5030)"
+        }
+      ]
+    },
+    {
+      "key": "art-088",
+      "label": "088 Erbbaurechtsnehmer FHH",
+      "label_en": "088 Leasehold Tenants FHH",
+      "art": ["088"],
+      "children": [
+        {
+          "key": "088-2950",
+          "art": ["088"],
+          "typ": ["2950"],
+          "label": "2950 Erbbaurecht / Wohnungserbbaurecht der FHH (088-2950)",
+          "label_en": "2950 Leasehold / Housing Leasehold of FHH (088-2950)"
+        }
+      ]
+    },
+    {
+      "key": "nutzung",
+      "label": "Nutzung Kategorien",
+      "label_en": "Land Use Categories",
+      "nutzungvalue": "",
+      "children": [
+        {
+          "key": "bahnverkehr",
+          "nutzungvalue": ["bahnverkehr"],
+          "label": "Bahnverkehr",
+          "label_en": "Rail Transport"
+        },
+        {
+          "key": "flaechebesondererfunktionalerpraegung",
+          "nutzungvalue": ["flaechebesondererfunktionalerpraegung"],
+          "label": "Fläche Besonderer Funktionaler Prägung",
+          "label_en": "Special Functional Area"
+        },
+        {
+          "key": "flaechegemischternutzung",
+          "nutzungvalue": ["flaechegemischternutzung"],
+          "label": "Fläche Gemischter Nutzung",
+          "label_en": "Mixed-Use Area"
+        },
+        {
+          "key": "fliessgewaesser",
+          "nutzungvalue": ["fliessgewaesser"],
+          "label": "Fließgewässer",
+          "label_en": "Flowing Water Bodies"
+        },
+        {
+          "key": "flugverkehr",
+          "nutzungvalue": ["flugverkehr"],
+          "label": "Flugverkehr",
+          "label_en": "Air Transport"
+        },
+        {
+          "key": "friedhof",
+          "nutzungvalue": ["friedhof"],
+          "label": "Friedhof",
+          "label_en": "Cemetery"
+        },
+        {
+          "key": "gehoelz",
+          "nutzungvalue": ["gehoelz"],
+          "label": "Gehölz",
+          "label_en": "Woodland"
+        },
+        {
+          "key": "hafenbecken",
+          "nutzungvalue": ["hafenbecken"],
+          "label": "Hafenbecken",
+          "label_en": "Harbor Basin"
+        },
+        {
+          "key": "halde",
+          "nutzungvalue": ["halde"],
+          "label": "Halde",
+          "label_en": "Dump Site/Heap"
+        },
+        {
+          "key": "heide",
+          "nutzungvalue": ["heide"],
+          "label": "Heide",
+          "label_en": "Heathland"
+        },
+        {
+          "key": "industrieundgewerbeflaeche",
+          "nutzungvalue": ["industrieundgewerbeflaeche"],
+          "label": "Industrie und Gewerbefläche",
+          "label_en": "Industrial and Commercial Area"
+        },
+        {
+          "key": "landwirtschaft",
+          "nutzungvalue": ["landwirtschaft"],
+          "label": "Landwirtschaft",
+          "label_en": "Agriculture"
+        },
+        {
+          "key": "meer",
+          "nutzungvalue": ["meer"],
+          "label": "Meer",
+          "label_en": "Sea"
+        },
+        {
+          "key": "moor",
+          "nutzungvalue": ["moor"],
+          "label": "Moor",
+          "label_en": "Bog/Marshland"
+        },
+        {
+          "key": "platz",
+          "nutzungvalue": ["platz"],
+          "label": "Platz",
+          "label_en": "Public Square"
+        },
+        {
+          "key": "schiffsverkehr",
+          "nutzungvalue": ["schiffsverkehr"],
+          "label": "Schiffsverkehr",
+          "label_en": "Ship Transport"
+        },
+        {
+          "key": "sportfreizeitunderholungsflaeche",
+          "nutzungvalue": ["sportfreizeitunderholungsflaeche"],
+          "label": "Sport Freizeit und Erholungsfläche",
+          "label_en": "Sports, Leisure, and Recreation Area"
+        },
+        {
+          "key": "stehendesgewaesser",
+          "nutzungvalue": ["stehendesgewaesser"],
+          "label": "Stehendes Gewässer",
+          "label_en": "Standing Water Bodies"
+        },
+        {
+          "key": "strassenverkehr",
+          "nutzungvalue": ["strassenverkehr"],
+          "label": "Straßenverkehr",
+          "label_en": "Road Traffic"
+        },
+        {
+          "key": "sumpf",
+          "nutzungvalue": ["sumpf"],
+          "label": "Sumpf",
+          "label_en": "Swamp"
+        },
+        {
+          "key": "tagebaugrubesteinbruch",
+          "nutzungvalue": ["tagebaugrubesteinbruch"],
+          "label": "Tagebau, Grube, Steinbruch",
+          "label_en": "Open-Pit Mining, Quarry"
+        },
+        {
+          "key": "unlandvegetationsloseflaeche",
+          "nutzungvalue": ["unlandvegetationsloseflaeche"],
+          "label": "Unland Vegetationslose Fläche",
+          "label_en": "Barren Land"
+        },
+        {
+          "key": "wald",
+          "nutzungvalue": ["wald"],
+          "label": "Wald",
+          "label_en": "Forest"
+        },
+        {
+          "key": "weg",
+          "nutzungvalue": ["weg"],
+          "label": "Weg",
+          "label_en": "Pathway/Road"
+        },
+        {
+          "key": "wohnbauflaeche",
+          "nutzungvalue": ["wohnbauflaeche"],
+          "label": "Wohnbaufläche",
+          "label_en": "Residential Area"
+        }
+      ]
+    }
+  ]
+}

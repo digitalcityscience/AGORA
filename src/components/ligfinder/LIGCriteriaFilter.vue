@@ -29,7 +29,7 @@
 			<div class="no-criteria py-1" v-else>
 				<InlineMessage severity="info">{{ $t('ligfinder.filter.criteria.none')}}</InlineMessage>
 			</div>
-			<Tree :value="criteria.list" :filter="true" filterMode="strict" class="w-full md:w-30rem">
+			<Tree :value="domains.data" :filter="true" filterMode="strict" class="w-full md:w-30rem">
 			<template #default="slotProps">
 				<div class="w-full flex justify-between">
 					<div class="text flex flex-col justify-center">
@@ -54,9 +54,10 @@ import Tree from "primevue/tree";
 import Button from "primevue/button";
 import InlineMessage from "primevue/inlinemessage";
 import ChipWrapper from "../ChipWrapper.vue"
-import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria"
+import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria.ts"
 import { type TreeNode } from "primevue/treenode";
 import { computed } from "vue";
+import domains, { type LGBTypData, type NutzungItemData } from "../../domains.ts"
 const criteria = useCriteriaStore()
 
 const includedCriteria = computed(()=> { return criteria.criteriaInUse.filter((crit)=> { return crit.status === "included" }) })
@@ -64,7 +65,12 @@ const excludedCriteria = computed(()=> { return criteria.criteriaInUse.filter((c
 
 type CriteriaStatus="included"|"excluded"
 function addToAppliedCriteria(node: TreeNode, stat: CriteriaStatus): void{
-    const criterium: AppliedCriteria = { ...node, status:stat }
+    const criterium: AppliedCriteria = {
+        data: node as LGBTypData|NutzungItemData,
+        status: stat,
+        label: node.label ?? "",
+        key: node.key
+    }
     criteria.addCriteria(criterium)
 }
 function removeFromAppliedCriteria(crit: AppliedCriteria): void {

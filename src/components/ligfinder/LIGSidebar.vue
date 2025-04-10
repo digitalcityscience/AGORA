@@ -54,8 +54,8 @@ iconElement.textContent = "filter_alt"
 const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"), iconElement)
 mapStore.map.addControl(sidebarControl, "top-left")
 function applier(): void{
-    ligFilterStore.applyAllFilters().then(()=>{
-        console.info("filter applied", mapStore.map.getFilter(`${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`))
+    ligFilterStore.applyAllFilters(`${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`).then(()=>{
+        console.info("filter applied", mapStore.map.getFilter("alkis_parcel_dev_23022025"))
         resultStore.isFilterApplied = true
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody()
         const tableBar = document.getElementById("ligfinder-result-table")

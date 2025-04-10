@@ -1,28 +1,19 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
-import criteria from "../../../criteria.json"
 import { ref } from "vue";
 import { type TreeNode } from "primevue/treenode";
+import { type LGBTypData, type Domain, type NutzungItemData } from "../../domains";
+import domains from "../../../domain_structure.json"
 
-export interface CriteriaValueData {
-    filter: "value",
-    columns: string[],
-    value: string
-}
-export interface CriteriaPercentageData {
-    filter: "prozent",
-    columns: string[],
-    value: number
-}
 export interface AppliedCriteria extends TreeNode {
     status: "included"|"excluded",
-    data?: CriteriaValueData | CriteriaPercentageData,
+    data: LGBTypData|NutzungItemData,
     label: string
 }
-export const useCriteriaStore = defineStore("criteria", () => {
-    const list = criteria.items;
+
+export const useCriteriaStore = defineStore("criteriaStore", () => {
+    const list: Domain = domains;
     const criteriaInUse = ref<AppliedCriteria[]>([])
     const addCriteria = (criteria: AppliedCriteria): void => {
-        console.log("incoming criteria", criteria)
         if (criteriaInUse.value.filter((crit)=>{ return crit.key === criteria.key }).length === 0){
             criteriaInUse.value.push(criteria)
         } else {
@@ -31,25 +22,31 @@ export const useCriteriaStore = defineStore("criteria", () => {
                 criteriaInUse.value[index].status = criteria.status
             }
         }
-        console.log("criteriaInUse", criteriaInUse.value)
     }
     const removeCriteria = (criteria: AppliedCriteria): void => {
         criteriaInUse.value = criteriaInUse.value.filter(c => c.key !== criteria.key)
     }
-    function createCriteriaExpression(data: CriteriaValueData|CriteriaPercentageData): any[]{
+    function createCriteriaExpression(data: LGBTypData|NutzungItemData): any[]{
         const expression = []
-        if (data.filter === "value"){
-            expression.push("any")
-            data.columns.forEach(col => {
-                expression.push(["==", ["get", col], data.value])
+        if ("typ" in data){
+            expression.push("all")
+            data.typ.forEach(typ => {
+                expression.push(["in", typ, ["get", "lgb_typ_values"]])
             })
         } else {
-            expression.push(">")
-            expression.push(["get", data.columns[0]])
-            expression.push(data.value)
+            expression.push([
+                "all",
+                ...data.nutzungvalue.map(item =>
+                    ["in", item, ["get", "nutzart_list_final"]]
+                )
+            ])
         }
         return expression
     }
+    /**
+     * Create criteria filter
+     * @returns filter expression as MapLibre Style Expressions
+     */
     function createCriteriaFilter(): any[]{
         const includedExpression: any[] = []
         const excludedExpression: any[] = []
@@ -58,7 +55,6 @@ export const useCriteriaStore = defineStore("criteria", () => {
             if (crit.data !== undefined && crit.data !== null){
                 const criteriumExpression = createCriteriaExpression(crit.data)
                 if (criteriumExpression.length>0) {
-                    console.log("criterium", criteriumExpression)
                     if (crit.status === "included") {
                         includedExpression.push(criteriumExpression)
                     } else {
@@ -74,12 +70,14 @@ export const useCriteriaStore = defineStore("criteria", () => {
             expression.push(["any", ...excludedExpression])
         }
         if (expression.length>0) {
-            console.log("expression", expression)
             return ["all", ...expression]
         } else {
             return []
         }
     }
+    /**
+     * Reset criteria filters
+     */
     function resetCriteriaFilters(): void {
         criteriaInUse.value = []
     }
