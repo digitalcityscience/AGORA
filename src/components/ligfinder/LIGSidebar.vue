@@ -55,7 +55,6 @@ const sidebarControl = new SidebarControl("", sidebarID, document.createElement(
 mapStore.map.addControl(sidebarControl, "top-left")
 function applier(): void{
     ligFilterStore.applyAllFilters(`${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`).then(()=>{
-        console.info("filter applied", mapStore.map.getFilter("alkis_parcel_dev_23022025"))
         resultStore.isFilterApplied = true
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody()
         const tableBar = document.getElementById("ligfinder-result-table")
@@ -78,7 +77,6 @@ function getTable(): void {
         if (tableBar !== null && tableBar.classList.contains("collapsed")) {
             tableBar.classList.remove("collapsed")
         }
-        console.info(response)
     }).catch((error) => {
         console.error(error)
         isTableDataLoading.value = false
