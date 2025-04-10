@@ -150,9 +150,11 @@ export const useLigfinderMainStore = defineStore("main", () => {
         if (operator === "in") {
             return (
                 expr.length === 3 &&
-        Array.isArray(expr[2]) &&
-        expr[2][0] === "get" &&
-        typeof expr[2][1] === "string"
+              Array.isArray(expr[2]) &&
+              (
+                  (expr[2][0] === "get" && typeof expr[2][1] === "string") ||
+                (expr[2][0] === "literal" && Array.isArray(expr[2][1]))
+              )
             );
         }
         return true;
