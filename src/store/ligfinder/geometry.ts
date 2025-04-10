@@ -293,6 +293,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     }
     function removeSelectedIsochrone(): void{
         selectedIsochrone.value = []
+        updateSelectedAreasTempLayer()
     }
     // GEOMETRY FILTER
     async function createGeometryFilter(): Promise<GeometryFilterAPIResponse> {
