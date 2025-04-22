@@ -1,10 +1,11 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
-import { type FeatureCollection, type Feature } from "geojson"
+import { type FeatureCollection, type Feature, type Polygon, type MultiPolygon, type GeoJsonProperties } from "geojson"
 import { useMapStore } from "../map"
 import { type MapMouseEvent, type Map } from "maplibre-gl"
 import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw"
 import { useDrawStore } from "../draw"
+import intersect from "@turf/intersect"
 export interface IsochroneCenter {
     lng: number,
     lat: number
@@ -300,6 +301,13 @@ export const useGeometryStore = defineStore("geometry", () => {
         const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
         if (featureCollection.features.length===0){
             return await Promise.resolve({ gids:[] })
+        }
+        if (!featureCollection.union){
+            const hasValidIntersection = intersect({ type:"FeatureCollection", features:featureCollection.features as Array<Feature<Polygon | MultiPolygon, GeoJsonProperties>> }) !== null
+            if (!hasValidIntersection){
+                console.error("Invalid intersection")
+                throw new Error("Selected geometries do not intersect. Please review and apply filters again.")
+            }
         }
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/filter`,
             {
