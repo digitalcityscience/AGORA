@@ -39,11 +39,13 @@ import { useLigfinderMainStore } from "../../store/ligfinder/main"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { defineAsyncComponent, ref } from "vue";
 import { useResultStore } from "../../store/ligfinder/result";
+import { useToast } from "primevue";
 
 const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGeometryFilter.vue"))
 const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCriteriaFilter.vue"))
 const LIGAreaFilter = defineAsyncComponent(async () => await import("./LIGMetricsFilter.vue"))
 
+const toast = useToast()
 const resultStore = useResultStore()
 const ligFilterStore = useLigfinderMainStore()
 const mapStore = useMapStore()
@@ -61,7 +63,10 @@ function applier(): void{
         if (tableBar !== null && !tableBar.classList.contains("collapsed")) {
             tableBar.classList.add("collapsed")
         }
-    }).catch((error)=>{ console.error(error) })
+    }).catch((error)=>{
+        console.error(error)
+        toast.add({ severity: "error", summary: "Error", detail: error, life: 10000 })
+    })
 }
 function resetAppliedFilters(): void{
     ligFilterStore.resetFilters()
