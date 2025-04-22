@@ -12,6 +12,7 @@ import { definePreset } from "@primevue/themes"
 import "./style.css"
 import App from "./App.vue"
 import "@material-design-icons/font";
+import Tooltip from "primevue/tooltip"
 
 const pinia = createPinia()
 
@@ -118,4 +119,4 @@ const agoraPresets = definePreset(Lara, {
 	}
 })
 
-createApp(App).use(pinia).use(PrimeVue, { theme: { preset: agoraPresets, options:{ darkModeSelector: ".agora-dark" } } }).use(ToastService).use(i18n).mount("#app")
+createApp(App).use(pinia).use(PrimeVue, { theme: { preset: agoraPresets, options:{ darkModeSelector: ".agora-dark" } } }).use(ToastService).use(i18n).directive("tooltip", Tooltip).mount("#app")
