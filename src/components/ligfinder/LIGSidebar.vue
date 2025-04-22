@@ -21,7 +21,7 @@
 				<Button @click="applier">
 					<span v-if="ligFilterStore.isFilterApplying" class="pi pi-spinner animate-spin mr-1"></span>
 					{{ $t('ligfinder.filter.apply') }}</Button>
-				<Button @click="resetAplliedFilters" severity="danger">{{ $t('ligfinder.filter.reset') }}</Button>
+				<Button @click="resetAppliedFilters" severity="danger">{{ $t('ligfinder.filter.reset') }}</Button>
 				<Button v-if="resultStore.isFilterApplied" @click="getTable()">
 					<span v-if="isTableDataLoading" class="pi pi-spinner animate-spin mr-1"></span>
 					{{ $t('ligfinder.filter.getTable') }}
@@ -63,7 +63,7 @@ function applier(): void{
         }
     }).catch((error)=>{ console.error(error) })
 }
-function resetAplliedFilters(): void{
+function resetAppliedFilters(): void{
     ligFilterStore.resetFilters()
     resultStore.resetResultInfo()
 }
