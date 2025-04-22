@@ -1,5 +1,13 @@
 <template>
-	<Chip @remove="$emit('remove')" :removable="props.removable" :label="props.label" :pt="ptClasses"/>
+    <Chip
+        v-tooltip.bottom="useShortLabel ? { value: props.label, hideDelay: 300, class: 'text-sm' } : null"
+        @remove="$emit('remove')"
+        :removable="props.removable"
+        :label="useShortLabel ? props.label?.substring(0, 24) : props.label"
+        :pt="ptClasses"
+        :aria-label="props.label"
+        :title="useShortLabel ? props.label : null"
+    />
 </template>
 
 <script setup lang="ts">
@@ -9,12 +17,14 @@ import { computed } from "vue";
 interface Props {
     severity?: "primary" | "secondary" | "success" | "info" | "warning" | "danger",
     removable?: boolean,
-    label?: string
+    label?: string,
+    useShortLabel?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
     severity: "primary",
     removable: false,
-    label: undefined,
+    label: "",
+    useShortLabel: true
 })
 const ptClasses = computed(()=>{
     let colors: string[] = []
@@ -41,24 +51,25 @@ const ptClasses = computed(()=>{
             colors = ["text-white dark:text-surface-900", "bg-primary-500 dark:bg-primary-400", "border border-primary-500 dark:border-primary-400"]
             break;
     }
+    let shortenStyles: string[] = []
+    if (props.useShortLabel) {
+        shortenStyles = ["overflow-hidden", "text-ellipsis"]
+    }
     return {
         root: {
             class: [
-            // Flexbox
+                // Flexbox
                 "inline-flex items-center",
-
                 // Spacing
                 "ml-1",
                 "first:ml-0",
+                "mb-1",
                 // Shape
                 "rounded-[1rem]",
-                ...colors
+                ...colors,
+                ...shortenStyles,
             ]
         }
     }
 })
 </script>
-
-<style scoped>
-
-</style>
