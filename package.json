@@ -17,6 +17,7 @@
     "@turf/boolean-within": "^7.1.0",
     "@turf/center": "^7.1.0",
     "@turf/flatten": "^7.1.0",
+    "@turf/intersect": "^7.2.0",
     "@types/geojson": "^7946.0.14",
     "maplibre-gl": "^4.1.0",
     "pinia": "^2.1.7",
