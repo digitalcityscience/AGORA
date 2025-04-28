@@ -14,15 +14,15 @@ export const useMetricStore = defineStore("metric", () => {
     const metricFilters = ref<RangeInput>(getDefaultMetricFilters())
     function getDefaultMetricFilters(): RangeInput {
         return {
-            area_fme: { min: 0, max: 0 },
+            Shape_Area: { min: 0, max: 0 },
             bgf_sum: { min: 0, max: 0 },
             fl_unbeb_a: { min: 0, max: 0 },
-            ms_dist: { min: 0, max: 0 },
-            sm_dist: { min: 0, max: 0 },
-            kita_dist: { min: 0, max: 0 },
-            bus_dist: { min: 0, max: 0 },
-            krankenhaus_dist: { min: 0, max: 0 },
-            park_dist: { min: 0, max: 0 },
+            dist_train_station: { min: 0, max: 0 },
+            dist_supermarket: { min: 0, max: 0 },
+            dist_kindergarten: { min: 0, max: 0 },
+            dist_bus_stop: { min: 0, max: 0 },
+            dist_hospitals: { min: 0, max: 0 },
+            dist_pharmacies: { min: 0, max: 0 },
         };
     }
     function resetMetricFilters(): void {
