@@ -20,7 +20,7 @@ export interface LGBTypData {
 }
 export interface NutzungDomainData {
     key: string
-    nutzungvalue: string;
+    nutzungvalue: string[];
     label: string;
     label_en: string;
     children: NutzungItemData[];
