@@ -931,7 +931,7 @@
       "key": "nutzung",
       "label": "Nutzung Kategorien",
       "label_en": "Land Use Categories",
-      "nutzungvalue": "",
+      "nutzungvalue": [""],
       "children": [
         {
           "key": "bahnverkehr",
