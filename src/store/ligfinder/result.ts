@@ -101,7 +101,7 @@ export const useResultStore = defineStore("result", () => {
         { text: "Flurstücknummer", value: "flurst_hh" },
         { text: "Bezirk", value: "bezname" },
         { text: "Stadtteil", value: "stadtteil" },
-        { text: "Land Area in m²", value: "area_fme" },
+        { text: "Land Area in m²", value: "Shape_Area" },
         { text: "Gebäudegrundfläche", value: "geb_grf_a" },
         { text: "Unbebaute Fläche", value: "fl_unbeb_a" },
         { text: "GRZ (Alkis)", value: "alkis_grz" },

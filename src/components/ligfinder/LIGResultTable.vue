@@ -51,7 +51,7 @@
 												<Column :field="`properties.${column.name}`"
 													:header="getHeaderText(column.name)"
 													:key="column.name === 'bezname' ? `bezname-${index}` : `other-${index}`"
-													:sortable="column.name === 'area_fme'"
+													:sortable="column.name === 'Shape_Area'"
 													:hidden="isHidden(column.name)"
 													:dataType="column.binding !== 'java.lang.String' ? 'numeric' : undefined"
 													resizableColumns columnResizeMode="fit">
@@ -99,7 +99,7 @@
 												</Column>
 												<Column v-else :field="`properties.${column.value}`"
 													:header="column.text" :key="`other-${index}`"
-													:sortable="column.value === 'area_fme'">
+													:sortable="column.value === 'Shape_Area'">
 												</Column>
 											</span>
 										</span>
@@ -162,7 +162,7 @@
 											<Column :field="`properties.${column.name}`"
 												:header="getHeaderText(column.name)"
 												:key="column.name === 'bezname' ? `bezname-${index}` : `other-${index}`"
-												:sortable="column.name === 'area_fme'" :hidden="isHidden(column.name)"
+												:sortable="column.name === 'Shape_Area'" :hidden="isHidden(column.name)"
 												:dataType="column.binding !== 'java.lang.String' ? 'numeric' : undefined"
 												resizableColumns columnResizeMode="fit">
 												<template #filter="{ filterModel, filterCallback }">
@@ -206,7 +206,7 @@
 												</template>
 											</Column>
 											<Column v-else :field="`properties.${column.value}`" :header="column.text"
-												:key="`other-${index}`" :sortable="column.value === 'area_fme'">
+												:key="`other-${index}`" :sortable="column.value === 'Shape_Area'">
 											</Column>
 										</span>
 									</span>
@@ -358,7 +358,7 @@ const filters = ref({
     "properties.flurst_hh": { value: null, matchMode: FilterMatchMode.CONTAINS },
     "properties.bezname": { value: null, matchMode: FilterMatchMode.CONTAINS },
     "properties.stadtteil": { value: null, matchMode: FilterMatchMode.CONTAINS },
-    "properties.area_fme": { value: null, matchMode: FilterMatchMode.LESS_THAN },
+    "properties.Shape_Area": { value: null, matchMode: FilterMatchMode.LESS_THAN },
     "properties.geb_grf_a": { value: null, matchMode: FilterMatchMode.LESS_THAN },
     "properties.fl_unbeb_a": { value: null, matchMode: FilterMatchMode.LESS_THAN },
     "properties.alkis_grz": { value: null, matchMode: FilterMatchMode.LESS_THAN },

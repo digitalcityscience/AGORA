@@ -24,15 +24,15 @@
 			"metrics": {
 				"title": "Metric Based Filtering",
 				"labels": {
-					"area_fme": "Parcel Size in m²",
+					"Shape_Area": "Parcel Size in m²",
 					"bgf_sum": "Available Gross Floor in m²",
 					"fl_unbeb_a": "Available undeveloped area on parcel in m²",
-					"ms_dist": "Distance to Nearest Rapid Transit Station in meters",
-					"sm_dist": "Distance to Nearest Supermarket in meters",
-					"kita_dist": "Distance to Nearest Kita in meters",
-					"bus_dist": "Distance to Nearest Bus Station in meters",
-					"krankenhaus_dist": "Distance to Nearest Hospital in meters",
-					"park_dist": "Distance to Nearest Park in meters"
+					"dist_train_station": "Distance to Nearest Rapid Transit Station in meters",
+					"dist_supermarket": "Distance to Nearest Supermarket in meters",
+					"dist_kindergarten": "Distance to Nearest Kita in meters",
+					"dist_bus_stop": "Distance to Nearest Bus Station in meters",
+					"dist_hospitals": "Distance to Nearest Hospital in meters",
+					"dist_pharmacies": "Distance to Nearest Pharmacy in meters"
 				}
 			},
 			"geometry": {
@@ -79,7 +79,7 @@
 				"flurst_hh": "Flurstücknummer",
 				"bezname": "Bezirk",
 				"stadtteil": "Stadtteil",
-				"area_fme": "Land Area in m²",
+				"Shape_Area": "Land Area in m²",
 				"geb_grf_a": "Gebäudegrundfläche in m²",
 				"fl_unbeb_a": "Unbebaute Fläche in m²",
 				"alkis_grz": "GRZ (Alkis)",
