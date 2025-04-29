@@ -28,10 +28,10 @@
 					<span v-if="ligFilterStore.isFilterApplying" class="pi pi-spinner animate-spin mr-1"></span>
 					{{ $t('ligfinder.filter.apply') }}</Button>
 				<Button @click="resetAppliedFilters" severity="danger">{{ $t('ligfinder.filter.reset') }}</Button>
-				<Button v-if="resultStore.isFilterApplied" @click="getTable()">
+				<!-- <Button v-if="resultStore.isFilterApplied" @click="getTable()">
 					<span v-if="isTableDataLoading" class="pi pi-spinner animate-spin mr-1"></span>
 					{{ $t('ligfinder.filter.getTable') }}
-				</Button>
+				</Button> -->
 			</div>
 		</template>
 	</SidebarLayout>
@@ -43,7 +43,7 @@ import Button from "primevue/button";
 import { useMapStore } from "../../store/map";
 import { useLigfinderMainStore } from "../../store/ligfinder/main"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
-import { defineAsyncComponent, ref } from "vue";
+import { defineAsyncComponent } from "vue";
 import { useResultStore } from "../../store/ligfinder/result";
 import { useToast } from "primevue";
 
@@ -80,21 +80,21 @@ function resetAppliedFilters(): void{
     ligFilterStore.resetFilters()
     resultStore.resetResultInfo()
 }
-const isTableDataLoading = ref<boolean>(false)
-function getTable(): void {
-    isTableDataLoading.value = true
-    resultStore.fetchAppliedFilterResult().then((response) => {
-        resultStore.appliedFilterResult = response
-        isTableDataLoading.value = false
-        const tableBar = document.getElementById("ligfinder-result-table")
-        if (tableBar !== null && tableBar.classList.contains("collapsed")) {
-            tableBar.classList.remove("collapsed")
-        }
-    }).catch((error) => {
-        console.error(error)
-        isTableDataLoading.value = false
-    });
-}
+// const isTableDataLoading = ref<boolean>(false)
+// function getTable(): void {
+//     isTableDataLoading.value = true
+//     resultStore.fetchAppliedFilterResult().then((response) => {
+//         resultStore.appliedFilterResult = response
+//         isTableDataLoading.value = false
+//         const tableBar = document.getElementById("ligfinder-result-table")
+//         if (tableBar !== null && tableBar.classList.contains("collapsed")) {
+//             tableBar.classList.remove("collapsed")
+//         }
+//     }).catch((error) => {
+//         console.error(error)
+//         isTableDataLoading.value = false
+//     });
+// }
 </script>
 
 <style scoped>
