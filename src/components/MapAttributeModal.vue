@@ -65,7 +65,7 @@
                                     </Panel>
                                 </div>
                             </div>
-                            <div v-else-if="source.name==='final_parcel_grz_analysis_29042025'">
+                            <div v-else-if="source.name==='parcel_grz_29042025'">
                                 <div v-for="(feature, ind) in source.value" :key="ind"
                                     class="rounded-md border mt-1 px-1 first:mt-0 divide-y-2 divide-dashed">
                                     <div v-for="(property, i) in Object.entries(feature.properties)
