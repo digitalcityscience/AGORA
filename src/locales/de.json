@@ -35,6 +35,14 @@
           "dist_pharmacies": "Entfernung zum nächsten Apotheke in meter"
         }
       },
+      "grz":{
+				"title": "Baunutzungsrechtliche Filterung",
+				"labels":{
+					"grz_alkis":"Grundflächenzahl tatsächlich" ,
+					"grz_xplanung":"Grundflächenzahl B-Plan" ,
+					"grz_potential": "Verdichtungspotential",
+					"grz_potential_area":"Grundfläche"
+			}},
       "geometry": {
         "title": "Filterung nach Geometrie",
         "methods": {

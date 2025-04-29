@@ -12,6 +12,9 @@
 			<div class="py-1">
 				<LIGAreaFilter></LIGAreaFilter>
 			</div>
+			<div>
+				<LIGGRZFilter></LIGGRZFilter>
+			</div>
 			<div class="py-1">
 				<LIGGeometryFilter></LIGGeometryFilter>
 			</div>
@@ -44,6 +47,7 @@ import { useToast } from "primevue";
 const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGeometryFilter.vue"))
 const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCriteriaFilter.vue"))
 const LIGAreaFilter = defineAsyncComponent(async () => await import("./LIGMetricsFilter.vue"))
+const LIGGRZFilter = defineAsyncComponent(async () => await import("./LIGGRZFilter.vue"))
 
 const toast = useToast()
 const resultStore = useResultStore()
