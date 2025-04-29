@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { useCriteriaStore } from "./criteria"
 import { useMetricStore } from "./metric"
+import { useGrzStore } from "./grz"
 import { useGeometryStore, type ExtendedFeatureCollection } from "./geometry"
 import { useMapStore } from "../map"
 import { ref } from "vue"
@@ -10,6 +11,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
     const criteriaStore = useCriteriaStore()
     const metric = useMetricStore()
     const geometry = useGeometryStore()
+    const grz = useGrzStore()
     const mapStore = useMapStore()
     const layerName: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
 
@@ -29,7 +31,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
 
             const criteriaExpression = criteriaStore.createCriteriaFilter()
             const metricExpression = metric.createGeneralExpression()
-
+            const grzExpression = grz.createGeneralExpression()
             const areaFilterResult = await geometry.createGeometryFilter()
             const geometryExpression =
         areaFilterResult.gids.length > 0
@@ -44,7 +46,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
             const rawFilterExpression = mergeAllExpressions(
                 criteriaExpression,
                 metricExpression,
-                geometryExpression
+                geometryExpression,
+                grzExpression
             );
 
             // 🔥 New step: flatten nested/invalid expressions
@@ -84,7 +87,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
     function mergeAllExpressions(
         criteria: any[],
         general: any[],
-        geometry: any[]
+        geometry: any[],
+        grz: any[]
     ): any[] {
         const expressions: any[] = [];
 
@@ -94,6 +98,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
         expressions.push(...unwrapIfAll(general));
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         expressions.push(...unwrapIfAll(geometry));
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        expressions.push(...unwrapIfAll(grz));
 
         return expressions.length > 0 ? ["all", ...expressions] : [];
     }
@@ -102,6 +108,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
         metric.resetMetricFilters()
         criteriaStore.resetCriteriaFilters()
         geometry.resetSelectedAreas()
+        grz.resetGrzFilters()
     }
     return {
         applyAllFilters,

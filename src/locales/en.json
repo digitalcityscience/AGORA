@@ -35,6 +35,14 @@
 					"dist_pharmacies": "Distance to Nearest Pharmacy in meters"
 				}
 			},
+			"grz":{
+				"title": "Land Use Regulation Filtering",
+				"labels":{
+					"grz_alkis":"Actual floor area ratio" ,
+					"grz_xplanung":"Zoning plan floor area ratio" ,
+					"grz_potential": "Densification potential",
+					"grz_potential_area":"Potential Floor area"
+			}},
 			"geometry": {
 				"title": "Geometry Based Filtering",
 				"methods": {
