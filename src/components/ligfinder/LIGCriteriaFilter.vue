@@ -29,7 +29,7 @@
 			<div class="no-criteria py-1" v-else>
 				<InlineMessage severity="info">{{ $t('ligfinder.filter.criteria.none')}}</InlineMessage>
 			</div>
-			<Tree :value="domains.data" :filter="true" filterMode="strict" class="w-full md:w-30rem">
+			<Tree :value="domains.data" :filter="true" filterMode="strict" class="w-full md:w-30rem" :pt="{nodeLabel:'w-full'}">
 			<template #default="slotProps">
 				<div class="w-full flex justify-between">
 					<div class="text flex flex-col justify-center">
