@@ -14,6 +14,10 @@ export interface LayerStyleOptions {
 	maxzoom?: number;
 	visibility?: "none"|"visible"
 }
+export interface LayerStyleListItem {
+	options: LayerStyleOptions;
+	name: string;
+}
 export interface CustomAddLayerObject {
 	id: string;
 	source: string;
@@ -37,6 +41,7 @@ export const useMapStore = defineStore("map", () => {
 	const toast = useToast();
 	const map = ref<any>();
 	const layersOnMap = ref<LayerObjectWithAttributes[]>([]);
+	const parcelDataStyles = ref<LayerStyleListItem[]>([])
 	/**
 	 * Asynchronously adds a new data source to Maplibre map sources. The source can be either GeoJSON data or a Geoserver vector tile source.
 	 * @param {SourceType} sourceType - Specifies the type of the data source; either "geojson" or "geoserver".
@@ -374,7 +379,8 @@ export const useMapStore = defineStore("map", () => {
 		addMapLayer,
 		deleteMapLayer,
 		geometryConversion,
-		removeFromLayerList
+		removeFromLayerList,
+		parcelDataStyles
 	};
 });
 /* eslint-disable */

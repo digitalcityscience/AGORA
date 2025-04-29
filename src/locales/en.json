@@ -11,6 +11,9 @@
 	},
 	"ligfinder": {
 		"title": "LigFinder",
+		"styler": {
+			"title": "Visualization"
+		},
 		"filter": {
 			"apply": "Apply",
 			"reset": "Reset All",
