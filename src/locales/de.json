@@ -102,6 +102,21 @@
         "excluded":"{0} ist ausgeschlossen",
         "geometry":"Geometriefilter angewendet"
 			}
+    },
+    "modal": {
+      "AFL": "Fläche Flurstück",
+      "dist_pharmacies": "Entfernung Apotheke",
+      "dist_bus_stop": "Entfernung Bushaltestelle",
+      "dist_kindergarten": "Entfernung Kita",
+      "dist_hospitals": "Entfernung Krankenhaus",
+      "dist_train_station": "Entfernung S/U-Bahn Haltestelle",
+      "dist_supermarket": "Entfernung Supermarkt",
+      "dist_airport": "Entfernung Flughafen",
+      "dist_fire_departments": "Entfernung Feuerwehr",
+      "grz_alkis": "ALKIS GRZ",
+      "xplanung_id": "X-Plan ID",
+      "grz_xplanung": "X-Plan GRZ",
+      "grz_potential": "Potential GRZ"
     }
   },
   "geoparsing": {

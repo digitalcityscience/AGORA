@@ -65,6 +65,24 @@
                                     </Panel>
                                 </div>
                             </div>
+                            <div v-else-if="source.name==='final_parcel_grz_analysis_29042025'">
+                                <div v-for="(feature, ind) in source.value" :key="ind"
+                                    class="rounded-md border mt-1 px-1 first:mt-0 divide-y-2 divide-dashed">
+                                    <div v-for="(property, i) in Object.entries(feature.properties)
+                                        .map(([name, value]) => ({ name, value }))
+                                        .filter(property => attributeFormatInfo.some(attr => attr.name === property.name))"
+                                         :key="i">
+                                        <p class="font-bold">
+                                          {{ attributeFormatInfo.find(item => item.name === property.name)?.label || property.name }}
+                                        </p>
+                                        <p class="font-normal italic text-sm">
+                                          {{ attrIsNumber(source.name, property.name)
+                                            ? formatAttributeValue(property.value, attributeFormatInfo.find(item => item.name === property.name)?.format || 'string')
+                                            : property.value }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             <div v-else class="max-h-60 overflow-y-auto">
                                 <div v-for="(feature, ind) in source.value" :key="ind"
                                     class="rounded-md border mt-1 px-1 first:mt-0 divide-y-2 divide-dashed">
@@ -162,6 +180,66 @@ const elbeColumnNames: Record<string, string> = {
     word: "Ort",
     keywords: "Schlüsselwörter",
     Elbe_Wochenblatt_text_Article_Full: "vollständiger Artikel"
+}
+const attributeFormatInfo = [
+    { name: "UUID", format: "string", label: "Flurstück UUID" },
+    { name: "AFL", format: "number", label: "Fläche Flurstück" },
+    { name: "dist_pharmacies", format: "number_round", label: "Entfernung Apotheke" },
+    { name: "dist_bus_stop", format: "number_round", label: "Entfernung Bushaltestelle" },
+    { name: "dist_kindergarten", format: "number_round", label: "Entfernung Kita" },
+    { name: "dist_hospitals", format: "number_round", label: "Entfernung Krankenhaus" },
+    { name: "dist_train_station", format: "number_round", label: "Entfernung S/U-Bahn Haltestelle" },
+    { name: "dist_supermarket", format: "number_round", label: "Entfernung Supermarkt" },
+    { name: "dist_airport", format: "number_round", label: "Entfernung Flughafen" },
+    { name: "dist_fire_departments", format: "number_round", label: "Entfernung Feuerwehr" },
+    { name: "grz_alkis", format: "number", label: "ALKIS GRZ" },
+    { name: "xplanung_id", format: "string", label: "X-Plan ID" },
+    { name: "grz_xplanung", format: "number", label: "X-Plan GRZ" },
+    { name: "grz_potential", format: "number", label: "Potential GRZ" },
+    { name: "grz_potential_area", format: "number", label: "Potential GRZ Fläche" }
+];
+
+/**
+ * Formats a numeric value according to the specified format.
+ *
+ * Supported formats:
+ * - `"number"`: formats the number with 2 decimal places and thousand separators (e.g. 1,234.56)
+ * - `"number_round"`: rounds the number to the nearest integer and applies thousand separators (e.g. 1,235)
+ * - Any other format: returns the value as a string without formatting
+ *
+ * If the input value is `null`, `undefined`, or not a valid number, `"-"` is returned.
+ *
+ * @param value - The value to format. Can be any type, but will be converted to a number if possible.
+ * @param format - A string describing the desired formatting. Valid options are "number" and "number_round".
+ * @returns A formatted string representation of the value, or `"-"` for invalid input.
+ *
+ * @example
+ * ```ts
+ * formatAttributeValue(1234567.89, "number");       // "1,234,567.89"
+ * formatAttributeValue(1234567.89, "number_round"); // "1,234,568"
+ * formatAttributeValue(null, "number");             // "-"
+ * ```
+ */
+function formatAttributeValue(value: unknown, format: string): string {
+    if (value === null || value === undefined || isNaN(Number(value))) {
+        return "-";
+    }
+
+    const numberValue = Number(value);
+
+    switch (format) {
+        case "number_round":
+            return numberValue.toLocaleString("en-US", {
+                maximumFractionDigits: 0
+            });
+        case "number":
+            return numberValue.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        default:
+            return String(value);
+    }
 }
 </script>
 
