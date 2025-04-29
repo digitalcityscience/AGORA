@@ -44,31 +44,44 @@ onMounted(() => {
                         const clustered = matchedFeatures.filter((feature)=>{ return feature.properties.cluster })
                         console.log("clustered", clustered)
                         const unclusteredFeatures: any[] = []
-                        if (clustered.length>0) {
-                            const firstCluster = clustered.pop()
-                            const leaves: any[] = await mapStore.map.getSource(firstCluster.source).getClusterLeaves(firstCluster.properties.cluster_id, firstCluster.properties.point_count)
-                            leaves.forEach((leaf)=>{
-                                leaf.source = firstCluster.source
-                            })
-                            console.log("clustered leaves", leaves)
+                        while (clustered.length > 0) {
+                            const firstCluster = clustered.pop();
+                            const leaves: any[] = await mapStore.map.getSource(firstCluster.source).getClusterLeaves(
+                                firstCluster.properties.cluster_id,
+                                firstCluster.properties.point_count
+                            );
+                            leaves.forEach((leaf) => {
+                                leaf.source = firstCluster.source;
+                            });
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                            unclusteredFeatures.push(...leaves)
-                        }
-                        if (clustered.length>0) {
-                            const firstCluster = clustered.pop()
-                            const leaves2: any[] = await mapStore.map.getSource(firstCluster.source).getClusterLeaves(firstCluster.properties.cluster_id, firstCluster.properties.point_count)
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                            leaves2.forEach((leaf)=>{
-                                leaf.source = firstCluster.source
-                            })
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                            unclusteredFeatures.push(...leaves2)
+                            unclusteredFeatures.push(...leaves);
                         }
                         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                         const nonClustered = matchedFeatures.filter((feature)=>{ return !(feature.properties.cluster) })
-                        console.log("non clustered", nonClustered)
+                        // Deduplicate only for the target layer
+                        const targetLayerName = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
+
+                        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+                        const getUniqueFeatures = (features: any[], comparatorProperty: string) => {
+                            const uniqueIds = new Set();
+                            const uniqueFeatures = [];
+                            for (const feature of features) {
+                                const id = feature.properties?.[comparatorProperty];
+                                if ((Boolean(id)) && !uniqueIds.has(id)) {
+                                    uniqueIds.add(id);
+                                    uniqueFeatures.push(feature);
+                                }
+                            }
+                            return uniqueFeatures;
+                        };
+
+                        const targetLayerFeatures = nonClustered.filter(f => f.layer.id === targetLayerName);
+                        const otherFeatures = nonClustered.filter(f => f.layer.id !== targetLayerName);
+                        const uniqueTargetFeatures = getUniqueFeatures(targetLayerFeatures, "UUID");
+                        const uniqueNonClustered = otherFeatures.concat(uniqueTargetFeatures);
+                        console.log("non clustered", uniqueNonClustered)
                         console.log("unclustered", unclusteredFeatures)
-                        clickedLayers.value = nonClustered.concat(unclusteredFeatures)
+                        clickedLayers.value = uniqueNonClustered.concat(unclusteredFeatures)
                         console.log("clicked layers", clickedLayers.value)
                         function calculatePopupAnchor(lngLat: maplibregl.LngLat, map: maplibregl.Map): "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" {
                             // Modal boyutlarını piksel cinsine çevirin
@@ -102,7 +115,7 @@ onMounted(() => {
                         nextTick(() => {
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                             const popupComp = h(MapAttributeModal, {
-                                features: [...nonClustered.concat(unclusteredFeatures)],
+                                features: [...uniqueNonClustered.concat(unclusteredFeatures)],
                             });
                             render(popupComp, document.getElementById("map-popup-content")!);
                         }).then(()=>{}, ()=>{})
@@ -202,12 +215,36 @@ async function loadParcelDataset(): Promise<void> {
                                         detail,
                                         `${detail.featureType.name}`
                                     ).then(()=>{
+                                        console.log("added layer", detail.featureType.name)
                                         useResultStore().attributeList = detail.featureType.attributes.attribute.filter((att) => { return att.name !== "geom" })
                                         mapStore.map.on("click", detail.featureType.name, (e: MapMouseEvent)=>{
                                             const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
-                                            console.log("clicked features", clickedFeatures)
-                                            const activeAdminIndex = clickedFeatures.findIndex((feature)=>{ return feature.layer.id === "active-admin" })
-                                            const parcelIndex = clickedFeatures.findIndex((feature)=>{ return feature.layer.id === detail.featureType.name })
+                                            // Deduplicate only for the specified parcel layer
+                                            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+                                            const getUniqueFeatures = (features: any[], comparatorProperty: string) => {
+                                                const uniqueIds = new Set();
+                                                const uniqueFeatures = [];
+                                                for (const feature of features) {
+                                                    const id = feature.properties?.[comparatorProperty];
+                                                    if ((Boolean(id)) && !uniqueIds.has(id)) {
+                                                        uniqueIds.add(id);
+                                                        uniqueFeatures.push(feature);
+                                                    }
+                                                }
+                                                return uniqueFeatures;
+                                            };
+
+                                            const targetLayerName = import.meta.env.VITE_PARCEL_DATASET_LAYERNAME;
+                                            const parcelFeatures = clickedFeatures.filter((feature) => feature.layer.id === targetLayerName);
+                                            const otherFeatures = clickedFeatures.filter((feature) => feature.layer.id !== targetLayerName);
+                                            const uniqueTargetFeatures = getUniqueFeatures(parcelFeatures, "UUID");
+                                            const uniqueParcelFeatures = otherFeatures.concat(uniqueTargetFeatures);
+                                            const nonParcelFeatures = clickedFeatures.filter((feature) => feature.layer.id !== detail.featureType.name);
+                                            const uniqueClickedFeatures = nonParcelFeatures.concat(uniqueParcelFeatures);
+
+                                            console.log("clicked features", uniqueClickedFeatures)
+                                            const activeAdminIndex = uniqueClickedFeatures.findIndex((feature)=>{ return feature.layer.id === "active-admin" })
+                                            const parcelIndex = uniqueClickedFeatures.findIndex((feature)=>{ return feature.layer.id === detail.featureType.name })
                                             if (activeAdminIndex === -1 || activeAdminIndex>parcelIndex){
                                                 console.log("parcel event:", e)
                                             }
