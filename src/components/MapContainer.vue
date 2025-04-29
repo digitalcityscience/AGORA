@@ -6,9 +6,9 @@
 <script setup lang="ts">
 import maplibre, { type MapMouseEvent, type Map } from "maplibre-gl"
 import { h, nextTick, onMounted, ref, render } from "vue";
-import { type LayerStyleOptions, useMapStore } from "../store/map";
+import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "../store/map";
 import { useDrawStore } from "../store/draw";
-import { useGeoserverStore } from "../store/geoserver";
+import { type StyleEntry, useGeoserverStore } from "../store/geoserver";
 import { isNullOrEmpty } from "../core/helpers/functions";
 import MapAttributeModal from "./MapAttributeModal.vue"
 import { useResultStore } from "../store/ligfinder/result";
@@ -119,12 +119,12 @@ async function loadParcelDataset(): Promise<void> {
     const workspaceName: string = `${import.meta.env.VITE_PARCEL_DATASET_WORKSPACENAME}`
     if (layerName.length>0 && layerInfoURL.length>0){
         geoserver.getLayerInformation({ name:layerName, href:layerInfoURL }, workspaceName)
-            .then((layerInformation) => {
+            .then(async (layerInformation) => {
                 let layerStyling: LayerStyleOptions
+                const regex = /\.json\b/;
                 // Currently we are just picking styles which has include mbstyle in name. Further optimization needed after some period
                 // TODO: remove mbstyle selector
                 if (layerInformation.layer.defaultStyle.href.includes("mbstyle")){
-                    const regex = /\.json\b/;
                     const url = layerInformation.layer.defaultStyle.href.replace(regex, ".mbstyle")
                     geoserver.getLayerStyling(url).then(style => {
                         if (style.layers.length > 0){
@@ -148,6 +148,37 @@ async function loadParcelDataset(): Promise<void> {
                         })
                         console.log(error)
                     })
+                }
+                if (layerInformation.layer.styles.style.length > 0) {
+                    const mbStyleList: StyleEntry[] = layerInformation.layer.styles.style.filter(
+                        style => style.name.includes("grz_potential") || style.name.includes("lig-polygon")
+                    );
+                    // Load all mbstyles in parallel and wait for completion
+                    const parcelStyles = await Promise.all(
+                        mbStyleList.map(async styleEntry => {
+                            try {
+                                const mbStyle = await geoserver.getLayerStyling(
+                                    styleEntry.href.replace(regex, ".mbstyle")
+                                );
+                                if (mbStyle.layers.length > 0) {
+                                    return {
+                                        options: geoserver.convertLayerStylingToMaplibreStyle(mbStyle),
+                                        name: mbStyle.name
+                                    } satisfies LayerStyleListItem;
+                                }
+                            } catch (error) {
+                                console.error("Parcel mbstyle list error:", error);
+                            }
+                            return null;
+                        })
+                    );
+                    // Filter out any failed loads
+                    const validStyles = parcelStyles.filter(
+                        (ps): ps is LayerStyleListItem => ps !== null
+                    );
+                    if (validStyles.length > 0) {
+                        mapStore.parcelDataStyles = validStyles;
+                    }
                 }
                 if (layerInformation !== undefined) {
                     geoserver.getLayerDetail(layerInformation.layer.resource.href).then((detail) => {

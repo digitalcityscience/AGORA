@@ -7,6 +7,9 @@
 		</template>
 		<div class="w-full">
 			<div class="py-1">
+				<LIGParcelSyleSelection></LIGParcelSyleSelection>
+			</div>
+			<div class="py-1">
 				<LIGCriteriaFilter></LIGCriteriaFilter>
 			</div>
 			<div class="py-1">
@@ -48,6 +51,7 @@ const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGe
 const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCriteriaFilter.vue"))
 const LIGAreaFilter = defineAsyncComponent(async () => await import("./LIGMetricsFilter.vue"))
 const LIGGRZFilter = defineAsyncComponent(async () => await import("./LIGGRZFilter.vue"))
+const LIGParcelSyleSelection = defineAsyncComponent(async () => await import("./LIGParcelSyleSelection.vue"))
 
 const toast = useToast()
 const resultStore = useResultStore()

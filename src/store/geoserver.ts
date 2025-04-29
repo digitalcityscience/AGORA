@@ -81,6 +81,16 @@ export interface GeoserverLayerInfo {
   };
   dateCreated: string;
   dateModified: string;
+  styles: StyleList
+}
+export interface StyleEntry {
+  name: string;
+  href: string;
+}
+
+export interface StyleList {
+  "@class": string;
+  style: StyleEntry[];
 }
 export interface GeoserverLayerInfoResponse {
   layer: GeoserverLayerInfo;
