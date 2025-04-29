@@ -15,8 +15,6 @@ export const useMetricStore = defineStore("metric", () => {
     function getDefaultMetricFilters(): RangeInput {
         return {
             Shape_Area: { min: 0, max: 0 },
-            bgf_sum: { min: 0, max: 0 },
-            fl_unbeb_a: { min: 0, max: 0 },
             dist_train_station: { min: 0, max: 0 },
             dist_supermarket: { min: 0, max: 0 },
             dist_kindergarten: { min: 0, max: 0 },
