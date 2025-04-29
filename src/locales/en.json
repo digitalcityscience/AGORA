@@ -102,7 +102,22 @@
 				"excluded":"{0} is excluded",
 				"geometry":"Geometry filter applied"
 			}
-		}
+		},
+		"modal": {
+			"AFL": "Parcel Area",
+			"dist_pharmacies": "Distance Pharmacy",
+			"dist_bus_stop": "Distance Bus Stop",
+			"dist_kindergarten": "Distance Kindergarten",
+			"dist_hospitals": "Distance Hospital",
+			"dist_train_station": "Distance Metrostation",
+			"dist_supermarket": "Distance Supermarket",
+			"dist_airport": "Distance Airport",
+			"dist_fire_departments": "Distance Fire Department",
+			"grz_alkis": "ALKIS GRZ",
+			"xplanung_id": "X-Plan ID",
+			"grz_xplanung": "X-Plan GRZ",
+			"grz_potential": "Potential GRZ"
+		  }
 	},
 	"geoparsing":{
 		"parliament":{
