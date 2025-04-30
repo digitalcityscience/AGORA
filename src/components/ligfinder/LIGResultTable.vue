@@ -329,7 +329,7 @@ function focusOnSelectedParcel(parcel: any): void {
     const originalStyle = mapStore.map.getPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color");
     mapStore.map.setPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color", [
         "case",
-        ["==", ["get", "gid"], (parcel as Feature).properties!.gid],
+        ["==", ["get", "UUID"], (parcel as Feature).properties!.UUID],
         "#fefefe", // Highlight color
         originalStyle // Original color
     ]);

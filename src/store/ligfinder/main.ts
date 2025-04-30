@@ -34,12 +34,12 @@ export const useLigfinderMainStore = defineStore("main", () => {
             const grzExpression = grz.createGeneralExpression()
             const areaFilterResult = await geometry.createGeometryFilter()
             const geometryExpression =
-        areaFilterResult.gids.length > 0
-            ? geometry.createGeometryFilterExpression(areaFilterResult.gids)
+        areaFilterResult.UUIDs.length > 0
+            ? geometry.createGeometryFilterExpression(areaFilterResult.UUIDs)
             : [];
 
-            if (areaFilterResult.gids.length > 0) {
-                appliedGeometryFilterResult.value = areaFilterResult.gids
+            if (areaFilterResult.UUIDs.length > 0) {
+                appliedGeometryFilterResult.value = areaFilterResult.UUIDs
                 appliedGeometry.value = geometry.createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
             }
 
