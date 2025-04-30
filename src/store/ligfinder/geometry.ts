@@ -15,10 +15,6 @@ interface TravelMode {
     icon: string,
     value: TravelModes
 }
-export interface BaseAdministrativeFeaturePropertyItem {
-    gid: number,
-    name: string
-}
 export interface AdministrativeBoundariesListItem {
     id: number,
     name: string,
@@ -48,7 +44,7 @@ export interface UnionSelectionItem {
     value: "union"|"intersection"
 }
 export interface GeometryFilterAPIResponse {
-    gids: number[]
+    UUIDs: number[]
 }
 export const useGeometryStore = defineStore("geometry", () => {
     const mapStore = useMapStore()
@@ -90,7 +86,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         if (selectedAdministrativeFeaturesList.value.length>0){
             let alreadySelected = false
             selectedAdministrativeFeaturesList.value.forEach((feature) => {
-                if ((feature.table_name === item.table_name) && (feature.data.properties!.gid === item.data.properties!.gid)){
+                if ((feature.table_name === item.table_name) && (feature.data.properties!.UUID === item.data.properties!.UUID)){
                     alreadySelected = true
                 }
             })
@@ -114,7 +110,7 @@ export const useGeometryStore = defineStore("geometry", () => {
      */
     function removeFromSelectedAdministrativeFeaturesList(item: AdministrativeFeature): boolean {
         const index = selectedAdministrativeFeaturesList.value.findIndex(feature =>
-            feature.table_name === item.table_name && feature.data.properties!.gid === item.data.properties!.gid)
+            feature.table_name === item.table_name && feature.data.properties!.UUID === item.data.properties!.UUID)
         if (index !== -1) {
             selectedAdministrativeFeaturesList.value.splice(index, 1);
             updateSelectedAreasTempLayer()
@@ -300,7 +296,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     async function createGeometryFilter(): Promise<GeometryFilterAPIResponse> {
         const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
         if (featureCollection.features.length===0){
-            return await Promise.resolve({ gids:[] })
+            return await Promise.resolve({ UUIDs:[] })
         }
         if (!featureCollection.union){
             const hasValidIntersection = intersect({ type:"FeatureCollection", features:featureCollection.features as Array<Feature<Polygon | MultiPolygon, GeoJsonProperties>> }) !== null
@@ -327,7 +323,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     }
     function createGeometryFilterExpression(idList: number[]): any[]{
         if (idList.length>0){
-            return ["in", ["get", "gid"], ["literal", idList]]
+            return ["in", ["get", "UUID"], ["literal", idList]]
         } else {
             return []
         }
@@ -401,14 +397,14 @@ export const useGeometryStore = defineStore("geometry", () => {
         console.log("event", e as Event)
         console.log(mapStore.map.getLayersOrder())
         const activeDataFeaturesList = administrativeDataList.value.filter((item) => { return item.table_name === activeAdministrativeArea.value?.table_name })
-        const clickedFeatureGID = e.features[0].properties.gid
+        const clickedFeatureUUID = e.features[0].properties.UUID
         if (activeDataFeaturesList.length > 0) {
-            const clickedItemFeature: Feature = activeDataFeaturesList[0].data.features.filter((feature)=>{ return feature.properties!.gid === clickedFeatureGID })[0]
+            const clickedItemFeature: Feature = activeDataFeaturesList[0].data.features.filter((feature)=>{ return feature.properties!.UUID === clickedFeatureUUID })[0]
             const clickedItem: AdministrativeFeature = { data:{ ...clickedItemFeature }, id:activeAdministrativeArea.value!.id, name:activeAdministrativeArea.value!.name, table_name:activeAdministrativeArea.value!.table_name }
             console.log("from click event: ", clickedItem)
             let alreadySelected = false
             selectedAdministrativeFeaturesList.value.forEach((feature) => {
-                if ((feature.table_name === clickedItem.table_name) && (feature.data.properties!.gid === clickedItem.data.properties!.gid)){
+                if ((feature.table_name === clickedItem.table_name) && (feature.data.properties!.UUID === clickedItem.data.properties!.UUID)){
                     alreadySelected = true
                 }
             })
