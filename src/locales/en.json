@@ -35,7 +35,9 @@
 					"dist_kindergarten": "Distance to Nearest Kita in meters",
 					"dist_bus_stop": "Distance to Nearest Bus Station in meters",
 					"dist_hospitals": "Distance to Nearest Hospital in meters",
-					"dist_pharmacies": "Distance to Nearest Pharmacy in meters"
+					"dist_pharmacies": "Distance to Nearest Pharmacy in meters",
+					"dist_airport": "Distance to Nearest Airport in meters",
+					"dist_fire_departments": "Distance to Nearest Fire Department in meters"
 				}
 			},
 			"grz":{

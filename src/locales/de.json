@@ -35,7 +35,9 @@
           "dist_kindergarten": "Entfernung zur nächsten Kita in meter",
           "dist_bus_stop": "Entfernung zur nächsten Bushaltestelle in meter",
           "dist_hospitals": "Entfernung zum nächsten Krankenhaus in meter",
-          "dist_pharmacies": "Entfernung zum nächsten Apotheke in meter"
+          "dist_pharmacies": "Entfernung zum nächsten Apotheke in meter",
+          "dist_airport": "Entfernung zum nächsten Flughafen in Metern",
+          "dist_fire_departments": "Entfernung zur nächsten Feuerwehrstation in Metern"
         }
       },
       "grz":{

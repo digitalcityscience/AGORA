@@ -21,6 +21,8 @@ export const useMetricStore = defineStore("metric", () => {
             dist_bus_stop: { min: 0, max: 0 },
             dist_hospitals: { min: 0, max: 0 },
             dist_pharmacies: { min: 0, max: 0 },
+            dist_airport: { min: 0, max: 0 },
+            dist_fire_departments: { min: 0, max: 0 },
         };
     }
     function resetMetricFilters(): void {
