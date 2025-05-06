@@ -7,6 +7,7 @@ import { useMapStore } from "../map"
 import { type GeoServerFeatureTypeAttribute } from "../geoserver"
 import { useToast } from "primevue/usetoast"
 import { useCriteriaStore, type AppliedCriteria } from "./criteria"
+import { useGrzStore } from "./grz"
 interface TableHeader {
     text: string,
     value: string
@@ -14,13 +15,16 @@ interface TableHeader {
 export interface ResultTableAPIRequestBody {
     geometry: number[],
     criteria: AppliedCriteria[],
-    metric: ResultMetric[]
+    metric: ResultMetric[],
+    grz: ResultMetric[],
+    table_name?: string
 }
 export const useResultStore = defineStore("result", () => {
     const mapStore = useMapStore()
     const criteria = useCriteriaStore()
     const metric = useMetricStore()
     const ligfinder = useLigfinderMainStore()
+    const grz = useGrzStore()
     const toast = useToast()
     const attributeList = ref<GeoServerFeatureTypeAttribute[]>([])
     const isFilterApplied = ref<boolean>(false)
@@ -39,15 +43,21 @@ export const useResultStore = defineStore("result", () => {
                 body: JSON.stringify(lastAppliedFilter.value)
             }
         )
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Fetch failed with status ${response.status}: ${errorText}`);
+        }
         return await response.json()
     }
     function createAppliedFilterBody(): ResultTableAPIRequestBody{
         const usedMetrics = metric.createMetricFilter(metric.metricFilters)
+        const usedGrz = grz.createMetricFilter(grz.grzFilters)
         const usedGeometryResult = ligfinder.appliedGeometryFilterResult
         const filter: ResultTableAPIRequestBody = {
             geometry: usedGeometryResult,
             criteria: criteria.criteriaInUse,
-            metric: usedMetrics
+            metric: usedMetrics,
+            grz: usedGrz,
         }
         return filter
     }
@@ -98,14 +108,13 @@ export const useResultStore = defineStore("result", () => {
         }
     }
     const tableHeaders: TableHeader[] =[
-        { text: "Flurstücknummer", value: "flurst_hh" },
-        { text: "Bezirk", value: "bezname" },
-        { text: "Stadtteil", value: "stadtteil" },
+        { text: "UUID", value: "UUID" },
         { text: "Land Area in m²", value: "Shape_Area" },
-        { text: "Gebäudegrundfläche", value: "geb_grf_a" },
-        { text: "Unbebaute Fläche", value: "fl_unbeb_a" },
-        { text: "GRZ (Alkis)", value: "alkis_grz" },
-        { text: "GRZ (B-Plan)", value: "bplan_grz" },
+        { text: "Grundflächenzahl B-Plan", value: "grz_xplanung" },
+        { text: "Grundflächenzahl tatsächlich", value: "grz_alkis" },
+        { text: "Verdichtungspotential", value: "grz_potential" },
+        { text: "Grundfläche", value: "grz_potential_area" },
+        { text: "X-Plan ID", value: "xplanung_id" }
     ]
     return {
         isFilterApplied,
