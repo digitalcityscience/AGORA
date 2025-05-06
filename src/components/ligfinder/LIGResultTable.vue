@@ -119,7 +119,7 @@
 					<div v-if="resultStore.isFilterApplied">
 						<div v-if="resultStore.appliedFilterResult !== undefined">
 							<div v-if="filterResultTableItems.length > 0">
-								<DataTable :value="filterResultTableItems" paginator :rows="10"
+								<DataTable :value="filterResultTableItems" paginator :rows="10" stripedRows
 									:rowsPerPageOptions="[10, 20, 50]" class="w-full" size="small" table-class="w-full"
 									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink"
 									v-model:filters="filters" filter-display="menu">
@@ -355,14 +355,13 @@ function isHidden(attributeName: string): boolean {
     }
 }
 const filters = ref({
-    "properties.flurst_hh": { value: null, matchMode: FilterMatchMode.CONTAINS },
-    "properties.bezname": { value: null, matchMode: FilterMatchMode.CONTAINS },
-    "properties.stadtteil": { value: null, matchMode: FilterMatchMode.CONTAINS },
+    "properties.UUID": { value: null, matchMode: FilterMatchMode.CONTAINS },
+    "properties.xplanung_id": { value: null, matchMode: FilterMatchMode.CONTAINS },
     "properties.Shape_Area": { value: null, matchMode: FilterMatchMode.LESS_THAN },
-    "properties.geb_grf_a": { value: null, matchMode: FilterMatchMode.LESS_THAN },
-    "properties.fl_unbeb_a": { value: null, matchMode: FilterMatchMode.LESS_THAN },
-    "properties.alkis_grz": { value: null, matchMode: FilterMatchMode.LESS_THAN },
-    "properties.bplan_grz": { value: null, matchMode: FilterMatchMode.LESS_THAN }
+    "properties.grz_xplanung": { value: null, matchMode: FilterMatchMode.LESS_THAN },
+    "properties.grz_potential": { value: null, matchMode: FilterMatchMode.LESS_THAN },
+    "properties.grz_potential_area": { value: null, matchMode: FilterMatchMode.LESS_THAN },
+    "properties.grz_alkis": { value: null, matchMode: FilterMatchMode.LESS_THAN },
 });
 
 const isFullScreen = ref<boolean>(false)
