@@ -43,8 +43,8 @@
 			"grz":{
 				"title": "Land Use Regulation Filtering",
 				"labels":{
-					"grz_alkis":"Actual floor area ratio" ,
-					"grz_xplanung":"Zoning plan floor area ratio" ,
+					"grz_alkis":"Building Coverage Ratio (actual)" ,
+					"grz_xplanung":"Building Coverage Ratio (max/Zoning Plan)" ,
 					"grz_potential": "Densification potential",
 					"grz_potential_area":"Potential Floor area"
 			}},
@@ -89,15 +89,13 @@
 			"downloadGeoJSON": ".geojson",
 			"downloadCSV": ".csv",
 			"headers": {
-				"flurst_hh": "Flurstücknummer",
-				"bezname": "Bezirk",
-				"stadtteil": "Stadtteil",
-				"Shape_Area": "Land Area in m²",
-				"geb_grf_a": "Gebäudegrundfläche in m²",
-				"fl_unbeb_a": "Unbebaute Fläche in m²",
-				"alkis_grz": "GRZ (Alkis)",
-				"bplan_grz": "GRZ (B-Plan)"
-			},
+				"UUID": "UUID",
+				"Shape_Area": "Land Area (m²)",
+				"grz_xplanung": "Floor Space Index (Zoning)",
+				"grz_alkis": "Floor Space Index (Actual)",
+				"grz_potential": "Densification Potential",
+				"grz_potential_area": "Buildable Area"
+			  },
 			"summary": {
 				"title":"Used filters",
 				"included":"{0} is included",
