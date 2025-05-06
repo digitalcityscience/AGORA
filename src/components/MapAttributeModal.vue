@@ -196,7 +196,10 @@ const attributeFormatInfo = [
     { name: "xplanung_id", format: "string", label: "X-Plan ID" },
     { name: "grz_xplanung", format: "number", label: "X-Plan GRZ" },
     { name: "grz_potential", format: "number", label: "Potential GRZ" },
-    { name: "grz_potential_area", format: "number", label: "Potential GRZ Fläche" }
+    { name: "grz_potential_area", format: "number", label: "Potential GRZ Fläche" },
+    { name: "lgb_art_values", format: "string", label: "LGB Art" },
+    { name: "lgb_typ_values", format: "string", label: "LGB Typ" },
+    { name: "nutzart_list_final", format: "string", label: "Nutzung" },
 ];
 
 /**
