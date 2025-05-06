@@ -35,7 +35,7 @@
 					<div class="text flex flex-col justify-center">
 						<span class="label">{{ slotProps.node.label }}</span>
 					</div>
-					<div v-if="!slotProps.node.children">
+					<div v-if="!(slotProps.node.children && Object.prototype.hasOwnProperty.call(slotProps.node,'nutzungvalue'))">
 						<div class="actions min-w-24">
 							<Button icon="pi pi-search-plus" @click="addToAppliedCriteria(slotProps.node,'included')" text rounded aria-label="Include"></Button>
 							<Button icon="pi pi-search-minus" @click="addToAppliedCriteria(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
@@ -57,7 +57,7 @@ import ChipWrapper from "../ChipWrapper.vue"
 import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria.ts"
 import { type TreeNode } from "primevue/treenode";
 import { computed } from "vue";
-import domains, { type LGBTypData, type NutzungItemData } from "../../domains.ts"
+import domains, { type LGBArtData, type LGBTypData, type NutzungItemData } from "../../domains.ts"
 const criteria = useCriteriaStore()
 
 const includedCriteria = computed(()=> { return criteria.criteriaInUse.filter((crit)=> { return crit.status === "included" }) })
@@ -66,7 +66,7 @@ const excludedCriteria = computed(()=> { return criteria.criteriaInUse.filter((c
 type CriteriaStatus="included"|"excluded"
 function addToAppliedCriteria(node: TreeNode, stat: CriteriaStatus): void{
     const criterium: AppliedCriteria = {
-        data: node as LGBTypData|NutzungItemData,
+        data: node as LGBArtData|LGBTypData|NutzungItemData,
         status: stat,
         label: node.label ?? "",
         key: node.key
