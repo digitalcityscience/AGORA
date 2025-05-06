@@ -86,7 +86,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         if (selectedAdministrativeFeaturesList.value.length>0){
             let alreadySelected = false
             selectedAdministrativeFeaturesList.value.forEach((feature) => {
-                if ((feature.table_name === item.table_name) && (feature.data.properties!.UUID === item.data.properties!.UUID)){
+                if ((feature.table_name === item.table_name) && (feature.data.properties!.gid === item.data.properties!.gid)){
                     alreadySelected = true
                 }
             })
@@ -110,7 +110,7 @@ export const useGeometryStore = defineStore("geometry", () => {
      */
     function removeFromSelectedAdministrativeFeaturesList(item: AdministrativeFeature): boolean {
         const index = selectedAdministrativeFeaturesList.value.findIndex(feature =>
-            feature.table_name === item.table_name && feature.data.properties!.UUID === item.data.properties!.UUID)
+            feature.table_name === item.table_name && feature.data.properties!.gid === item.data.properties!.gid)
         if (index !== -1) {
             selectedAdministrativeFeaturesList.value.splice(index, 1);
             updateSelectedAreasTempLayer()
@@ -355,7 +355,7 @@ export const useGeometryStore = defineStore("geometry", () => {
                 type: "FeatureCollection",
                 features: allSelectedFeatures,
                 union:isUnion.value.value === "union",
-                tableName:"parcel"
+                tableName:import.meta.env.VITE_PARCEL_DATASET_LAYERNAME
             }
             return featureCollection
         } else {
@@ -371,7 +371,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         const layerStyle: Record<string, any> = {
             paint:{
                 "fill-color": "#FF0000",
-                "fill-opacity": 0.2,
+                "fill-opacity": 0.05,
                 "fill-outline-color": "#000000"
             }
         }
@@ -397,14 +397,14 @@ export const useGeometryStore = defineStore("geometry", () => {
         console.log("event", e as Event)
         console.log(mapStore.map.getLayersOrder())
         const activeDataFeaturesList = administrativeDataList.value.filter((item) => { return item.table_name === activeAdministrativeArea.value?.table_name })
-        const clickedFeatureUUID = e.features[0].properties.UUID
+        const clickedFeatureGID = e.features[0].properties.gid
         if (activeDataFeaturesList.length > 0) {
-            const clickedItemFeature: Feature = activeDataFeaturesList[0].data.features.filter((feature)=>{ return feature.properties!.UUID === clickedFeatureUUID })[0]
+            const clickedItemFeature: Feature = activeDataFeaturesList[0].data.features.filter((feature)=>{ return feature.properties!.gid === clickedFeatureGID })[0]
             const clickedItem: AdministrativeFeature = { data:{ ...clickedItemFeature }, id:activeAdministrativeArea.value!.id, name:activeAdministrativeArea.value!.name, table_name:activeAdministrativeArea.value!.table_name }
             console.log("from click event: ", clickedItem)
             let alreadySelected = false
             selectedAdministrativeFeaturesList.value.forEach((feature) => {
-                if ((feature.table_name === clickedItem.table_name) && (feature.data.properties!.UUID === clickedItem.data.properties!.UUID)){
+                if ((feature.table_name === clickedItem.table_name) && (feature.data.properties!.gid === clickedItem.data.properties!.gid)){
                     alreadySelected = true
                 }
             })
@@ -419,7 +419,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         const layerStyle: Record<string, any> = {
             paint:{
                 "fill-color": "#BE9FCF",
-                "fill-opacity": 0.6,
+                "fill-opacity": 0.2,
                 "fill-outline-color": "#FF0000"
             }
         }
