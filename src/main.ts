@@ -115,6 +115,15 @@ const agoraPresets = definePreset(Lara, {
 				x: "0.625rem",
 				y: "0.5rem"
 			}
+		},
+		datatable: {
+			body: {
+				cell: {
+					sm: {
+						padding: "0.25rem"
+					}
+				}
+			}
 		}
 	}
 })
