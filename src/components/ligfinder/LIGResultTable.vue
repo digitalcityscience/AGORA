@@ -317,6 +317,8 @@ function downloadAsGeojson(): void {
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
 }
+const highlightTimeout = ref<number | undefined>(undefined)
+const currentHighlightId = ref<number>(0)
 function focusOnSelectedParcel(parcel: any): void {
     mapStore.map.fitBounds(bbox(parcel as Feature), {
         padding: {
@@ -326,17 +328,46 @@ function focusOnSelectedParcel(parcel: any): void {
             right: 500
         }
     });
-    const originalStyle = mapStore.map.getPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color");
-    mapStore.map.setPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color", [
-        "case",
-        ["==", ["get", "UUID"], (parcel as Feature).properties!.UUID],
-        "#fefefe", // Highlight color
-        originalStyle // Original color
-    ]);
-    // Reset the style after 10 seconds
-    setTimeout(() => {
-        mapStore.map.setPaintProperty(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME, "fill-color", originalStyle);
-    }, 10000);
+    const tempSourceId = "highlight-source";
+    const tempLayerId = "highlight-outline";
+    const thisHighlightId = ++currentHighlightId.value
+
+    // Clean up any previous temp highlight
+    if (mapStore.map.getLayer(tempLayerId) !== undefined) {
+        mapStore.map.removeLayer(tempLayerId);
+    }
+    if (mapStore.map.getSource(tempSourceId) !== undefined) {
+        mapStore.map.removeSource(tempSourceId);
+    }
+    // Add new source for the selected feature
+    mapStore.map.addSource(tempSourceId, {
+        type: "geojson",
+        data: parcel
+    });
+    // Add outline layer
+    mapStore.map.addLayer({
+        id: tempLayerId,
+        type: "line",
+        source: tempSourceId,
+        paint: {
+            "line-color": "#000000",
+            "line-width": 4,
+            "line-opacity": 1
+        }
+    });
+    // Delay removal ONLY if it's still the latest highlight
+    if (highlightTimeout.value != null) clearTimeout(highlightTimeout.value)
+
+    highlightTimeout.value = window.setTimeout(() => {
+        if (currentHighlightId.value === thisHighlightId) {
+            if (mapStore.map.getLayer(tempLayerId) !== undefined) {
+                mapStore.map.removeLayer(tempLayerId)
+            }
+            if (mapStore.map.getSource(tempSourceId) !== undefined) {
+                mapStore.map.removeSource(tempSourceId)
+            }
+        }
+    }, 15000)
 }
 function getHeaderText(attributeName: string): string {
     const key = `ligfinder.table.headers.${attributeName}`
