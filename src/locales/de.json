@@ -191,8 +191,8 @@
       "in": "in"
     },
 		"logical": {
-			"and": "and",
-			"or": "or"
+			"and": "und",
+			"or": "oder"
 		}
   }
 }
