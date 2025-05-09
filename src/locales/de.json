@@ -189,6 +189,10 @@
       "==": "gleich",
       "!=": "ungleich",
       "in": "in"
-    }
+    },
+		"logical": {
+			"and": "and",
+			"or": "or"
+		}
   }
 }

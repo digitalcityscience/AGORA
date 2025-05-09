@@ -189,6 +189,10 @@
 			"==": "equal to",
 			"!=": "not equal to",
 			"in": "in"
-		  }
+		},
+		"logical": {
+			"and": "and",
+			"or": "or"
+		}
 	}
 }

@@ -13,16 +13,22 @@
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
 						{{ $t('ligfinder.filter.criteria.included')}}
 					</div>
-					<div class="w-full p-1">
-						<ChipWrapper v-for="crit in includedCriteria" :key="crit.key" :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="success"/>
+					<div class="w-full flex flex-wrap p-1">
+						<span v-for="(crit, index) in includedCriteria" :key="crit.key" class="flex items-center gap-1 flex-wrap p-1">
+							<ChipWrapper :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="success"/>
+							<span v-if="index < includedCriteria.length - 1" class="italic text-xs text-surface-500 dark:text-surface-400">{{ $t('helpers.logical.or')}}</span>
+						</span>
 					</div>
 				</div>
 				<div class="excluded py-1">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
 						{{ $t('ligfinder.filter.criteria.excluded')}}
 					</div>
-					<div class="w-full p-1">
-						<ChipWrapper v-for="crit in excludedCriteria" :key="crit.key" :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="danger"/>
+					<div class="w-full flex flex-wrap p-1">
+						<span v-for="(crit, index) in excludedCriteria" :key="crit.key" class="flex items-center gap-1 flex-wrap p-1">
+							<ChipWrapper :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="danger"/>
+							<span v-if="index < excludedCriteria.length - 1" class="italic text-xs text-surface-500 dark:text-surface-400">{{ $t('helpers.logical.and')}}</span>
+						</span>
 					</div>
 				</div>
 			</div>
