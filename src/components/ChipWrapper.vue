@@ -3,7 +3,7 @@
         v-tooltip.bottom="useShortLabel ? { value: props.label, hideDelay: 300, class: 'text-sm' } : null"
         @remove="$emit('remove')"
         :removable="props.removable"
-        :label="useShortLabel ? `${props.label?.substring(0, 24)}...` : props.label"
+        :label="useShortLabel && props.label && props.label.length > 24 ? `${props.label.substring(0, 24)}...` : props.label"
         :pt="ptClasses"
         :aria-label="props.label"
         :title="useShortLabel ? props.label : null"
