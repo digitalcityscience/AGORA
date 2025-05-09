@@ -116,7 +116,7 @@ export const useCriteriaStore = defineStore("criteriaStore", () => {
             expression.push(["any", ...includedExpression])
         }
         if (excludedExpression.length > 0) {
-            expression.push(["any", ...excludedExpression])
+            expression.push(["all", ...excludedExpression])
         }
         if (expression.length > 0) {
             return ["all", ...expression]
