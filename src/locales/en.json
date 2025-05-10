@@ -74,6 +74,43 @@
 					"add": "Add Isochrone",
 					"cancel": "Cancel"
 				}
+			},
+			"parcel": {
+				"title": "Parcel Maximizer",
+				"createHeader": "Find maximized parcels",
+				"saveHeader": "Save maximized parcels",
+				"threshold": "Threshold",
+				"layerName": "Layer Name",
+				"layerType": "Layer Type",
+				"exclusion": "Exclude the following land use categories from the results:",
+				"exclusionList": "road traffic, path, flowing water, standing water, sea, bog, swamp, cemetery, air traffic, ship traffic, rail traffic, square, forest, woodland, heath, harbor basin, sports/leisure/recreational area, barren/vegetation-free area.",
+				"getResults": "Get Results",
+				"clearResults": "Clear Results",
+				"saveLayer": "Save Layer",
+				"errors": {
+				  "includedConflict": "The following usage categories cannot be marked as included: {labels}",
+				  "includedConflictSummary": "Invalid selection",
+				  "thresholdInvalid": "Threshold must be a non-negative number.",
+				  "thresholdInvalidSummary": "Invalid threshold",
+				  "noFilterApplied": "No filter has been applied.",
+				  "noFilterAppliedSummary": "No filter",
+				  "addLayerFailed": "Failed to save layer.",
+				  "addLayerFailedSummary": "Error",
+				  "addLayerSuccess": "Layer \"{name}\" was added successfully.",
+				  "addLayerSuccessSummary": "Layer saved",
+				  "addToMapFailed": "Failed to add maximized parcels to the map.",
+				  "addToMapFailedSummary": "Error",
+				  "fetchFailed": "Failed to fetch parcel maximizer results.",
+				  "fetchFailedSummary": "Error",
+				  "unknown": "Unknown error",
+				  "unknownSummary": "Error",
+				  "pinia":{
+					"noFilterApplied": "No filter has been applied.",
+					"emptyData": "Maximization data is empty or invalid.",
+					"fetchFailed": "Failed to fetch maximized parcels.",
+					"addToMapFailed": "One or more layers could not be added to the map."
+				  }
+				}
 			}
 		},
 		"table": {
@@ -193,6 +230,17 @@
 		"logical": {
 			"and": "and",
 			"or": "or"
+		},
+		"layerTypes": {
+			"fill": "Polygon",
+			"line": "Line",
+			"symbol": "Symbol",
+			"circle": "Circle",
+			"heatmap": "Heatmap",
+			"fill-extrusion": "Fill Extrusion",
+			"raster": "Raster",
+			"hillshade": "Hillshade",
+			"background": "Background"
 		}
 	}
 }
