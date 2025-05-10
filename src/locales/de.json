@@ -74,6 +74,43 @@
           "add": "Isochrone hinzufügen",
           "cancel": "Abbrechen"
         }
+      },
+      "parcel": {
+        "title": "Grundstücksmaximierer",
+        "createHeader": "Maximierte Parzellen finden",
+        "saveHeader": "Maximierte Parzellen speichern",
+        "threshold": "Schwellenwert",
+        "layerName": "Ebenenname",
+        "layerType": "Ebenentyp",
+        "exclusion": "Folgende Nutzungskategorien werden aus den Ergebnissen ausgeschlossen:",
+        "exclusionList": "Straßenverkehr, Weg, Fließgewässer, Stehendes Gewässer, Meer, Moor, Sumpf, Friedhof, Flugverkehr, Schiffsverkehr, Bahnverkehr, Platz, Wald, Gehölz, Heide, Hafenbecken, Sport-/Freizeit-/Erholungsfläche, Unland/vegetationslose Fläche.",
+        "getResults": "Ergebnisse erhalten",
+        "clearResults": "Ergebnisse löschen",
+        "saveLayer": "Layer speichern",
+        "errors": {
+          "includedConflict": "Folgende Nutzungskategorien dürfen nicht gleichzeitig als einbezogen markiert sein: {labels}",
+          "includedConflictSummary": "Ungültige Auswahl",
+          "thresholdInvalid": "Der Schwellenwert muss eine nicht-negative Zahl sein.",
+          "thresholdInvalidSummary": "Ungültiger Schwellenwert",
+          "noFilterApplied": "Es wurden keine Filter angewendet.",
+          "noFilterAppliedSummary": "Kein Filter",
+          "addLayerFailed": "Layer konnte nicht gespeichert werden.",
+          "addLayerFailedSummary": "Fehler",
+          "addLayerSuccess": "Layer \"{name}\" wurde erfolgreich hinzugefügt.",
+          "addLayerSuccessSummary": "Layer gespeichert",
+          "addToMapFailed": "Maximierte Parzellen konnten nicht zur Karte hinzugefügt werden.",
+          "addToMapFailedSummary": "Fehler",
+          "fetchFailed": "Die Daten konnten nicht geladen werden.",
+          "fetchFailedSummary": "Fehler",
+          "unknown": "Unbekannter Fehler",
+          "unknownSummary": "Fehler",
+          "pinia": {
+            "noFilterApplied": "Es wurden keine Filter angewendet.",
+            "emptyData": "Maximierungsdaten sind leer oder ungültig.",
+            "fetchFailed": "Maximierte Parzellen konnten nicht geladen werden.",
+            "addToMapFailed": "Ein oder mehrere Layer konnten nicht zur Karte hinzugefügt werden."
+          }
+        }
       }
     },
     "table": {
@@ -193,6 +230,17 @@
 		"logical": {
 			"and": "und",
 			"or": "oder"
-		}
+		},
+    "layerTypes": {
+      "fill": "Füllung",
+      "line": "Linie",
+      "symbol": "Symbol",
+      "circle": "Kreis",
+      "heatmap": "Heatmap",
+      "fill-extrusion": "Füll-Extrusion",
+      "raster": "Raster",
+      "hillshade": "Hillshade",
+      "background": "Hintergrund"
+    }
   }
 }

@@ -21,6 +21,9 @@
 			<div class="py-1">
 				<LIGGeometryFilter></LIGGeometryFilter>
 			</div>
+			<div class="py-1">
+				<LIGParcelMaximizer></LIGParcelMaximizer>
+			</div>
 		</div>
 		<template #footer>
 			<div class="apply-filter w-full flex justify-around py-2">
@@ -52,6 +55,7 @@ const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCr
 const LIGAreaFilter = defineAsyncComponent(async () => await import("./LIGMetricsFilter.vue"))
 const LIGGRZFilter = defineAsyncComponent(async () => await import("./LIGGRZFilter.vue"))
 const LIGParcelSyleSelection = defineAsyncComponent(async () => await import("./LIGParcelSyleSelection.vue"))
+const LIGParcelMaximizer = defineAsyncComponent(async () => await import("./LIGParcelMaximizer.vue"))
 
 const toast = useToast()
 const resultStore = useResultStore()
