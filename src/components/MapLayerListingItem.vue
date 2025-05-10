@@ -7,7 +7,7 @@
             </template>
             <template #header>
                 <ToggleSwitch v-model="checked" @update:model-value="changeLayerVisibility"></ToggleSwitch>
-                <h3 class="capitalize mr-auto ml-2">{{ props.layer.source.replaceAll("_", " ") }}</h3>
+                <h3 class="capitalize mr-auto ml-2">{{ props.layer.displayName ?? props.layer.source.replaceAll("_", " ") }}</h3>
                 <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
                     @click="confirmDialogVisibility = true"></Button>
                 <Dialog v-model:visible="confirmDialogVisibility" modal header="Delete Map Layer" :style="{ width: '25rem' }">
