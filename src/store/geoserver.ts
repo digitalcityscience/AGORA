@@ -58,9 +58,9 @@ export interface GeoServerFeatureType {
 }
 export interface GeoServerFeatureTypeAttribute {
   name: string;
-  minOccurs: number;
-  maxOccurs: number;
-  nillable: boolean;
+  minOccurs?: number;
+  maxOccurs?: number;
+  nillable?: boolean;
   binding: string;
 }
 export interface GeoserverLayerInfo {
