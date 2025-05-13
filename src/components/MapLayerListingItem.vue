@@ -11,10 +11,10 @@
                 <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
                     @click="confirmDialogVisibility = true"></Button>
                 <Dialog v-model:visible="confirmDialogVisibility" modal header="Delete Map Layer" :style="{ width: '25rem' }">
-                    <span class="p-text-secondary block mb-5">{{ $t("mapLayers.actions.deleteQuestion",[props.layer.source.replaceAll("_", " ")])}}</span>
+                    <span class="p-text-secondary block mb-5">{{ $t("mapLayers.actions.deleteQuestion",[props.layer.displayName ?? props.layer.source.replaceAll("_", " ")])}}</span>
                     <div class="flex justify-content-end gap-2">
-                        <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false">{{ $t("mapLayers.actions.delete") }}</Button>
-                        <Button size="small" type="button" label="Delete" severity="danger" @click="deleteLayerConfirmation(props.layer)">{{ $t("mapLayers.actions.cancel") }}</Button>
+                        <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false">{{ $t("mapLayers.actions.cancel") }}</Button>
+                        <Button size="small" type="button" label="Delete" severity="danger" @click="deleteLayerConfirmation(props.layer)">{{ $t("mapLayers.actions.delete") }}</Button>
                     </div>
                 </Dialog>
             </template>
@@ -100,7 +100,9 @@ onMounted(() => {
         opac = "line-opacity"
     }
     if (!isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, prop))) {
+        console.log(`${props.layer.id} upcoming color:`, mapStore.map.getPaintProperty(props.layer.id, prop))
         color.value = ((props.layer.clustered !== undefined && props.layer.clustered) || typeof mapStore.map.getPaintProperty(props.layer.id, prop) !== "string")?"000000":(mapStore.map.getPaintProperty(props.layer.id, prop) as string).substring(1)
+        console.log(`${props.layer.id} color:`, color.value)
     }
     if (!isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, opac))) {
         opacity.value = mapStore.map.getPaintProperty(props.layer.id, opac)
