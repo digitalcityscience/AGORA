@@ -21,6 +21,7 @@ export interface LayerStyleListItem {
 export interface CustomAddLayerObject {
 	id: string;
 	source: string;
+	sourceType: "geojson"|"geoserver";
 	type: MapLibreLayerTypes;
 	"source-layer"?: string;
 	paint?: Record<string, unknown>;
@@ -233,6 +234,7 @@ export const useMapStore = defineStore("map", () => {
 		const layerObject: CustomAddLayerObject = {
 			id: identifier,
 			source,
+			sourceType,
 			type: layerType,
 			showOnLayerList,
 			...styling,
