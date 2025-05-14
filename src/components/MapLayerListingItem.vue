@@ -53,6 +53,9 @@
                 </div>
                 <div class="py-1" v-else></div>
             </div>
+            <div v-if="props.layer.sourceType === 'geojson' && props.layer.filterLayerData !== undefined && props.layer.filterLayerData !== null">
+                <DownloadForm :layerData="props.layer.filterLayerData"></DownloadForm>
+            </div>
         </Panel>
     </div>
 </template>
@@ -72,6 +75,7 @@ import { isNullOrEmpty } from "../core/helpers/functions";
 import ParliamentDBFilter from "./geoparsing/ParliamentDBFilter.vue";
 import ElbewochenblattDBFilter from "./geoparsing/ElbewochenblattDBFilter.vue";
 import MBStyleLegend from "./MBStyleLegend.vue";
+import DownloadForm from "./DownloadForm.vue";
 
 const GeometryFiltering = defineAsyncComponent(async () => await import("../components/GeometryFiltering.vue"));
 
