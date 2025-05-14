@@ -197,3 +197,29 @@ export function downloadCSVFromGeoJSON(geojson: FeatureCollection, fileName: str
         }
     }
 }
+/**
+ * Downloads a GeoJSON FeatureCollection as a .geojson file.
+ * @param data - The GeoJSON FeatureCollection to download.
+ * @param fileName - The desired filename for the downloaded file (without extension).
+ */
+export function downloadAsGeojson(data: FeatureCollection, fileName: string): void {
+    if (data === null || data === undefined || !Array.isArray(data.features) || data.features.length === 0) {
+        console.error("Invalid GeoJSON FeatureCollection provided.");
+        return;
+    }
+    // Sanitize the provided filename.
+    let sanitizedFilename = sanitizeFilename(fileName);
+    if (sanitizedFilename.length === 0) {
+        sanitizedFilename = "data";
+    }
+    if (!sanitizedFilename.toLowerCase().endsWith(".geojson")) {
+        sanitizedFilename += ".geojson";
+    }
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+    const downloadAnchorNode = document.createElement("a");
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", sanitizedFilename);
+    document.body.appendChild(downloadAnchorNode); // required for Firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
