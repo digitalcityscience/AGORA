@@ -242,5 +242,13 @@
       "hillshade": "Hillshade",
       "background": "Hintergrund"
     }
+  },
+  "download": {
+    "title":"Daten herunterladen",
+    "subtitle":"Sie können die Daten der Ebene entweder im GeoJSON- oder CSV-Format herunterladen.",
+    "fileName": "Dateiname",
+    "download": "Herunterladen",
+    "downloadGeoJSON": ".geojson",
+    "downloadCSV": ".csv"
   }
 }

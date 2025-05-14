@@ -242,5 +242,14 @@
 			"hillshade": "Hillshade",
 			"background": "Background"
 		}
+	},
+	"download": {
+	  "title":"Download Layer Data",
+	  "subtitle":"You can download the data of the layer in either GeoJSON or CSV format.",
+	  "fileName": "File Name",
+	  "download": "Download",
+	  "downloadGeoJSON": ".geojson",
+	  "downloadCSV": ".csv"
+
 	}
 }
