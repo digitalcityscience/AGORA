@@ -143,7 +143,7 @@
 			}
 		},
 		"modal": {
-			"AFL": "Parcel Area",
+			"Shape_Area": "Parcel Area",
 			"dist_pharmacies": "Distance Pharmacy",
 			"dist_bus_stop": "Distance Bus Stop",
 			"dist_kindergarten": "Distance Kindergarten",

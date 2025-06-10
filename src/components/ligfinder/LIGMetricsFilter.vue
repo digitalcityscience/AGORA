@@ -15,11 +15,11 @@
                     <div class="range-input flex flex-start">
 						<div class="input-group flex flex-col font-light text-xs italic">
 							<label :for="`${key}-min`" class="pl-1">Min</label>
-							<InputNumber :inputId="`${key}-min`" v-model="filter.min" @update:model-value="() => validateAndSet(filter, key)" :min="0"></InputNumber>
+							<InputNumber :inputId="`${key}-min`" v-model="filter.min" @update:model-value="() => validateAndSet(filter, key)" :min="0" :disabled="key=='Shape_Area'&&ligfinderStore.isMaximizerActive"></InputNumber>
 						</div>
 						<div class="input-group flex flex-col font-light text-xs italic pl-2">
 							<label :for="`${key}-max`" class="pl-1">Max</label>
-							<InputNumber :inputId="`${key}-max`" v-model="filter.max" @update:model-value="() => validateAndSet(filter, key)" :min="0"></InputNumber>
+							<InputNumber :inputId="`${key}-max`" v-model="filter.max" @update:model-value="() => validateAndSet(filter, key)" :min="0" :disabled="key=='Shape_Area'&&ligfinderStore.isMaximizerActive"></InputNumber>
 						</div>
                     </div>
                 </div>
@@ -35,8 +35,10 @@ import Panel from "primevue/panel";
 import InputNumber from "primevue/inputnumber";
 import { nextTick, ref } from "vue";
 import { useMetricStore } from "../../store/ligfinder/metric";
+import { useLigfinderMainStore } from "../../store/ligfinder/main";
 
 const metric = useMetricStore()
+const ligfinderStore = useLigfinderMainStore()
 const validationInProgress = ref(false)
 /**
  * Validates and corrects the min and max values of a given range object. Sets null values to 0 for validation, but does not include

@@ -143,7 +143,7 @@
 			}
     },
     "modal": {
-      "AFL": "Fläche Flurstück",
+      "Shape_Area": "Fläche Flurstück",
       "dist_pharmacies": "Entfernung Apotheke",
       "dist_bus_stop": "Entfernung Bushaltestelle",
       "dist_kindergarten": "Entfernung Kita",
