@@ -183,7 +183,7 @@ const elbeColumnNames: Record<string, string> = {
 }
 const attributeFormatInfo = [
     { name: "UUID", format: "string", label: "Flurstück UUID" },
-    { name: "AFL", format: "number", label: "Fläche Flurstück" },
+    { name: "Shape_Area", format: "number", label: "Fläche Flurstück" },
     { name: "dist_pharmacies", format: "number_round", label: "Entfernung Apotheke" },
     { name: "dist_bus_stop", format: "number_round", label: "Entfernung Bushaltestelle" },
     { name: "dist_kindergarten", format: "number_round", label: "Entfernung Kita" },
