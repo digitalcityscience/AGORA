@@ -6,6 +6,7 @@ import { useGeometryStore, type ExtendedFeatureCollection } from "./geometry"
 import { useMapStore } from "../map"
 import { ref } from "vue"
 import { unwrapIfAll, flattenFilterExpression, isValidMapLibreExpression } from "../../core/helpers/maplibreExpressions"
+import { useParcelStore } from "./parcel"
 
 export const useLigfinderMainStore = defineStore("main", () => {
     const criteriaStore = useCriteriaStore()
@@ -13,6 +14,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
     const geometry = useGeometryStore()
     const grz = useGrzStore()
     const mapStore = useMapStore()
+    const parcelStore = useParcelStore()
     const layerName: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
 
     const appliedGeometryFilterResult = ref<number[]>([])
@@ -109,6 +111,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
         criteriaStore.resetCriteriaFilters()
         geometry.resetSelectedAreas()
         grz.resetGrzFilters()
+        parcelStore.cancelTempMaximizedParcels()
     }
     return {
         applyAllFilters,
