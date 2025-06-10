@@ -8,7 +8,12 @@
             <template #header>
                 <span class="font-bold">{{ $t('ligfinder.filter.parcel.title') }}</span>
             </template>
-            <div class="parcel-maximizer">
+            <div class="activation pb-2">
+                <Checkbox v-model="ligfinderStore.isMaximizerActive" inputId="parcel-maximizer" name="parcel-maximizer" binary />
+                <label for="parcel-maximizer" class="pl-1">{{ ligfinderStore.isMaximizerActive ? $t('ligfinder.filter.parcel.disable') : $t('ligfinder.filter.parcel.enable') }}</label>
+            </div>
+            <Divider />
+            <div v-if="ligfinderStore.isMaximizerActive" class="parcel-maximizer">
                 <h3 class="text-lg font-semibold pb-2">{{ $t("ligfinder.filter.parcel.createHeader") }}</h3>
                 <div class="filter-section">
                     <div class="attribute w-full py-1">
@@ -83,11 +88,13 @@ import { useToast } from "primevue/usetoast";
 import { useMapStore } from "../../store/map";
 import { getRandomHexColor } from "../../core/helpers/functions";
 import { useI18n } from "vue-i18n";
+import { useLigfinderMainStore } from "../../store/ligfinder/main";
 
 const toast = useToast();
 const parcelStore = useParcelStore();
 const resultStore = useResultStore();
 const mapStore = useMapStore();
+const ligfinderStore = useLigfinderMainStore();
 const { t } = useI18n()
 const include = ref<boolean>(true);
 const threshold = ref<number>(0);
@@ -107,15 +114,15 @@ function getResults(): void {
         parcelStore.excludedKeys.includes((c.data as any).nutzungvalue[0] as string));
     if ((overlapping != null) && overlapping.length > 0) {
         const labels = overlapping.map(c => c.label).join(", ");
-        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.includedConflictSummary"), detail: t("ligfinder.filter.parcel.errors.includedConflict", { labels }), life: 5000 });
+        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.includedConflictSummary"), detail: t("ligfinder.filter.parcel.errors.includedConflict", { labels }), life: 10000 });
         return;
     }
     if (threshold.value < 0) {
-        toast.add({ severity: "warn", summary: t("ligfinder.filter.parcel.errors.thresholdInvalidSummary"), detail: t("ligfinder.filter.parcel.errors.thresholdInvalid"), life: 4000 });
+        toast.add({ severity: "warn", summary: t("ligfinder.filter.parcel.errors.thresholdInvalidSummary"), detail: t("ligfinder.filter.parcel.errors.thresholdInvalid"), life: 10000 });
         return;
     }
     if (resultStore.lastAppliedFilter === undefined) {
-        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.noFilterAppliedSummary"), detail: t("ligfinder.filter.parcel.errors.noFilterApplied"), life: 4000 });
+        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.noFilterAppliedSummary"), detail: t("ligfinder.filter.parcel.errors.noFilterApplied"), life: 10000 });
         return;
     }
     parcelStore.fetchParcelMaximizationResult(resultStore.lastAppliedFilter, threshold.value, include.value)
@@ -123,11 +130,11 @@ function getResults(): void {
             try {
                 parcelStore.addTempMaximizedParcels(response);
             } catch (error: any) {
-                toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.unknownSummary"), detail: error?.message ?? t("ligfinder.filter.parcel.errors.unknown"), life: 4000 });
+                toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.unknownSummary"), detail: error?.message ?? t("ligfinder.filter.parcel.errors.unknown"), life: 10000 });
             }
         })
         .catch((error) => {
-            toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.unknownSummary"), detail: error?.message ?? t("ligfinder.filter.parcel.errors.unknown"), life: 4000 });
+            toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.unknownSummary"), detail: error?.message ?? t("ligfinder.filter.parcel.errors.unknown"), life: 10000 });
         });
 }
 
@@ -149,10 +156,10 @@ function saveLayer(): void {
 
         return await mapStore.addMapLayer("geojson", id, layerType.value, style, undefined, undefined, geojson, false, layerName.value, sourceId, true);
     }).then(() => {
-        toast.add({ severity: "success", summary: t("ligfinder.filter.parcel.errors.addLayerSuccessSummary"), detail: t("ligfinder.filter.parcel.errors.addLayerSuccess", { name: layerName.value }), life: 4000 });
+        toast.add({ severity: "success", summary: t("ligfinder.filter.parcel.errors.addLayerSuccessSummary"), detail: t("ligfinder.filter.parcel.errors.addLayerSuccess", { name: layerName.value }), life: 10000 });
         layerName.value = "";
     }).catch(() => {
-        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.addLayerFailedSummary"), detail: t("ligfinder.filter.parcel.errors.addLayerFailed"), life: 4000 });
+        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.addLayerFailedSummary"), detail: t("ligfinder.filter.parcel.errors.addLayerFailed"), life: 10000 });
     });
 }
 </script>

@@ -20,6 +20,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
     const appliedGeometryFilterResult = ref<number[]>([])
     const appliedGeometry = ref<ExtendedFeatureCollection|null>(null)
     const isFilterApplying = ref<boolean>(false)
+    const isMaximizerActive = ref<boolean>(false)
     /**
    * Applies all filters (criteria, metric, and geometry) to the specified MapLibre layer.
    * Combines the filters using a top-level "all" expression, validates the result,
@@ -118,7 +119,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
         resetFilters,
         appliedGeometry,
         appliedGeometryFilterResult,
-        isFilterApplying
+        isFilterApplying,
+        isMaximizerActive
     }
 })
 

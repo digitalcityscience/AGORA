@@ -76,6 +76,8 @@
 				}
 			},
 			"parcel": {
+				"enable": "Enable Parcel Maximizer",
+				"disable": "Disable Parcel Maximizer",
 				"title": "Parcel Maximizer",
 				"createHeader": "Find maximized parcels",
 				"saveHeader": "Save maximized parcels",
