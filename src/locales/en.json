@@ -79,7 +79,7 @@
 				"title": "Parcel Maximizer",
 				"createHeader": "Find maximized parcels",
 				"saveHeader": "Save maximized parcels",
-				"threshold": "Threshold",
+				"threshold": "Threshold (m²)",
 				"layerName": "Layer Name",
 				"layerType": "Layer Type",
 				"exclusion": "Exclude the following land use categories from the results:",
