@@ -15,7 +15,7 @@
                         <div class="range-input flex flex-start">
                             <div class="input-group flex flex-col">
                                 <label for="parcel-threshold" class="font-bold block mb-2">{{ $t(`ligfinder.filter.parcel.threshold`) }}</label>
-                                <InputNumber inputId="parcel-threshold" v-model="threshold" :min="0" aria-describedby="parcel-threshold-desc"></InputNumber>
+                                <InputNumber inputId="parcel-threshold" v-model="threshold" :min="0" suffix=" m²" aria-describedby="parcel-threshold-desc"></InputNumber>
                                 <span id="parcel-threshold-desc" class="sr-only">{{ $t('ligfinder.filter.parcel.thresholdDescription') }}</span>
                             </div>
                         </div>

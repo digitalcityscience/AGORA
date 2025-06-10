@@ -79,7 +79,7 @@
         "title": "Grundstücksmaximierer",
         "createHeader": "Maximierte Parzellen finden",
         "saveHeader": "Maximierte Parzellen speichern",
-        "threshold": "Schwellenwert",
+        "threshold": "Schwellenwert (m²)",
         "layerName": "Ebenenname",
         "layerType": "Ebenentyp",
         "exclusion": "Folgende Nutzungskategorien werden aus den Ergebnissen ausgeschlossen:",
