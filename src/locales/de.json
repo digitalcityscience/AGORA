@@ -76,6 +76,8 @@
         }
       },
       "parcel": {
+        "enable": "Grundstücksmaximierer aktivieren",
+        "disable": "Grundstücksmaximierer deaktivieren",
         "title": "Grundstücksmaximierer",
         "createHeader": "Maximierte Parzellen finden",
         "saveHeader": "Maximierte Parzellen speichern",
