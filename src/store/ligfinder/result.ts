@@ -50,7 +50,7 @@ export const useResultStore = defineStore("result", () => {
         return await response.json()
     }
     function createAppliedFilterBody(): ResultTableAPIRequestBody{
-        const usedMetrics = metric.createMetricFilter(metric.metricFilters)
+        const usedMetrics = metric.createMetricFilter(metric.metricFilters, ligfinder.isMaximizerActive)
         const usedGrz = grz.createMetricFilter(grz.grzFilters)
         const usedGeometryResult = ligfinder.appliedGeometryFilterResult
         const filter: ResultTableAPIRequestBody = {

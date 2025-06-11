@@ -28,8 +28,8 @@ export const useMetricStore = defineStore("metric", () => {
     function resetMetricFilters(): void {
         metricFilters.value = getDefaultMetricFilters()
     }
-    function createGeneralExpression(): any[] {
-        const metricExpressions = createRangeExpressions(metricFilters.value)
+    function createGeneralExpression(excludeShapeArea: boolean): any[] {
+        const metricExpressions = createRangeExpressions(metricFilters.value, excludeShapeArea)
         const expression = [...metricExpressions]
         return [...expression]
     }
@@ -46,9 +46,10 @@ export const useMetricStore = defineStore("metric", () => {
      * starts with the "all" operator followed by sub-expressions for each filter. If no valid range filters are provided,
      * an empty array is returned.
      */
-    function createRangeExpressions(filters: RangeInput): any[] {
+    function createRangeExpressions(filters: RangeInput, excludeShapeArea: boolean): any[] {
         const expression: any[] = []
         Object.entries(filters).forEach(([key, value]) => {
+            if (excludeShapeArea && key === "Shape_Area") return;
             if (value.min !== 0) {
                 expression.push([">", ["get", key], value.min])
             }
@@ -62,9 +63,10 @@ export const useMetricStore = defineStore("metric", () => {
             return []
         }
     }
-    function createMetricFilter(filters: RangeInput): ResultMetric[] {
+    function createMetricFilter(filters: RangeInput, excludeShapeArea: boolean): ResultMetric[] {
         const list: ResultMetric[] = []
         Object.entries(filters).forEach(([key, value]) => {
+            if (excludeShapeArea && key === "Shape_Area") return;
             if (value.min !== 0) {
                 list.push({ operation:">", column: key, value: String(value.min) })
             }

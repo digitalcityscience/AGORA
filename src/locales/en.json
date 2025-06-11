@@ -108,7 +108,7 @@
 				  "unknownSummary": "Error",
 				  "pinia":{
 					"noFilterApplied": "No filter has been applied.",
-					"emptyData": "Maximization data is empty or invalid.",
+					"emptyData": "No result found.",
 					"fetchFailed": "Failed to fetch maximized parcels.",
 					"addToMapFailed": "One or more layers could not be added to the map."
 				  }

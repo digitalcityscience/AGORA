@@ -49,6 +49,7 @@ import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { defineAsyncComponent, ref } from "vue";
 import { useResultStore } from "../../store/ligfinder/result";
 import { useToast } from "primevue";
+import { useParcelStore } from "../../store/ligfinder/parcel";
 
 const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGeometryFilter.vue"))
 const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCriteriaFilter.vue"))
@@ -61,6 +62,7 @@ const toast = useToast()
 const resultStore = useResultStore()
 const ligFilterStore = useLigfinderMainStore()
 const mapStore = useMapStore()
+const parcelStore = useParcelStore()
 const sidebarID = "ligfinder-sidebar"
 const iconElement = document.createElement("span")
 iconElement.classList.add("material-icons-outlined")
@@ -71,6 +73,12 @@ function applier(): void{
     ligFilterStore.applyAllFilters(`${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`).then(()=>{
         resultStore.isFilterApplied = true
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody()
+        if (parcelStore.maximizedParcelsOnMap) {
+            parcelStore.cancelTempMaximizedParcels()
+        }
+        if (ligFilterStore.isMaximizerActive) {
+            parcelStore.getResults()
+        }
         const tableBar = document.getElementById("ligfinder-result-table")
         if (tableBar !== null && !tableBar.classList.contains("collapsed")) {
             tableBar.classList.add("collapsed")
