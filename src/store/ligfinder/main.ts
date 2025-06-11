@@ -33,7 +33,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
             isFilterApplying.value = true
 
             const criteriaExpression = criteriaStore.createCriteriaFilter()
-            const metricExpression = metric.createGeneralExpression()
+            const metricExpression = metric.createGeneralExpression(isMaximizerActive.value)
             const grzExpression = grz.createGeneralExpression()
             const areaFilterResult = await geometry.createGeometryFilter()
             const geometryExpression =

@@ -108,7 +108,7 @@
           "unknownSummary": "Fehler",
           "pinia": {
             "noFilterApplied": "Es wurden keine Filter angewendet.",
-            "emptyData": "Maximierungsdaten sind leer oder ungültig.",
+            "emptyData": "Keine Ergebnisse gefunden.",
             "fetchFailed": "Maximierte Parzellen konnten nicht geladen werden.",
             "addToMapFailed": "Ein oder mehrere Layer konnten nicht zur Karte hinzugefügt werden."
           }

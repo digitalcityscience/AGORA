@@ -1,9 +1,11 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
-import { type ResultTableAPIRequestBody } from "./result";
+import { useToast } from "primevue/usetoast";
+import { useResultStore, type ResultTableAPIRequestBody } from "./result";
 import { ref } from "vue";
 import { type FeatureCollection } from "geojson";
 import { useMapStore } from "../map";
 import { useI18n } from "vue-i18n";
+import { useLigfinderMainStore } from "./main";
 interface ParcelMaximizationRequestBody extends ResultTableAPIRequestBody {
     threshold: number
 }
@@ -11,6 +13,9 @@ interface ParcelMaximizationRequestBody extends ResultTableAPIRequestBody {
 export const useParcelStore = defineStore("parcelStore", () => {
     const { t } = useI18n();
     const mapStore = useMapStore();
+    const resultStore = useResultStore();
+    const ligfinder = useLigfinderMainStore();
+    const toast = useToast();
     const excludedKeys = ref<string[]>([
         "strassenverkehr", "weg", "fliessgewaesser", "stehendesgewaesser",
         "meer", "moor", "sumpf", "friedhof", "flugverkehr", "schiffsverkehr",
@@ -162,6 +167,49 @@ export const useParcelStore = defineStore("parcelStore", () => {
 
         maximizedParcelsOnMap.value = false;
         maximizedParcelsGeoJSON.value = undefined;
+        ligfinder.isMaximizerActive = false;
+        threshold.value = 0;
+    }
+
+    const include = ref<boolean>(true);
+    const threshold = ref<number>(0);
+    const layerName = ref("");
+    const layerType = ref<"fill" | "line">("fill");
+    /**
+ * Validates the current filter state and threshold, and triggers the fetch
+ * for maximized parcel results. Handles user error feedback with toasts.
+ */
+    function getResults(): void {
+        const overlapping = resultStore.lastAppliedFilter?.criteria.filter(c =>
+            c.status === "included" &&
+        typeof c.data === "object" &&
+        "nutzungvalue" in c.data &&
+        Array.isArray((c.data).nutzungvalue) &&
+        excludedKeys.value.includes((c.data).nutzungvalue[0]));
+        if ((overlapping != null) && overlapping.length > 0) {
+            const labels = overlapping.map(c => c.label).join(", ");
+            toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.includedConflictSummary"), detail: t("ligfinder.filter.parcel.errors.includedConflict", { labels }), life: 10000 });
+            return;
+        }
+        if (threshold.value < 0) {
+            toast.add({ severity: "warn", summary: t("ligfinder.filter.parcel.errors.thresholdInvalidSummary"), detail: t("ligfinder.filter.parcel.errors.thresholdInvalid"), life: 10000 });
+            return;
+        }
+        if (resultStore.lastAppliedFilter === undefined) {
+            toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.noFilterAppliedSummary"), detail: t("ligfinder.filter.parcel.errors.noFilterApplied"), life: 10000 });
+            return;
+        }
+        fetchParcelMaximizationResult(resultStore.lastAppliedFilter, threshold.value, include.value)
+            .then((response) => {
+                try {
+                    addTempMaximizedParcels(response);
+                } catch (error: any) {
+                    toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.unknownSummary"), detail: error?.message ?? t("ligfinder.filter.parcel.errors.unknown"), life: 10000 });
+                }
+            })
+            .catch((error) => {
+                toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.unknownSummary"), detail: error?.message ?? t("ligfinder.filter.parcel.errors.unknown"), life: 10000 });
+            });
     }
     return {
         fetchParcelMaximizationResult,
@@ -169,7 +217,12 @@ export const useParcelStore = defineStore("parcelStore", () => {
         addTempMaximizedParcels,
         cancelTempMaximizedParcels,
         maximizedParcelsOnMap,
-        maximizedParcelsGeoJSON
+        maximizedParcelsGeoJSON,
+        include,
+        threshold,
+        layerName,
+        layerType,
+        getResults
     }
 })
 
