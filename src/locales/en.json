@@ -140,6 +140,11 @@
 				"included":"{0} is included",
 				"excluded":"{0} is excluded",
 				"geometry":"Geometry filter applied"
+			},
+			"messages":{
+				"noResults": "No results found",
+				"noFilter": "No filter applied",
+				"layerNameInUse": "Layer name already in use. Please choose a different name."
 			}
 		},
 		"modal": {
