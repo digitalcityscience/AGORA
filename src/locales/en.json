@@ -118,6 +118,7 @@
 		"table": {
 			"title": "LigFinder Results",
 			"count": "There were {0} plots found",
+			"zoomToResults": "Zoom to Results",
 			"focus": "Focus",
 			"noResults": "No results found",
 			"noFilter": "No filter applied",

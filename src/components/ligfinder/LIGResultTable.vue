@@ -124,15 +124,24 @@
 									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink"
 									v-model:filters="filters" filter-display="menu">
 									<template #header>
-										<div class="flex justify-between">
+										<div class="flex justify-between pt-1">
 											<span class="self-center">
 												{{ $t('ligfinder.table.count', [`${filterResultTableItems.length}`]) }}
 											</span>
-											<Button text raised @click="isFullScreen = true">
-												<template #icon>
-													<i class="material-icons">open_in_full</i>
-												</template>
-											</Button>
+											<div class="flex">
+												<div v-if="resultStore.appliedFilterResult.features.length > 0" class="px-1">
+													<Button text raised @click="mapStore.map.fitBounds(bbox(resultStore.appliedFilterResult))">
+														{{ $t('ligfinder.table.zoomToResults') }}
+													</Button>
+												</div>
+												<div class="px-1">
+													<Button text raised @click="isFullScreen = true">
+														<template #icon>
+															<i class="material-icons">open_in_full</i>
+														</template>
+													</Button>
+												</div>
+											</div>
 										</div>
 										<h2 class="w-full flex flex-row font-bold">
 											{{$t('ligfinder.table.summary.title')}}
