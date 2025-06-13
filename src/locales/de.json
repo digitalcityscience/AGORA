@@ -118,6 +118,7 @@
     "table": {
       "title": "LigFinder Ergebnisse",
       "count": "Es wurden {0} Grundstücke gefunden",
+			"zoomToResults": "Zu Ergebnissen zoomen",
       "focus": "Fokus",
       "noResults": "Keine Ergebnisse gefunden",
       "noFilter": "Kein Filter angewendet",
