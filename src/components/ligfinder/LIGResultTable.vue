@@ -154,7 +154,7 @@
 												{{ $t(`ligfinder.filter.metrics.labels.${metric.column}`) }} {{$t(`helpers.filterNames.${metric.operation}`) }} {{ metric.value }}
 											</span>
 											<span v-if="resultStore.lastAppliedFilter.geometry.length > 0" class="border bg-primary-600 px-2 py-1 rounded-lg text-white text-sm font-light italic">
-												Geometry filter applied.
+												{{ t('ligfinder.table.summary.geometry') }}
 											</span>
 										</div>
 									</template>
