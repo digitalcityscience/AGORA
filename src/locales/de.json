@@ -140,7 +140,12 @@
         "included":"{0} ist eingeschlossen",
         "excluded":"{0} ist ausgeschlossen",
         "geometry":"Geometriefilter angewendet"
-			}
+			},
+      "messages":{
+        "noResults": "Keine Ergebnisse gefunden",
+        "noFilter": "Kein Filter angewendet",
+        "layerNameInUse": "Ebenenname bereits in Verwendung. Bitte wählen Sie einen anderen Namen."
+      }
     },
     "modal": {
       "Shape_Area": "Fläche Flurstück",

@@ -8,6 +8,7 @@ import { type GeoServerFeatureTypeAttribute } from "../geoserver"
 import { useToast } from "primevue/usetoast"
 import { useCriteriaStore, type AppliedCriteria } from "./criteria"
 import { useGrzStore } from "./grz"
+import { useI18n } from "vue-i18n"
 interface TableHeader {
     text: string,
     value: string
@@ -26,6 +27,7 @@ export const useResultStore = defineStore("result", () => {
     const ligfinder = useLigfinderMainStore()
     const grz = useGrzStore()
     const toast = useToast()
+    const { t } = useI18n()
     const attributeList = ref<GeoServerFeatureTypeAttribute[]>([])
     const isFilterApplied = ref<boolean>(false)
     const appliedFilterResult = ref<FeatureCollection>()
@@ -68,11 +70,11 @@ export const useResultStore = defineStore("result", () => {
     }
     function saveAsLayer(layerName: string): void {
         if (appliedFilterResult.value === undefined){
-            toast.add({ severity: "error", summary: "Error", detail: "No filter applied!", life: 3000 });
+            toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.noFilter"), life: 3000 });
             return
         }
         if (appliedFilterResult.value.features.length === 0){
-            toast.add({ severity: "error", summary: "Error", detail: "No result found!", life: 3000 });
+            toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.noResults"), life: 3000 });
             return
         }
         const isOnMap = mapStore.layersOnMap.filter((layer) => layer.id === layerName).length > 0
@@ -104,7 +106,7 @@ export const useResultStore = defineStore("result", () => {
                 toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
             })
         } else {
-            toast.add({ severity: "error", summary: "Error", detail: "Layer name already in use!", life: 3000 });
+            toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.layerNameInUse"), life: 3000 });
         }
     }
     const tableHeaders: TableHeader[] =[
