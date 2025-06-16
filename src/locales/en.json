@@ -46,7 +46,7 @@
 					"grz_alkis":"Building Coverage Ratio (actual)" ,
 					"grz_xplanung":"Building Coverage Ratio (max/Zoning Plan)" ,
 					"grz_potential": "Densification potential",
-					"grz_potential_area":"Potential Floor area"
+					"grz_potential_area":"Additionally coverable area on parcel"
 			}},
 			"geometry": {
 				"title": "Geometry Based Filtering",
