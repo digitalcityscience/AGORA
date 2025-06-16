@@ -46,7 +46,7 @@
 					"grz_alkis":"Grundflächenzahl tatsächlich" ,
 					"grz_xplanung":"Grundflächenzahl B-Plan" ,
 					"grz_potential": "Verdichtungspotential",
-					"grz_potential_area":"Grundfläche"
+					"grz_potential_area":"Zusätzlich bebaubare Fläche auf Flurstück"
 			}},
       "geometry": {
         "title": "Filterung nach Geometrie",
