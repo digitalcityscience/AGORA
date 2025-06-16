@@ -166,6 +166,11 @@
 	},
 	"geoparsing":{
 		"parliament":{
+			"startDate": "Start Date",
+			"endDate": "End Date",
+			"topicsLabel": "Topics",
+			"applyFilters": "Apply Filters",
+			"clearFilters": "Clear Filters",
 			"topics":{
 				"info_table_pdfs_baugb": "federal building law",
 				"info_table_pdfs_hafenbahn": "port railway",
@@ -208,6 +213,7 @@
 			"opacity":"Opacity"
 		},
 		"actions":{
+			"deleteHeader": "Delete Map Layer",
 			"deleteQuestion":"Are you sure want to delete {0} layer?",
 			"delete":"Delete",
 			"cancel":"Cancel"

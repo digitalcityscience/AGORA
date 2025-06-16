@@ -166,6 +166,11 @@
   },
   "geoparsing": {
     "parliament": {
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "topicsLabel": "Themen",
+      "applyFilters": "Filter anwenden",
+      "clearFilters": "Filter zurücksetzen",
       "topics": {
         "info_table_pdfs_baugb": "baugb",
         "info_table_pdfs_hafenbahn": "hafenbahn",
@@ -208,6 +213,7 @@
       "opacity":"Deckkraft"
     },
     "actions":{
+      "deleteHeader": "Kartenebene löschen",
       "deleteQuestion":"Möchten Sie die Ebene {0} wirklich löschen?",
       "delete":"Löschen",
       "cancel":"Abbrechen"
