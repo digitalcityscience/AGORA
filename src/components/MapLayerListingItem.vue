@@ -10,7 +10,7 @@
                 <h3 class="capitalize mr-auto ml-2">{{ props.layer.displayName ?? props.layer.source.replaceAll("_", " ") }}</h3>
                 <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
                     @click="confirmDialogVisibility = true"></Button>
-                <Dialog v-model:visible="confirmDialogVisibility" modal header="Delete Map Layer" :style="{ width: '25rem' }">
+                <Dialog v-model:visible="confirmDialogVisibility" modal :header="$t('mapLayers.actions.deleteHeader')" :style="{ width: '25rem' }">
                     <span class="p-text-secondary block mb-5">{{ $t("mapLayers.actions.deleteQuestion",[props.layer.displayName ?? props.layer.source.replaceAll("_", " ")])}}</span>
                     <div class="flex justify-content-end gap-2">
                         <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false">{{ $t("mapLayers.actions.cancel") }}</Button>

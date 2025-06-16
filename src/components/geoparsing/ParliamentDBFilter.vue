@@ -1,15 +1,15 @@
 <template>
     <div class="py-1">
         <div class="py-1">
-            <label for="start-date">Start Date:</label>
+            <label for="start-date">{{ $t('geoparsing.parliament.startDate') }}:</label>
             <DatePicker id="start-date" v-model="startDate" :min-date="minDate" :max-date="new Date()" dateFormat="dd/mm/yy" showIcon fluid iconDisplay="input"/>
         </div>
         <div class="py-1">
-            <label for="end-date">End Date:</label>
+            <label for="end-date">{{ $t('geoparsing.parliament.endDate') }}:</label>
             <DatePicker id="end-date" v-model="endDate" :max-date="maxDate" dateFormat="dd/mm/yy" showIcon fluid iconDisplay="input"/>
         </div>
         <div class="py-1">
-            <label for="topic-list">Topics:</label>
+            <label for="topic-list">{{ $t('geoparsing.parliament.topicsLabel') }}:</label>
             <Listbox id="topic-list" v-model="selectedTopics" :options="topics" optionLabel="name" multiple listStyle="max-height:150px">
                 <template #option="slotProps">
                     <div class="flex items-center">
@@ -26,8 +26,8 @@
                 </div>
             </div>
         <div class="py-1 w-full flex justify-between">
-            <Button size="small" @click="applyFilters">Apply Filters</Button>
-            <Button size="small" @click="clearFilters">Clear Filters</Button>
+            <Button size="small" @click="applyFilters">{{ $t('geoparsing.parliament.applyFilters') }}</Button>
+            <Button size="small" @click="clearFilters">{{ $t('geoparsing.parliament.clearFilters') }}</Button>
         </div>
     </div>
 </template>
