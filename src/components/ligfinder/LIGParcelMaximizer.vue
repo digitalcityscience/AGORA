@@ -9,7 +9,7 @@
                 <span class="font-bold">{{ $t('ligfinder.filter.parcel.title') }}</span>
             </template>
             <div class="activation pb-2">
-                <ToggleButton v-model="ligfinderStore.isMaximizerActive" onLabel="Disable Maximizer" offLabel="Enable Maximizer" />
+                <ToggleButton v-model="ligfinderStore.isMaximizerActive" :onLabel="$t('ligfinder.filter.parcel.disable')" :offLabel="$t('ligfinder.filter.parcel.enable')" />
                 </div>
             <Divider />
             <div v-if="ligfinderStore.isMaximizerActive" class="parcel-maximizer">

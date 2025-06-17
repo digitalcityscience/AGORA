@@ -76,11 +76,11 @@
         }
       },
       "parcel": {
-        "enable": "Grundstücksmaximierer aktivieren",
-        "disable": "Grundstücksmaximierer deaktivieren",
-        "title": "Grundstücksmaximierer",
-        "createHeader": "Maximierte Parzellen finden",
-        "saveHeader": "Maximierte Parzellen speichern",
+				"enable": "Join Parcels aktivieren",
+				"disable": "Join Parcels deaktivieren",
+				"title": "Join Parcels",
+				"createHeader": "Finde joined parcels",
+				"saveHeader": "Speichere joined parcels",
         "threshold": "Schwellenwert (m²)",
         "layerName": "Ebenenname",
         "layerType": "Ebenentyp",
@@ -88,7 +88,7 @@
         "exclusionList": "Straßenverkehr, Weg, Fließgewässer, Stehendes Gewässer, Meer, Moor, Sumpf, Friedhof, Flugverkehr, Schiffsverkehr, Bahnverkehr, Platz, Wald, Gehölz, Heide, Hafenbecken, Sport-/Freizeit-/Erholungsfläche, Unland/vegetationslose Fläche.",
         "getResults": "Ergebnisse erhalten",
         "clearResults": "Ergebnisse löschen",
-        "saveLayer": "Layer speichern",
+        "saveLayer": "Speichere als Layer",
         "errors": {
           "includedConflict": "Folgende Nutzungskategorien dürfen nicht gleichzeitig als einbezogen markiert sein: {labels}",
           "includedConflictSummary": "Ungültige Auswahl",
