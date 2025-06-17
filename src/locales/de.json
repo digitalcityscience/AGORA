@@ -117,7 +117,7 @@
     },
     "table": {
       "title": "LigFinder Ergebnisse",
-      "count": "Es wurden {0} Grundstücke gefunden",
+      "count": "Es wurden {0} Flurstücke gefunden",
 			"zoomToResults": "Zu Ergebnissen zoomen",
       "focus": "Fokus",
       "noResults": "Keine Ergebnisse gefunden",
