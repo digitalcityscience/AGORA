@@ -159,8 +159,11 @@ export const useParcelStore = defineStore("parcelStore", () => {
     /**
      * Removes all temporary maximized parcel layers and their data source from the map.
      * Resets the corresponding state in the store.
+     *
+     * @param deactivate - A boolean flag indicating whether to deactivate the maximizer. Defaults to true.
+     * If set to true, it will also set `ligfinder.isMaximizerActive` to false.
      */
-    function cancelTempMaximizedParcels(): void {
+    function cancelTempMaximizedParcels(deactivate: boolean = true): void {
         const sourceId = "maximized-parcels";
         const fillLayerId = `${sourceId}-fill`;
         const lineLayerId = `${sourceId}-line`;
@@ -177,7 +180,9 @@ export const useParcelStore = defineStore("parcelStore", () => {
 
         maximizedParcelsOnMap.value = false;
         maximizedParcelsGeoJSON.value = undefined;
-        ligfinder.isMaximizerActive = false;
+        if (deactivate) {
+            ligfinder.isMaximizerActive = false;
+        }
         threshold.value = 0;
     }
 
