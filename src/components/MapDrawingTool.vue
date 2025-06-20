@@ -4,8 +4,8 @@
             <div class="flex flex-col min-w-72">
                 <div class="w-full">
                     <Card>
-                        <template #title>Create</template>
-                        <template #subtitle>Select a mode and start drawing</template>
+                        <template #title>{{ $t('drawing.createTitle') }}</template>
+                        <template #subtitle>{{ $t('drawing.createSubtitle') }}</template>
                         <template #content>
                                 <div class="flex justify-between">
                                     <div v-for="draw in drawTool.drawTypes" :key="draw.name" class="flex align-items-center">
@@ -17,32 +17,32 @@
                         <template #footer>
                             <div class="w-full flex justify-between">
                                 <Button size="small" class="col" @click="drawTool.initDrawMode">
-                                    <span v-if="!(drawTool.drawOnProgress || drawTool.editOnProgress)">Start Drawing</span>
-                                    <span v-else>Continue</span>
+                                    <span v-if="!(drawTool.drawOnProgress || drawTool.editOnProgress)">{{ $t('drawing.start') }}</span>
+                                    <span v-else>{{ $t('drawing.continue') }}</span>
                                 </Button>
-                                <Button size="small" v-if="(drawTool.drawOnProgress || drawTool.editOnProgress)" :disabled="!(drawTool.drawOnProgress || drawTool.editOnProgress)" @click="drawTool.stopDrawMode">Cancel</Button>
+                                <Button size="small" v-if="(drawTool.drawOnProgress || drawTool.editOnProgress)" :disabled="!(drawTool.drawOnProgress || drawTool.editOnProgress)" @click="drawTool.stopDrawMode">{{ $t('drawing.cancel') }}</Button>
                             </div>
                         </template>
                     </Card>
                 </div>
                 <div class="w-full pt-1">
                     <Card>
-                        <template #title>Edit</template>
-                        <template #subtitle>Edit your drawings</template>
+                        <template #title>{{ $t('drawing.editTitle') }}</template>
+                        <template #subtitle>{{ $t('drawing.editSubtitle') }}</template>
                         <template #content>
-                            <Button size="small" :disabled="!drawTool.drawOnProgress" @click="drawTool.editMode">Edit</Button>
+                            <Button size="small" :disabled="!drawTool.drawOnProgress" @click="drawTool.editMode">{{ $t('drawing.editButton') }}</Button>
                         </template>
                     </Card>
                 </div>
                 <div class="w-full pt-1">
                     <Card v-if="drawTool.drawOnProgress || drawTool.editOnProgress">
-                        <template #title>Save</template>
-                        <template #subtitle>Save your drawing as a Layer</template>
+                        <template #title>{{ $t('drawing.saveTitle') }}</template>
+                        <template #subtitle>{{ $t('drawing.saveSubtitle') }}</template>
                         <template #content>
-                            <InputText v-model="drawTool.layerName" placeholder="Layer Name"></InputText>
+                            <InputText v-model="drawTool.layerName" :placeholder="$t('drawing.layerNamePlaceholder')"></InputText>
                         </template>
                         <template #footer>
-                            <Button size="small" @click="drawTool.saveAsLayer" :disabled="drawTool.layerName.length === 0">Add Layer</Button>
+                            <Button size="small" @click="drawTool.saveAsLayer" :disabled="drawTool.layerName.length === 0">{{ $t('drawing.addLayer') }}</Button>
                         </template>
                     </Card>
                 </div>
