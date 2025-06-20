@@ -264,5 +264,19 @@
     "download": "Herunterladen",
     "downloadGeoJSON": ".geojson",
     "downloadCSV": ".csv"
+  },
+  "drawing": {
+    "createTitle": "Erstellen",
+    "createSubtitle": "Wählen Sie einen Modus und beginnen Sie mit dem Zeichnen",
+    "start": "Zeichnung starten",
+    "continue": "Fortsetzen",
+    "cancel": "Abbrechen",
+    "editTitle": "Bearbeiten",
+    "editSubtitle": "Bearbeiten Sie Ihre Zeichnungen",
+    "editButton": "Bearbeiten",
+    "saveTitle": "Speichern",
+    "saveSubtitle": "Speichern Sie Ihre Zeichnung als Ebene",
+    "layerNamePlaceholder": "Ebenenname",
+    "addLayer": "Ebene hinzufügen"
   }
 }

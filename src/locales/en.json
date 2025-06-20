@@ -258,12 +258,25 @@
 		}
 	},
 	"download": {
-	  "title":"Download Layer Data",
-	  "subtitle":"You can download the data of the layer in either GeoJSON or CSV format.",
-	  "fileName": "File Name",
-	  "download": "Download",
-	  "downloadGeoJSON": ".geojson",
-	  "downloadCSV": ".csv"
-
+		"title":"Download Layer Data",
+		"subtitle":"You can download the data of the layer in either GeoJSON or CSV format.",
+		"fileName": "File Name",
+		"download": "Download",
+		"downloadGeoJSON": ".geojson",
+		"downloadCSV": ".csv"
+	},
+	"drawing": {
+		"createTitle": "Create",
+		"createSubtitle": "Select a mode and start drawing",
+		"start": "Start Drawing",
+		"continue": "Continue",
+		"cancel": "Cancel",
+		"editTitle": "Edit",
+		"editSubtitle": "Edit your drawings",
+		"editButton": "Edit",
+		"saveTitle": "Save",
+		"saveSubtitle": "Save your drawing as a Layer",
+		"layerNamePlaceholder": "Layer Name",
+		"addLayer": "Add Layer"
 	}
 }
