@@ -228,6 +228,15 @@
 			"selectAttribute":"Select attribute",
 			"selectOperand":"Select operand",
 			"apply":"Apply"
+		},
+		"geometryFiltering": {
+			"title": "Geometry Filtering",
+			"subtitle": "Select geometry layer to filter this layer",
+			"selectLayer": "Select a filter layer",
+			"noLayerMessage": "There is no layer for filter. Draw a layer first!",
+			"selectIdentifier": "Select Identifier",
+			"addFilter": "Add Filter",
+			"activeFilterMessage": "You have a geometry filter"
 		}
 	},
 	"helpers": {
