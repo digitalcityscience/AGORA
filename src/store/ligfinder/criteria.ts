@@ -14,6 +14,10 @@ export interface AppliedCriteria extends TreeNode {
 export const useCriteriaStore = defineStore("criteriaStore", () => {
     const list: Domain = domains;
     const criteriaInUse = ref<AppliedCriteria[]>([])
+    /**
+     * Adds a criterion to the list of currently applied criteria, handling parent/child relationships and status updates.
+     * @param criteria - The criterion to add.
+     */
     const addCriteria = (criteria: AppliedCriteria): void => {
         const isNutzung = "nutzungvalue" in criteria.data;
         if (!isNutzung) {
@@ -51,6 +55,10 @@ export const useCriteriaStore = defineStore("criteriaStore", () => {
             criteriaInUse.value.push(criteria);
         }
     };
+    /**
+     * Removes a criterion from the list of currently applied criteria.
+     * @param criteria - The criterion to remove.
+     */
     const removeCriteria = (criteria: AppliedCriteria): void => {
         criteriaInUse.value = criteriaInUse.value.filter(c => c.key !== criteria.key)
     }

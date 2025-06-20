@@ -16,6 +16,10 @@ export const useParcelStore = defineStore("parcelStore", () => {
     const resultStore = useResultStore();
     const ligfinder = useLigfinderMainStore();
     const toast = useToast();
+    /**
+     * List of keys for usage categories to be excluded from parcel maximization.
+     * Used to programmatically append excluded usage categories to the criteria.
+     */
     const excludedKeys = ref<string[]>([
         "strassenverkehr", "weg", "fliessgewaesser", "stehendesgewaesser",
         "meer", "moor", "sumpf", "friedhof", "flugverkehr", "schiffsverkehr",
@@ -89,7 +93,13 @@ export const useParcelStore = defineStore("parcelStore", () => {
         return json as FeatureCollection;
     }
 
+    /**
+     * Indicates whether maximized parcels are currently displayed on the map.
+     */
     const maximizedParcelsOnMap = ref(false);
+    /**
+     * Stores the GeoJSON FeatureCollection of maximized parcels currently displayed on the map.
+     */
     const maximizedParcelsGeoJSON = ref<FeatureCollection>();
     /**
      * Adds the given FeatureCollection to the map as temporary fill and line layers.
@@ -171,9 +181,21 @@ export const useParcelStore = defineStore("parcelStore", () => {
         threshold.value = 0;
     }
 
+    /**
+     * Indicates whether to include or exclude certain usage categories in the maximization process.
+     */
     const include = ref<boolean>(true);
+    /**
+     * The minimum size threshold for parcel maximization.
+     */
     const threshold = ref<number>(0);
+    /**
+     * The name of the layer used for displaying maximized parcels.
+     */
     const layerName = ref("");
+    /**
+     * The type of the layer used for displaying maximized parcels ("fill" or "line").
+     */
     const layerType = ref<"fill" | "line">("fill");
     /**
  * Validates the current filter state and threshold, and triggers the fetch

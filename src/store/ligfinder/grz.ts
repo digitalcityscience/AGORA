@@ -4,6 +4,10 @@ import { type ResultMetric, type RangeInput } from "./metric";
 
 export const useGrzStore = defineStore("grz", () => {
     const grzFilters = ref<RangeInput>(getDefaultGrzFilters())
+    /**
+     * Returns the default GRZ filter ranges for all GRZ-related properties.
+     * @returns The default range input object for GRZ filters.
+     */
     function getDefaultGrzFilters(): RangeInput {
         return {
             grz_alkis: { min: 0, max: 0 },
@@ -12,15 +16,27 @@ export const useGrzStore = defineStore("grz", () => {
             grz_potential_area: { min: 0, max: 0 }
         };
     }
+    /**
+     * Checks if the given key corresponds to a ratio filter (GRZ-related).
+     * @param key - The property key to check.
+     * @returns True if the key is a ratio filter, false otherwise.
+     */
     function isRatioFilter(key: string): boolean {
         if (key === "grz_alkis" || key === "grz_xplanung" || key === "grz_potential") {
             return true
         }
         return false
     }
+    /**
+     * Resets the GRZ filters to their default values.
+     */
     function resetGrzFilters(): void {
         grzFilters.value = getDefaultGrzFilters()
     }
+    /**
+     * Creates a general MapLibre GL expression for the current GRZ filters.
+     * @returns An array representing the filter expression.
+     */
     function createGeneralExpression(): any[] {
         const metricExpressions = createRangeExpressions(grzFilters.value)
         const expression = [...metricExpressions]
@@ -55,6 +71,11 @@ export const useGrzStore = defineStore("grz", () => {
             return []
         }
     }
+    /**
+     * Creates a list of metric filter objects for the current GRZ filters.
+     * @param filters - The range input object for GRZ filters.
+     * @returns An array of ResultMetric objects representing the filter conditions.
+     */
     function createMetricFilter(filters: RangeInput): ResultMetric[] {
         const list: ResultMetric[] = []
         Object.entries(filters).forEach(([key, value]) => {

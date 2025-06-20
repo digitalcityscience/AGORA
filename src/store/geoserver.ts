@@ -253,6 +253,11 @@ export const useGeoserverStore = defineStore("geoserver", () => {
     }
     return await response.json()
   }
+  /**
+   * Converts a GeoServer style object to a Maplibre-compatible style options object.
+   * @param geoserverStyling - The style object from GeoServer.
+   * @returns The converted LayerStyleOptions object for Maplibre.
+   */
   function convertLayerStylingToMaplibreStyle(geoserverStyling:any):LayerStyleOptions{
     const obj: LayerStyleOptions = {
       paint:{ ...geoserverStyling.layers[0].paint }

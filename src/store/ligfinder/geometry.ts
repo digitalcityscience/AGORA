@@ -52,6 +52,10 @@ export const useGeometryStore = defineStore("geometry", () => {
     // ADMINISTRATIVE GEOMETRY
     const activeAdministrativeArea = ref<AdministrativeBoundariesListItem | null>(null)
     const administrativeBoundariesList = ref<AdministrativeBoundariesListItem[]>()
+    /**
+     * Fetches the list of administrative boundaries from the backend API.
+     * @returns A promise resolving to the list of administrative boundaries.
+     */
     async function getAdministrativeBoundariesList(): Promise<AdministrativeBoundariesAPIResponse>{
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/administrative/list`,
             {
@@ -64,6 +68,11 @@ export const useGeometryStore = defineStore("geometry", () => {
         return await response.json()
     }
     const administrativeDataList = ref<AdministrativeFeatureCollection[]>([])
+    /**
+     * Fetches the data for a specific administrative boundary by its ID.
+     * @param id - The ID of the administrative boundary.
+     * @returns A promise resolving to the FeatureCollection of the boundary.
+     */
     async function getAdministrativeBoundaryData(id: number): Promise<FeatureCollection> {
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/administrative/data/${id}`,
             {
@@ -120,6 +129,9 @@ export const useGeometryStore = defineStore("geometry", () => {
         }
     }
 
+    /**
+     * Changes the active administrative area layer on the map to reflect the current selection.
+     */
     function changeActiveAdminLayerOnMap(): void{
         if (activeAdministrativeArea.value !== null) {
             const activeData = administrativeDataList.value.filter((item) => { return item.table_name === activeAdministrativeArea.value!.table_name })
@@ -193,6 +205,9 @@ export const useGeometryStore = defineStore("geometry", () => {
             })
         ]
     })
+    /**
+     * Creates an isochrone based on the selected center point and travel time.
+     */
     function createIsochrone(): void {
         if (centerPoint.value === undefined) {
             console.error("There is no center point")
@@ -213,6 +228,9 @@ export const useGeometryStore = defineStore("geometry", () => {
             })
         }
     }
+    /**
+     * Starts the selection process for the isochrone center point.
+     */
     function startCenterSelection(): void {
         selectionOnProgress.value = true
         drawTool.stopDrawMode()
@@ -220,6 +238,9 @@ export const useGeometryStore = defineStore("geometry", () => {
         centerSelectDrawer.setMode("point")
         centerSelectDrawer.on("change", centerSelector)
     }
+    /**
+     * Cancels the selection process for the isochrone center point.
+     */
     function cancelCenterSelection(): void {
         console.log("canceling center selection")
         selectionOnProgress.value = false
@@ -229,6 +250,9 @@ export const useGeometryStore = defineStore("geometry", () => {
         centerPoint.value = undefined
         travelTime.value = 0
     }
+    /**
+     * Handles the selection of the center point for the isochrone.
+     */
     function centerSelector(): void {
         const snap = centerSelectDrawer.getSnapshot()
         if (snap.length > 1) {
@@ -238,6 +262,10 @@ export const useGeometryStore = defineStore("geometry", () => {
     }
     const isochroneOnTheMap = ref<boolean>(false)
     const isochroneOnTheMapData = ref<FeatureCollection>()
+    /**
+     * Adds the isochrone source to the map and updates the state.
+     * @param src - The FeatureCollection representing the isochrone.
+     */
     function addIsochroneSource(src: FeatureCollection): void {
         const layerStyle = { paint: { "fill-color": "#abcdef", "fill-opacity": 0.6 } }
         mapStore.addMapDataSource("geojson", "isochrone-temp-source", false, undefined, undefined, src).then(() => {
@@ -247,12 +275,19 @@ export const useGeometryStore = defineStore("geometry", () => {
             }).catch((error) => { console.log(error) })
         }).catch((error) => { console.error(error) })
     }
+    /**
+     * Adds the selected isochrone to the state and cancels the selection process.
+     * @param data - The FeatureCollection representing the selected isochrone.
+     */
     function addSelectedIsochrone(data: FeatureCollection): void {
         const applied = addToSelectedIsochrone(data)
         if (applied) {
             cancelIsochroneSelection()
         }
     }
+    /**
+     * Cancels the isochrone selection process and removes temporary layers from the map.
+     */
     function cancelIsochroneSelection(): void {
         console.log("canceling isochrone selection")
         console.log(centerSelectDrawer.enabled)
@@ -266,6 +301,11 @@ export const useGeometryStore = defineStore("geometry", () => {
             cancelCenterSelection()
         }
     }
+    /**
+     * Fetches an isochrone from the backend API based on the provided form data.
+     * @param data - The form data for the isochrone request.
+     * @returns A promise resolving to the FeatureCollection representing the isochrone.
+     */
     async function getIsochrone(data: IsochroneForm): Promise<FeatureCollection>{
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/isochrone`,
             {
@@ -279,6 +319,11 @@ export const useGeometryStore = defineStore("geometry", () => {
         return await response.json()
     }
     const selectedIsochrone = ref<Feature[]>([])
+    /**
+     * Adds a FeatureCollection to the selected isochrone state and updates the map.
+     * @param item - The FeatureCollection to add.
+     * @returns True if the operation was successful.
+     */
     function addToSelectedIsochrone(item: FeatureCollection): boolean {
         const itemList: Feature[] = []
         item.features.forEach((feature) => {
@@ -288,11 +333,19 @@ export const useGeometryStore = defineStore("geometry", () => {
         updateSelectedAreasTempLayer()
         return true
     }
+    /**
+     * Removes the selected isochrone from the state and updates the map.
+     */
     function removeSelectedIsochrone(): void{
         selectedIsochrone.value = []
         updateSelectedAreasTempLayer()
     }
     // GEOMETRY FILTER
+    /**
+     * Creates a geometry filter based on the currently selected geometries and sends it to the backend API.
+     * @returns A promise resolving to the geometry filter API response.
+     * @throws Error if the selected geometries do not intersect or the fetch fails.
+     */
     async function createGeometryFilter(): Promise<GeometryFilterAPIResponse> {
         const featureCollection: ExtendedFeatureCollection = createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
         if (featureCollection.features.length===0){
@@ -321,6 +374,11 @@ export const useGeometryStore = defineStore("geometry", () => {
         }
         return await response.json()
     }
+    /**
+     * Creates a MapLibre GL filter expression for the given list of UUIDs.
+     * @param idList - The list of UUIDs to include in the filter.
+     * @returns An array representing the filter expression.
+     */
     function createGeometryFilterExpression(idList: number[]): any[]{
         if (idList.length>0){
             return ["in", ["get", "UUID"], ["literal", idList]]
@@ -329,16 +387,28 @@ export const useGeometryStore = defineStore("geometry", () => {
         }
     }
     const geometryFilterResult = ref<string[]>([])
+    /**
+     * Adds a list of geometry filter results to the state and updates the map.
+     * @param item - The list of geometry filter result strings.
+     */
     function addToGeometryFilterResult(item: string[]): void {
         geometryFilterResult.value = item
         updateSelectedAreasTempLayer()
     }
+    /**
+     * Clears the geometry filter results from the state and updates the map.
+     */
     function clearGeometryFilterResult(): void{
         geometryFilterResult.value = []
         updateSelectedAreasTempLayer()
     }
     const unionSelectionList = ref<UnionSelectionItem[]>([{ name:"union", value:"union" }, { name:"intersection", value:"intersection" }])
     const isUnion = ref<UnionSelectionItem>({ name:"union", value:"union" })
+    /**
+     * Creates a GeoJSON FeatureCollection from all selected features.
+     * @param isExtended - Whether to create an extended feature collection with union and tableName properties.
+     * @returns The created FeatureCollection or ExtendedFeatureCollection.
+     */
     function createSelectedGeometryGeoJSON(isExtended: boolean): ExtendedFeatureCollection|FeatureCollection{
         const allSelectedFeatures: Feature[] = []
         selectedAdministrativeFeaturesList.value.forEach((feature) => {
@@ -366,6 +436,9 @@ export const useGeometryStore = defineStore("geometry", () => {
             return featureCollection
         }
     }
+    /**
+     * Creates a temporary layer on the map to display the selected areas.
+     */
     function createSelectedAreasTempLayer(): void{
         const features: FeatureCollection = createSelectedGeometryGeoJSON(false) as FeatureCollection
         const layerStyle: Record<string, any> = {
@@ -379,6 +452,9 @@ export const useGeometryStore = defineStore("geometry", () => {
             mapStore.addMapLayer("geojson", "selectedAreasTempLayer", "fill", layerStyle, undefined, undefined, features, false, undefined, undefined, false).then(()=>{}).catch((error)=>{ console.error(error) })
         }).catch((error)=>{ console.error(error) })
     }
+    /**
+     * Updates the temporary layer on the map to reflect the current selection of areas.
+     */
     function updateSelectedAreasTempLayer(): void{
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!(mapStore.map.getSource("selectedAreasTempLayer"))){
@@ -386,12 +462,19 @@ export const useGeometryStore = defineStore("geometry", () => {
         }
         mapStore.map.getSource("selectedAreasTempLayer").setData(createSelectedGeometryGeoJSON(false) as FeatureCollection)
     }
+    /**
+     * Deletes the temporary layer displaying selected areas from the map.
+     */
     function deleteSelectedAreasTempLayer(): void{
         mapStore.map.removeLayer("selectedAreasTempLayer")
         mapStore.map.removeSource("selectedAreasTempLayer")
         mapStore.removeFromLayerList("selectedAreasTempLayer")
     }
     // active administrative area layer operations
+    /**
+     * Handles click events on the active administrative area layer.
+     * @param e - The map mouse event.
+     */
     function adminAreaClickEventHandler(e: any): void{
         (e as MapMouseEvent).originalEvent.stopPropagation()
         console.log("event", e as Event)
@@ -415,6 +498,10 @@ export const useGeometryStore = defineStore("geometry", () => {
             }
         }
     }
+    /**
+     * Creates the active administrative area layer on the map.
+     * @param data - The FeatureCollection representing the administrative area.
+     */
     function createActiveAdminLayer(data: FeatureCollection): void{
         const layerStyle: Record<string, any> = {
             paint:{
@@ -429,6 +516,10 @@ export const useGeometryStore = defineStore("geometry", () => {
             }).catch((error)=>{ console.error(error) })
         }).catch((error)=>{ console.error(error) })
     }
+    /**
+     * Updates the active administrative area layer on the map with new data.
+     * @param data - The FeatureCollection representing the updated administrative area.
+     */
     function updateActiveAdminLayer(data: FeatureCollection): void{
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!(mapStore.map.getSource("active-admin"))){
@@ -436,6 +527,9 @@ export const useGeometryStore = defineStore("geometry", () => {
         }
         mapStore.map.getSource("active-admin").setData(data)
     }
+    /**
+     * Deletes the active administrative area layer from the map.
+     */
     function deleteActiveAdminLayer(): void{
         mapStore.map.removeLayer("active-admin")
         mapStore.map.removeSource("active-admin")
@@ -444,6 +538,9 @@ export const useGeometryStore = defineStore("geometry", () => {
     }
 
     // reset selected areas
+    /**
+     * Resets all selected areas, clearing administrative, drawn, and isochrone selections.
+     */
     function resetSelectedAreas(): void{
         removeSelectedIsochrone()
         selectedAdministrativeFeaturesList.value = []

@@ -12,6 +12,10 @@ export type RangeInput = Record<string, {
 }>;
 export const useMetricStore = defineStore("metric", () => {
     const metricFilters = ref<RangeInput>(getDefaultMetricFilters())
+    /**
+     * Returns the default metric filter ranges for all metric-related properties.
+     * @returns The default range input object for metric filters.
+     */
     function getDefaultMetricFilters(): RangeInput {
         return {
             Shape_Area: { min: 0, max: 0 },
@@ -25,9 +29,17 @@ export const useMetricStore = defineStore("metric", () => {
             dist_fire_departments: { min: 0, max: 0 },
         };
     }
+    /**
+     * Resets the metric filters to their default values.
+     */
     function resetMetricFilters(): void {
         metricFilters.value = getDefaultMetricFilters()
     }
+    /**
+     * Creates a general MapLibre GL expression for the current metric filters.
+     * @param excludeShapeArea - Whether to exclude the Shape_Area property from the filter.
+     * @returns An array representing the filter expression.
+     */
     function createGeneralExpression(excludeShapeArea: boolean): any[] {
         const metricExpressions = createRangeExpressions(metricFilters.value, excludeShapeArea)
         const expression = [...metricExpressions]
@@ -63,6 +75,12 @@ export const useMetricStore = defineStore("metric", () => {
             return []
         }
     }
+    /**
+     * Creates a list of metric filter objects for the current metric filters.
+     * @param filters - The range input object for metric filters.
+     * @param excludeShapeArea - Whether to exclude the Shape_Area property from the filter.
+     * @returns An array of ResultMetric objects representing the filter conditions.
+     */
     function createMetricFilter(filters: RangeInput, excludeShapeArea: boolean): ResultMetric[] {
         const list: ResultMetric[] = []
         Object.entries(filters).forEach(([key, value]) => {

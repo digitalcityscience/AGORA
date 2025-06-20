@@ -32,6 +32,11 @@ export const useResultStore = defineStore("result", () => {
     const isFilterApplied = ref<boolean>(false)
     const appliedFilterResult = ref<FeatureCollection>()
     const lastAppliedFilter = ref<ResultTableAPIRequestBody>()
+    /**
+     * Fetches the result of the currently applied filter from the backend.
+     * @returns A Promise resolving to a FeatureCollection of filtered results.
+     * @throws Error if no filter is applied or the fetch fails.
+     */
     async function fetchAppliedFilterResult(): Promise<FeatureCollection>{
         if (lastAppliedFilter.value === undefined) {
             throw new Error("No filter applied")
@@ -51,6 +56,10 @@ export const useResultStore = defineStore("result", () => {
         }
         return await response.json()
     }
+    /**
+     * Creates the request body for the currently applied filter, including geometry, criteria, metric, and grz.
+     * @returns The request body for the filter API.
+     */
     function createAppliedFilterBody(): ResultTableAPIRequestBody{
         const usedMetrics = metric.createMetricFilter(metric.metricFilters, ligfinder.isMaximizerActive)
         const usedGrz = grz.createMetricFilter(grz.grzFilters)
@@ -63,11 +72,18 @@ export const useResultStore = defineStore("result", () => {
         }
         return filter
     }
+    /**
+     * Resets the result information, clearing filter state and results.
+     */
     function resetResultInfo(): void{
         isFilterApplied.value = false
         appliedFilterResult.value = undefined
         lastAppliedFilter.value = undefined
     }
+    /**
+     * Saves the currently applied filter result as a new map layer.
+     * @param layerName - The name of the new layer to be added to the map.
+     */
     function saveAsLayer(layerName: string): void {
         if (appliedFilterResult.value === undefined){
             toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.noFilter"), life: 3000 });

@@ -57,7 +57,7 @@ export const useFilterStore = defineStore("filter", () => {
   ]
   const appliedFiltersList = ref<AppliedFiltersListItem[]>([])
   /**
-   * Verify whether a filter with an identical attribute and operand already exists in the filter list. If not, append the new filter to the layer's filter list.
+   * Adds an attribute filter to the specified layer, ensuring no duplicate filters exist.
    * @param layername - Target layer for filter
    * @param attributeFilter  - Filter information
    * @returns - Filterlist to apply to specified layer
@@ -157,9 +157,9 @@ async function removeAttributeFilter(layername: string, attributeFilter: Attribu
       }
   }
   /**
-   * Removes geometry filter from specified layer
-   * @param layername target layer
-   * @returns sth
+   * Removes a geometry filter from the specified layer.
+   * @param layername - Target layer for geometry filter removal
+   * @returns - Updated filter list for the specified layer
    */
   async function removeGeometryFilter(layername: string): Promise<AppliedFiltersListItem> {
     const layerFiltersIndex = appliedFiltersList.value.findIndex(item => item.layerName === layername)
