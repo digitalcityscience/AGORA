@@ -106,6 +106,9 @@ export const useLigfinderMainStore = defineStore("main", () => {
 
         return expressions.length > 0 ? ["all", ...expressions] : [];
     }
+    /**
+     * Resets all filters and clears temporary layers from the map.
+     */
     function resetFilters(): void {
         mapStore.map.setFilter(layerName, null)
         metric.resetMetricFilters()

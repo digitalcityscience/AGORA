@@ -69,6 +69,10 @@ export const useDrawStore = defineStore("draw", () => {
             })
         ]
     })
+    /**
+     * Initializes the drawing mode based on the current state.
+     * Starts or resumes drawing, sets the mode, and handles isochrone cancellation.
+     */
     function initDrawMode(): void {
         if (draw !== null) {
             if (editOnProgress.value) {
@@ -86,6 +90,9 @@ export const useDrawStore = defineStore("draw", () => {
             console.error("Could not find drawing instance")
         }
     }
+    /**
+     * Switches to edit mode, allowing selection and modification of drawn features.
+     */
     function editMode(): void {
         if (draw !== null) {
             draw.setMode("select");
@@ -95,6 +102,9 @@ export const useDrawStore = defineStore("draw", () => {
             console.error("Could not find drawing instance")
         }
     }
+    /**
+     * Stops the drawing mode and resets related state variables.
+     */
     function stopDrawMode(): void {
         if (draw !== null && draw.enabled) {
             draw.setMode("static")
@@ -106,13 +116,23 @@ export const useDrawStore = defineStore("draw", () => {
             console.error("Could not find drawing instance")
         }
     }
+    /**
+     * Returns a snapshot of the currently drawn features.
+     * @returns An array of GeoJSON Feature objects representing the current drawing state.
+     */
     function getSnapshot(): Feature[]{
         return draw.getSnapshot()
     }
+    /**
+     * Clears all drawn features from the drawing instance.
+     */
     function clearSnapshot(): void {
         draw.clear()
     }
-    // Saving draw result as a layer
+    /**
+     * Saves the current drawing as a new map layer, handling naming and type checks.
+     * Shows error toasts if the operation fails.
+     */
     function saveAsLayer(): void {
         const featureList = draw.getSnapshot()
         const processedLayerName = layerName.value.trim().toLowerCase().replaceAll(" ", "_")

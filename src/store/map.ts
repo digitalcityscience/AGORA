@@ -320,11 +320,20 @@ export const useMapStore = defineStore("map", () => {
 		throw new Error(`Layer with identifier ${identifier} not found in layer list`);
 		}
 	}
+	/**
+	 * Removes a layer from the layersOnMap list by its ID (without error if not found).
+	 * @param {string} layerId - The unique identifier for the layer to remove.
+	 */
 	function removeFromLayerList(layerId: string): void {
 		layersOnMap.value = layersOnMap.value.filter(
 			(layer) => layer.id !== layerId
 		);
 	}
+	/**
+	 * Creates a random paint object for a given MapLibre layer type.
+	 * @param {MapLibreLayerTypes} type - The type of the MapLibre layer.
+	 * @returns {Record<string, any>} The paint object for the layer.
+	 */
 	function createRandomPaintObj(
 		type: MapLibreLayerTypes
 	): Record<string, any> {
@@ -356,6 +365,11 @@ export const useMapStore = defineStore("map", () => {
 				};
 		}
 	}
+	/**
+	 * Converts a geometry type string to a MapLibreLayerTypes value.
+	 * @param {string} geometry - The geometry type string.
+	 * @returns {MapLibreLayerTypes} The corresponding MapLibre layer type.
+	 */
 	function geometryConversion(geometry: string): MapLibreLayerTypes {
 		if (geometry === "Point" || geometry === "MultiPoint") {
 			return "circle";
