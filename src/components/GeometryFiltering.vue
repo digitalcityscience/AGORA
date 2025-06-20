@@ -2,26 +2,26 @@
 	<div class="geometry-filter w-full" v-if="(props.layer.filterLayer === undefined && isPolygonTiles)">
 		<div class="new-filter w-full pt-2" v-if="!hasGeometryFilter">
 			<Card>
-				<template #title>Geometry Filtering</template>
-				<template #subtitle>Select geometry layer to filter this layer</template>
+				<template #title>{{ $t('mapLayers.geometryFiltering.title') }}</template>
+				<template #subtitle>{{ $t('mapLayers.geometryFiltering.subtitle') }}</template>
 				<template #content>
 					<div class="filterlayer-dropdown w-full">
 						<div v-if="filterLayerList.length>0">
 							<Dropdown class="w-full" v-model="selectedFilterLayer" @change="dropdownFitter" :options="filterLayerList" option-label="source" show-clear
-							placeholder="Select an filter layer"></Dropdown>
+							placeholder="{{ $t('mapLayers.geometryFiltering.selectLayer') }}"></Dropdown>
 						</div>
                         <div class="w-full no-current-filter py-2" v-else>
-                            <InlineMessage class="w-full" severity="info">There is no layer for filter. Draw a layer first!</InlineMessage>
+                            <InlineMessage class="w-full" severity="info">{{ $t('mapLayers.geometryFiltering.noLayerMessage') }}</InlineMessage>
                         </div>
 					</div>
 					<div v-if="selectedFilterLayer && props.layer.type==='fill'"  class="identifier-dropdown w-full py-2">
-							<Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear placeholder="Select Identifier">
+							<Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear placeholder="{{ $t('mapLayers.geometryFiltering.selectIdentifier') }}">
 							</Dropdown>
 					</div>
 				</template>
 				<template #footer>
                     <div class="w-full flex flex-row-reverse">
-                        <Button size="small" :disabled="(isNullOrEmpty(selectedFilterLayer) || (props.layer.type === 'fill' && isNullOrEmpty(selectedProperty)))" @click="applyGeometryFilter">Add Filter</Button>
+                        <Button size="small" :disabled="(isNullOrEmpty(selectedFilterLayer) || (props.layer.type === 'fill' && isNullOrEmpty(selectedProperty)))" @click="applyGeometryFilter">{{ $t('mapLayers.geometryFiltering.addFilter') }}</Button>
                     </div>
 				</template>
 			</Card>
@@ -30,7 +30,7 @@
             <Card>
                 <template #content>
                     <div class="flex flex-row justify-between w-full">
-                        <span class="self-center">You have a geometry filter</span>
+                        <span class="self-center">{{ $t('mapLayers.geometryFiltering.activeFilterMessage') }}</span>
                         <Button @click="removeGeometryFilter" severity="danger" text rounded>
                             <template #icon>
                                 <i class="pi pi-times"></i>

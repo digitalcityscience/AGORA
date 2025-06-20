@@ -228,6 +228,15 @@
       "selectAttribute": "Attribut auswählen",
       "selectOperand": "Operand auswählen",
       "apply": "Anwenden"
+    },
+    "geometryFiltering": {
+      "title": "Geometrie-Filterung",
+      "subtitle": "Wählen Sie eine Geometrieebene aus, um diese Ebene zu filtern",
+      "selectLayer": "Filterebene auswählen",
+      "noLayerMessage": "Es gibt keine Filterebene. Zeichnen Sie zuerst eine Ebene!",
+      "selectIdentifier": "Bezeichner auswählen",
+      "addFilter": "Filter hinzufügen",
+      "activeFilterMessage": "Sie haben einen Geometrie-Filter"
     }
   },
   "helpers": {
