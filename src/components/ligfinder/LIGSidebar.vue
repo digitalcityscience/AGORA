@@ -74,7 +74,7 @@ function applier(): void{
         resultStore.isFilterApplied = true
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody()
         if (parcelStore.maximizedParcelsOnMap) {
-            parcelStore.cancelTempMaximizedParcels(false)
+            parcelStore.cancelTempMaximizedParcels(false, false)
         }
         if (ligFilterStore.isMaximizerActive) {
             parcelStore.getResults()
