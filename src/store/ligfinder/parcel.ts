@@ -163,7 +163,7 @@ export const useParcelStore = defineStore("parcelStore", () => {
      * @param deactivate - A boolean flag indicating whether to deactivate the maximizer. Defaults to true.
      * If set to true, it will also set `ligfinder.isMaximizerActive` to false.
      */
-    function cancelTempMaximizedParcels(deactivate: boolean = true): void {
+    function cancelTempMaximizedParcels(deactivate: boolean = true, resetThreshlod: boolean = true): void {
         const sourceId = "maximized-parcels";
         const fillLayerId = `${sourceId}-fill`;
         const lineLayerId = `${sourceId}-line`;
@@ -183,7 +183,9 @@ export const useParcelStore = defineStore("parcelStore", () => {
         if (deactivate) {
             ligfinder.isMaximizerActive = false;
         }
-        threshold.value = 0;
+        if (resetThreshlod){
+            threshold.value = 0;
+        }
     }
 
     /**
