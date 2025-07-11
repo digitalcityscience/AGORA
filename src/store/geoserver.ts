@@ -124,6 +124,13 @@ export const useGeoserverStore = defineStore("geoserver", () => {
   );
   const layerList = ref<GeoserverLayerListItem[]>();
   const workspaceList = ref<WorkspaceListItem[]>();
+  /**
+   * Fetches GeoJSON data for a specific layer and workspace from GeoServer.
+   * @param layer - The name of the layer to fetch.
+   * @param workspace - The workspace containing the layer.
+   * @param bbox - The bounding box in the format "minx,miny,maxx,maxy".
+   * @returns A Promise that resolves to a FeatureCollection containing the GeoJSON data.
+   */
   async function getLayerDataGeoJSON(layer: string, workspace: string, bbox: string): Promise<FeatureCollection> {
     const url = new URL(
       `${import.meta.env.VITE_GEOSERVER_BASE_URL}/${workspace}/wms?service=WMS&version=1.1.0&request=GetMap&layers=${workspace}:${layer}&bbox=${bbox}&width=512&height=512&srs=EPSG:4326&format=geojson&styles=`
@@ -148,8 +155,9 @@ export const useGeoserverStore = defineStore("geoserver", () => {
     return await response.json();
   }
   /**
-   * Gets layer list from geoserver. If optional workspace argument used it returns only layer list under this workspace.
-   * @returns
+   * Fetches a list of layers from GeoServer, optionally filtered by workspace.
+   * @param workspaceName - The name of the workspace to filter layers by (optional).
+   * @returns A Promise that resolves to a GeoserverLayerListResponse containing the list of layers.
    */
   async function getLayerList(
     workspaceName?: string
@@ -174,8 +182,8 @@ export const useGeoserverStore = defineStore("geoserver", () => {
     return await response.json();
   }
   /**
-   * Lists all workspaces user has access in geoserver.
-   * @returns
+   * Fetches a list of workspaces from GeoServer.
+   * @returns A Promise that resolves to a WorkspaceListResponse containing the list of workspaces.
    */
   async function getWorkspaceList(): Promise<WorkspaceListResponse> {
     const url = new URL(

@@ -121,7 +121,7 @@ async function removeAttributeFilter(layername: string, attributeFilter: Attribu
   /**
    * Verify whether a filter with an identical attribute and operand already exists in the filter list. If not, append the new filter to the layer's filter list.
    * @param layername - Target layer for filter
-   * @param attributeFilter  - Filter information
+   * @param geometryFilter  - Filter information
    * @returns - Filterlist to apply to specified layer
    */
   async function addGeometryFilter(layername: string, geometryFilter: GeometryFilterItem): Promise<AppliedFiltersListItem> {

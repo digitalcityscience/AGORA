@@ -66,6 +66,11 @@ export function generateDistinctHexColors(numColors: number): string[] {
 
     return colors;
 }
+/**
+ * Checks if a given argument is null, undefined, or an empty string.
+ * @param arg - The argument to check.
+ * @returns True if the argument is null, undefined, or an empty string; otherwise, false.
+ */
 export function isNullOrEmpty(arg: any): boolean{
     if (arg !== null && arg !== undefined && arg !== ""){
         return false
