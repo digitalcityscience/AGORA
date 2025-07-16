@@ -7,6 +7,7 @@ import { type SourceSpecification, type AddLayerObject } from "maplibre-gl";
 import { generateDistinctHexColors, getRandomHexColor, isNullOrEmpty } from "../core/helpers/functions";
 import { type FeatureCollection } from "geojson";
 import { useToast } from "primevue/usetoast";
+import { useI18n } from "vue-i18n";
 export interface LayerStyleOptions {
 	paint?: Record<string, unknown>;
 	layout?: Record<string, unknown>;
@@ -40,6 +41,7 @@ export type MapLibreLayerTypes = "fill" | "line" | "symbol" | "circle" | "heatma
 
 export const useMapStore = defineStore("map", () => {
 	const toast = useToast();
+	const { t } = useI18n();
 	const map = ref<any>();
 	const layersOnMap = ref<LayerObjectWithAttributes[]>([]);
 	const parcelDataStyles = ref<LayerStyleListItem[]>([])
@@ -65,17 +67,17 @@ export const useMapStore = defineStore("map", () => {
 		clustered?: boolean
 	): Promise<SourceSpecification> {
 		if (isNullOrEmpty(map.value)) {
-			throw new Error("There is no map to add source");
+			throw new Error(t("map.errors.pinia.noMapToAddSource"));
 		}
 		if (identifier === "") {
-			throw new Error("Identifier is required to add source");
+			throw new Error(t("map.errors.pinia.identifierRequiredToAddSource"));
 		}
 		if (sourceType === "geoserver") {
 			if (layer === undefined) {
-				throw new Error("Layer information required to add geoserver sources");
+				throw new Error(t("map.errors.pinia.layerInfoRequired"));
 			}
 			if (workspaceName === undefined || workspaceName === "") {
-				throw new Error("Workspace name required to add geoserver sources");
+				throw new Error(t("map.errors.pinia.workspaceRequired"));
 			}
 			map.value.addSource(identifier, {
 				type: "vector",
@@ -94,7 +96,7 @@ export const useMapStore = defineStore("map", () => {
 		}
 		if (sourceType === "geojson") {
 			if (geoJSONSrc === undefined) {
-				throw new Error("GeoJSON data required to add GeoJSON sources");
+				throw new Error(t("map.errors.pinia.geojsonRequired"));
 			}
 			const sourceIdentifier = isFilterLayer ? "drawn-"+identifier : identifier
 			map.value.addSource(sourceIdentifier, {
@@ -107,7 +109,7 @@ export const useMapStore = defineStore("map", () => {
 		if (addedSource !== undefined) {
 			return addedSource as SourceSpecification;
 		} else {
-			throw new Error(`Couldn't add requested source: ${identifier}`);
+			throw new Error(t("map.errors.pinia.sourceAddFailed", { identifier }));
 		}
 	}
 	/**
@@ -119,12 +121,12 @@ export const useMapStore = defineStore("map", () => {
 		async function deleteMapDataSource(identifier: string): Promise<void> {
 			await new Promise<void>((resolve, reject) => {
 			if (isNullOrEmpty(map.value)) {
-				reject(new Error("There is no map to delete source from"));
+				reject(new Error(t("map.errors.pinia.noMapToDeleteSource")));
 				return;
 			}
 			const source = map.value.getSource(identifier);
 			if (source === undefined) {
-				reject(new Error(`Source with identifier ${identifier} not found`));
+				reject(new Error(t("map.errors.pinia.sourceNotFound", { identifier })));
 				return;
 			}
 			map.value.removeSource(identifier);
@@ -166,18 +168,18 @@ export const useMapStore = defineStore("map", () => {
 		clustered: boolean = false
 	): Promise<any | undefined> {
 		if (isNullOrEmpty(map.value)) {
-			throw new Error("There is no map to add layer");
+			throw new Error(t("map.errors.pinia.noMapToAddLayer"));
 		}
 		if (identifier === "") {
-			throw new Error("Identifier is required to add layer");
+			throw new Error(t("map.errors.pinia.identifierRequiredToAddLayer"));
 		}
 		// Additional validation for geoserver source type
 		if (sourceType === "geoserver" && geoserverLayerDetails === undefined) {
-			throw new Error("Layer details required to add geoserver layers");
+			throw new Error(t("map.errors.pinia.layerDetailsRequired"));
 		}
 		// Additional validation for geojson source type
 		if (sourceType === "geojson" && geoJSONSrc === undefined) {
-			throw new Error("GeoJSON data required to add GeoJSON layers");
+			throw new Error(t("map.errors.pinia.geojsonRequired"));
 		}
 
 		let styling;
@@ -247,7 +249,7 @@ export const useMapStore = defineStore("map", () => {
 		// add layer object to map
 		map.value.addLayer(layerObject as AddLayerObject);
 		if (map.value.getLayer(identifier) === undefined) {
-			throw new Error(`Couldn't add requested layer: ${identifier}`);
+			throw new Error(t("map.errors.pinia.layerAddFailed", { identifier }));
 		}
 		if (sourceType === "geoserver") {
 			(layerObject as LayerObjectWithAttributes).details = geoserverLayerDetails;
@@ -264,12 +266,12 @@ export const useMapStore = defineStore("map", () => {
 		async function deleteMapLayer(identifier: string): Promise<void> {
 			await new Promise<void>((resolve, reject) => {
 			if (isNullOrEmpty(map.value)) {
-				reject(new Error("There is no map to delete layer from"));
+				reject(new Error(t("map.errors.pinia.noMapToDeleteLayer")));
 				return;
 			}
 			const layer = map.value.getLayer(identifier);
 			if (layer === undefined) {
-				reject(new Error(`Layer with identifier ${identifier} not found`));
+				reject(new Error(t("map.errors.pinia.layerNotFound", { identifier })));
 				return;
 			}
 			try {
@@ -317,7 +319,7 @@ export const useMapStore = defineStore("map", () => {
 		layersOnMap.value.splice(index, 1);
 		toast.add({ severity: "success", summary: "Success", detail: `Layer ${identifier} removed successfully`, life: 3000 });
 		} else {
-		throw new Error(`Layer with identifier ${identifier} not found in layer list`);
+		throw new Error(t("map.errors.pinia.layerNotInList", { identifier }));
 		}
 	}
 	/**

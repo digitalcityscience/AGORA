@@ -2,6 +2,7 @@
 /* eslint "no-tabs": "off" */
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { type LayerStyleOptions } from "./map";
 import { type FeatureCollection } from "geojson";
 export interface GeoServerFeatureType {
@@ -114,6 +115,7 @@ export interface WorkspaceListResponse {
   };
 }
 export const useGeoserverStore = defineStore("geoserver", () => {
+  const { t } = useI18n();
   const pointData = ref();
   const auth = btoa(
     `${
@@ -136,13 +138,13 @@ export const useGeoserverStore = defineStore("geoserver", () => {
       `${import.meta.env.VITE_GEOSERVER_BASE_URL}/${workspace}/wms?service=WMS&version=1.1.0&request=GetMap&layers=${workspace}:${layer}&bbox=${bbox}&width=512&height=512&srs=EPSG:4326&format=geojson&styles=`
     );
     if (workspace === undefined || workspace === "") {
-      throw new Error("Workspace is required");
+      throw new Error(t("geoserver.errors.pinia.workspaceRequired"));
     }
     if (layer === undefined || layer === "") {
-      throw new Error("Layer is required");
+      throw new Error(t("geoserver.errors.pinia.layerRequired"));
     }
     if (bbox === undefined || bbox === "") {
-      throw new Error("Bounding box is required");
+      throw new Error(t("geoserver.errors.pinia.bboxRequired"));
     }
     const response = await fetch(url, {
       method: "GET",
@@ -257,7 +259,7 @@ export const useGeoserverStore = defineStore("geoserver", () => {
       }),
     })
     if (!response.ok) {
-      throw new Error("Failed to fetch layer styling.");
+      throw new Error(t("geoserver.errors.pinia.stylingFetchFailed"));
     }
     return await response.json()
   }

@@ -1,4 +1,5 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
+import { useI18n } from "vue-i18n";
 import { useCriteriaStore } from "./criteria"
 import { useMetricStore } from "./metric"
 import { useGrzStore } from "./grz"
@@ -9,6 +10,7 @@ import { unwrapIfAll, flattenFilterExpression, isValidMapLibreExpression } from 
 import { useParcelStore } from "./parcel"
 
 export const useLigfinderMainStore = defineStore("main", () => {
+    const { t } = useI18n();
     const criteriaStore = useCriteriaStore()
     const metric = useMetricStore()
     const geometry = useGeometryStore()
@@ -61,10 +63,10 @@ export const useLigfinderMainStore = defineStore("main", () => {
             } else {
                 mapStore.map.setFilter(layer, null);
                 if (rawFilterExpression.length > 0) {
-                    throw new Error("No filter to apply");
+                    throw new Error(t("ligfinder.filter.errors.pinia.noFilterToApply"));
                 } else {
                     console.error("Invalid filter expression:", rawFilterExpression);
-                    throw new Error("Invalid filter expression");
+                    throw new Error(t("ligfinder.filter.errors.pinia.invalidExpression"));
                 }
             }
             geometry.activeAdministrativeArea = null

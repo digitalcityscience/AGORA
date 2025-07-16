@@ -39,7 +39,7 @@ export const useResultStore = defineStore("result", () => {
      */
     async function fetchAppliedFilterResult(): Promise<FeatureCollection>{
         if (lastAppliedFilter.value === undefined) {
-            throw new Error("No filter applied")
+            throw new Error(t("ligfinder.table.errors.pinia.noFilterApplied"))
         }
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/ligfinder/filter`,
             {
@@ -52,7 +52,7 @@ export const useResultStore = defineStore("result", () => {
         )
         if (!response.ok) {
             const errorText = await response.text();
-            throw new Error(`Fetch failed with status ${response.status}: ${errorText}`);
+            throw new Error(t("ligfinder.table.errors.pinia.fetchFailed", { status: response.status, message: errorText }));
         }
         return await response.json()
     }
