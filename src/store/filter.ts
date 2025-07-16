@@ -2,6 +2,7 @@
 /* eslint "no-tabs": "off" */
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { type GeoServerFeatureTypeAttribute } from "./geoserver";
 import { type MultiPolygon, type FeatureCollection, type Feature, type Polygon } from "geojson";
 import { isNullOrEmpty } from "../core/helpers/functions";
@@ -33,6 +34,7 @@ export interface AttributeFilterItem {
 }
 export const useFilterStore = defineStore("filter", () => {
   const mapStore = useMapStore()
+  const { t } = useI18n();
   const attributeList = ref<GeoServerFeatureTypeAttribute[]>([]);
   const integerFilters = [">", ">=", "<", "<=", "==", "!="];
   const stringFilters = ["==", "!=", "in"];
@@ -75,7 +77,13 @@ export const useFilterStore = defineStore("filter", () => {
               if (!isinFilters) {
                 layerFilters.attributeFilters.push(attributeFilter)
               } else {
-                throw new Error(`Requested filter already set: ${attributeFilter.attribute.name} ${filterNames[attributeFilter.operand]} ${attributeFilter.value}`)
+                throw new Error(
+                  t("mapLayers.errors.pinia.duplicateFilter", {
+                    attribute: attributeFilter.attribute.name,
+                    operand: filterNames[attributeFilter.operand],
+                    value: attributeFilter.value
+                  })
+                )
               }
         } else {
           layerFilters.attributeFilters = [attributeFilter]
@@ -108,13 +116,21 @@ async function removeAttributeFilter(layername: string, attributeFilter: Attribu
         appliedFiltersList.value[layerFiltersIndex].attributeFilters!.splice(filterIndex, 1)
         return await Promise.resolve(appliedFiltersList.value[layerFiltersIndex]);
       } else {
-        throw new Error(`Filter not found: ${attributeFilter.attribute.name} ${filterNames[attributeFilter.operand]} ${attributeFilter.value}`);
+        throw new Error(
+          t("mapLayers.errors.pinia.filterNotFound", {
+            attribute: attributeFilter.attribute.name,
+            operand: filterNames[attributeFilter.operand],
+            value: attributeFilter.value
+          })
+        );
       }
     } else {
       return await Promise.resolve(appliedFiltersList.value[layerFiltersIndex])
     }
   } else {
-    throw new Error(`Layer not found: ${layername}`);
+    throw new Error(
+      t("mapLayers.errors.pinia.layerNotFound", { layername })
+    );
   }
 }
 
@@ -126,21 +142,21 @@ async function removeAttributeFilter(layername: string, attributeFilter: Attribu
    */
   async function addGeometryFilter(layername: string, geometryFilter: GeometryFilterItem): Promise<AppliedFiltersListItem> {
     if (geometryFilter.targetLayerSourceType === undefined) {
-      throw new Error("There is no target layer source type")
+      throw new Error(t("mapLayers.errors.pinia.missingTargetLayerType"))
     }
     if (geometryFilter.filterGeoJSON.type !== "FeatureCollection") {
-      throw new Error("Filter geojson is not a feature collection")
+      throw new Error(t("mapLayers.errors.pinia.invalidGeoJSON"))
     }
     if (geometryFilter.filterGeoJSON.features.length<1){
-      throw new Error("There is no geometry feature")
+      throw new Error(t("mapLayers.errors.pinia.noGeometryFeature"))
     }
     if (geometryFilter.targetLayerSourceType === "fill") {
       // create id list for filtering
       if (isNullOrEmpty(geometryFilter.identifier)){
-        throw new Error("There is no identifier")
+        throw new Error(t("mapLayers.errors.pinia.noIdentifier"))
       }
       if (geometryFilter.filterArray?.length === 0){
-        throw new Error("There is no array of identifiers")
+        throw new Error(t("mapLayers.errors.pinia.noIdentifierArray"))
       }
     }
     const layerFilters = appliedFiltersList.value.find((item) => { return item.layerName === layername })
@@ -169,13 +185,15 @@ async function removeAttributeFilter(layername: string, attributeFilter: Attribu
         if (appliedFiltersList.value[layerFiltersIndex].geometryFilters === undefined){
           return await Promise.resolve(appliedFiltersList.value[layerFiltersIndex])
         } else {
-          throw new Error("Couldn't delete geometry filter. Please try again.")
+          throw new Error(t("mapLayers.errors.pinia.geometryFilterDeleteFailed"))
         }
       } else {
-        throw new Error("Geometry filter not found");
+        throw new Error(t("mapLayers.errors.pinia.geometryFilterNotFound"));
       }
     } else {
-      throw new Error(`Layer not found: ${layername}`);
+      throw new Error(
+        t("mapLayers.errors.pinia.layerNotFound", { layername })
+      );
     }
   }
   /**

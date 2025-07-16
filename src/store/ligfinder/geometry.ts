@@ -6,6 +6,7 @@ import { type MapMouseEvent, type Map } from "maplibre-gl"
 import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw"
 import { useDrawStore } from "../draw"
 import intersect from "@turf/intersect"
+import { useI18n } from "vue-i18n";
 export interface IsochroneCenter {
     lng: number,
     lat: number
@@ -47,6 +48,7 @@ export interface GeometryFilterAPIResponse {
     UUIDs: number[]
 }
 export const useGeometryStore = defineStore("geometry", () => {
+    const { t } = useI18n();
     const mapStore = useMapStore()
     const drawTool = useDrawStore()
     // ADMINISTRATIVE GEOMETRY
@@ -100,7 +102,7 @@ export const useGeometryStore = defineStore("geometry", () => {
                 }
             })
             if (alreadySelected){
-                throw new Error("Feature already selected")
+                throw new Error(t("ligfinder.filter.geometry.errors.pinia.featureAlreadySelected"))
             } else {
                 selectedAdministrativeFeaturesList.value.push(item)
                 updateSelectedAreasTempLayer()
@@ -160,7 +162,7 @@ export const useGeometryStore = defineStore("geometry", () => {
                 }
             })
             if (alreadySelected){
-                throw new Error("Feature already selected")
+                throw new Error(t("ligfinder.filter.geometry.errors.pinia.featureAlreadySelected"))
             } else {
                 selectedDrawnGeometry.value.push(item)
                 updateSelectedAreasTempLayer()
@@ -210,10 +212,10 @@ export const useGeometryStore = defineStore("geometry", () => {
      */
     function createIsochrone(): void {
         if (centerPoint.value === undefined) {
-            console.error("There is no center point")
+            throw new Error(t("ligfinder.filter.geometry.errors.pinia.noCenterPoint"))
         }
         if (!(travelTime.value > 0)) {
-            console.error("There is not enough travel time")
+            throw new Error(t("ligfinder.filter.geometry.errors.pinia.invalidTravelTime"))
         }
         if (centerPoint.value?.lat !== undefined && centerPoint.value.lng !== undefined) {
             const isochroneInfo: IsochroneForm = {
@@ -354,8 +356,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         if (!featureCollection.union){
             const hasValidIntersection = intersect({ type:"FeatureCollection", features:featureCollection.features as Array<Feature<Polygon | MultiPolygon, GeoJsonProperties>> }) !== null
             if (!hasValidIntersection){
-                console.error("Invalid intersection")
-                throw new Error("Selected geometries do not intersect. Please review and apply filters again.")
+                throw new Error(t("ligfinder.filter.geometry.errors.pinia.invalidIntersection"))
             }
         }
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/filter`,

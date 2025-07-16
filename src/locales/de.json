@@ -9,6 +9,16 @@
       "noLayer": "Keine Layer verfügbar"
     }
   },
+  "geoserver": {
+    "errors": {
+      "pinia": {
+        "workspaceRequired": "Workspace ist erforderlich.",
+        "layerRequired": "Layer ist erforderlich.",
+        "bboxRequired": "Begrenzungsbox ist erforderlich.",
+        "stylingFetchFailed": "Layer-Styling konnte nicht geladen werden."
+      }
+    }
+  },
   "ligfinder": {
     "title": "LigFinder",
 		"styler": {
@@ -73,6 +83,14 @@
           "create": "Erstellen",
           "add": "Isochrone hinzufügen",
           "cancel": "Abbrechen"
+        },
+        "errors": {
+          "pinia": {
+            "featureAlreadySelected": "Feature wurde bereits ausgewählt.",
+            "invalidIntersection": "Die ausgewählten Geometrien schneiden sich nicht. Bitte überprüfen Sie Ihre Auswahl und wenden Sie die Filter erneut an.",
+            "noCenterPoint": "Es wurde kein Mittelpunkt definiert.",
+            "invalidTravelTime": "Die Reisezeit muss eine positive Zahl sein."
+          }
         }
       },
       "parcel": {
@@ -113,6 +131,12 @@
             "addToMapFailed": "Ein oder mehrere Layer konnten nicht zur Karte hinzugefügt werden."
           }
         }
+      },
+      "errors": {
+        "pinia": {
+          "noFilterToApply": "Kein Filter anzuwenden.",
+          "invalidExpression": "Ungültiger Filterausdruck."
+        }
       }
     },
     "table": {
@@ -146,6 +170,12 @@
         "noResults": "Keine Ergebnisse gefunden",
         "noFilter": "Kein Filter angewendet",
         "layerNameInUse": "Ebenenname bereits in Verwendung. Bitte wählen Sie einen anderen Namen."
+      },
+      "errors": {
+        "pinia": {
+          "fetchFailed": "Gefilterte Ergebnisse konnten nicht geladen werden. (Status: {status}, Nachricht: {message})",
+          "noFilterApplied": "Es wurden keine Filter angewendet."
+        }
       }
     },
     "modal": {
@@ -207,6 +237,27 @@
       }
     }
   },
+  "map": {
+    "errors": {
+      "pinia": {
+        "noMapToAddSource": "Es ist keine Karte vorhanden, um eine Quelle hinzuzufügen.",
+        "identifierRequiredToAddSource": "Bezeichner ist erforderlich, um eine Quelle hinzuzufügen.",
+        "layerInfoRequired": "Layer-Informationen sind erforderlich, um Geoserver-Quellen hinzuzufügen.",
+        "workspaceRequired": "Workspace-Name ist erforderlich, um Geoserver-Quellen hinzuzufügen.",
+        "geojsonRequired": "GeoJSON-Daten sind erforderlich, um GeoJSON-Quellen hinzuzufügen.",
+        "sourceAddFailed": "Angeforderte Quelle konnte nicht hinzugefügt werden: {identifier}",
+        "noMapToDeleteSource": "Es ist keine Karte vorhanden, um eine Quelle zu löschen.",
+        "sourceNotFound": "Quelle mit Bezeichner {identifier} nicht gefunden.",
+        "noMapToAddLayer": "Es ist keine Karte vorhanden, um einen Layer hinzuzufügen.",
+        "identifierRequiredToAddLayer": "Bezeichner ist erforderlich, um einen Layer hinzuzufügen.",
+        "layerDetailsRequired": "Layer-Details sind erforderlich, um Geoserver-Layer hinzuzufügen.",
+        "layerAddFailed": "Angeforderter Layer konnte nicht hinzugefügt werden: {identifier}",
+        "noMapToDeleteLayer": "Es ist keine Karte vorhanden, um einen Layer zu löschen.",
+        "layerNotFound": "Layer mit Bezeichner {identifier} nicht gefunden.",
+        "layerNotInList": "Layer mit Bezeichner {identifier} nicht in der Layerliste gefunden."
+      }
+    }
+  },
   "mapLayers": {
     "styling":{
       "color":"Farbe",
@@ -237,6 +288,20 @@
       "selectIdentifier": "Bezeichner auswählen",
       "addFilter": "Filter hinzufügen",
       "activeFilterMessage": "Sie haben einen Geometrie-Filter"
+    },
+    "errors": {
+      "pinia": {
+        "duplicateFilter": "Angeforderter Filter bereits gesetzt: {attribute} {operand} {value}",
+        "filterNotFound": "Filter nicht gefunden: {attribute} {operand} {value}",
+        "layerNotFound": "Layer nicht gefunden: {layername}",
+        "missingTargetLayerType": "Kein Ziel-Layer-Quelltyp vorhanden.",
+        "invalidGeoJSON": "Filter-GeoJSON ist kein FeatureCollection.",
+        "noGeometryFeature": "Keine Geometrie-Features vorhanden.",
+        "noIdentifier": "Kein Bezeichner vorhanden.",
+        "noIdentifierArray": "Keine Bezeichnerliste vorhanden.",
+        "geometryFilterDeleteFailed": "Geometrie-Filter konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+        "geometryFilterNotFound": "Geometrie-Filter nicht gefunden."
+      }
     }
   },
   "helpers": {

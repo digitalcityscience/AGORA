@@ -9,6 +9,16 @@
 			"noLayer":"No layer available"
 		}
 	},
+	"geoserver":{
+		"errors":{
+			"pinia":{
+				"workspaceRequired": "Workspace is required.",
+				"layerRequired": "Layer is required.",
+				"bboxRequired": "Bounding box is required.",
+				"stylingFetchFailed": "Failed to fetch layer styling."
+			}
+		}
+	},
 	"ligfinder": {
 		"title": "LigFinder",
 		"styler": {
@@ -73,6 +83,14 @@
 					"create": "Create",
 					"add": "Add Isochrone",
 					"cancel": "Cancel"
+				},
+				"errors":{
+					"pinia":{
+						"featureAlreadySelected": "Feature already selected.",
+						"invalidIntersection": "Selected geometries do not intersect. Please review and apply filters again.",
+						"noCenterPoint": "There is no center point.",
+						"invalidTravelTime": "Travel time must be a positive number."
+					}
 				}
 			},
 			"parcel": {
@@ -113,6 +131,12 @@
 					"addToMapFailed": "One or more layers could not be added to the map."
 				  }
 				}
+			},
+			"errors": {
+				"pinia": {
+					"noFilterToApply": "No filter to apply.",
+					"invalidExpression": "Invalid filter expression."
+				}
 			}
 		},
 		"table": {
@@ -146,6 +170,12 @@
 				"noResults": "No results found",
 				"noFilter": "No filter applied",
 				"layerNameInUse": "Layer name already in use. Please choose a different name."
+			},
+			"errors":{
+				"pinia":{
+					"fetchFailed": "Failed to fetch filtered results. (Status: {status}, Message: {message})"
+					,"noFilterApplied": "No filter has been applied."
+				}
 			}
 		},
 		"modal": {
@@ -207,6 +237,27 @@
 			  }
 		}
 	},
+	"map":{
+		"errors":{
+			"pinia":{
+				"noMapToAddSource": "There is no map to add source.",
+				"identifierRequiredToAddSource": "Identifier is required to add source.",
+				"layerInfoRequired": "Layer information required to add geoserver sources.",
+				"workspaceRequired": "Workspace name required to add geoserver sources.",
+				"geojsonRequired": "GeoJSON data required to add GeoJSON sources.",
+				"sourceAddFailed": "Couldn't add requested source: {identifier}",
+				"noMapToDeleteSource": "There is no map to delete source from.",
+				"sourceNotFound": "Source with identifier {identifier} not found.",
+				"noMapToAddLayer": "There is no map to add layer.",
+				"identifierRequiredToAddLayer": "Identifier is required to add layer.",
+				"layerDetailsRequired": "Layer details required to add geoserver layers.",
+				"layerAddFailed": "Couldn't add requested layer: {identifier}",
+				"noMapToDeleteLayer": "There is no map to delete layer from.",
+				"layerNotFound": "Layer with identifier {identifier} not found.",
+				"layerNotInList": "Layer with identifier {identifier} not found in layer list."
+			}
+		}
+	},
 	"mapLayers": {
 		"styling":{
 			"color":"Color",
@@ -237,6 +288,20 @@
 			"selectIdentifier": "Select Identifier",
 			"addFilter": "Add Filter",
 			"activeFilterMessage": "You have a geometry filter"
+		},
+		"errors":{
+			"pinia":{
+				"duplicateFilter": "Requested filter already set: {attribute} {operand} {value}",
+				"filterNotFound": "Filter not found: {attribute} {operand} {value}",
+				"layerNotFound": "Layer not found: {layername}",
+				"missingTargetLayerType": "There is no target layer source type.",
+				"invalidGeoJSON": "Filter GeoJSON is not a FeatureCollection.",
+				"noGeometryFeature": "There is no geometry feature.",
+				"noIdentifier": "There is no identifier.",
+				"noIdentifierArray": "There is no array of identifiers.",
+				"geometryFilterDeleteFailed": "Couldn't delete geometry filter. Please try again.",
+				"geometryFilterNotFound": "Geometry filter not found."
+			}
 		}
 	},
 	"helpers": {
