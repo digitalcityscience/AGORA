@@ -153,7 +153,7 @@
 			"downloadGeoJSON": ".geojson",
 			"downloadCSV": ".csv",
 			"headers": {
-				"UUID": "UUID",
+				"flurst_nr": "Parcel Number",
 				"Shape_Area": "Land Area (m²)",
 				"grz_xplanung": "Floor Space Index (Zoning)",
 				"grz_alkis": "Floor Space Index (Actual)",

@@ -126,7 +126,7 @@ export const useResultStore = defineStore("result", () => {
         }
     }
     const tableHeaders: TableHeader[] =[
-        { text: "UUID", value: "UUID" },
+        { text: "Flurstücknummer", value: "flurst_nr" },
         { text: "Land Area in m²", value: "Shape_Area" },
         { text: "Grundflächenzahl B-Plan", value: "grz_xplanung" },
         { text: "Grundflächenzahl tatsächlich", value: "grz_alkis" },

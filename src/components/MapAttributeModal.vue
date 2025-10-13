@@ -182,7 +182,7 @@ const elbeColumnNames: Record<string, string> = {
     Elbe_Wochenblatt_text_Article_Full: "vollständiger Artikel"
 }
 const attributeFormatInfo = [
-    { name: "UUID", format: "string", label: "Flurstück UUID" },
+    { name: "flurst_nr", format: "string", label:"Flurstücknummer" },
     { name: "Shape_Area", format: "number", label: "Fläche Flurstück" },
     { name: "dist_pharmacies", format: "number_round", label: "Entfernung Apotheke" },
     { name: "dist_bus_stop", format: "number_round", label: "Entfernung Bushaltestelle" },

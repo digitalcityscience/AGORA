@@ -395,7 +395,7 @@ function isHidden(attributeName: string): boolean {
     }
 }
 const filters = ref({
-    "properties.UUID": { value: null, matchMode: FilterMatchMode.CONTAINS },
+    "properties.flurst_nr": { value: null, matchMode: FilterMatchMode.CONTAINS },
     "properties.xplanung_id": { value: null, matchMode: FilterMatchMode.CONTAINS },
     "properties.Shape_Area": { value: null, matchMode: FilterMatchMode.LESS_THAN },
     "properties.grz_xplanung": { value: null, matchMode: FilterMatchMode.LESS_THAN },
