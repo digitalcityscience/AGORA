@@ -153,7 +153,7 @@
       "downloadGeoJSON": ".geojson",
       "downloadCSV": ".csv",
       "headers": {
-				"UUID": "UUID",
+        "flurst_nr": "Flurstücksnummer",
 				"Shape_Area": "Land Area in m²",
 				"grz_xplanung": "Grundflächenzahl B-Plan",
 				"grz_alkis": "Grundflächenzahl tatsächlich",
