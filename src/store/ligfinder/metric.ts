@@ -63,10 +63,10 @@ export const useMetricStore = defineStore("metric", () => {
         Object.entries(filters).forEach(([key, value]) => {
             if (excludeShapeArea && key === "Shape_Area") return;
             if (value.min !== 0) {
-                expression.push([">", ["get", key], value.min])
+                expression.push([">", ["to-number", ["get", key]], value.min])
             }
             if (value.max !== 0) {
-                expression.push(["<", ["get", key], value.max])
+                expression.push(["<", ["to-number", ["get", key]], value.max])
             }
         })
         if (expression.length > 0) {
