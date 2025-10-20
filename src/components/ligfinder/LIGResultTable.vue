@@ -281,7 +281,7 @@ import ToggleButton from "primevue/togglebutton";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
-import SidebarLayout from "../SidebarLayout.vue";
+import SidebarLayout from "../base/SidebarLayout.vue";
 import { useMapStore } from "../../store/maplibre/map"
 import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";

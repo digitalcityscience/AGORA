@@ -25,7 +25,7 @@ import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
 import InlineMessage from "primevue/inlinemessage";
-import SidebarLayout from "./SidebarLayout.vue";
+import SidebarLayout from "./base/SidebarLayout.vue";
 import WorkspaceListingItem from "./WorkspaceListingItem.vue";
 // JS-TS imports
 import { type WorkspaceListItem } from "../store/api/geoserver";
