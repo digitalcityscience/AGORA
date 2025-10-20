@@ -68,10 +68,7 @@
                             <div v-else-if="source.name==='parcel_grz_29042025'">
                                 <div v-for="(feature, ind) in source.value" :key="ind"
                                     class="rounded-md border mt-1 px-1 first:mt-0 divide-y-2 divide-dashed">
-                                    <div v-for="(property, i) in Object.entries(feature.properties)
-                                        .map(([name, value]) => ({ name, value }))
-                                        .filter(property => attributeFormatInfo.some(attr => attr.name === property.name))"
-                                         :key="i">
+                                    <div v-for="(property, i) in parcelAttributes(feature.properties)" :key="i">
                                         <p class="font-bold">
                                           {{ attributeFormatInfo.find(item => item.name === property.name)?.label || property.name }}
                                         </p>
@@ -181,6 +178,13 @@ const elbeColumnNames: Record<string, string> = {
     keywords: "Schlüsselwörter",
     Elbe_Wochenblatt_text_Article_Full: "vollständiger Artikel"
 }
+interface ParcelAttribute { name: string; value: unknown }
+
+/**
+ * Parcel attribute metadata used to control display order, formatting, and labels.
+ * The array order defines the render order inside the parcel modal, so `flurst_nr`
+ * appears first followed by the remaining attributes.
+ */
 const attributeFormatInfo = [
     { name: "flurst_nr", format: "string", label:"Flurstücknummer" },
     { name: "Shape_Area", format: "number", label: "Fläche Flurstück" },
@@ -201,6 +205,19 @@ const attributeFormatInfo = [
     { name: "lgb_typ_values", format: "string", label: "LGB Typ" },
     { name: "nutzart_list_final", format: "string", label: "Nutzung" },
 ];
+
+/**
+ * Returns parcel feature attributes filtered and ordered according to `attributeFormatInfo`.
+ */
+function parcelAttributes(properties: Record<string, unknown> | null | undefined): ParcelAttribute[] {
+    if (properties === null || properties === undefined) {
+        return []
+    }
+    const propertyMap = new Map(Object.entries(properties))
+    return attributeFormatInfo
+        .filter(attribute => propertyMap.has(attribute.name))
+        .map(attribute => ({ name: attribute.name, value: propertyMap.get(attribute.name) }))
+}
 
 /**
  * Formats a numeric value according to the specified format.
