@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.2.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -26,14 +29,14 @@
     "primevue": "^4.3.4",
     "terra-draw": "^0.0.1-alpha.61",
     "vue": "^3.4.35",
-    "vue-i18n": "^10.0.0"
+    "vue-i18n": "^10.0.8"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^1.5.4",
     "@types/node": "^20.11.26",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
-    "@vitejs/plugin-vue": "^4.5.0",
+    "@vitejs/plugin-vue": "^6.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
@@ -43,11 +46,11 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.19.2",
     "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.18",
     "typedoc": "^0.27.7",
     "typedoc-plugin-vue": "^1.5.0",
     "typescript": "^5.3.3",
-    "vite": "^6.3.5",
+    "vite": "^6.4.0",
     "vue-tsc": "^2.0.29"
   }
 }
