@@ -8,15 +8,14 @@
 					<div class="filterlayer-dropdown w-full">
 						<div v-if="filterLayerList.length>0">
 							<Dropdown class="w-full" v-model="selectedFilterLayer" @change="dropdownFitter" :options="filterLayerList" option-label="source" show-clear
-							placeholder="{{ $t('mapLayers.geometryFiltering.selectLayer') }}"></Dropdown>
+							:placeholder="$t('mapLayers.geometryFiltering.selectLayer')"></Dropdown>
 						</div>
                         <div class="w-full no-current-filter py-2" v-else>
                             <InlineMessage class="w-full" severity="info">{{ $t('mapLayers.geometryFiltering.noLayerMessage') }}</InlineMessage>
                         </div>
 					</div>
 					<div v-if="selectedFilterLayer && props.layer.type==='fill'"  class="identifier-dropdown w-full py-2">
-							<Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear placeholder="{{ $t('mapLayers.geometryFiltering.selectIdentifier') }}">
-							</Dropdown>
+                        <Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear :placeholder="$t('mapLayers.geometryFiltering.selectIdentifier')"></Dropdown>
 					</div>
 				</template>
 				<template #footer>
@@ -48,14 +47,14 @@ import Card from "primevue/card";
 import Button from "primevue/button";
 import InlineMessage from "primevue/inlinemessage";
 import { useToast } from "primevue/usetoast";
-import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../store/map";
+import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../../../store/maplibre/map";
 import { computed, onMounted, ref } from "vue";
 import bbox from "@turf/bbox"
 import bboxPolygon from "@turf/bbox-polygon"
 import { type FeatureCollection, type Feature } from "geojson";
-import { isNullOrEmpty } from "../core/helpers/functions";
-import { type GeometryFilterItem, useFilterStore } from "../store/filter";
-import { type GeoServerFeatureTypeAttribute } from "../store/geoserver";
+import { isNullOrEmpty } from "../../../core/helpers/functions";
+import { type GeometryFilterItem, useFilterStore } from "../../../store/maplibre/filter";
+import { type GeoServerFeatureTypeAttribute } from "../../../store/api/geoserver";
 import { type LngLatBounds } from "maplibre-gl";
 import booleanWithin from "@turf/boolean-within";
 export interface Props {

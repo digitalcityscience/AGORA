@@ -68,7 +68,7 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import IconField from "primevue/iconfield"
 import InputIcon from "primevue/inputicon"
-import ChipWrapper from "../ChipWrapper.vue";
+import ChipWrapper from "../base/ChipWrapper.vue";
 import { FilterMatchMode } from "@primevue/core/api";
 
 const geometry = useGeometryStore()

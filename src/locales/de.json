@@ -152,6 +152,7 @@
       "download": "Herunterladen",
       "downloadGeoJSON": ".geojson",
       "downloadCSV": ".csv",
+      "searchByColumn": "Nach {column} suchen",
       "headers": {
         "flurst_nr": "Flurstücksnummer",
 				"Shape_Area": "Land Area in m²",

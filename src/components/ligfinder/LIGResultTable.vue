@@ -46,7 +46,7 @@
 													</Button>
 												</template>
 											</Column>
-											<span v-for="(column, index) in resultStore.attributeList"
+										<span v-for="(column, index) in attributeColumns"
 												:key="`column-${index}`">
 												<Column :field="`properties.${column.name}`"
 													:header="getHeaderText(column.name)"
@@ -57,10 +57,10 @@
 													resizableColumns columnResizeMode="fit">
 													<template #filter="{ filterModel, filterCallback }">
 														<span>
-															<InputText size="small" v-model="filterModel.value"
-																type="text" @input="filterCallback()"
-																class="p-column-filter"
-																placeholder="Search by bezirke" />
+														<InputText size="small" v-model="filterModel.value"
+															type="text" @input="filterCallback()"
+															class="p-column-filter"
+															:placeholder="$t('ligfinder.table.searchByColumn', { column: getHeaderText(column.name) })" />
 														</span>
 													</template>
 													<template #body="{ data }">
@@ -82,7 +82,7 @@
 														aria-label="Include"></Button>
 												</template>
 											</Column>
-											<span v-for="(column, index) in resultStore.tableHeaders"
+											<span v-for="(column, index) in tableHeaderColumns"
 												:key="`column-${index}`">
 												<Column v-if="column.value === 'bezname'"
 													:field="`properties.${column.value}`"
@@ -90,10 +90,10 @@
 													:header="column.text" :key="`bezname-${index}`">
 													<template #filter="{ filterModel, filterCallback }">
 														<span v-if="column.value === 'bezname'">
-															<InputText size="small" v-model="filterModel.value"
-																type="text" @input="filterCallback()"
-																class="p-column-filter"
-																placeholder="Search by bezirke" />
+														<InputText size="small" v-model="filterModel.value"
+															type="text" @input="filterCallback()"
+															class="p-column-filter"
+															:placeholder="$t('ligfinder.table.searchByColumn', { column: column.text })" />
 														</span>
 													</template>
 												</Column>
@@ -166,7 +166,7 @@
 													aria-label="Include"></Button>
 											</template>
 										</Column>
-										<span v-for="(column, index) in resultStore.attributeList"
+										<span v-for="(column, index) in attributeColumns"
 											:key="`column-${index}`">
 											<Column :field="`properties.${column.name}`"
 												:header="getHeaderText(column.name)"
@@ -178,7 +178,7 @@
 													<span>
 														<InputText size="small" v-model="filterModel.value" type="text"
 															@input="filterCallback()" class="p-column-filter"
-															placeholder="Search by bezirke" />
+															:placeholder="$t('ligfinder.table.searchByColumn', { column: getHeaderText(column.name) })" />
 													</span>
 												</template>
 												<template #body="{ data }">
@@ -200,7 +200,7 @@
 													aria-label="Include"></Button>
 											</template>
 										</Column>
-										<span v-for="(column, index) in resultStore.tableHeaders"
+										<span v-for="(column, index) in tableHeaderColumns"
 											:key="`column-${index}`">
 											<Column v-if="column.value === 'bezname'"
 												:field="`properties.${column.value}`"
@@ -210,7 +210,7 @@
 													<span v-if="column.value === 'bezname'">
 														<InputText size="small" v-model="filterModel.value" type="text"
 															@input="filterCallback()" class="p-column-filter"
-															placeholder="Search by bezirke" />
+															:placeholder="$t('ligfinder.table.searchByColumn', { column: column.text })" />
 													</span>
 												</template>
 											</Column>
@@ -281,8 +281,8 @@ import ToggleButton from "primevue/togglebutton";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
-import SidebarLayout from "../SidebarLayout.vue";
-import { useMapStore } from "../../store/map"
+import SidebarLayout from "../base/SidebarLayout.vue";
+import { useMapStore } from "../../store/maplibre/map"
 import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
@@ -308,6 +308,26 @@ const filterResultTableItems = computed(() => {
     } else {
         return []
     }
+})
+const attributeColumns = computed(() => {
+    const source = resultStore.attributeList ?? []
+    const columns = [...source]
+    const flurstIndex = columns.findIndex((column: any) => column.name === "flurst_nr")
+    if (flurstIndex > 0) {
+        const [flurstColumn] = columns.splice(flurstIndex, 1)
+        columns.unshift(flurstColumn)
+    }
+    return columns
+})
+const tableHeaderColumns = computed(() => {
+    const source = resultStore.tableHeaders ?? []
+    const columns = [...source]
+    const flurstIndex = columns.findIndex((column: any) => (column.value ?? column.name) === "flurst_nr")
+    if (flurstIndex > 0) {
+        const [flurstColumn] = columns.splice(flurstIndex, 1)
+        columns.unshift(flurstColumn)
+    }
+    return columns
 })
 const format = ref<boolean>(false)
 mapStore.map.addControl(sidebarControl, "top-left")
@@ -380,11 +400,11 @@ function focusOnSelectedParcel(parcel: any): void {
 }
 function getHeaderText(attributeName: string): string {
     const key = `ligfinder.table.headers.${attributeName}`
-    if (key !== t(key)) {
-        return t(key)
-    } else {
-        return key
+    const translated = t(key)
+    if (key !== translated) {
+        return translated
     }
+    return attributeName
 }
 function isHidden(attributeName: string): boolean {
     const key = `ligfinder.table.headers.${attributeName}`

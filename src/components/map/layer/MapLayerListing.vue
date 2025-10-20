@@ -15,11 +15,11 @@
 <script setup lang="ts">
 import InlineMessage from "primevue/inlinemessage";
 // components
-import SidebarLayout from "./SidebarLayout.vue";
+import SidebarLayout from "../../base/SidebarLayout.vue";
 import MapLayerListingItem from "./MapLayerListingItem.vue";
 // JS imports
-import { useMapStore } from "../store/map";
-import { SidebarControl } from "../core/helpers/sidebarControl"
+import { useMapStore } from "../../../store/maplibre/map";
+import { SidebarControl } from "../../../core/helpers/sidebarControl"
 
 const mapStore = useMapStore()
 

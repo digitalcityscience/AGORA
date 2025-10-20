@@ -2,9 +2,9 @@
 /* eslint "no-tabs": "off" */
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
-import { type GeoServerFeatureType } from "./geoserver";
+import { type GeoServerFeatureType } from "../api/geoserver";
 import { type SourceSpecification, type AddLayerObject } from "maplibre-gl";
-import { generateDistinctHexColors, getRandomHexColor, isNullOrEmpty } from "../core/helpers/functions";
+import { generateDistinctHexColors, getRandomHexColor, isNullOrEmpty } from "../../core/helpers/functions";
 import { type FeatureCollection } from "geojson";
 import { useToast } from "primevue/usetoast";
 import { useI18n } from "vue-i18n";

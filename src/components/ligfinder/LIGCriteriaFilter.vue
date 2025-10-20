@@ -59,7 +59,7 @@ import Panel from "primevue/panel";
 import Tree from "primevue/tree";
 import Button from "primevue/button";
 import InlineMessage from "primevue/inlinemessage";
-import ChipWrapper from "../ChipWrapper.vue"
+import ChipWrapper from "../base/ChipWrapper.vue"
 import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria.ts"
 import { type TreeNode } from "primevue/treenode";
 import { computed } from "vue";

@@ -7,7 +7,7 @@
             </template>
             <template #header>
                 <ToggleSwitch v-model="checked" @update:model-value="changeLayerVisibility"></ToggleSwitch>
-                <h3 class="capitalize mr-auto ml-2">{{ props.layer.displayName ?? props.layer.source.replaceAll("_", " ") }}</h3>
+                <h3 class="capitalize mr-auto ml-2" v-tooltip.bottom="layerFullName">{{ layerDisplayName }}</h3>
                 <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
                     @click="confirmDialogVisibility = true"></Button>
                 <Dialog v-model:visible="confirmDialogVisibility" modal :header="$t('mapLayers.actions.deleteHeader')" :style="{ width: '25rem' }">
@@ -61,8 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref } from "vue";
-import { type LayerObjectWithAttributes, useMapStore } from "../store/map"
+import { computed, defineAsyncComponent, onMounted, ref } from "vue";
+import { type LayerObjectWithAttributes, useMapStore } from "../../../store/maplibre/map"
 import Panel from "primevue/panel";
 import ColorPicker from "primevue/colorpicker";
 import Slider from "primevue/slider";
@@ -71,13 +71,14 @@ import AttributeFiltering from "./AttributeFiltering.vue";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import { useToast } from "primevue/usetoast"
-import { isNullOrEmpty } from "../core/helpers/functions";
-import ParliamentDBFilter from "./geoparsing/ParliamentDBFilter.vue";
-import ElbewochenblattDBFilter from "./geoparsing/ElbewochenblattDBFilter.vue";
+import { isNullOrEmpty } from "../../../core/helpers/functions";
+import ParliamentDBFilter from "../../geoparsing/ParliamentDBFilter.vue";
+import ElbewochenblattDBFilter from "../../geoparsing/ElbewochenblattDBFilter.vue";
 import MBStyleLegend from "./MBStyleLegend.vue";
 import DownloadForm from "./DownloadForm.vue";
+import Tooltip from "primevue/tooltip";
 
-const GeometryFiltering = defineAsyncComponent(async () => await import("../components/GeometryFiltering.vue"));
+const GeometryFiltering = defineAsyncComponent(async () => await import("./GeometryFiltering.vue"));
 
 export interface Props {
     layer: LayerObjectWithAttributes
@@ -88,6 +89,9 @@ const collapsed = ref<boolean>(true)
 const color = ref<string>("000000")
 const opacity = ref<number>(1)
 const checked = ref<boolean>(true)
+const layerFullName = computed(() => props.layer.displayName ?? props.layer.source.replaceAll("_", " "))
+const layerDisplayName = computed(() => layerFullName.value.length > 19 ? `${layerFullName.value.slice(0, 19)}...` : layerFullName.value)
+const vTooltip = Tooltip;
 onMounted(() => {
     let prop = ""
     let opac = ""

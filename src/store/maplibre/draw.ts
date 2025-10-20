@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { useMapStore } from "./map";
 import { type Map } from "maplibre-gl"
 import { type Feature, type FeatureCollection } from "geojson";
-import { useGeometryStore } from "./ligfinder/geometry";
+import { useGeometryStore } from "../ligfinder/geometry";
 import { useToast } from "primevue/usetoast";
 
 export const useDrawStore = defineStore("draw", () => {

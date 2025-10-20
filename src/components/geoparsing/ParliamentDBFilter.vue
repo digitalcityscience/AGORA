@@ -38,8 +38,8 @@ import Listbox from "primevue/listbox";
 import Button from "primevue/button";
 import SelectButton from "primevue/selectbutton";
 import { computed, ref } from "vue";
-import { useMapStore, type LayerObjectWithAttributes } from "../../store/map";
-import { type RelationTypes } from "../../store/filter";
+import { useMapStore, type LayerObjectWithAttributes } from "../../store/maplibre/map";
+import { type RelationTypes } from "../../store/maplibre/filter";
 
 export interface Props {
     layer: LayerObjectWithAttributes

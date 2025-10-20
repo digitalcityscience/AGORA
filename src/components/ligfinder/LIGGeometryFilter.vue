@@ -38,7 +38,7 @@ import LIGGeometryDrawnAreas from "./LIGGeometryDrawnAreas.vue"
 import LIGGeometryIsochroneAreas from "./LIGGeometryIsochroneAreas.vue"
 import { useGeometryStore } from "../../store/ligfinder/geometry";
 import { onMounted } from "vue";
-import { useMapStore } from "../../store/map";
+import { useMapStore } from "../../store/maplibre/map";
 const geometry = useGeometryStore()
 const mapStore = useMapStore()
 onMounted(()=>{
