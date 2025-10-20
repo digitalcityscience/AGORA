@@ -11,7 +11,7 @@
 import Message from "primevue/message";
 // Components
 import WorkspaceLayerListingItem from "./WorkspaceLayerListingItem.vue";
-import { type GeoserverLayerListItem } from "../store/api/geoserver";
+import { type GeoserverLayerListItem } from "../../store/api/geoserver";
 export interface Props {
     list: GeoserverLayerListItem[] | undefined
     workspaceName: string
