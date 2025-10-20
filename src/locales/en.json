@@ -152,6 +152,7 @@
 			"download": "Download",
 			"downloadGeoJSON": ".geojson",
 			"downloadCSV": ".csv",
+			"searchByColumn": "Search by {column}",
 			"headers": {
 				"flurst_nr": "Parcel Number",
 				"Shape_Area": "Land Area (m²)",
