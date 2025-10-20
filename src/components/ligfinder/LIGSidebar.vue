@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import SidebarLayout from "../SidebarLayout.vue";
 import Button from "primevue/button";
-import { useMapStore } from "../../store/map";
+import { useMapStore } from "../../store/maplibre/map";
 import { useLigfinderMainStore } from "../../store/ligfinder/main"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { defineAsyncComponent, ref } from "vue";

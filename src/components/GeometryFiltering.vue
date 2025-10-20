@@ -48,7 +48,7 @@ import Card from "primevue/card";
 import Button from "primevue/button";
 import InlineMessage from "primevue/inlinemessage";
 import { useToast } from "primevue/usetoast";
-import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../store/map";
+import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../store/maplibre/map";
 import { computed, onMounted, ref } from "vue";
 import bbox from "@turf/bbox"
 import bboxPolygon from "@turf/bbox-polygon"

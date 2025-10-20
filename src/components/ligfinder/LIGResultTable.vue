@@ -282,7 +282,7 @@ import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
 import SidebarLayout from "../SidebarLayout.vue";
-import { useMapStore } from "../../store/map"
+import { useMapStore } from "../../store/maplibre/map"
 import { useResultStore } from "../../store/ligfinder/result"
 import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";

@@ -3,7 +3,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { type LayerStyleOptions } from "./map";
+import { type LayerStyleOptions } from "./maplibre/map";
 import { type FeatureCollection } from "geojson";
 export interface GeoServerFeatureType {
   featureType: {

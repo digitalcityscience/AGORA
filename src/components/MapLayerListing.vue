@@ -18,7 +18,7 @@ import InlineMessage from "primevue/inlinemessage";
 import SidebarLayout from "./SidebarLayout.vue";
 import MapLayerListingItem from "./MapLayerListingItem.vue";
 // JS imports
-import { useMapStore } from "../store/map";
+import { useMapStore } from "../store/maplibre/map";
 import { SidebarControl } from "../core/helpers/sidebarControl"
 
 const mapStore = useMapStore()

@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
 import { type FeatureCollection, type Feature, type Polygon, type MultiPolygon, type GeoJsonProperties } from "geojson"
-import { useMapStore } from "../map"
+import { useMapStore } from "../maplibre/map"
 import { type MapMouseEvent, type Map } from "maplibre-gl"
 import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw"
 import { useDrawStore } from "../maplibre/draw"

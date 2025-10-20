@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, onMounted, ref } from "vue";
-import { type LayerObjectWithAttributes, useMapStore } from "../store/map"
+import { type LayerObjectWithAttributes, useMapStore } from "../store/maplibre/map"
 import Panel from "primevue/panel";
 import ColorPicker from "primevue/colorpicker";
 import Slider from "primevue/slider";

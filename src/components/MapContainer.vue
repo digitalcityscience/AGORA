@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import maplibre, { type MapMouseEvent, type Map } from "maplibre-gl"
 import { h, nextTick, onMounted, ref, render } from "vue";
-import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "../store/map";
+import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "../store/maplibre/map";
 import { useDrawStore } from "../store/maplibre/draw";
 import { type StyleEntry, useGeoserverStore } from "../store/geoserver";
 import { isNullOrEmpty } from "../core/helpers/functions";

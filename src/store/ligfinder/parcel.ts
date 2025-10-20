@@ -3,7 +3,7 @@ import { useToast } from "primevue/usetoast";
 import { useResultStore, type ResultTableAPIRequestBody } from "./result";
 import { ref } from "vue";
 import { type FeatureCollection } from "geojson";
-import { useMapStore } from "../map";
+import { useMapStore } from "../maplibre/map";
 import { useI18n } from "vue-i18n";
 import { useLigfinderMainStore } from "./main";
 interface ParcelMaximizationRequestBody extends ResultTableAPIRequestBody {

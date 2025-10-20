@@ -6,7 +6,7 @@ import { useI18n } from "vue-i18n";
 import { type GeoServerFeatureTypeAttribute } from "./geoserver";
 import { type MultiPolygon, type FeatureCollection, type Feature, type Polygon } from "geojson";
 import { isNullOrEmpty } from "../core/helpers/functions";
-import { type MapLibreLayerTypes, useMapStore } from "./map";
+import { type MapLibreLayerTypes, useMapStore } from "./maplibre/map";
 import booleanWithin from "@turf/boolean-within";
 import flatten from "@turf/flatten";
 import { type MapGeoJSONFeature } from "maplibre-gl";

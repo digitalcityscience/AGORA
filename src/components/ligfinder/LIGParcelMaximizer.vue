@@ -76,7 +76,7 @@ import Select from "primevue/select";
 import ToggleButton from "primevue/togglebutton";
 import { useParcelStore } from "../../store/ligfinder/parcel";
 import { useToast } from "primevue/usetoast";
-import { useMapStore } from "../../store/map";
+import { useMapStore } from "../../store/maplibre/map";
 import { getRandomHexColor } from "../../core/helpers/functions";
 import { useI18n } from "vue-i18n";
 import { useLigfinderMainStore } from "../../store/ligfinder/main";

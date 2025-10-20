@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import Panel from "primevue/panel";
 import SelectButton from "primevue/selectbutton";
-import { type LayerStyleListItem, useMapStore } from "../../store/map";
+import { type LayerStyleListItem, useMapStore } from "../../store/maplibre/map";
 import { computed, ref, watch } from "vue";
 
 const selectedStyle = ref<LayerStyleListItem>();

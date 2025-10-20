@@ -31,7 +31,7 @@ import WorkspaceListingItem from "./WorkspaceListingItem.vue";
 import { type WorkspaceListItem } from "../store/geoserver";
 
 import { SidebarControl } from "../core/helpers/sidebarControl";
-import { useMapStore } from "../store/map";
+import { useMapStore } from "../store/maplibre/map";
 export interface Props {
     workspaces: WorkspaceListItem[] | undefined
 }

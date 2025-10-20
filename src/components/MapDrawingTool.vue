@@ -59,7 +59,7 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import { ref } from "vue";
 import { useDrawStore } from "../store/maplibre/draw"
-import { useMapStore } from "../store/map";
+import { useMapStore } from "../store/maplibre/map";
 import { DrawControl } from "../core/helpers/drawControl";
 const mapStore = useMapStore()
 const drawTool = useDrawStore()

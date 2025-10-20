@@ -89,7 +89,7 @@ import { useToast } from "primevue/usetoast"
 import { computed, ref } from "vue";
 import { type GeoServerFeatureTypeAttribute } from "../store/geoserver";
 import { type IntegerFilters, type StringFilters, useFilterStore, type RelationTypes, type AttributeFilterItem } from "../store/filter";
-import { type LayerObjectWithAttributes, useMapStore } from "../store/map";
+import { type LayerObjectWithAttributes, useMapStore } from "../store/maplibre/map";
 import { isNullOrEmpty } from "../core/helpers/functions"
 
 interface Props {
