@@ -6,6 +6,7 @@ import { type FeatureCollection } from "geojson";
 import { useMapStore } from "../maplibre/map";
 import { useI18n } from "vue-i18n";
 import { useLigfinderMainStore } from "./main";
+import domainStructure, { type NutzungDomainData } from "../../domains";
 interface ParcelMaximizationRequestBody extends ResultTableAPIRequestBody {
     threshold: number
 }
@@ -52,17 +53,16 @@ export const useParcelStore = defineStore("parcelStore", () => {
         requestBody.criteria ??= [];
 
         if (exclude) {
-            const domain = (await import("../../../domain_structure.json")).default;
-            const found = domain.data.find((d: any) =>
-                d?.nutzungvalue != null && Array.isArray(d.children)
+            const found = domainStructure.data.find((d): d is NutzungDomainData =>
+                "nutzungvalue" in d && Array.isArray(d.children)
             );
-            const nutzungDomain = Array.isArray(found?.children) ? found.children : [];
+            const nutzungDomain = found?.children ?? [];
             for (const key of excludedKeys.value) {
                 const exists = requestBody.criteria?.some((c: any) =>
                     c.data?.nutzungvalue?.[0] === key && c.status === "excluded"
                 );
                 if (!exists) {
-                    const dataObj = nutzungDomain.find((item: any) =>
+                    const dataObj = nutzungDomain.find((item) =>
                         item.nutzungvalue?.[0] === key
                     );
                     if (dataObj !== undefined && dataObj !== null) {
