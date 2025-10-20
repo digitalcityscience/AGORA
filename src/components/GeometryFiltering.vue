@@ -54,7 +54,7 @@ import bbox from "@turf/bbox"
 import bboxPolygon from "@turf/bbox-polygon"
 import { type FeatureCollection, type Feature } from "geojson";
 import { isNullOrEmpty } from "../core/helpers/functions";
-import { type GeometryFilterItem, useFilterStore } from "../store/filter";
+import { type GeometryFilterItem, useFilterStore } from "../store/maplibre/filter";
 import { type GeoServerFeatureTypeAttribute } from "../store/geoserver";
 import { type LngLatBounds } from "maplibre-gl";
 import booleanWithin from "@turf/boolean-within";
