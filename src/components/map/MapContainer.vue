@@ -10,7 +10,7 @@ import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "..
 import { useDrawStore } from "../../store/maplibre/draw";
 import { type StyleEntry, useGeoserverStore } from "../../store/api/geoserver";
 import { isNullOrEmpty } from "../../core/helpers/functions";
-import MapAttributeModal from "./utils/MapAttributeModal.vue"
+import MapAttributeModal from "./interactions/MapAttributeModal.vue"
 import { useResultStore } from "../../store/ligfinder/result";
 import { useGeometryStore } from "../../store/ligfinder/geometry";
 import { useToast } from "primevue/usetoast";
