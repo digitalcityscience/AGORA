@@ -14,10 +14,10 @@
 
 import { defineAsyncComponent, onMounted } from "vue";
 import { useGeoserverStore } from "../store/api/geoserver";
-import MapContainer from "../components/MapContainer.vue";
+import MapContainer from "../components/map/MapContainer.vue";
 const WorkspaceListing = defineAsyncComponent(async () => await import("../components/WorkspaceListing.vue"));
-const MapLayerListing = defineAsyncComponent(async () => await import("../components/MapLayerListing.vue"));
-const MapDrawingTool = defineAsyncComponent(async () => await import("../components/MapDrawingTool.vue"))
+const MapLayerListing = defineAsyncComponent(async () => await import("../components/map/layer/MapLayerListing.vue"));
+const MapDrawingTool = defineAsyncComponent(async () => await import("../components/map/utils/MapDrawingTool.vue"))
 const LIGSidebar = defineAsyncComponent(async () => await import("../components/ligfinder/LIGSidebar.vue"))
 const LIGResultTable = defineAsyncComponent(async() => await import("../components/ligfinder/LIGResultTable.vue"))
 const Toast = defineAsyncComponent(async () => await import("primevue/toast"))

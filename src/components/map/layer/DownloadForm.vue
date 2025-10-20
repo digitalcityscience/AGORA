@@ -35,7 +35,7 @@ import InputText from "primevue/inputtext";
 import ToggleButton from "primevue/togglebutton";
 import Button from "primevue/button";
 import { type FeatureCollection } from "geojson";
-import { downloadCSVFromGeoJSON, downloadAsGeojson } from "../core/helpers/functions";
+import { downloadCSVFromGeoJSON, downloadAsGeojson } from "../../../core/helpers/functions";
 import { ref } from "vue";
 interface Props {
     layerData: FeatureCollection | null

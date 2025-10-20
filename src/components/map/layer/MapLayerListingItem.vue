@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, onMounted, ref } from "vue";
-import { type LayerObjectWithAttributes, useMapStore } from "../store/maplibre/map"
+import { type LayerObjectWithAttributes, useMapStore } from "../../../store/maplibre/map"
 import Panel from "primevue/panel";
 import ColorPicker from "primevue/colorpicker";
 import Slider from "primevue/slider";
@@ -71,13 +71,13 @@ import AttributeFiltering from "./AttributeFiltering.vue";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import { useToast } from "primevue/usetoast"
-import { isNullOrEmpty } from "../core/helpers/functions";
-import ParliamentDBFilter from "./geoparsing/ParliamentDBFilter.vue";
-import ElbewochenblattDBFilter from "./geoparsing/ElbewochenblattDBFilter.vue";
+import { isNullOrEmpty } from "../../../core/helpers/functions";
+import ParliamentDBFilter from "../../geoparsing/ParliamentDBFilter.vue";
+import ElbewochenblattDBFilter from "../../geoparsing/ElbewochenblattDBFilter.vue";
 import MBStyleLegend from "./MBStyleLegend.vue";
 import DownloadForm from "./DownloadForm.vue";
 
-const GeometryFiltering = defineAsyncComponent(async () => await import("../components/GeometryFiltering.vue"));
+const GeometryFiltering = defineAsyncComponent(async () => await import("./GeometryFiltering.vue"));
 
 export interface Props {
     layer: LayerObjectWithAttributes

@@ -108,10 +108,10 @@ import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
 import Panel from "primevue/panel";
-import { useMapStore } from "../store/maplibre/map"
+import { useMapStore } from "../../../store/maplibre/map"
 import { computed } from "vue";
 import { type MapGeoJSONFeature } from "maplibre-gl";
-import { formatNumber } from "../core/helpers/functions";
+import { formatNumber } from "../../../core/helpers/functions";
 
 const mapStore = useMapStore()
 interface Props {

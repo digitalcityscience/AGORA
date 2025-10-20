@@ -6,13 +6,13 @@
 <script setup lang="ts">
 import maplibre, { type MapMouseEvent, type Map } from "maplibre-gl"
 import { h, nextTick, onMounted, ref, render } from "vue";
-import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "../store/maplibre/map";
-import { useDrawStore } from "../store/maplibre/draw";
-import { type StyleEntry, useGeoserverStore } from "../store/api/geoserver";
-import { isNullOrEmpty } from "../core/helpers/functions";
-import MapAttributeModal from "./MapAttributeModal.vue"
-import { useResultStore } from "../store/ligfinder/result";
-import { useGeometryStore } from "../store/ligfinder/geometry";
+import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "../../store/maplibre/map";
+import { useDrawStore } from "../../store/maplibre/draw";
+import { type StyleEntry, useGeoserverStore } from "../../store/api/geoserver";
+import { isNullOrEmpty } from "../../core/helpers/functions";
+import MapAttributeModal from "./utils/MapAttributeModal.vue"
+import { useResultStore } from "../../store/ligfinder/result";
+import { useGeometryStore } from "../../store/ligfinder/geometry";
 import { useToast } from "primevue/usetoast";
 
 const mapStore = useMapStore()

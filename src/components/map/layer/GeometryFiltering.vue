@@ -48,14 +48,14 @@ import Card from "primevue/card";
 import Button from "primevue/button";
 import InlineMessage from "primevue/inlinemessage";
 import { useToast } from "primevue/usetoast";
-import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../store/maplibre/map";
+import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../../../store/maplibre/map";
 import { computed, onMounted, ref } from "vue";
 import bbox from "@turf/bbox"
 import bboxPolygon from "@turf/bbox-polygon"
 import { type FeatureCollection, type Feature } from "geojson";
-import { isNullOrEmpty } from "../core/helpers/functions";
-import { type GeometryFilterItem, useFilterStore } from "../store/maplibre/filter";
-import { type GeoServerFeatureTypeAttribute } from "../store/api/geoserver";
+import { isNullOrEmpty } from "../../../core/helpers/functions";
+import { type GeometryFilterItem, useFilterStore } from "../../../store/maplibre/filter";
+import { type GeoServerFeatureTypeAttribute } from "../../../store/api/geoserver";
 import { type LngLatBounds } from "maplibre-gl";
 import booleanWithin from "@turf/boolean-within";
 export interface Props {
