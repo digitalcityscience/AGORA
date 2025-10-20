@@ -4,7 +4,7 @@ import { type FeatureCollection, type Feature, type Polygon, type MultiPolygon, 
 import { useMapStore } from "../map"
 import { type MapMouseEvent, type Map } from "maplibre-gl"
 import { TerraDraw, TerraDrawMapLibreGLAdapter, TerraDrawPointMode } from "terra-draw"
-import { useDrawStore } from "../draw"
+import { useDrawStore } from "../maplibre/draw"
 import intersect from "@turf/intersect"
 import { useI18n } from "vue-i18n";
 export interface IsochroneCenter {
