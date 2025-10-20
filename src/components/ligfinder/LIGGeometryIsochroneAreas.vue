@@ -52,7 +52,7 @@ import Card from "primevue/card"
 import SelectButton from "primevue/selectbutton";
 import InputNumber from "primevue/inputnumber";
 import Button from "primevue/button";
-import ChipWrapper from "../ChipWrapper.vue";
+import ChipWrapper from "../base/ChipWrapper.vue";
 import { useGeometryStore } from "../../store/ligfinder/geometry";
 
 const geometry = useGeometryStore()
