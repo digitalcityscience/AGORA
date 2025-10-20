@@ -8,15 +8,14 @@
 					<div class="filterlayer-dropdown w-full">
 						<div v-if="filterLayerList.length>0">
 							<Dropdown class="w-full" v-model="selectedFilterLayer" @change="dropdownFitter" :options="filterLayerList" option-label="source" show-clear
-							placeholder="{{ $t('mapLayers.geometryFiltering.selectLayer') }}"></Dropdown>
+							:placeholder="$t('mapLayers.geometryFiltering.selectLayer')"></Dropdown>
 						</div>
                         <div class="w-full no-current-filter py-2" v-else>
                             <InlineMessage class="w-full" severity="info">{{ $t('mapLayers.geometryFiltering.noLayerMessage') }}</InlineMessage>
                         </div>
 					</div>
 					<div v-if="selectedFilterLayer && props.layer.type==='fill'"  class="identifier-dropdown w-full py-2">
-							<Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear placeholder="{{ $t('mapLayers.geometryFiltering.selectIdentifier') }}">
-							</Dropdown>
+                        <Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear :placeholder="$t('mapLayers.geometryFiltering.selectIdentifier')"></Dropdown>
 					</div>
 				</template>
 				<template #footer>
