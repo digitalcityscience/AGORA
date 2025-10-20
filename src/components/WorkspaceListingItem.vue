@@ -8,7 +8,7 @@
 // Components
 import WorkspaceLayerListing from "./WorkspaceLayerListing.vue";
 // JS imports
-import { useGeoserverStore, type WorkspaceListItem, type GeoserverLayerListItem } from "../store/geoserver";
+import { useGeoserverStore, type WorkspaceListItem, type GeoserverLayerListItem } from "../store/api/geoserver";
 import { ref, onMounted } from "vue";
 const geoserver = useGeoserverStore()
 export interface Props {

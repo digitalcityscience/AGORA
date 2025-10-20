@@ -13,7 +13,7 @@
 <script setup lang="ts">
 
 import { defineAsyncComponent, onMounted } from "vue";
-import { useGeoserverStore } from "../store/geoserver";
+import { useGeoserverStore } from "../store/api/geoserver";
 import MapContainer from "../components/MapContainer.vue";
 const WorkspaceListing = defineAsyncComponent(async () => await import("../components/WorkspaceListing.vue"));
 const MapLayerListing = defineAsyncComponent(async () => await import("../components/MapLayerListing.vue"));

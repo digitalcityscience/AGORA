@@ -28,7 +28,7 @@ import InlineMessage from "primevue/inlinemessage";
 import SidebarLayout from "./SidebarLayout.vue";
 import WorkspaceListingItem from "./WorkspaceListingItem.vue";
 // JS-TS imports
-import { type WorkspaceListItem } from "../store/geoserver";
+import { type WorkspaceListItem } from "../store/api/geoserver";
 
 import { SidebarControl } from "../core/helpers/sidebarControl";
 import { useMapStore } from "../store/maplibre/map";
