@@ -1,6 +1,6 @@
 {
   "datastore": {
-    "notFound": "Keine workspace verfügbar",
+    "notFound": "Kein workspace verfügbar",
     "layer": {
       "keywords": "Schlüsselwörter",
       "datatype": "Typ",
@@ -155,7 +155,7 @@
       "searchByColumn": "Nach {column} suchen",
       "headers": {
         "flurst_nr": "Flurstücksnummer",
-				"Shape_Area": "Land Area in m²",
+				"Shape_Area": "Flurstückfläche in m²",
 				"grz_xplanung": "Grundflächenzahl B-Plan",
 				"grz_alkis": "Grundflächenzahl tatsächlich",
 				"grz_potential": "Verdichtungspotential",
