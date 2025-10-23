@@ -99,8 +99,19 @@ function getTable(): void {
         resultStore.appliedFilterResult = response
         isTableDataLoading.value = false
         const tableBar = document.getElementById("ligfinder-result-table")
-        if (tableBar !== null && tableBar.classList.contains("collapsed")) {
-            tableBar.classList.remove("collapsed")
+        if (tableBar !== null) {
+            if (tableBar.classList.contains("collapsed")) {
+                tableBar.classList.remove("collapsed")
+            }
+            const position = tableBar.getAttribute("data-position")
+            if (position !== null) {
+                const siblingSidebars = document.querySelectorAll<HTMLElement>(`.sidebar[data-position="${position}"]`)
+                siblingSidebars.forEach((sidebar) => {
+                    if (sidebar !== tableBar && !sidebar.classList.contains("collapsed")) {
+                        sidebar.classList.add("collapsed")
+                    }
+                })
+            }
         }
     }).catch((error) => {
         console.error(error)
