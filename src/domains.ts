@@ -31,4 +31,12 @@ export interface NutzungItemData {
     label: string;
     label_en: string;
 }
-export default domains as unknown as Domain;
+const FILTERED_KEYS = new Set(["art-086", "art-087", "art-088"]);
+
+const typedDomains = domains as unknown as Domain;
+const filteredDomains: Domain = {
+    ...typedDomains,
+    data: typedDomains.data.filter((item) => !FILTERED_KEYS.has(item.key)),
+};
+
+export default filteredDomains;
