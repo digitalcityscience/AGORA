@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<div class="no-criteria py-1" v-else>
-				<InlineMessage severity="info">{{ $t('ligfinder.filter.criteria.none')}}</InlineMessage>
+				<Message severity="info">{{ $t('ligfinder.filter.criteria.none')}}</Message>
 			</div>
 			<Tree :value="domains.data" :filter="true" filterMode="strict" class="w-full md:w-30rem" :pt="{nodeLabel:'w-full'}">
 			<template #default="slotProps">
@@ -58,7 +58,7 @@
 import Panel from "primevue/panel";
 import Tree from "primevue/tree";
 import Button from "primevue/button";
-import InlineMessage from "primevue/inlinemessage";
+import Message from "primevue/message";
 import ChipWrapper from "../base/ChipWrapper.vue"
 import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria.ts"
 import { type TreeNode } from "primevue/treenode";
