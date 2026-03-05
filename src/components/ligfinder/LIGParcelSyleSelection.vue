@@ -17,16 +17,12 @@
 import Panel from "primevue/panel";
 import SelectButton from "primevue/selectbutton";
 import { type LayerStyleListItem, useMapStore } from "../../store/maplibre/map";
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, toRaw } from "vue";
 
 const selectedStyle = ref<LayerStyleListItem>();
 const mapStore = useMapStore();
 const options = computed(() => {
-    if (mapStore.parcelDataStyles.length >= 2) {
-        return [mapStore.parcelDataStyles[0], mapStore.parcelDataStyles[1]];
-    } else {
-        return []
-    }
+    return mapStore.parcelDataStyles.filter((style) => style.type === "fill" && style.options?.paint != null);
 });
 watch(options, (newValue) => {
     if (newValue.length > 0) {
@@ -39,20 +35,21 @@ watch(options, (newValue) => {
 function changeParcelStyle(event: { originalEvent: Event; value: any }): void {
     console.log("Selected style: ", event.value);
     const selectedStyle = event.value as LayerStyleListItem;
-    const map = mapStore.map;
+    const map = toRaw(mapStore.map);
     if (map === undefined) return;
     const layerId = `${String(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME)}`
     if (map.getLayer(layerId) !== undefined) {
         if (selectedStyle.options.paint != null && selectedStyle.options.paint !== undefined) {
             Object.entries(selectedStyle.options.paint).forEach(([prop, value]) => {
-                map.setPaintProperty(layerId, prop, value);
+                map.setPaintProperty(layerId, prop, JSON.parse(JSON.stringify(value)));
             });
         }
         if (selectedStyle.options.layout != null && selectedStyle.options.layout !== undefined) {
             Object.entries(selectedStyle.options.layout).forEach(([prop, value]) => {
-                map.setLayoutProperty(layerId, prop, value);
+                map.setLayoutProperty(layerId, prop, JSON.parse(JSON.stringify(value)));
             });
         }
+        map.triggerRepaint();
     }
 }
 </script>

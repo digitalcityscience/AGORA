@@ -18,6 +18,7 @@ export interface LayerStyleOptions {
 export interface LayerStyleListItem {
 	options: LayerStyleOptions;
 	name: string;
+	type: MapLibreLayerTypes;
 }
 export interface CustomAddLayerObject {
 	id: string;
