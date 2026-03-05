@@ -1,6 +1,6 @@
 <template>
-  <div id="map">
-  </div>
+    <div id="map">
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -24,24 +24,25 @@ onMounted(() => {
         container: "map",
         style: `https://api.maptiler.com/maps/${import.meta.env.VITE_MAPTILER_MAP_ID}/style.json?key=${import.meta.env.VITE_MAPTILER_API_KEY}`, // stylesheet location
         center: [9.993163, 53.552123], // starting position [lng, lat]
-        zoom: 15 // starting zoom
+        zoom: 15, // starting zoom,
+        minZoom: 11
     })
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibre.NavigationControl()
     mapStore.map.addControl(zoomControl, "top-right");
     // Add parcel dataset after map is ready.
-    loadParcelDataset().then(()=>{}, ()=>{})
+    loadParcelDataset().then(() => { }, () => { })
     if (mapStore.map !== undefined) {
-        mapStore.map.on("click", async (e: MapMouseEvent)=>{
+        mapStore.map.on("click", async (e: MapMouseEvent) => {
             if (!(useDrawStore().drawOnProgress || useDrawStore().editOnProgress || useGeometryStore().selectionOnProgress)) {
                 const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
                 if (clickedFeatures.length > 0 && clickedFeatures[0].layer.id !== "active-admin") {
                     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-                    const matchedFeatures = clickedFeatures.filter((clickedLayer)=>{ return mapStore.layersOnMap.some((l)=>{ return !(clickedLayer.layer.id.includes("cluster")) && l.source === clickedLayer.source && l.showOnLayerList }) })
-                    if (matchedFeatures.length > 0){
+                    const matchedFeatures = clickedFeatures.filter((clickedLayer) => { return mapStore.layersOnMap.some((l) => { return !(clickedLayer.layer.id.includes("cluster")) && l.source === clickedLayer.source && l.showOnLayerList }) })
+                    if (matchedFeatures.length > 0) {
                         console.log("matched features", matchedFeatures)
                         console.log(e)
-                        const clustered = matchedFeatures.filter((feature)=>{ return feature.properties.cluster })
+                        const clustered = matchedFeatures.filter((feature) => { return feature.properties.cluster })
                         console.log("clustered", clustered)
                         const unclusteredFeatures: any[] = []
                         while (clustered.length > 0) {
@@ -57,7 +58,7 @@ onMounted(() => {
                             unclusteredFeatures.push(...leaves);
                         }
                         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-                        const nonClustered = matchedFeatures.filter((feature)=>{ return !(feature.properties.cluster) })
+                        const nonClustered = matchedFeatures.filter((feature) => { return !(feature.properties.cluster) })
                         // Deduplicate only for the target layer
                         const targetLayerName = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
 
@@ -108,7 +109,7 @@ onMounted(() => {
                         }
 
                         const anchor = calculatePopupAnchor(e.lngLat, mapStore.map as Map);
-                        new maplibre.Popup({ maxWidth:"none", anchor })
+                        new maplibre.Popup({ maxWidth: "none", anchor })
                             .setLngLat(e.lngLat)
                             .setHTML("<div id='map-popup-content'></div>")
                             .addTo(mapStore.map as Map)
@@ -118,7 +119,7 @@ onMounted(() => {
                                 features: [...uniqueNonClustered.concat(unclusteredFeatures)],
                             });
                             render(popupComp, document.getElementById("map-popup-content")!);
-                        }).then(()=>{}, ()=>{})
+                        }).then(() => { }, () => { })
                     }
                 }
             }
@@ -130,17 +131,17 @@ async function loadParcelDataset(): Promise<void> {
     const layerName: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`
     const layerInfoURL: string = `${import.meta.env.VITE_PARCEL_DATASET_LAYERINFORMATION_URL}`
     const workspaceName: string = `${import.meta.env.VITE_PARCEL_DATASET_WORKSPACENAME}`
-    if (layerName.length>0 && layerInfoURL.length>0){
-        geoserver.getLayerInformation({ name:layerName, href:layerInfoURL }, workspaceName)
+    if (layerName.length > 0 && layerInfoURL.length > 0) {
+        geoserver.getLayerInformation({ name: layerName, href: layerInfoURL }, workspaceName)
             .then(async (layerInformation) => {
                 let layerStyling: LayerStyleOptions
                 const regex = /\.json\b/;
                 // Currently we are just picking styles which has include mbstyle in name. Further optimization needed after some period
                 // TODO: remove mbstyle selector
-                if (layerInformation.layer.defaultStyle.href.includes("mbstyle")){
+                if (layerInformation.layer.defaultStyle.href.includes("mbstyle")) {
                     const url = layerInformation.layer.defaultStyle.href.replace(regex, ".mbstyle")
                     geoserver.getLayerStyling(url).then(style => {
-                        if (style.layers.length > 0){
+                        if (style.layers.length > 0) {
                             layerStyling = geoserver.convertLayerStylingToMaplibreStyle(style)
                         }
                     }).catch((error) => {
@@ -154,7 +155,7 @@ async function loadParcelDataset(): Promise<void> {
                                     paint: {
                                         "fill-color": "#D6333A",
                                         "fill-opacity": 0.7,
-                                        "fill-outline-color":"#000000"
+                                        "fill-outline-color": "#000000"
                                     }
                                 }
                             ]
@@ -164,7 +165,7 @@ async function loadParcelDataset(): Promise<void> {
                 }
                 if (layerInformation.layer.styles.style.length > 0) {
                     const mbStyleList: StyleEntry[] = layerInformation.layer.styles.style.filter(
-                        style => style.name.includes("grz_potential") || style.name.includes("lig-polygon")
+                        style => style.name.includes("grz") || style.name.includes("lig")
                     );
                     // Load all mbstyles in parallel and wait for completion
                     const parcelStyles = await Promise.all(
@@ -176,7 +177,8 @@ async function loadParcelDataset(): Promise<void> {
                                 if (mbStyle.layers.length > 0) {
                                     return {
                                         options: geoserver.convertLayerStylingToMaplibreStyle(mbStyle),
-                                        name: mbStyle.name
+                                        name: mbStyle.name,
+                                        type: mbStyle.layers[0].type
                                     } satisfies LayerStyleListItem;
                                 }
                             } catch (error) {
@@ -211,13 +213,28 @@ async function loadParcelDataset(): Promise<void> {
                                         "geoserver",
                                         detail.featureType.name,
                                         mapStore.geometryConversion(dataType()),
-                                        !isNullOrEmpty(layerStyling) ? { ...layerStyling }: undefined,
+                                        !isNullOrEmpty(layerStyling) ? { ...layerStyling } : undefined,
                                         detail,
                                         `${detail.featureType.name}`
-                                    ).then(()=>{
-                                        console.log("added layer", detail.featureType.name)
+                                    ).then(() => {
+                                        const lineStyle = mapStore.parcelDataStyles.find((style) => style.type === "line");
+                                        if (lineStyle !== undefined) {
+                                            mapStore.addMapLayer(
+                                                "geoserver",
+                                                "parcel_outline",
+                                                "line",
+                                                lineStyle.options,
+                                                detail,
+                                                detail.featureType.name,
+                                                undefined,
+                                                false,
+                                                undefined,
+                                                detail.featureType.name,
+                                                false
+                                            );
+                                        }
                                         useResultStore().attributeList = detail.featureType.attributes.attribute.filter((att) => { return att.name !== "geom" })
-                                        mapStore.map.on("click", detail.featureType.name, (e: MapMouseEvent)=>{
+                                        mapStore.map.on("click", detail.featureType.name, (e: MapMouseEvent) => {
                                             const clickedFeatures: any[] = mapStore.map.queryRenderedFeatures(e.point)
                                             // Deduplicate only for the specified parcel layer
                                             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -243,9 +260,10 @@ async function loadParcelDataset(): Promise<void> {
                                             const uniqueClickedFeatures = nonParcelFeatures.concat(uniqueParcelFeatures);
 
                                             console.log("clicked features", uniqueClickedFeatures)
-                                            const activeAdminIndex = uniqueClickedFeatures.findIndex((feature)=>{ return feature.layer.id === "active-admin" })
-                                            const parcelIndex = uniqueClickedFeatures.findIndex((feature)=>{ return feature.layer.id === detail.featureType.name })
-                                            if (activeAdminIndex === -1 || activeAdminIndex>parcelIndex){
+                                            console.log("layerlist", mapStore.map.getLayersOrder())
+                                            const activeAdminIndex = uniqueClickedFeatures.findIndex((feature) => { return feature.layer.id === "active-admin" })
+                                            const parcelIndex = uniqueClickedFeatures.findIndex((feature) => { return feature.layer.id === detail.featureType.name })
+                                            if (activeAdminIndex === -1 || activeAdminIndex > parcelIndex) {
                                                 console.log("parcel event:", e)
                                             }
                                         })
@@ -268,7 +286,7 @@ async function loadParcelDataset(): Promise<void> {
 
 <style scoped>
 #map {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 </style>
