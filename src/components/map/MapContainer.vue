@@ -25,7 +25,6 @@ onMounted(() => {
         style: `https://api.maptiler.com/maps/${import.meta.env.VITE_MAPTILER_MAP_ID}/style.json?key=${import.meta.env.VITE_MAPTILER_API_KEY}`, // stylesheet location
         center: [9.993163, 53.552123], // starting position [lng, lat]
         zoom: 15, // starting zoom,
-        minZoom: 11
     })
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibre.NavigationControl()
