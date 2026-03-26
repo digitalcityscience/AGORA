@@ -215,7 +215,10 @@ async function loadParcelDataset(): Promise<void> {
                                         mapStore.geometryConversion(dataType()),
                                         !isNullOrEmpty(layerStyling) ? { ...layerStyling } : undefined,
                                         detail,
-                                        `${detail.featureType.name}`
+                                        `${detail.featureType.name}`,
+                                        undefined,
+                                        undefined,
+                                        detail.featureType.title
                                     ).then(() => {
                                         const lineStyle = mapStore.parcelDataStyles.find((style) => style.type === "line");
                                         if (lineStyle !== undefined) {
