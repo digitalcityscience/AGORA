@@ -1,7 +1,7 @@
 /* eslint "@typescript-eslint/indent": "off" */
 /* eslint "no-tabs": "off" */
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
 import { type GeoServerFeatureType } from "../api/geoserver";
 import { type SourceSpecification, type AddLayerObject } from "maplibre-gl";
 import { generateDistinctHexColors, getRandomHexColor, isNullOrEmpty } from "../../core/helpers/functions";
@@ -43,7 +43,7 @@ export type MapLibreLayerTypes = "fill" | "line" | "symbol" | "circle" | "heatma
 export const useMapStore = defineStore("map", () => {
 	const toast = useToast();
 	const { t } = useI18n();
-	const map = ref<any>();
+	const map = shallowRef<any>();
 	const layersOnMap = ref<LayerObjectWithAttributes[]>([]);
 	const parcelDataStyles = ref<LayerStyleListItem[]>([])
 	/**
@@ -296,7 +296,7 @@ export const useMapStore = defineStore("map", () => {
 	function generateStyling(layerType: MapLibreLayerTypes, layerStyle?: LayerStyleOptions): LayerStyleOptions {
 		let styling: LayerStyleOptions = {};
 		const defaultPaint = createRandomPaintObj(layerType);
-		styling = { ...layerStyle };
+		styling = layerStyle ? JSON.parse(JSON.stringify(layerStyle)) : {};
 		if (layerStyle?.paint === undefined) {
 			styling.paint = defaultPaint;
 		}
