@@ -159,11 +159,11 @@ function add2Map(): void{
                         !!((layerDetail.value!.featureType.name === "parliament_database" || layerDetail.value!.featureType.name === "elbe_wochenblatt")),
                     ).then(()=>{
                     }).catch(error => {
-                        console.log(error)
+                        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
                     })
                 }
             }).catch(error => {
-                console.log(error)
+                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
             })
         }
     }
