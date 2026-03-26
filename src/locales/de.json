@@ -352,6 +352,7 @@
     "saveTitle": "Speichern",
     "saveSubtitle": "Speichern Sie Ihre Zeichnung als Ebene",
     "layerNamePlaceholder": "Ebenenname",
-    "addLayer": "Ebene hinzufügen"
+    "addLayer": "Ebene hinzufügen",
+    "deleteSelected": "Ausgewählte löschen"
   }
 }

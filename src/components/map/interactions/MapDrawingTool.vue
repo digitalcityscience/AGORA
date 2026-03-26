@@ -31,6 +31,7 @@
                         <template #subtitle>{{ $t('drawing.editSubtitle') }}</template>
                         <template #content>
                             <Button size="small" :disabled="!drawTool.drawOnProgress" @click="drawTool.editMode">{{ $t('drawing.editButton') }}</Button>
+                            <Button size="small" :disabled="!drawTool.editOnProgress" @click="drawTool.deleteSelectedFeatures" class="ml-2">{{ $t('drawing.deleteSelected') }}</Button>
                         </template>
                     </Card>
                 </div>

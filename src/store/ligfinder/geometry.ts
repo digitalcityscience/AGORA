@@ -11,9 +11,9 @@ import { useMapStore } from "../maplibre/map";
 import { type MapMouseEvent, type Map } from "maplibre-gl";
 import {
     TerraDraw,
-    TerraDrawMapLibreGLAdapter,
     TerraDrawPointMode,
 } from "terra-draw";
+import { TerraDrawMapLibreGLAdapter } from "terra-draw-maplibre-gl-adapter"
 import { useDrawStore } from "../maplibre/draw";
 import intersect from "@turf/intersect";
 import { useI18n } from "vue-i18n";
