@@ -352,6 +352,7 @@
 		"saveTitle": "Save",
 		"saveSubtitle": "Save your drawing as a Layer",
 		"layerNamePlaceholder": "Layer Name",
-		"addLayer": "Add Layer"
+		"addLayer": "Add Layer",
+		"deleteSelected": "Delete Selected"
 	}
 }

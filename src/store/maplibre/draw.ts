@@ -1,5 +1,6 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
-import { TerraDraw, TerraDrawLineStringMode, TerraDrawMapLibreGLAdapter, TerraDrawPointMode, TerraDrawPolygonMode, TerraDrawRectangleMode, TerraDrawSelectMode } from "terra-draw"
+import { TerraDraw, TerraDrawLineStringMode, TerraDrawPointMode, TerraDrawPolygonMode, TerraDrawRectangleMode, TerraDrawSelectMode } from "terra-draw"
+import { TerraDrawMapLibreGLAdapter } from "terra-draw-maplibre-gl-adapter"
 import { ref } from "vue";
 import { useMapStore } from "./map";
 import { type Map } from "maplibre-gl"
@@ -130,6 +131,21 @@ export const useDrawStore = defineStore("draw", () => {
         draw.clear()
     }
     /**
+     * Deletes the selected features from the drawing instance.
+     */
+    function deleteSelectedFeatures(): void {
+        if (draw !== null && editOnProgress.value) {
+            const snapshot = draw.getSnapshot()
+            const selectedItems = snapshot.filter((feature) => feature.properties?.selected === true)
+            const selectedItemsIDs = selectedItems.map((feature) => feature.id) as (string|number)[]
+
+            if (selectedItemsIDs.length > 0) {
+                draw.removeFeatures(selectedItemsIDs)
+            }
+            
+        }
+    }
+    /**
      * Saves the current drawing as a new map layer, handling naming and type checks.
      * Shows error toasts if the operation fails.
      */
@@ -184,6 +200,7 @@ export const useDrawStore = defineStore("draw", () => {
         initDrawMode,
         editMode,
         stopDrawMode,
+        deleteSelectedFeatures,
         saveAsLayer,
         getSnapshot,
         clearSnapshot,
