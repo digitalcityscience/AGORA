@@ -14,21 +14,71 @@ import MapAttributeModal from "./interactions/MapAttributeModal.vue"
 import { useResultStore } from "../../store/ligfinder/result";
 import { useGeometryStore } from "../../store/ligfinder/geometry";
 import { useToast } from "primevue/usetoast";
+import { BaseMapControl, type BaseMapControlOptions } from "../../core/helpers/baseMapControl";
 
 const mapStore = useMapStore()
 const geoserver = useGeoserverStore()
 const toast = useToast()
 const clickedLayers = ref()
+
+const alkisLayerIds = [
+    "0", "1", "2", "3", "4", "5", "6", "7",
+    "8", "9", "10", "11", "12", "13", "14", "15",
+    "16", "17", "18", "19", "20", "21", "22", "23",
+    "25", "27", "29", "30"
+]
+
+const alkisDefaultStyles = alkisLayerIds.map(() => "default").join(",")
+const alkisWmsBaseUrl = "https://geodienste.hamburg.de/HH_WMS_ALKIS_Basiskarte"
+const alkisWmsTileUrl = `${alkisWmsBaseUrl}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=false&LAYERS=${alkisLayerIds.join(",")}&STYLES=${alkisDefaultStyles}&CRS=EPSG:3857&BBOX={bbox-epsg-3857}&WIDTH=256&HEIGHT=256`
+const alkisThumbnailUrl = `${alkisWmsBaseUrl}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=false&LAYERS=${alkisLayerIds.join(",")}&STYLES=${alkisDefaultStyles}&CRS=EPSG:3857&BBOX=1112507.7818755482,7089165.170513295,1114953.7662509605,7091611.154888707&WIDTH=256&HEIGHT=256`
+
 onMounted(() => {
     mapStore.map = new maplibre.Map({
         container: "map",
-        style: `https://api.maptiler.com/maps/${import.meta.env.VITE_MAPTILER_MAP_ID}/style.json?key=${import.meta.env.VITE_MAPTILER_API_KEY}`, // stylesheet location
+        style: {
+            version: 8,
+            sources: {},
+            layers: [],
+        },
         center: [9.993163, 53.552123], // starting position [lng, lat]
         zoom: 15, // starting zoom,
     })
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibre.NavigationControl()
     mapStore.map.addControl(zoomControl, "top-right");
+    const options: BaseMapControlOptions = {
+        maps:[
+            {
+                id:"dataviz",
+                title:"dataviz",
+                tiles: [
+                    `https://api.maptiler.com/maps/dataviz/{z}/{x}/{y}.png?key=${import.meta.env.VITE_MAPTILER_API_KEY}`
+                ]
+            },
+            {
+                id:"satellite",
+                title:"Satellite",
+                tiles: [
+                    `https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=${import.meta.env.VITE_MAPTILER_API_KEY}`
+                ]
+            },
+            {
+                id:"alkis",
+                title:"ALKIS",
+                tiles: [
+                    alkisWmsTileUrl
+                ],
+                thumbnailUrl: alkisThumbnailUrl,
+                sourceExtraParams: {
+                    attribution: "Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung",
+                    tileSize: 256
+                }
+            }
+        ],
+        initialBasemap: "alkis"
+    }
+    mapStore.map.addControl(new BaseMapControl(options), "bottom-left");
     // Add parcel dataset after map is ready.
     loadParcelDataset().then(() => { }, () => { })
     if (mapStore.map !== undefined) {
