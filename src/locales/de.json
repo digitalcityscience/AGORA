@@ -32,6 +32,7 @@
         "title": "Filterung nach Eigenschaften",
         "included": "Eingeschlossene Kriterien",
         "excluded": "Ausgeschlossene Kriterien",
+        "removeall": "Alles entfernen",
         "none": "Keine Kriterien ausgewählt"
       },
       "metrics": {

@@ -32,6 +32,7 @@
 				"title": "Properties Based Filtering",
 				"included": "Included Criteria",
 				"excluded": "Excluded Criteria",
+				"removeall": "Remove all",
 				"none": "No criteria selected"
 			},
 			"metrics": {
