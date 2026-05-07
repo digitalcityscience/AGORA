@@ -6,22 +6,22 @@
 				</div>
 		</template>
 		<div class="w-full">
-			<div class="py-1">
+			<div class="pb-1">
 				<LIGParcelSyleSelection></LIGParcelSyleSelection>
 			</div>
-			<div class="py-1">
+			<div class="pb-1">
 				<LIGCriteriaFilter></LIGCriteriaFilter>
 			</div>
-			<div class="py-1">
+			<div class="pb-1">
 				<LIGAreaFilter></LIGAreaFilter>
 			</div>
-			<div>
+			<div class="pb-1">
 				<LIGGRZFilter></LIGGRZFilter>
 			</div>
-			<div class="py-1">
+			<div class="pb-1">
 				<LIGGeometryFilter></LIGGeometryFilter>
 			</div>
-			<div class="py-1">
+			<div class="pb-1">
 				<LIGParcelMaximizer></LIGParcelMaximizer>
 			</div>
 		</div>
