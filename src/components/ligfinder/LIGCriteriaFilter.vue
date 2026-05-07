@@ -10,8 +10,9 @@
 		<div>
 			<div class="used-criteria" v-if="criteria.criteriaInUse.length > 0">
 				<div class="included py-1">
-					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
+					<div class="text-surface-700 dark:text-surface-0 font-bold w-full flex">
 						{{ $t('ligfinder.filter.criteria.included')}}
+						<span v-if="includedCriteria.length > 0" @click="removeAllSelectedCriteria('included')" class="ml-auto cursor-pointer font-light text-sm underline underline-offset-2">Remove all</span>
 					</div>
 					<div class="w-full flex flex-wrap p-1">
 						<span v-for="(crit, index) in includedCriteria" :key="crit.key" class="flex items-center gap-1 flex-wrap p-1">
@@ -21,8 +22,9 @@
 					</div>
 				</div>
 				<div class="excluded py-1">
-					<div class="text-surface-700 dark:text-surface-0 font-bold w-full">
+					<div class="text-surface-700 dark:text-surface-0 font-bold w-full flex">
 						{{ $t('ligfinder.filter.criteria.excluded')}}
+						<span v-if="excludedCriteria.length > 0" @click="removeAllSelectedCriteria('excluded')" class="ml-auto cursor-pointer font-light text-sm underline underline-offset-2">Remove all</span>
 					</div>
 					<div class="w-full flex flex-wrap p-1">
 						<span v-for="(crit, index) in excludedCriteria" :key="crit.key" class="flex items-center gap-1 flex-wrap p-1">
@@ -97,6 +99,12 @@ function addAllChildren(node: TreeNode, stat: CriteriaStatus): void {
 	}
 }
 
+function removeAllSelectedCriteria(stat: CriteriaStatus): void {
+	const children = criteria.criteriaInUse.filter((crit)=> { return crit.status === stat })
+	children.forEach((child) => {
+		removeFromAppliedCriteria(child)
+	})
+}
 </script>
 
 <style scoped>
