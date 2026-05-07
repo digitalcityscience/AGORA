@@ -47,6 +47,12 @@
 							<Button icon="pi pi-search-minus" @click="addToAppliedCriteria(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
 						</div>
 					</div>
+					<div v-else>
+						<div class="actions min-w-24">
+							<Button icon="pi pi-search-plus" @click="addAllChildren(slotProps.node,'included')" text rounded aria-label="Include"></Button>
+							<Button icon="pi pi-search-minus" @click="addAllChildren(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
+						</div>
+					</div>
 				</div>
 			</template>
 			</Tree>
@@ -82,6 +88,15 @@ function addToAppliedCriteria(node: TreeNode, stat: CriteriaStatus): void{
 function removeFromAppliedCriteria(crit: AppliedCriteria): void {
     criteria.removeCriteria(crit)
 }
+function addAllChildren(node: TreeNode, stat: CriteriaStatus): void {
+	const children = node.children
+	if (children) {
+		children.forEach((child) => {
+			addToAppliedCriteria(child, stat)
+		})
+	}
+}
+
 </script>
 
 <style scoped>
