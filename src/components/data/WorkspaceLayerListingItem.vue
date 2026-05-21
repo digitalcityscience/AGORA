@@ -112,14 +112,15 @@ function add2Map(): void{
                             undefined,
                             true,
                         ).then(()=>{
-                            mapStore.map.addLayer({
-                                id: `${layerDetail.value!.featureType.name}-cluster`,
+                            const parentId = layerDetail.value!.featureType.name;
+                            mapStore.addCompanionLayer(parentId, {
+                                id: `${parentId}-cluster`,
                                 type: "symbol",
-                                source: `${layerDetail.value!.featureType.name}`,
+                                source: parentId,
                                 filter: ["has", "point_count"],
                                 layout: {
                                     "text-field": "{point_count_abbreviated}",
-                                    "text-font": ["Helvetica", "Arial Unicode MS Bold"],
+                                    "text-font": ["Open Sans Regular"],
                                     "text-size": 12
                                 }
                             });

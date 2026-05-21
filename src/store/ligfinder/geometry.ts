@@ -391,7 +391,9 @@ export const useGeometryStore = defineStore("geometry", () => {
                         undefined,
                         undefined,
                         undefined,
-                        false
+                        false,
+                        false,
+                        true
                     )
                     .then(() => {
                         isochroneOnTheMap.value = true;
@@ -648,20 +650,27 @@ export const useGeometryStore = defineStore("geometry", () => {
                 "fill-outline-color": "#000000",
             },
         };
+        const outlineStyle: Record<string, any> = {
+            paint: {
+                "line-color": "#FF0000",
+                "line-width": 2,
+                "line-opacity": 1,
+            },
+        };
         const labelStyle: Record<string, any> = {
             layout: {
                 "text-field": ["get", "name"],
-                "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+                "text-font": ["Open Sans Regular"],
                 "text-size": 12,
-                "text-offset": [0, 0.6],
-                "text-anchor": "top",
+                "text-anchor": "center",
+                "text-allow-overlap": false,
             },
             paint: {
+                "text-color": "#000000",
                 "text-halo-color": "#ffffff",
-                "text-halo-width": 1,
+                "text-halo-width": 1.5,
             },
         };
-
         mapStore
             .addMapDataSource(
                 "geojson",
@@ -684,29 +693,25 @@ export const useGeometryStore = defineStore("geometry", () => {
                         false,
                         undefined,
                         undefined,
-                        false
-                    )
-                    .then(() => {})
-                    .catch((error) => {
-                        console.error(error);
-                    });
-
-                // Add symbol layer for labels
-                mapStore
-                    .addMapLayer(
-                        "geojson",
-                        "selectedAreasLabels",
-                        "symbol",
-                        labelStyle,
-                        undefined,
-                        undefined,
-                        features,
                         false,
-                        undefined,
-                        "selectedAreasTempLayer",
-                        false
+                        false,
+                        true
                     )
-                    .then(() => {})
+                    .then(() => {
+                        mapStore.addCompanionLayer("selectedAreasTempLayer", {
+                            id: "selectedAreasTempLayerOutline",
+                            type: "line",
+                            source: "selectedAreasTempLayer",
+                            paint: outlineStyle.paint,
+                        });
+                        mapStore.addCompanionLayer("selectedAreasTempLayer", {
+                            id: "selectedAreasLabels",
+                            type: "symbol",
+                            source: "selectedAreasTempLayer",
+                            layout: labelStyle.layout,
+                            paint: labelStyle.paint,
+                        });
+                    })
                     .catch((error) => {
                         console.error(error);
                     });
@@ -722,6 +727,7 @@ export const useGeometryStore = defineStore("geometry", () => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!mapStore.map.getSource("selectedAreasTempLayer")) {
             createSelectedAreasTempLayer();
+            return;
         }
         mapStore.map
             .getSource("selectedAreasTempLayer")
@@ -731,15 +737,13 @@ export const useGeometryStore = defineStore("geometry", () => {
    * Deletes the temporary layer displaying selected areas from the map.
    */
     function deleteSelectedAreasTempLayer(): void {
-        mapStore.map.removeLayer("selectedAreasLabels");
-        mapStore.map.removeLayer("selectedAreasTempLayer");
-        mapStore.map.removeSource("selectedAreasTempLayer");
-        mapStore.removeFromLayerList("selectedAreasTempLayer");
-    // No need to remove selectedAreasLabels from layer list as we didn't add it there (or we rely on it being hidden/ephemeral)
-    // If mapStore.addMapLayer adds it to the list, we might want to remove it.
-    // Based on addMapLayer call above, showOnLayerList defaults to true if not passed, but we passed 'false' as 8th arg for fill layer.
-    // For symbol layer we passed false as 8th arg (isFilterLayer) and then undefined, "selectedAreasTempLayer", false.
-    // So showOnLayerList is false. Thus no need to removeFromLayerList for labels.
+        mapStore.deleteMapLayer("selectedAreasTempLayer")
+            .then(() => {
+                if (mapStore.map.getSource("selectedAreasTempLayer") !== undefined) {
+                    mapStore.map.removeSource("selectedAreasTempLayer");
+                }
+            })
+            .catch((error) => { console.error(error); });
     }
     // active administrative area layer operations
     /**
@@ -818,7 +822,9 @@ export const useGeometryStore = defineStore("geometry", () => {
                         false,
                         undefined,
                         undefined,
-                        false
+                        false,
+                        false,
+                        true
                     )
                     .then(() => {
                         mapStore.map.on(

@@ -32,7 +32,9 @@ export interface CustomAddLayerObject {
 	filterLayerData?: FeatureCollection
 	displayName?: string,
 	showOnLayerList?: boolean,
-	clustered?: boolean
+	clustered?: boolean,
+	keepOnTop?: boolean,
+	companionLayerIds?: string[]
 }
 export interface LayerObjectWithAttributes extends CustomAddLayerObject {
 	details?: GeoServerFeatureType;
@@ -46,6 +48,11 @@ export const useMapStore = defineStore("map", () => {
 	const map = shallowRef<any>();
 	const layersOnMap = ref<LayerObjectWithAttributes[]>([]);
 	const parcelDataStyles = ref<LayerStyleListItem[]>([])
+	/**
+	 * Bumped whenever MapLibre fires `styledata` (e.g., after setPaintProperty / setLayoutProperty / addLayer).
+	 * Reactive consumers reference this to re-read paint/layout values that are not otherwise reactive.
+	 */
+	const paintVersion = ref<number>(0)
 	/**
 	 * Asynchronously adds a new data source to Maplibre map sources. The source can be either GeoJSON data or a Geoserver vector tile source.
 	 * @param {SourceType} sourceType - Specifies the type of the data source; either "geojson" or "geoserver".
@@ -166,7 +173,8 @@ export const useMapStore = defineStore("map", () => {
 		displayName?: string,
 		sourceIdentifier?: string,
 		showOnLayerList: boolean = true,
-		clustered: boolean = false
+		clustered: boolean = false,
+		keepOnTop: boolean = false
 	): Promise<any | undefined> {
 		if (isNullOrEmpty(map.value)) {
 			throw new Error(t("map.errors.pinia.noMapToAddLayer"));
@@ -240,6 +248,7 @@ export const useMapStore = defineStore("map", () => {
 			sourceType,
 			type: layerType,
 			showOnLayerList,
+			keepOnTop,
 			...styling,
 			// Conditional properties
 			...(sourceLayer !== undefined && sourceLayer !== "" ? { "source-layer": sourceLayer } : {}),
@@ -247,15 +256,32 @@ export const useMapStore = defineStore("map", () => {
 			...(displayName !== undefined && displayName !== "" ? { displayName } : {}),
 			...(clustered ? { clustered } : {})
 		};
-		// add layer object to map
-		map.value.addLayer(layerObject as AddLayerObject);
+		// add layer object to map; if this is a regular layer and helper (keepOnTop) layers exist,
+		// place it below the first keepOnTop layer so helpers stay on top.
+		let insertBeforeId: string | undefined;
+		if (!keepOnTop) {
+			const firstKeepOnTop = layersOnMap.value.find(l => l.keepOnTop === true);
+			if (firstKeepOnTop !== undefined && map.value.getLayer(firstKeepOnTop.id) !== undefined) {
+				insertBeforeId = firstKeepOnTop.id;
+			}
+		}
+		map.value.addLayer(layerObject as AddLayerObject, insertBeforeId);
 		if (map.value.getLayer(identifier) === undefined) {
 			throw new Error(t("map.errors.pinia.layerAddFailed", { identifier }));
 		}
 		if (sourceType === "geoserver") {
 			(layerObject as LayerObjectWithAttributes).details = geoserverLayerDetails;
 		}
-		add2MapLayerList(layerObject as LayerObjectWithAttributes);
+		if (insertBeforeId !== undefined) {
+			const beforeIndex = layersOnMap.value.findIndex(l => l.id === insertBeforeId);
+			if (beforeIndex !== -1) {
+				layersOnMap.value.splice(beforeIndex, 0, layerObject as LayerObjectWithAttributes);
+			} else {
+				add2MapLayerList(layerObject as LayerObjectWithAttributes);
+			}
+		} else {
+			add2MapLayerList(layerObject as LayerObjectWithAttributes);
+		}
 		return await Promise.resolve(map.value.getLayer(identifier));
 	}
 	/**
@@ -276,6 +302,12 @@ export const useMapStore = defineStore("map", () => {
 				return;
 			}
 			try {
+				const layerRecord = layersOnMap.value.find(l => l.id === identifier);
+				layerRecord?.companionLayerIds?.forEach(cid => {
+					if (map.value.getLayer(cid) !== undefined) {
+						map.value.removeLayer(cid);
+					}
+				});
 				map.value.removeLayer(identifier);
 				removeFromMapLayerList(identifier);
 				resolve();
@@ -296,7 +328,7 @@ export const useMapStore = defineStore("map", () => {
 	function generateStyling(layerType: MapLibreLayerTypes, layerStyle?: LayerStyleOptions): LayerStyleOptions {
 		let styling: LayerStyleOptions = {};
 		const defaultPaint = createRandomPaintObj(layerType);
-		styling = layerStyle ? JSON.parse(JSON.stringify(layerStyle)) : {};
+		styling = layerStyle !== undefined ? JSON.parse(JSON.stringify(layerStyle)) : {};
 		if (layerStyle?.paint === undefined) {
 			styling.paint = defaultPaint;
 		}
@@ -390,6 +422,106 @@ export const useMapStore = defineStore("map", () => {
 			return "heatmap";
 		}
 	}
+	/**
+	 * Returns the reorderable visible layers in top-to-bottom order (as shown in the sidebar).
+	 * Excludes hidden layers (showOnLayerList === false) and pinned helper layers (keepOnTop === true).
+	 */
+	function getReorderableVisibleLayersTopToBottom(): LayerObjectWithAttributes[] {
+		return layersOnMap.value
+			.filter(layer => layer.showOnLayerList !== false && layer.keepOnTop !== true)
+			.slice()
+			.reverse();
+	}
+	/**
+	 * Computes the MapLibre `beforeId` to use when moving a layer to the given top-visible index.
+	 * If dropping at the top of the user-visible stack, returns the first keepOnTop helper layer's id
+	 * so the moved layer slides just under the helper stack.
+	 */
+	function getMapLibreBeforeIdForVisibleMove(
+		layers: LayerObjectWithAttributes[],
+		targetVisibleTopIndex: number
+	): string | undefined {
+		if (targetVisibleTopIndex <= 0) {
+			const firstKeepOnTop = layersOnMap.value.find(l => l.keepOnTop === true);
+			return firstKeepOnTop?.id;
+		}
+		const above = layers[targetVisibleTopIndex - 1];
+		return above?.id;
+	}
+	/**
+	 * Calls map.moveLayer once with a single beforeId.
+	 */
+	function moveMapLibreLayer(id: string, beforeId: string | undefined): void {
+		if (isNullOrEmpty(map.value)) return;
+		try {
+			map.value.moveLayer(id, beforeId);
+		} catch (error) {
+			console.error("moveMapLibreLayer failed", error);
+		}
+	}
+	/**
+	 * Mirrors the move in the local `layersOnMap` array.
+	 * `layersOnMap` is bottom-to-top; `beforeId` points to the layer immediately above the moved layer in MapLibre.
+	 */
+	function moveLayerInState(id: string, beforeId: string | undefined): void {
+		const fromIndex = layersOnMap.value.findIndex(l => l.id === id);
+		if (fromIndex === -1) return;
+		const [moved] = layersOnMap.value.splice(fromIndex, 1);
+		if (beforeId === undefined) {
+			layersOnMap.value.push(moved);
+			return;
+		}
+		const beforeIndex = layersOnMap.value.findIndex(l => l.id === beforeId);
+		if (beforeIndex === -1) {
+			layersOnMap.value.push(moved);
+			return;
+		}
+		layersOnMap.value.splice(beforeIndex, 0, moved);
+	}
+	/**
+	 * Reorders a visible layer to the given top-to-bottom index (as shown in the sidebar).
+	 * Moves the layer and any companion layers (e.g. cluster count symbols) together
+	 * so they remain stacked on top of the parent.
+	 */
+	function reorderVisibleMapLayer(identifier: string, targetVisibleTopIndex: number): void {
+		const visible = getReorderableVisibleLayersTopToBottom();
+		const filtered = visible.filter(l => l.id !== identifier);
+		const beforeId = getMapLibreBeforeIdForVisibleMove(filtered, targetVisibleTopIndex);
+		moveMapLibreLayer(identifier, beforeId);
+		const parent = layersOnMap.value.find(l => l.id === identifier);
+		// Move each companion to the same beforeId after the parent moves;
+		// each subsequent move slots the companion just above what was placed last,
+		// preserving the original companion order on top of the parent.
+		parent?.companionLayerIds?.forEach(cid => {
+			if (map.value?.getLayer(cid) !== undefined) {
+				moveMapLibreLayer(cid, beforeId);
+			}
+		});
+		moveLayerInState(identifier, beforeId);
+	}
+	/**
+	 * Adds a child layer attached to a parent layer (e.g. cluster count symbols on a circle layer).
+	 * Companions are added to the MapLibre map but NOT to the sidebar's layersOnMap list;
+	 * they are placed immediately above the parent and move with it during reorder/delete.
+	 */
+	function addCompanionLayer(parentId: string, layerSpec: AddLayerObject): void {
+		if (isNullOrEmpty(map.value)) return;
+		const parent = layersOnMap.value.find(l => l.id === parentId);
+		if (parent === undefined) {
+			console.warn(`addCompanionLayer: parent layer "${parentId}" not found`);
+			return;
+		}
+		// Determine where to insert: just above the parent. The "layer above parent" in the
+		// MapLibre stack is the layer at parent's index + 1 in layersOnMap (which is bottom-to-top).
+		const parentIndex = layersOnMap.value.findIndex(l => l.id === parentId);
+		const aboveLayer = parentIndex >= 0 ? layersOnMap.value[parentIndex + 1] : undefined;
+		const insertBeforeId = aboveLayer?.id;
+		map.value.addLayer(layerSpec, insertBeforeId);
+		if (parent.companionLayerIds === undefined) parent.companionLayerIds = [];
+		if (!parent.companionLayerIds.includes(layerSpec.id)) {
+			parent.companionLayerIds.push(layerSpec.id);
+		}
+	}
 	return {
 		map,
 		layersOnMap,
@@ -399,7 +531,11 @@ export const useMapStore = defineStore("map", () => {
 		deleteMapLayer,
 		geometryConversion,
 		removeFromLayerList,
-		parcelDataStyles
+		parcelDataStyles,
+		reorderVisibleMapLayer,
+		getReorderableVisibleLayersTopToBottom,
+		addCompanionLayer,
+		paintVersion
 	};
 });
 /* eslint-disable */

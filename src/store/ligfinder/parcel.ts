@@ -144,8 +144,8 @@ export const useParcelStore = defineStore("parcelStore", () => {
             };
 
             Promise.all([
-                mapStore.addMapLayer("geojson", fillLayerId, "fill", fillStyle, undefined, undefined, src, false, "Maximierte Fläche", sourceId, false),
-                mapStore.addMapLayer("geojson", lineLayerId, "line", lineStyle, undefined, undefined, src, false, "Maximierte Umriss", sourceId, false)
+                mapStore.addMapLayer("geojson", fillLayerId, "fill", fillStyle, undefined, undefined, src, false, "Maximierte Fläche", sourceId, false, false, true),
+                mapStore.addMapLayer("geojson", lineLayerId, "line", lineStyle, undefined, undefined, src, false, "Maximierte Umriss", sourceId, false, false, true)
             ]).then(() => {
                 maximizedParcelsOnMap.value = true;
                 maximizedParcelsGeoJSON.value = src;
