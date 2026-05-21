@@ -38,12 +38,16 @@ onMounted(() => {
         container: "map",
         style: {
             version: 8,
+            glyphs: "/fonts/{fontstack}/{range}.pbf",
             sources: {},
             layers: [],
         },
         center: [9.993163, 53.552123], // starting position [lng, lat]
         zoom: 15, // starting zoom,
     })
+    mapStore.map.on("styledata", () => {
+        mapStore.paintVersion++;
+    });
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibre.NavigationControl()
     mapStore.map.addControl(zoomControl, "top-right");
@@ -283,7 +287,7 @@ async function loadParcelDataset(): Promise<void> {
                                                 undefined,
                                                 detail.featureType.name,
                                                 false
-                                            );
+                                            ).catch((error) => { console.error(error) });
                                         }
                                         useResultStore().attributeList = detail.featureType.attributes.attribute.filter((att) => { return att.name !== "geom" })
                                         mapStore.map.on("click", detail.featureType.name, (e: MapMouseEvent) => {
