@@ -124,17 +124,10 @@ function rewriteUrlToProxy(url: string): string {
   }
   // Also rewrite production GeoServer URLs to use the proxy
   if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {
-    // Replace domain and ensure /geoserver path is present
-    let rewritten = url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de");
-    // Remove double slashes that might result from the replacement
-    rewritten = rewritten.replace(/https:\/\/dev\.api\.agora\.dcs\.hcu-hamburg\.de\/+geoserver\/+/, "https://dev.api.agora.dcs.hcu-hamburg.de/geoserver/");
-    // Ensure /geoserver is in the path if not already there
-    if (!rewritten.includes("/geoserver/")) {
-      rewritten = rewritten.replace("https://dev.api.agora.dcs.hcu-hamburg.de/", "https://dev.api.agora.dcs.hcu-hamburg.de/geoserver/");
-    }
-    return rewritten;
+    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
   }
-  return url;
+  // Fix any double slashes in the URL (common issue when base URL already contains /geoserver)
+  return url.replace(/([^:]\/)\/+/g, "$1");
 }
 
 export const useGeoserverStore = defineStore("geoserver", () => {
