@@ -114,6 +114,17 @@ export interface WorkspaceListResponse {
     workspace: WorkspaceListItem[];
   };
 }
+/**
+ * Rewrites internal GeoServer URLs to use the proxy
+ */
+function rewriteUrlToProxy(url: string): string {
+  // Convert http://geoserver:8080/... to http://localhost:8002/...
+  if (url.includes("geoserver:8080")) {
+    return url.replace("http://geoserver:8080", "http://localhost:8002");
+  }
+  return url;
+}
+
 export const useGeoserverStore = defineStore("geoserver", () => {
   const { t } = useI18n();
   const pointData = ref();
@@ -234,9 +245,12 @@ export const useGeoserverStore = defineStore("geoserver", () => {
    * @returns - A Promise resolving to the JSON representation of the layer detailed information.
    */
   async function getLayerDetail(url: string): Promise<GeoServerFeatureType> {
-    const response = await fetch(url, {
+    const proxyUrl = rewriteUrlToProxy(url);
+    const response = await fetch(proxyUrl, {
       method: "GET",
       redirect: "follow",
+      mode: "cors",
+      credentials: "include",
       headers: new Headers({
         "Content-Type": "application/json",
         Authorization: `Basic ${auth}`,
@@ -250,9 +264,12 @@ export const useGeoserverStore = defineStore("geoserver", () => {
    * @returns - Style object
    */
   async function getLayerStyling(url:string):Promise<any> {
-    const response = await fetch(url,{
+    const proxyUrl = rewriteUrlToProxy(url);
+    const response = await fetch(proxyUrl,{
       method: "GET",
       redirect: "follow",
+      mode: "cors",
+      credentials: "include",
       headers: new Headers({
         "Content-Type": "application/vnd.geoserver.mbstyle+json",
         Authorization: `Basic ${auth}`,
