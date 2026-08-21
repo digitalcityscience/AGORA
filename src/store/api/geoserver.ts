@@ -124,7 +124,7 @@ function rewriteUrlToProxy(url: string): string {
   }
   // Also rewrite production GeoServer URLs to use the proxy
   if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {
-    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
+    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de");
   }
   return url;
 }
