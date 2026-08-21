@@ -122,9 +122,9 @@ function rewriteUrlToProxy(url: string): string {
   if (url.includes("geoserver:8080")) {
     return url.replace("http://geoserver:8080", "http://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
   }
-  // Also rewrite production GeoServer URLs to use the proxy
+  // Also rewrite production GeoServer URLs to use the proxy (just replace the domain)
   if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {
-    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
+    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de");
   }
   // Fix any double slashes in the URL (common issue when base URL already contains /geoserver)
   return url.replace(/([^:]\/)\/+/g, "$1");
