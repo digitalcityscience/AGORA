@@ -1,0 +1,50 @@
+# build stage
+FROM node:lts-alpine AS build-stage
+
+# Accept all VITE environment variables as build arguments
+ARG VITE_MAPTILER_API_KEY
+ARG VITE_MAPTILER_MAP_ID
+ARG VITE_GEOSERVER_USERNAME
+ARG VITE_GEOSERVER_PASSWORD
+ARG VITE_GEOSERVER_BASE_URL
+ARG VITE_GEOSERVER_REST_URL
+ARG VITE_PARCEL_DATASET_WORKSPACENAME
+ARG VITE_PARCEL_DATASET_LAYERNAME
+ARG VITE_PARCEL_DATASET_LAYERINFORMATION_URL
+ARG VITE_AGORA_API_BASE_URL
+
+# Set environment variables for the build process
+ENV VITE_MAPTILER_API_KEY=${VITE_MAPTILER_API_KEY}
+ENV VITE_MAPTILER_MAP_ID=${VITE_MAPTILER_MAP_ID}
+ENV VITE_GEOSERVER_USERNAME=${VITE_GEOSERVER_USERNAME}
+ENV VITE_GEOSERVER_PASSWORD=${VITE_GEOSERVER_PASSWORD}
+ENV VITE_GEOSERVER_BASE_URL=${VITE_GEOSERVER_BASE_URL}
+ENV VITE_GEOSERVER_REST_URL=${VITE_GEOSERVER_REST_URL}
+ENV VITE_PARCEL_DATASET_WORKSPACENAME=${VITE_PARCEL_DATASET_WORKSPACENAME}
+ENV VITE_PARCEL_DATASET_LAYERNAME=${VITE_PARCEL_DATASET_LAYERNAME}
+ENV VITE_PARCEL_DATASET_LAYERINFORMATION_URL=${VITE_PARCEL_DATASET_LAYERINFORMATION_URL}
+ENV VITE_AGORA_API_BASE_URL=${VITE_AGORA_API_BASE_URL}
+
+WORKDIR /app
+
+# Copy the entire application from local folder
+COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Build the application with environment variables embedded
+RUN npm run build
+
+# production stage
+FROM nginx:stable-alpine AS production-stage
+
+# Copy built application to nginx
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+# Copy nginx config (optional - if you have custom config)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
