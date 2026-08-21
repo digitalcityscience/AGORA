@@ -118,9 +118,9 @@ export interface WorkspaceListResponse {
  * Rewrites internal GeoServer URLs to use the proxy
  */
 function rewriteUrlToProxy(url: string): string {
-  // Convert http://geoserver:8080/... to http://localhost:8002/...
+  // Convert http://geoserver:8080/... to http://dev.api.agora.dcs.hcu-hamburg.de/geoserver/...
   if (url.includes("geoserver:8080")) {
-    return url.replace("http://geoserver:8080", "http://localhost:8002");
+    return url.replace("http://geoserver:8080", "http://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
   }
   return url;
 }
