@@ -4,6 +4,8 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 import { createI18n } from "vue-i18n"
+import { createRouter, createWebHistory } from "vue-router"
+import ui from "@nuxt/ui/vue-plugin"
 import messages from "@intlify/unplugin-vue-i18n/messages"
 import PrimeVue from "primevue/config"
 import ToastService from "primevue/toastservice"
@@ -15,6 +17,10 @@ import "@material-design-icons/font";
 import Tooltip from "primevue/tooltip"
 
 const pinia = createPinia()
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [],
+})
 
 // Get the browser language
 const browserLanguage = navigator.language.split("-")[0]; // This will extract "en" from "en-US"
@@ -128,4 +134,12 @@ const agoraPresets = definePreset(Lara, {
 	}
 })
 
-createApp(App).use(pinia).use(PrimeVue, { theme: { preset: agoraPresets, options:{ darkModeSelector: ".agora-dark" } } }).use(ToastService).use(i18n).directive("tooltip", Tooltip).mount("#app")
+createApp(App)
+	.use(pinia)
+	.use(router)
+	.use(ui)
+	.use(PrimeVue, { theme: { preset: agoraPresets, options:{ darkModeSelector: ".agora-dark" } } })
+	.use(ToastService)
+	.use(i18n)
+	.directive("tooltip", Tooltip)
+	.mount("#app")
