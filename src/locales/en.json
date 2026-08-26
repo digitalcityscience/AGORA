@@ -285,7 +285,17 @@
 		}
 	},
 	"mapLayers": {
+		"noLayers": "There are no layers on the map",
+		"controls": {
+			"reorder": "Reorder layer",
+			"expand": "Expand layer controls",
+			"collapse": "Collapse layer controls",
+			"changeColor": "Change layer color",
+			"changeOpacity": "Change layer opacity",
+			"removeFilter": "Remove filter"
+		},
 		"styling":{
+			"title":"Style",
 			"color":"Color",
 			"opacity":"Opacity"
 		},
@@ -304,14 +314,18 @@
 			"addNew":"Add new attribute filter",
 			"selectAttribute":"Select attribute",
 			"selectOperand":"Select operand",
+			"clearAttribute":"Clear selected attribute",
+			"clearOperand":"Clear selected operand",
 			"apply":"Apply"
 		},
 		"geometryFiltering": {
 			"title": "Geometry Filtering",
 			"subtitle": "Select geometry layer to filter this layer",
 			"selectLayer": "Select a filter layer",
+			"clearLayer": "Clear selected filter layer",
 			"noLayerMessage": "There is no layer for filter. Draw a layer first!",
 			"selectIdentifier": "Select Identifier",
+			"clearIdentifier": "Clear selected identifier",
 			"addFilter": "Add Filter",
 			"activeFilterMessage": "You have a geometry filter"
 		},
@@ -361,6 +375,7 @@
 		"title":"Download Layer Data",
 		"subtitle":"You can download the data of the layer in either GeoJSON or CSV format.",
 		"fileName": "File Name",
+		"format": "File format",
 		"download": "Download",
 		"downloadGeoJSON": ".geojson",
 		"downloadCSV": ".csv"

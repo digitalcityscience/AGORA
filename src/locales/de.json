@@ -285,7 +285,17 @@
     }
   },
   "mapLayers": {
+    "noLayers": "Es befinden sich keine Layer auf der Karte",
+    "controls": {
+      "reorder": "Layer neu anordnen",
+      "expand": "Layer-Steuerelemente ausklappen",
+      "collapse": "Layer-Steuerelemente einklappen",
+      "changeColor": "Layer-Farbe ändern",
+      "changeOpacity": "Layer-Deckkraft ändern",
+      "removeFilter": "Filter entfernen"
+    },
     "styling":{
+      "title":"Stil",
       "color":"Farbe",
       "opacity":"Deckkraft"
     },
@@ -304,14 +314,18 @@
       "addNew": "Neuen Attributfilter hinzufügen",
       "selectAttribute": "Attribut auswählen",
       "selectOperand": "Operand auswählen",
+      "clearAttribute": "Ausgewähltes Attribut entfernen",
+      "clearOperand": "Ausgewählten Operanden entfernen",
       "apply": "Anwenden"
     },
     "geometryFiltering": {
       "title": "Geometrie-Filterung",
       "subtitle": "Wählen Sie eine Geometrieebene aus, um diese Ebene zu filtern",
       "selectLayer": "Filterebene auswählen",
+      "clearLayer": "Ausgewählte Filterebene entfernen",
       "noLayerMessage": "Es gibt keine Filterebene. Zeichnen Sie zuerst eine Ebene!",
       "selectIdentifier": "Bezeichner auswählen",
+      "clearIdentifier": "Ausgewählten Bezeichner entfernen",
       "addFilter": "Filter hinzufügen",
       "activeFilterMessage": "Sie haben einen Geometrie-Filter"
     },
@@ -361,6 +375,7 @@
     "title":"Daten herunterladen",
     "subtitle":"Sie können die Daten der Ebene entweder im GeoJSON- oder CSV-Format herunterladen.",
     "fileName": "Dateiname",
+    "format": "Dateiformat",
     "download": "Herunterladen",
     "downloadGeoJSON": ".geojson",
     "downloadCSV": ".csv"

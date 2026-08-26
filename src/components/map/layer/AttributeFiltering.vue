@@ -1,90 +1,122 @@
 <template>
-    <Card class="attribute-filtering w-full">
-        <template #title>{{ $t("mapLayers.attributeFiltering.title") }}</template>
-        <template #subtitle>{{ $t("mapLayers.attributeFiltering.subtitle") }}</template>
-        <template #content>
-            <div class="current-filters"
-                v-if="filterStore.appliedFiltersList.find((listItem) => { return listItem.layerName === props.layer.id && ((listItem.attributeFilters !== undefined && listItem.attributeFilters?.length > 0) || listItem.geometryFilters !== undefined) })">
-                <DataTable :value="currentFilters" class="w-full" size="small" table-class="w-full">
-                    <Column header="">
-                        <template #body="filter">
-                            <span>{{ filter.data.attribute.name }} {{ filterStore.filterNames[filter.data.operand as
-                                IntegerFilters | StringFilters] }} {{ filter.data.value }}</span>
-                        </template>
-                    </Column>
-                    <Column header="">
-                        <template #body="filter">
-                            <div class="w-full flex flex-row-reverse">
-                                <Button @click="deleteAttributeFilter(filter.data)" severity="danger" text rounded>
-                                    <template #icon>
-                                        <i class="pi pi-times"></i>
-                                    </template>
-                                </Button>
-                            </div>
-                        </template>
-                    </Column>
-                </DataTable>
-            </div>
-            <div class="w-full no-current-filter py-2" v-else>
-                <InlineMessage class="w-full" severity="info">{{ $t("mapLayers.attributeFiltering.noFilter") }}
-                </InlineMessage>
-            </div>
-            <div class="filter-control">
-                <div v-if="currentFilters.length"
-                    class="relation-control w-full flex flex-row ml-auto py-2 justify-between">
-                    <span class="self-center" v-if="relationType === 'AND'">{{ $t("mapLayers.attributeFiltering.matchAll")
-                        }}</span>
-                    <span class="self-center" v-else>{{ $t("mapLayers.attributeFiltering.matchAny") }}</span>
-                    <SelectButton v-model="relationType" :options="relationList" :allow-empty="false"
-                        @change="applyAttributeFilter"></SelectButton>
-                </div>
-            </div>
-            <div class="new-filter flex flex-col w-full">
-                <div class="w-full font-thin italic text-sm py-1 text-surface-600/50 dark:text-surface-0/50">
-                    <p>{{ $t("mapLayers.attributeFiltering.addNew") }}</p>
-                </div>
-                <div class="attribute w-full">
-                    <Dropdown class="min-w-32 w-full h-10" v-model="selectedAttribute" :options="filteredAttributes"
-                        option-label="name" filter show-clear
-                        :placeholder="$t('mapLayers.attributeFiltering.selectAttribute')"
-                        :virtual-scroller-options="{ itemSize: 30 }" @change="clearOperand">
-                    </Dropdown>
-                </div>
-                <div class="operand w-full pt-2">
-                    <Dropdown class="min-w-32 w-full h-10"
-                        v-if="selectedAttribute && selectedAttribute.binding == 'java.lang.String'"
-                        v-model="selectedOperand" :options="filterStore.stringFilters" show-clear
-                        :placeholder="$t('mapLayers.attributeFiltering.selectOperand')"></Dropdown>
-                    <Dropdown class="min-w-32 w-full h-10"
-                        v-else-if="selectedAttribute && (selectedAttribute.binding == 'java.lang.Integer' || selectedAttribute.binding == 'java.lang.Long' || selectedAttribute.binding == 'java.lang.Double')"
-                        v-model="selectedOperand" :options="filterStore.integerFilters" show-clear
-                        :placeholder="$t('mapLayers.attributeFiltering.selectOperand')"></Dropdown>
-                </div>
-                <div class="value w-full pt-2" v-if="selectedOperand">
-                    <InputText class="min-w-32 w-full h-10"
-                        v-if="selectedAttribute && selectedAttribute.binding == 'java.lang.String'" type="text"
-                        v-model="filterValue"></InputText>
-                    <InputText class="min-w-32 w-full h-10" v-else type="number" v-model="filterValue"></InputText>
-                </div>
-                <div class="applier w-full flex flex-row-reverse pt-2">
-                    <Button size="small" @click=applyAttributeFilter
-                        :disabled="!(selectedAttribute && selectedOperand && filterValue)">{{
-                            $t("mapLayers.attributeFiltering.apply") }}</Button>
-                </div>
+    <UCard
+        class="attribute-filtering w-full"
+        variant="subtle"
+        :ui="{ header: 'p-3 pb-2', body: 'p-3 pt-1' }"
+    >
+        <template #header>
+            <div class="space-y-1">
+                <div class="font-semibold text-highlighted">{{ $t("mapLayers.attributeFiltering.title") }}</div>
+                <div class="text-sm text-muted">{{ $t("mapLayers.attributeFiltering.subtitle") }}</div>
             </div>
         </template>
-    </Card>
+        <div v-if="currentFilters.length > 0" class="current-filters">
+            <UTable
+                :data="currentFilters"
+                :columns="currentFilterColumns"
+                class="w-full"
+                :ui="{ th: 'hidden', td: 'px-2 py-2 whitespace-normal' }"
+            >
+                <template #filter-cell="{ row }">
+                    <span>
+                        {{ row.original.attribute.name }}
+                        {{ filterStore.filterNames[row.original.operand as IntegerFilters | StringFilters] }}
+                        {{ row.original.value }}
+                    </span>
+                </template>
+                <template #actions-cell="{ row }">
+                    <div class="flex w-full justify-end">
+                        <UButton
+                            icon="i-lucide-x"
+                            color="error"
+                            variant="ghost"
+                            size="xs"
+                            :aria-label="$t('mapLayers.controls.removeFilter')"
+                            @click="deleteAttributeFilter(row.original)"
+                        />
+                    </div>
+                </template>
+            </UTable>
+        </div>
+        <div v-else class="w-full py-1">
+            <UAlert
+                class="w-full"
+                color="info"
+                variant="soft"
+                :description="$t('mapLayers.attributeFiltering.noFilter')"
+            />
+        </div>
+        <div v-if="currentFilters.length" class="flex w-full items-center justify-between gap-2 py-2">
+            <span class="text-sm text-muted">
+                {{ relationType === 'AND' ? $t("mapLayers.attributeFiltering.matchAll") : $t("mapLayers.attributeFiltering.matchAny") }}
+            </span>
+            <URadioGroup
+                v-model="relationType"
+                :items="relationOptions"
+                variant="card"
+                orientation="horizontal"
+                size="xs"
+                @update:model-value="applyAttributeFilter"
+            />
+        </div>
+        <div class="flex w-full flex-col">
+            <p class="py-1 text-sm italic text-muted">{{ $t("mapLayers.attributeFiltering.addNew") }}</p>
+            <div class="flex w-full">
+                <USelect
+                    v-model="selectedAttributeName"
+                    class="min-w-0 flex-1"
+                    :items="filteredAttributeOptions"
+                    :placeholder="$t('mapLayers.attributeFiltering.selectAttribute')"
+                    @update:model-value="clearOperand"
+                />
+                <UButton
+                    v-if="selectedAttributeName !== undefined"
+                    class="ml-1"
+                    icon="i-lucide-x"
+                    color="neutral"
+                    variant="ghost"
+                    :aria-label="$t('mapLayers.attributeFiltering.clearAttribute')"
+                    @click="clearSelectedAttribute"
+                />
+            </div>
+            <div v-if="selectedAttribute" class="flex w-full pt-2">
+                <USelect
+                    v-model="selectedOperand"
+                    class="min-w-0 flex-1"
+                    :items="operandOptions"
+                    :placeholder="$t('mapLayers.attributeFiltering.selectOperand')"
+                />
+                <UButton
+                    v-if="selectedOperand !== undefined"
+                    class="ml-1"
+                    icon="i-lucide-x"
+                    color="neutral"
+                    variant="ghost"
+                    :aria-label="$t('mapLayers.attributeFiltering.clearOperand')"
+                    @click="selectedOperand = undefined"
+                />
+            </div>
+            <div v-if="selectedOperand" class="w-full pt-2">
+                <UInput
+                    v-model="filterValue"
+                    class="w-full"
+                    :type="selectedAttribute?.binding === 'java.lang.String' ? 'text' : 'number'"
+                />
+            </div>
+            <div class="flex w-full justify-end pt-2">
+                <UButton
+                    size="sm"
+                    :disabled="!(selectedAttribute && selectedOperand && filterValue)"
+                    :label="$t('mapLayers.attributeFiltering.apply')"
+                    @click="applyAttributeFilter"
+                />
+            </div>
+        </div>
+    </UCard>
 </template>
 
 <script setup lang="ts">
-import Dropdown from "primevue/select";
-import Button from "primevue/button";
-import SelectButton from "primevue/selectbutton";
-import Card from "primevue/card"
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import InlineMessage from "primevue/inlinemessage";
-import InputText from "primevue/inputtext";
+import type { TableColumn } from "@nuxt/ui";
 import { useToast } from "primevue/usetoast"
 import { computed, ref } from "vue";
 import { type GeoServerFeatureTypeAttribute } from "../../../store/api/geoserver";
@@ -117,7 +149,6 @@ const currentFilters = computed(() => {
         return [] as AppliedFilter[]
     }
 })
-const relationList = ["AND", "OR"]
 const relationType = ref<RelationTypes>("AND")
 const selectedAttribute = ref<GeoServerFeatureTypeAttribute>()
 const selectedOperand = ref<IntegerFilters | StringFilters>()
@@ -175,6 +206,33 @@ const filteredAttributes = computed<GeoServerFeatureTypeAttribute[]>(() => {
     }
 
     return [];
+})
+const currentFilterColumns: TableColumn<AppliedFilter>[] = [
+    { id: "filter", header: "" },
+    { id: "actions", header: "" },
+]
+const selectedAttributeName = computed({
+    get: () => selectedAttribute.value?.name,
+    set: (name: string | undefined) => {
+        selectedAttribute.value = filteredAttributes.value.find((attribute) => attribute.name === name)
+    },
+})
+const filteredAttributeOptions = computed(() => filteredAttributes.value.map((attribute) => ({
+    label: attribute.name,
+    value: attribute.name,
+})))
+const relationOptions = [
+    { label: "AND", value: "AND" },
+    { label: "OR", value: "OR" },
+]
+const operandOptions = computed(() => {
+    const filters = selectedAttribute.value?.binding === "java.lang.String"
+        ? filterStore.stringFilters
+        : filterStore.integerFilters
+    return filters.map((filter) => ({
+        label: filterStore.filterNames[filter as IntegerFilters | StringFilters],
+        value: filter,
+    }))
 })
 /**
  * Create current filters list then push this list to apply attribute filter function in filter store. wait for response
@@ -236,6 +294,10 @@ function clearOperand(): void {
     selectedOperand.value = undefined
     filterValue.value = undefined
 }
+function clearSelectedAttribute(): void {
+    selectedAttribute.value = undefined
+    clearOperand()
+}
 async function deleteAttributeFilter(targetFilter: AppliedFilter): Promise<void> {
     await filterStore.removeAttributeFilter(props.layer.id, targetFilter).then((response) => {
         filterStore.populateLayerFilter(response, relationType.value).then((expression) => {
@@ -254,8 +316,4 @@ async function deleteAttributeFilter(targetFilter: AppliedFilter): Promise<void>
 }
 </script>
 
-<style scoped>
-.current-filters:deep(th) {
-    display: none;
-}
-</style>
+<style scoped></style>
