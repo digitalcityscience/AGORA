@@ -3,9 +3,11 @@ import MapView from "./views/MapView.vue"
 </script>
 
 <template>
-  <div class="app-container">
-    <MapView></MapView>
-</div>
+  <UApp>
+    <div class="app-container">
+      <MapView></MapView>
+    </div>
+  </UApp>
 </template>
 
 <style scoped>
