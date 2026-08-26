@@ -1,51 +1,85 @@
 <template>
 	<div class="geometry-filter w-full" v-if="(props.layer.filterLayer === undefined && isPolygonTiles)">
 		<div class="new-filter w-full pt-2" v-if="!hasGeometryFilter">
-			<Card>
-				<template #title>{{ $t('mapLayers.geometryFiltering.title') }}</template>
-				<template #subtitle>{{ $t('mapLayers.geometryFiltering.subtitle') }}</template>
-				<template #content>
+			<UCard
+				variant="subtle"
+				:ui="{ header: 'p-3 pb-2', body: 'p-3 pt-1', footer: 'p-3 pt-2' }"
+			>
+				<template #header>
+					<div class="space-y-1">
+						<div class="font-semibold text-highlighted">{{ $t('mapLayers.geometryFiltering.title') }}</div>
+						<div class="text-sm text-muted">{{ $t('mapLayers.geometryFiltering.subtitle') }}</div>
+					</div>
+				</template>
 					<div class="filterlayer-dropdown w-full">
 						<div v-if="filterLayerList.length>0">
-							<Dropdown class="w-full" v-model="selectedFilterLayer" @change="dropdownFitter" :options="filterLayerList" option-label="source" show-clear
-							:placeholder="$t('mapLayers.geometryFiltering.selectLayer')"></Dropdown>
+							<div class="flex w-full">
+								<USelect
+									v-model="selectedFilterLayerId"
+									class="min-w-0 flex-1"
+									:items="filterLayerOptions"
+									:placeholder="$t('mapLayers.geometryFiltering.selectLayer')"
+									@update:model-value="dropdownFitter"
+								/>
+								<UButton
+									v-if="selectedFilterLayerId !== undefined"
+									class="ml-1"
+									icon="i-lucide-x"
+									color="neutral"
+									variant="ghost"
+									:aria-label="$t('mapLayers.geometryFiltering.clearLayer')"
+									@click="selectedFilterLayerId = undefined"
+								/>
+							</div>
 						</div>
                         <div class="w-full no-current-filter py-2" v-else>
-                            <InlineMessage class="w-full" severity="info">{{ $t('mapLayers.geometryFiltering.noLayerMessage') }}</InlineMessage>
+                            <UAlert class="w-full" color="info" variant="soft" :description="$t('mapLayers.geometryFiltering.noLayerMessage')" />
                         </div>
 					</div>
 					<div v-if="selectedFilterLayer && props.layer.type==='fill'"  class="identifier-dropdown w-full py-2">
-                        <Dropdown class="w-full" v-model="selectedProperty" :options="filteredAttributes" option-label="name" show-clear :placeholder="$t('mapLayers.geometryFiltering.selectIdentifier')"></Dropdown>
+						<div class="flex w-full">
+							<USelect
+								v-model="selectedPropertyName"
+								class="min-w-0 flex-1"
+								:items="filteredAttributeOptions"
+								:placeholder="$t('mapLayers.geometryFiltering.selectIdentifier')"
+							/>
+							<UButton
+								v-if="selectedPropertyName !== undefined"
+								class="ml-1"
+								icon="i-lucide-x"
+								color="neutral"
+								variant="ghost"
+								:aria-label="$t('mapLayers.geometryFiltering.clearIdentifier')"
+								@click="selectedPropertyName = undefined"
+							/>
+						</div>
 					</div>
-				</template>
 				<template #footer>
                     <div class="w-full flex flex-row-reverse">
-                        <Button size="small" :disabled="(isNullOrEmpty(selectedFilterLayer) || (props.layer.type === 'fill' && isNullOrEmpty(selectedProperty)))" @click="applyGeometryFilter">{{ $t('mapLayers.geometryFiltering.addFilter') }}</Button>
+                        <UButton size="sm" :disabled="(isNullOrEmpty(selectedFilterLayer) || (props.layer.type === 'fill' && isNullOrEmpty(selectedProperty)))" @click="applyGeometryFilter">{{ $t('mapLayers.geometryFiltering.addFilter') }}</UButton>
                     </div>
 				</template>
-			</Card>
+			</UCard>
 		</div>
         <div class="existing-filter pt-2" v-else>
-            <Card>
-                <template #content>
+            <UCard variant="subtle" :ui="{ body: 'p-3' }">
                     <div class="flex flex-row justify-between w-full">
                         <span class="self-center">{{ $t('mapLayers.geometryFiltering.activeFilterMessage') }}</span>
-                        <Button @click="removeGeometryFilter" severity="danger" text rounded>
-                            <template #icon>
-                                <i class="pi pi-times"></i>
-                            </template></Button>
+                        <UButton
+							icon="i-lucide-x"
+							color="error"
+							variant="ghost"
+							:aria-label="$t('mapLayers.controls.removeFilter')"
+							@click="removeGeometryFilter"
+						/>
                     </div>
-                </template>
-            </Card>
+            </UCard>
         </div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import Dropdown, { type SelectChangeEvent } from "primevue/select";
-import Card from "primevue/card";
-import Button from "primevue/button";
-import InlineMessage from "primevue/inlinemessage";
 import { useToast } from "primevue/usetoast";
 import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../../../store/maplibre/map";
 import { computed, onMounted, ref } from "vue";
@@ -64,9 +98,19 @@ const props = defineProps<Props>()
 const mapStore = useMapStore()
 const toast = useToast()
 const selectedFilterLayer = ref<CustomAddLayerObject>()
+const selectedFilterLayerId = computed({
+    get: () => selectedFilterLayer.value?.id,
+    set: (id: string | undefined) => {
+        selectedFilterLayer.value = filterLayerList.value.find((layer) => layer.id === id)
+    },
+})
 const filterLayerList = computed(() => {
     return mapStore.layersOnMap.filter((layer) => { return layer.filterLayer === true })
 })
+const filterLayerOptions = computed(() => filterLayerList.value.map((layer) => ({
+    label: layer.source,
+    value: layer.id,
+})))
 const hasGeometryFilter = computed(()=>{
     return filterStore.appliedFiltersList.filter((layer)=> { return layer.layerName === props.layer.id && layer.geometryFilters !== undefined }).length > 0
 })
@@ -78,9 +122,10 @@ const isPolygonTiles = computed(()=>{
         return false
     }
 })
-function dropdownFitter(event: SelectChangeEvent): void{
-    if (!isNullOrEmpty(event.value)){
-        fitToFilterLayer((event.value as CustomAddLayerObject).filterLayerData!).then(
+function dropdownFitter(layerId: unknown): void{
+    const layer = filterLayerList.value.find((item) => item.id === layerId)
+    if (!isNullOrEmpty(layer)){
+        fitToFilterLayer(layer!.filterLayerData!).then(
             () => {},
             () => {},
         )
@@ -127,6 +172,16 @@ const filterStore = useFilterStore()
 const filteredAttributes = computed(() => {
     return props.layer.details?.featureType.attributes.attribute.filter(attr => filterStore.allowedIDBindings.includes(attr.binding))
 })
+const selectedPropertyName = computed({
+    get: () => selectedProperty.value?.name,
+    set: (name: string | undefined) => {
+        selectedProperty.value = filteredAttributes.value?.find((attribute) => attribute.name === name)
+    },
+})
+const filteredAttributeOptions = computed(() => filteredAttributes.value?.map((attribute) => ({
+    label: attribute.name,
+    value: attribute.name,
+})) ?? [])
 onMounted(()=>{
     identifierChecker()
 })

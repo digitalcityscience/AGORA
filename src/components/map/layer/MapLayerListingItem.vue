@@ -1,91 +1,148 @@
 <template>
     <div class="py-1">
-        <Panel class="map-layer-listing-panel" @update:collapsed="collapsedState" :collapsed="true" toggleable>
-            <template #toggleicon="slotProps">
-                <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
-                <i v-else class="pi pi-chevron-down"></i>
-            </template>
-            <template #header>
+        <div class="map-layer-listing-panel">
+            <div class="map-layer-listing-header" :class="{ 'map-layer-listing-header-open': layerPanelOpen }">
                 <span class="layer-color-rail"
                       :class="`layer-color-rail-${layerHeaderIndicator.kind}`"
                       :style="layerHeaderIndicatorStyle"
                       :title="layerHeaderIndicatorTitle"
                       aria-hidden="true"></span>
-                <Button class="layer-drag-handle w-8 h-8 p-0 mr-1 cursor-move"
-                        icon="pi pi-bars" text rounded
-                        aria-label="Reorder layer" @click.stop />
-                <ToggleSwitch v-model="checked" @update:model-value="changeLayerVisibility"></ToggleSwitch>
-                <h3 class="capitalize mr-auto ml-2" v-tooltip.bottom="layerFullName">{{ layerDisplayName }}</h3>
-                <Button class="w-8 h-8 p-0 mr-1" icon="pi pi-trash" severity="danger" text rounded aria-label="Delete"
-                    @click="confirmDialogVisibility = true"></Button>
-                <Dialog v-model:visible="confirmDialogVisibility" modal :header="$t('mapLayers.actions.deleteHeader')" :style="{ width: '25rem' }">
-                    <span class="p-text-secondary block mb-5">{{ $t("mapLayers.actions.deleteQuestion",[props.layer.displayName ?? props.layer.source.replaceAll("_", " ")])}}</span>
-                    <div class="flex justify-content-end gap-2">
-                        <Button size="small" type="button" label="Cancel" severity="secondary" @click="confirmDialogVisibility = false">{{ $t("mapLayers.actions.cancel") }}</Button>
-                        <Button size="small" type="button" label="Delete" severity="danger" @click="deleteLayerConfirmation(props.layer)">{{ $t("mapLayers.actions.delete") }}</Button>
+                <UButton
+                    class="layer-drag-handle layer-icon-btn cursor-move"
+                    icon="i-lucide-grip-vertical"
+                    color="neutral"
+                    variant="ghost"
+                    :aria-label="$t('mapLayers.controls.reorder')"
+                    @click.stop
+                />
+                <USwitch v-model="checked" class="shrink-0" @update:model-value="changeLayerVisibility" />
+                <UTooltip :text="layerFullName">
+                    <h3 class="layer-name mr-auto ml-2 truncate capitalize">{{ layerDisplayName }}</h3>
+                </UTooltip>
+                <div class="layer-actions">
+                    <UButton
+                        class="layer-icon-btn"
+                        icon="i-lucide-trash-2"
+                        color="error"
+                        variant="ghost"
+                        :aria-label="$t('mapLayers.actions.delete')"
+                        @click="confirmDialogVisibility = true"
+                    />
+                    <UButton
+                        class="layer-icon-btn"
+                        :icon="layerPanelOpen ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                        color="neutral"
+                        variant="ghost"
+                        :aria-label="layerPanelOpen ? $t('mapLayers.controls.collapse') : $t('mapLayers.controls.expand')"
+                        @click="layerPanelOpen = !layerPanelOpen"
+                    />
+                </div>
+                <UModal
+                    v-model:open="confirmDialogVisibility"
+                    :title="$t('mapLayers.actions.deleteHeader')"
+                    :ui="{ content: 'max-w-[25rem]' }"
+                >
+                    <template #body>
+                        <span class="block text-muted">
+                            {{ $t("mapLayers.actions.deleteQuestion", [props.layer.displayName ?? props.layer.source.replaceAll("_", " ")]) }}
+                        </span>
+                    </template>
+                    <template #footer>
+                        <div class="flex w-full justify-end gap-2">
+                            <UButton size="sm" type="button" color="neutral" variant="soft" @click="confirmDialogVisibility = false">
+                                {{ $t("mapLayers.actions.cancel") }}
+                            </UButton>
+                            <UButton size="sm" type="button" color="error" @click="deleteLayerConfirmation(props.layer)">
+                                {{ $t("mapLayers.actions.delete") }}
+                            </UButton>
+                        </div>
+                    </template>
+                </UModal>
+            </div>
+            <div v-show="layerPanelOpen" class="layer-panel-body">
+                <section class="layer-section">
+                    <h4 class="layer-section-title">{{ $t('mapLayers.styling.title') }}</h4>
+                    <div v-if="hasEditableLayerColor" class="layer-row">
+                        <span class="layer-row-label">{{ $t("mapLayers.styling.color") }}</span>
+                        <UPopover :content="{ side: 'bottom', align: 'end', collisionPadding: 12 }" :ui="{ content: 'z-[80]' }">
+                            <UButton
+                                class="layer-color-trigger"
+                                color="neutral"
+                                variant="outline"
+                                size="sm"
+                                :aria-label="$t('mapLayers.controls.changeColor')"
+                            >
+                                <template #leading>
+                                    <span class="layer-color-swatch" :style="{ backgroundColor: color }" aria-hidden="true" />
+                                </template>
+                                <span class="layer-color-value">{{ color.toUpperCase() }}</span>
+                            </UButton>
+                            <template #content>
+                                <div class="layer-color-popover">
+                                    <UColorPicker
+                                        v-model="color"
+                                        format="hex"
+                                        size="sm"
+                                        :aria-label="$t('mapLayers.controls.changeColor')"
+                                        @update:model-value="queueLayerColorChange"
+                                    />
+                                </div>
+                            </template>
+                        </UPopover>
                     </div>
-                </Dialog>
-            </template>
-            <div>
-                <label v-if="hasEditableLayerColor" class="flex w-full leading-none pointer-events-none items-baseline">
-                    <span class="mt-2 min-w-[25%]">{{ $t("mapLayers.styling.color")}}</span>
-                    <ColorPicker aria-label="Change Color" class="pointer-events-auto" format="hex" v-model="color" :baseZIndex="10"
-                        @update:model-value="queueLayerColorChange"
-                        @hide="flushLayerColorChange"></ColorPicker>
-                </label>
-                <div v-else>
+                    <div v-else>
                     <div v-if="layerLegendStyle !== undefined">
                         <div class="legend">
                             <MBStyleLegend :mbstyle="layerLegendStyle"></MBStyleLegend>
                         </div>
                     </div>
-                </div>
-                <label class="flex w-full leading-none items-center mt-2 pr-1">
-                    <span class="mt-2 min-w-[25%]">{{ $t("mapLayers.styling.opacity") }}</span>
-                    <Slider aria-label="Change Opacity" class="mt-2 ml-2 flex-grow" v-model="opacity" :step="0.1" :min=0 :max=1
-                        @update:model-value="changeLayerOpac" :pt="{
-                            range: { style: { 'background': `#${color}` } },
-                            handle: { style: { 'background': `#${color}`, 'border-color': `#${color}` } }
-                        }" />
-                </label>
-            </div>
-            <div v-if="props.layer.id === 'parliament_database'">
-                <ParliamentDBFilter :layer="props.layer"></ParliamentDBFilter>
-            </div>
-            <div v-else-if="props.layer.id==='ewb_elbe_wochenblatt'">
-                <ElbewochenblattDBFilter></ElbewochenblattDBFilter>
-            </div>
-            <div v-else>
-                <div v-if="props.layer.filterLayer == undefined || props.layer.filterLayer === false" class="py-2">
+                    </div>
+                    <label class="layer-row">
+                        <span class="layer-row-label">{{ $t("mapLayers.styling.opacity") }}</span>
+                        <USlider
+                            v-model="opacity"
+                            class="grow"
+                            :step="0.1"
+                            :min="0"
+                            :max="1"
+                            :aria-label="$t('mapLayers.controls.changeOpacity')"
+                            @update:model-value="changeLayerOpac"
+                        />
+                    </label>
+                </section>
+                <section v-if="props.layer.id === 'parliament_database'" class="layer-section">
+                    <ParliamentDBFilter :layer="props.layer" />
+                </section>
+                <section v-else-if="props.layer.id === 'ewb_elbe_wochenblatt'" class="layer-section">
+                    <ElbewochenblattDBFilter />
+                </section>
+                <section
+                    v-else-if="props.layer.filterLayer == undefined || props.layer.filterLayer === false"
+                    class="layer-section space-y-2"
+                >
                     <AttributeFiltering :layer="props.layer"></AttributeFiltering>
                     <GeometryFiltering :layer="props.layer"></GeometryFiltering>
-                </div>
-                <div class="py-1" v-else></div>
+                </section>
+                <section
+                    v-if="props.layer.sourceType === 'geojson' && props.layer.filterLayerData !== undefined && props.layer.filterLayerData !== null"
+                    class="layer-section"
+                >
+                    <DownloadForm :layer-data="props.layer.filterLayerData" />
+                </section>
             </div>
-            <div v-if="props.layer.sourceType === 'geojson' && props.layer.filterLayerData !== undefined && props.layer.filterLayerData !== null">
-                <DownloadForm :layerData="props.layer.filterLayerData"></DownloadForm>
-            </div>
-        </Panel>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref } from "vue";
 import { type LayerObjectWithAttributes, type MapLibreLayerTypes, useMapStore } from "../../../store/maplibre/map"
-import Panel from "primevue/panel";
-import Slider from "primevue/slider";
-import ToggleSwitch from "primevue/toggleswitch";
-import Button from "primevue/button";
 import { useToast } from "primevue/usetoast"
 import { isNullOrEmpty } from "../../../core/helpers/functions";
 import ParliamentDBFilter from "../../geoparsing/ParliamentDBFilter.vue";
 import ElbewochenblattDBFilter from "../../geoparsing/ElbewochenblattDBFilter.vue";
 import MBStyleLegend from "./MBStyleLegend.vue";
 import DownloadForm from "./DownloadForm.vue";
-import Tooltip from "primevue/tooltip";
-
-const ColorPicker = defineAsyncComponent(async () => await import("primevue/colorpicker"));
-const Dialog = defineAsyncComponent(async () => await import("primevue/dialog"));
 const AttributeFiltering = defineAsyncComponent(async () => await import("./AttributeFiltering.vue"));
 const GeometryFiltering = defineAsyncComponent(async () => await import("./GeometryFiltering.vue"));
 
@@ -94,13 +151,12 @@ export interface Props {
 }
 const props = defineProps<Props>()
 const mapStore = useMapStore()
-const collapsed = ref<boolean>(true)
-const color = ref<string>("000000")
+const layerPanelOpen = ref<boolean>(false)
+const color = ref<string>("#000000")
 const opacity = ref<number>(1)
 const checked = ref<boolean>(true)
 const layerFullName = computed(() => props.layer.displayName ?? props.layer.source.replaceAll("_", " "))
 const layerDisplayName = computed(() => layerFullName.value.length > 19 ? `${layerFullName.value.slice(0, 19)}...` : layerFullName.value)
-const vTooltip = Tooltip;
 
 type LayerHeaderIndicatorKind = "single" | "multi" | "raster" | "heatmap" | "unknown";
 interface LayerHeaderIndicator {
@@ -303,22 +359,14 @@ function queueLayerColorChange(newColor: any): void {
     }, 120);
 }
 
-function flushLayerColorChange(): void {
-    if (pendingColorChangeTimeout !== null) {
-        clearTimeout(pendingColorChangeTimeout);
-        pendingColorChangeTimeout = null;
-    }
-    applyLayerColor(color.value);
-}
-
 onMounted(() => {
     const prop = getEditableColorPaintProperty(props.layer.type)
     const opac = getOpacityPaintProperty(props.layer.type)
     if (prop !== "" && !isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, prop))) {
         const paintColor = mapStore.map.getPaintProperty(props.layer.id, prop)
         color.value = ((props.layer.clustered !== undefined && props.layer.clustered) || typeof paintColor !== "string")
-            ? "000000"
-            : paintColor.substring(1)
+            ? "#000000"
+            : paintColor
     }
     if (opac !== "" && !isNullOrEmpty(mapStore.map.getPaintProperty(props.layer.id, opac))) {
         opacity.value = mapStore.map.getPaintProperty(props.layer.id, opac)
@@ -352,9 +400,6 @@ function changeLayerVisibility(layerVisibility: boolean): void {
         }
     });
 }
-function collapsedState(isCollapsed: boolean): void {
-    collapsed.value = isCollapsed
-}
 const confirmDialogVisibility = ref<boolean>(false)
 const toast = useToast();
 function deleteLayerConfirmation(layer: LayerObjectWithAttributes): void {
@@ -380,13 +425,96 @@ function deleteLayerConfirmation(layer: LayerObjectWithAttributes): void {
     margin: 0.25rem 0.75rem 0.25rem 0;
     min-height: 2.5rem;
 }
-.map-layer-listing-panel :deep(.p-panel-header) {
-    padding-left: 0.35rem;
+.map-layer-listing-header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    border: 1px solid var(--ui-border-muted);
+    border-radius: 0.375rem;
+    padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+    background: color-mix(in srgb, var(--ui-bg-elevated) 70%, transparent);
+}
+.map-layer-listing-header-open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 .layer-color-rail-multi,
 .layer-color-rail-heatmap,
 .layer-color-rail-raster,
 .layer-color-rail-unknown {
     border: 1px solid rgb(255 255 255 / 0.7);
+}
+.layer-panel-body {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ui-border-muted);
+    border-top: 0;
+    border-radius: 0 0 0.375rem 0.375rem;
+    padding: 0.65rem;
+    background: color-mix(in srgb, var(--ui-bg-elevated) 45%, transparent);
+}
+.layer-section {
+    padding: 0.65rem;
+    border: 1px solid var(--ui-border-muted);
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--ui-bg) 75%, transparent);
+}
+.layer-section + .layer-section {
+    margin-top: 0.65rem;
+}
+.layer-section-title {
+    margin: 0 0 0.4rem;
+    color: var(--ui-text-muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.layer-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 1.75rem;
+    padding: 0.15rem 0;
+}
+.layer-row + .layer-row {
+    margin-top: 0.25rem;
+}
+.layer-row-label {
+    min-width: 25%;
+    font-weight: 600;
+}
+.layer-color-swatch {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.18);
+}
+.layer-color-trigger {
+    width: 7rem;
+    justify-content: flex-start;
+}
+.layer-color-value {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-variant-numeric: tabular-nums;
+}
+.layer-color-popover {
+    padding: 0.5rem;
+}
+.layer-icon-btn {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    flex: 0 0 auto;
+}
+.layer-name {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.layer-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    flex: 0 0 auto;
 }
 </style>

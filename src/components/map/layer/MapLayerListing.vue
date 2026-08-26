@@ -3,7 +3,7 @@
         <template #header>
             <span>{{ $t('map.sideFrame.layers') }}</span>
         </template>
-        <div class="w-full" v-if="visibleLayers.length > 0">
+        <div class="w-full space-y-2" v-if="visibleLayers.length > 0">
             <draggable
                 :model-value="visibleLayers"
                 item-key="id"
@@ -19,14 +19,19 @@
             </draggable>
         </div>
         <div class="w-full" v-else>
-            <InlineMessage class="w-full" severity="info">There is no layer on map</InlineMessage>
+            <UAlert
+                class="w-full"
+                color="info"
+                variant="soft"
+                icon="i-lucide-info"
+                :description="$t('mapLayers.noLayers')"
+            />
         </div>
     </BaseSlideoverSidebarComponent>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
-import InlineMessage from "primevue/inlinemessage";
 import draggable from "vuedraggable";
 // components
 import BaseSlideoverSidebarComponent from "../../base/BaseSlideoverSidebarComponent.vue";
