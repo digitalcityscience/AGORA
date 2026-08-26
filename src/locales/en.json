@@ -3,7 +3,14 @@
 		"title": "LIGFinder"
 	},
 	"common": {
-		"collapseSidebar": "Collapse sidebar"
+		"collapseSidebar": "Collapse sidebar",
+		"removeItem": "Remove {item}",
+		"include": "Include",
+		"exclude": "Exclude",
+		"minimum": "Minimum",
+		"maximum": "Maximum",
+		"clear": "Clear",
+		"error": "Error"
 	},
 	"theme": {
 		"switchToLight": "Switch to light mode",
@@ -97,6 +104,13 @@
 				},
 				"isochrone": {
 					"title": "Isochrone Area",
+					"selectCenter": "Select center",
+					"cancelCenter": "Cancel center selection",
+					"travelMode": "Travel mode",
+					"travelTime": "Travel time (minutes)",
+					"walk": "Walking",
+					"bike": "Cycling",
+					"drive": "Driving",
 					"create": "Create",
 					"add": "Add Isochrone",
 					"cancel": "Cancel"
@@ -117,8 +131,11 @@
 				"createHeader": "Find joined parcels",
 				"saveHeader": "Save joined parcels",
 				"threshold": "Threshold (m²)",
+				"thresholdDescription": "Minimum combined parcel area.",
 				"layerName": "Layer Name",
+				"layerNameDescription": "Use between 3 and 35 characters.",
 				"layerType": "Layer Type",
+				"layerTypeDescription": "Choose how the saved layer is displayed.",
 				"exclusion": "Exclude the following land use categories from the results:",
 				"exclusionList": "road traffic, path, flowing water, standing water, sea, bog, swamp, cemetery, air traffic, ship traffic, rail traffic, square, forest, woodland, heath, harbor basin, sports/leisure/recreational area, barren/vegetation-free area.",
 				"getResults": "Get Results",

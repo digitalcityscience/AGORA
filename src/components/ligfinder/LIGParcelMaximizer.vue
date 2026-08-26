@@ -1,97 +1,103 @@
 <template>
-    <div>
-        <Panel toggleable>
-            <template #toggleicon="slotProps">
-                <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
-                <i v-else class="pi pi-chevron-down"></i>
+    <LIGFilterSection value="parcel-maximizer" :title="$t('ligfinder.filter.parcel.title')">
+        <div class="min-w-0 space-y-3">
+            <USwitch
+                v-model="ligfinderStore.isMaximizerActive"
+                :label="ligfinderStore.isMaximizerActive
+                    ? $t('ligfinder.filter.parcel.disable')
+                    : $t('ligfinder.filter.parcel.enable')"
+            />
+
+            <template v-if="ligfinderStore.isMaximizerActive">
+                <USeparator />
+                <section class="min-w-0 space-y-3">
+                    <h3 class="text-sm font-semibold text-highlighted">
+                        {{ $t("ligfinder.filter.parcel.createHeader") }}
+                    </h3>
+                    <UFormField
+                        :label="$t('ligfinder.filter.parcel.threshold')"
+                        :description="$t('ligfinder.filter.parcel.thresholdDescription')"
+                        size="sm"
+                    >
+                        <UInputNumber
+                            v-model="parcelStore.threshold"
+                            class="w-full"
+                            :increment="false"
+                            :decrement="false"
+                            :min="0"
+                        />
+                    </UFormField>
+                    <UCheckbox
+                        v-model="parcelStore.include"
+                        :label="$t('ligfinder.filter.parcel.exclusion')"
+                        :description="$t('ligfinder.filter.parcel.exclusionList')"
+                    />
+                </section>
+
+                <template v-if="parcelStore.maximizedParcelsOnMap">
+                    <USeparator />
+                    <section class="min-w-0 space-y-3">
+                        <h3 class="text-sm font-semibold text-highlighted">
+                            {{ $t("ligfinder.filter.parcel.saveHeader") }}
+                        </h3>
+                        <div class="save-fields">
+                            <UFormField
+                                :label="$t('ligfinder.filter.parcel.layerName')"
+                                :description="$t('ligfinder.filter.parcel.layerNameDescription')"
+                                size="sm"
+                            >
+                                <UInput
+                                    v-model.trim="parcelStore.layerName"
+                                    class="w-full"
+                                    :minlength="3"
+                                    :maxlength="35"
+                                />
+                            </UFormField>
+                            <UFormField
+                                :label="$t('ligfinder.filter.parcel.layerType')"
+                                :description="$t('ligfinder.filter.parcel.layerTypeDescription')"
+                                size="sm"
+                            >
+                                <USelect
+                                    v-model="parcelStore.layerType"
+                                    class="w-full"
+                                    :items="layerTypeOptions"
+                                />
+                            </UFormField>
+                        </div>
+                        <UButton
+                            block
+                            :label="$t('ligfinder.filter.parcel.saveLayer')"
+                            :disabled="parcelStore.layerName.trim().length < 3"
+                            @click="saveLayer"
+                        />
+                    </section>
+                </template>
             </template>
-            <template #header>
-                <span class="font-bold">{{ $t('ligfinder.filter.parcel.title') }}</span>
-            </template>
-            <div class="activation pb-2">
-                <ToggleButton v-model="ligfinderStore.isMaximizerActive" :onLabel="$t('ligfinder.filter.parcel.disable')" :offLabel="$t('ligfinder.filter.parcel.enable')" />
-                </div>
-            <Divider />
-            <div v-if="ligfinderStore.isMaximizerActive" class="parcel-maximizer">
-                <h3 class="text-lg font-semibold pb-2">{{ $t("ligfinder.filter.parcel.createHeader") }}</h3>
-                <div class="filter-section">
-                    <div class="attribute w-full py-1">
-                        <div class="range-input flex flex-start">
-                            <div class="input-group flex flex-col">
-                                <label for="parcel-threshold" class="font-bold block mb-2">{{ $t(`ligfinder.filter.parcel.threshold`) }}</label>
-                                <InputNumber inputId="parcel-threshold" v-model="parcelStore.threshold" :min="0" suffix=" m²" aria-describedby="parcel-threshold-desc"></InputNumber>
-                                <span id="parcel-threshold-desc" class="sr-only">{{ $t('ligfinder.filter.parcel.thresholdDescription') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="attribute w-full py-3">
-                        <div class="input-group flex">
-                            <Checkbox v-model="parcelStore.include" inputId="exclusion" name="exclude" binary aria-checked="include" />
-                            <label for="exclusion" class="pl-1"> <span class="font-semibold">{{ $t(`ligfinder.filter.parcel.exclusion`) }}</span> <span class="italic">{{ $t(`ligfinder.filter.parcel.exclusionList`) }}</span></label>
-                        </div>
-                    </div>
-                </div>
-                <Divider />
-                <div v-if="parcelStore.maximizedParcelsOnMap" class="pt-3 flex flex-col gap-2">
-                    <h3 class="text-lg font-semibold pt-4 pb-2">{{ $t("ligfinder.filter.parcel.saveHeader") }}</h3>
-                    <div class="flex gap-2 items-end flex-wrap">
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold block mb-2" for="layerName">{{ $t("ligfinder.filter.parcel.layerName") }}</label>
-                            <InputText id="layerName" v-model.trim="parcelStore.layerName" :minlength="3" :maxlength="35" aria-describedby="layerName-desc" />
-                            <span id="layerName-desc" class="sr-only">{{ $t('ligfinder.filter.parcel.layerNameDescription') }}</span>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label class="font-bold block mb-2" for="layerType">{{ $t("ligfinder.filter.parcel.layerType") }}</label>
-                            <Select
-                                id="layerType"
-                                v-model="parcelStore.layerType"
-                                :options="[
-                                    { label: t('helpers.layerTypes.fill'), value: 'fill' },
-                                    { label: t('helpers.layerTypes.line'), value: 'line' }
-                                ]"
-                                optionLabel="label"
-                                optionValue="value"
-                                aria-describedby="layerType-desc"
-                            ></Select>
-                            <span id="layerType-desc" class="sr-only">{{ $t('ligfinder.filter.parcel.layerTypeDescription') }}</span>
-                        </div>
-                        <Button :label="t('ligfinder.filter.parcel.saveLayer')" :disabled="parcelStore.layerName.trim().length < 3" @click="saveLayer"></Button>
-                    </div>
-                </div>
-            </div>
-            <div>
-            </div>
-        </Panel>
-    </div>
+        </div>
+    </LIGFilterSection>
 </template>
 
 <script setup lang="ts">
-import Panel from "primevue/panel";
-import InputNumber from "primevue/inputnumber";
-import Checkbox from "primevue/checkbox";
-import Button from "primevue/button";
-import Divider from "primevue/divider";
-import InputText from "primevue/inputtext";
-import Select from "primevue/select";
-import ToggleButton from "primevue/togglebutton";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { useToast } from "@nuxt/ui/composables";
+import LIGFilterSection from "./LIGFilterSection.vue";
 import { useParcelStore } from "../../store/ligfinder/parcel";
-import { useToast } from "primevue/usetoast";
 import { useMapStore } from "../../store/maplibre/map";
 import { getRandomHexColor } from "../../core/helpers/functions";
-import { useI18n } from "vue-i18n";
 import { useLigfinderMainStore } from "../../store/ligfinder/main";
 
 const toast = useToast();
 const parcelStore = useParcelStore();
 const mapStore = useMapStore();
 const ligfinderStore = useLigfinderMainStore();
-const { t } = useI18n()
+const { t } = useI18n();
+const layerTypeOptions = computed(() => [
+    { label: t("helpers.layerTypes.fill"), value: "fill" },
+    { label: t("helpers.layerTypes.line"), value: "line" },
+]);
 
-/**
- * Saves the currently visualized maximized parcel data as a persistent map layer.
- * Generates a random ID, collects user-provided name and type, and registers
- * the new layer and source in the map store.
- */
 function saveLayer(): void {
     const geojson = parcelStore.maximizedParcelsGeoJSON;
     if (geojson == null || !Array.isArray(geojson.features) || geojson.features.length === 0) return;
@@ -105,12 +111,28 @@ function saveLayer(): void {
 
         return await mapStore.addMapLayer("geojson", id, parcelStore.layerType, style, undefined, undefined, geojson, false, parcelStore.layerName, sourceId, true);
     }).then(() => {
-        toast.add({ severity: "success", summary: t("ligfinder.filter.parcel.errors.addLayerSuccessSummary"), detail: t("ligfinder.filter.parcel.errors.addLayerSuccess", { name: parcelStore.layerName }), life: 10000 });
+        toast.add({
+            title: t("ligfinder.filter.parcel.errors.addLayerSuccessSummary"),
+            description: t("ligfinder.filter.parcel.errors.addLayerSuccess", { name: parcelStore.layerName }),
+            color: "success",
+            duration: 10000,
+        });
         parcelStore.layerName = "";
     }).catch(() => {
-        toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.addLayerFailedSummary"), detail: t("ligfinder.filter.parcel.errors.addLayerFailed"), life: 10000 });
+        toast.add({
+            title: t("ligfinder.filter.parcel.errors.addLayerFailedSummary"),
+            description: t("ligfinder.filter.parcel.errors.addLayerFailed"),
+            color: "error",
+            duration: 10000,
+        });
     });
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.save-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    gap: 0.75rem;
+}
+</style>
