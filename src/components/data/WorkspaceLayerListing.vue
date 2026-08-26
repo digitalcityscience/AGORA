@@ -1,21 +1,32 @@
 <template>
-    <div v-if="props.list">
-        <WorkspaceLayerListingItem v-for="(layer,index) in props.list" :key="index" :item="layer" :workspace="workspaceName"></WorkspaceLayerListingItem>
+    <div v-if="hasLayers" class="space-y-3">
+        <WorkspaceLayerListingItem
+            v-for="layer in props.list"
+            :key="layer.href"
+            :item="layer"
+            :workspace="workspaceName"
+        />
     </div>
     <div v-else>
-        <Message class="w-full" severity="info">{{$t('datastore.layer.noLayer')}}</Message>
+        <UAlert
+            class="w-full"
+            color="info"
+            variant="soft"
+            icon="i-lucide-info"
+            :description="$t('datastore.layer.noLayer')"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import Message from "primevue/message";
-// Components
 import WorkspaceLayerListingItem from "./WorkspaceLayerListingItem.vue";
 import { type GeoserverLayerListItem } from "../../store/api/geoserver";
+import { computed } from "vue";
 export interface Props {
     list: GeoserverLayerListItem[] | undefined
     workspaceName: string
 }
 const props = defineProps<Props>()
+const hasLayers = computed(() => (props.list?.length ?? 0) > 0)
 </script>
 <style scoped></style>

@@ -1,37 +1,63 @@
 <template>
-    <div v-if="props.item" class="first:pt-0 pt-1">
-        <Card>
-            <template #title>
-                <span class="capitalize">{{ cleanLayerName }}</span>
-            </template>
-            <template #subtitle v-if="layerDetail && layerDetail?.featureType.abstract?.length > 0">
-                <span class="line-clamp-3 hover:line-clamp-none xl:line-clamp-none">{{ layerDetail.featureType.abstract }}</span></template>
-            <template #content v-if="layerDetail">
-                <div class="grid grid-cols-4 w-full pt-1">
-                    <span class="font-bold lg:col-span-2 2xl:col-span-2 3xl:col-span-2 4xl:col-span-1 self-center">{{$t('datastore.layer.keywords')}}:</span>
-                    <span class="lg:col-span-2 2xl:col-span-2 3xl:col-span-2 4xl:col-span-3 pl-1">
-                        <Tag class="mb-1 mr-1 last:mr-0" severity="secondary" v-for="(keyword,index) in layerDetail.featureType.keywords.string" :key="index" :value="keyword"></Tag>
-                    </span>
+    <div class="w-full">
+        <UCard v-if="isLoading" class="bg-default/95 dark:bg-elevated/80" :ui="{ body: 'p-3' }">
+            <div class="space-y-3">
+                <USkeleton class="h-5 w-2/3" />
+                <USkeleton class="h-4 w-full" />
+                <USkeleton class="h-8 w-28" />
+            </div>
+        </UCard>
+        <UAlert
+            v-else-if="loadError"
+            class="w-full"
+            color="error"
+            variant="soft"
+            icon="i-lucide-circle-alert"
+            :description="$t('datastore.layer.noInfo')"
+        />
+        <UCard
+            v-else
+            class="workspace-layer-card bg-default/95 dark:bg-elevated/80"
+            :ui="{ header: 'p-3 pb-2', body: 'p-3 pt-1', footer: 'p-3 pt-2' }"
+        >
+            <template #header>
+                <div class="min-w-0 space-y-2">
+                    <p class="layer-card-title font-semibold capitalize text-highlighted">{{ cleanLayerName }}</p>
+                    <div v-if="layerDetail?.featureType.keywords.string.length" class="flex flex-wrap gap-1.5">
+                        <UBadge
+                            v-for="(keyword, index) in layerDetail.featureType.keywords.string"
+                            :key="index"
+                            color="neutral"
+                            variant="soft"
+                            size="sm"
+                            :label="keyword"
+                        />
+                    </div>
                 </div>
             </template>
+            <p
+                v-if="layerDetail?.featureType.abstract"
+                class="line-clamp-3 text-sm text-muted hover:line-clamp-none"
+            >
+                {{ layerDetail.featureType.abstract }}
+            </p>
             <template #footer>
-                <Button size="small" @click="add2Map">{{$t('datastore.layer.add')}}</button>
+                <div class="flex justify-end">
+                    <UButton
+                        size="sm"
+                        :label="$t('datastore.layer.add')"
+                        @click="add2Map"
+                    />
+                </div>
             </template>
-        </Card>
-    </div>
-    <div v-else class="first:pt-0 pt-1 w-full">
-        <InlineMessage class="w-full" severity="info">{{$t('datastore.layer.noInfo')}}</InlineMessage>
+        </UCard>
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import Tag from "primevue/tag"
-import Button from "primevue/button"
-import InlineMessage from "primevue/inlinemessage";
 import { type GeoServerFeatureType, type GeoserverLayerInfo, type GeoserverLayerListItem, useGeoserverStore } from "../../store/api/geoserver";
 import { type LayerStyleOptions, useMapStore } from "../../store/maplibre/map";
-import Card from "primevue/card";
 import { isNullOrEmpty } from "../../core/helpers/functions";
 import { useToast } from "primevue/usetoast";
 
@@ -51,27 +77,41 @@ const toast = useToast()
 const layerInformation = ref<GeoserverLayerInfo>()
 const layerDetail = ref<GeoServerFeatureType>()
 const layerStyling = ref<LayerStyleOptions>()
-geoserver.getLayerInformation(props.item, props.workspace).then((response) => {
-    layerInformation.value = response.layer
-    // Currently we are just picking styles which has include mbstyle in name. Further optimization needed after some period
-    // TODO: remove mbstyle selector
-    if (response.layer.defaultStyle.href.includes("mbstyle")){
-        const regex = /\.json\b/;
-        const url = response.layer.defaultStyle.href.replace(regex, ".mbstyle")
-        geoserver.getLayerStyling(url).then(style => {
-            if (style.layers.length > 0){
-                layerStyling.value = geoserver.convertLayerStylingToMaplibreStyle(style)
+const isLoading = ref(true)
+const loadError = ref(false)
+
+async function loadLayerInformation(): Promise<void> {
+    try {
+        const response = await geoserver.getLayerInformation(props.item, props.workspace)
+        layerInformation.value = response.layer
+
+        // Currently we are just picking styles which has include mbstyle in name. Further optimization needed after some period
+        // TODO: remove mbstyle selector
+        if (response.layer.defaultStyle.href.includes("mbstyle")) {
+            const regex = /\.json\b/
+            const url = response.layer.defaultStyle.href.replace(regex, ".mbstyle")
+            try {
+                const style = await geoserver.getLayerStyling(url)
+                if (style.layers.length > 0) {
+                    layerStyling.value = geoserver.convertLayerStylingToMaplibreStyle(style)
+                }
+            } catch (error) {
+                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 })
             }
-        }).catch((error) => {
-            toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
-        })
+        }
+
+        if (layerInformation.value !== undefined) {
+            layerDetail.value = await geoserver.getLayerDetail(layerInformation.value.resource.href)
+        }
+    } catch (error) {
+        loadError.value = true
+        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 })
+    } finally {
+        isLoading.value = false
     }
-    if (layerInformation.value !== undefined) {
-        geoserver.getLayerDetail(layerInformation.value?.resource.href).then((detail) => {
-            layerDetail.value = detail
-        }).catch(err => { toast.add({ severity: "error", summary: "Error", detail: err, life: 3000 }); })
-    }
-}).catch(err => { toast.add({ severity: "error", summary: "Error", detail: err, life: 3000 }); })
+}
+
+void loadLayerInformation()
 
 const dataType = computed(() => {
     if (!isNullOrEmpty(layerDetail.value)) {
@@ -170,3 +210,11 @@ function add2Map(): void{
     }
 }
 </script>
+
+<style scoped>
+.layer-card-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+}
+</style>
