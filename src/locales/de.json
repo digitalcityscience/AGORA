@@ -1,4 +1,19 @@
 {
+  "app": {
+    "title": "LIGFinder"
+  },
+  "common": {
+    "collapseSidebar": "Seitenleiste einklappen"
+  },
+  "theme": {
+    "switchToLight": "Zum hellen Modus wechseln",
+    "switchToDark": "Zum dunklen Modus wechseln"
+  },
+  "locale": {
+    "label": "Sprache",
+    "en": "Englisch",
+    "de": "Deutsch"
+  },
   "datastore": {
     "notFound": "Kein workspace verfügbar",
     "layer": {
@@ -240,6 +255,14 @@
     }
   },
   "map": {
+    "sideFrame": {
+      "leftLabel": "Linke Kartenwerkzeuge",
+      "rightLabel": "Rechte Kartenwerkzeuge",
+      "datastores": "Datenspeicher",
+      "ligfinder": "LIGFinder-Filter",
+      "layers": "Ebenen",
+      "results": "Ergebnistabelle"
+    },
     "errors": {
       "pinia": {
         "noMapToAddSource": "Es ist keine Karte vorhanden, um eine Quelle hinzuzufügen.",

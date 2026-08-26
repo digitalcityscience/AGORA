@@ -1,4 +1,19 @@
 {
+	"app": {
+		"title": "LIGFinder"
+	},
+	"common": {
+		"collapseSidebar": "Collapse sidebar"
+	},
+	"theme": {
+		"switchToLight": "Switch to light mode",
+		"switchToDark": "Switch to dark mode"
+	},
+	"locale": {
+		"label": "Language",
+		"en": "English",
+		"de": "German"
+	},
 	"datastore": {
 		"notFound":"No workspace found",
 		"layer": {
@@ -240,6 +255,14 @@
 		}
 	},
 	"map":{
+		"sideFrame": {
+			"leftLabel": "Left map tools",
+			"rightLabel": "Right map tools",
+			"datastores": "Datastores",
+			"ligfinder": "LIGFinder filters",
+			"layers": "Layers",
+			"results": "Results table"
+		},
 		"errors":{
 			"pinia":{
 				"noMapToAddSource": "There is no map to add source.",

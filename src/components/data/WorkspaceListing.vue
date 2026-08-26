@@ -1,5 +1,8 @@
 <template>
-        <SidebarLayout :id="sidebarID" position="left" >
+        <BaseSlideoverSidebarComponent :id="sidebarID" side="left" :collapsed="true">
+            <template #header>
+                <span>{{ $t('map.sideFrame.datastores') }}</span>
+            </template>
             <div class="w-full" v-if="props.workspaces && props.workspaces.length > 0">
                 <Accordion :multiple="true" :value="[0]">
                     <AccordionPanel v-for="(item, index) in props.workspaces" :key="index" :value="index">
@@ -15,7 +18,7 @@
             <div class="w-full" v-else>
                 <InlineMessage class="w-full" severity="info">{{$t('datastore.notFound')}}</InlineMessage>
             </div>
-        </SidebarLayout>
+        </BaseSlideoverSidebarComponent>
 </template>
 
 <script setup lang="ts">
@@ -25,20 +28,14 @@ import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
 import InlineMessage from "primevue/inlinemessage";
-import SidebarLayout from "../base/SidebarLayout.vue";
+import BaseSlideoverSidebarComponent from "../base/BaseSlideoverSidebarComponent.vue";
 import WorkspaceListingItem from "./WorkspaceListingItem.vue";
 // JS-TS imports
 import { type WorkspaceListItem } from "../../store/api/geoserver";
 
-import { SidebarControl } from "../../core/helpers/sidebarControl";
-import { useMapStore } from "../../store/maplibre/map";
 export interface Props {
     workspaces: WorkspaceListItem[] | undefined
 }
 const props = defineProps<Props>()
-const mapStore = useMapStore()
 const sidebarID = "workspaceListing"
-
-const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"))
-mapStore.map.addControl(sidebarControl, "top-left")
 </script>

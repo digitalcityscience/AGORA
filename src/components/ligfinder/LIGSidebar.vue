@@ -1,9 +1,12 @@
 <template>
-	<SidebarLayout :id="sidebarID" position="left" :collapsed=false classes="lg:w-2/5 2xl:w-1/4 3xl:w-1/4" width="33vw">
+	<BaseSlideoverSidebarComponent
+		:id="sidebarID"
+		side="left"
+		:collapsed="false"
+		width-class="w-[min(33rem,calc(100vw-5rem))]"
+	>
 		<template #header>
-				<div class="h-full flex flex-col justify-center px-1">
-					<p class="font-bold text-xl text-slate-50 align-middle">{{ $t('ligfinder.title') }}</p>
-				</div>
+				<span>{{ $t('ligfinder.title') }}</span>
 		</template>
 		<div class="w-full">
 			<div class="pb-1">
@@ -37,19 +40,18 @@
 				</Button>
 			</div>
 		</template>
-	</SidebarLayout>
+	</BaseSlideoverSidebarComponent>
 </template>
 
 <script setup lang="ts">
-import SidebarLayout from "../base/SidebarLayout.vue";
+import BaseSlideoverSidebarComponent from "../base/BaseSlideoverSidebarComponent.vue";
 import Button from "primevue/button";
-import { useMapStore } from "../../store/maplibre/map";
 import { useLigfinderMainStore } from "../../store/ligfinder/main"
-import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { defineAsyncComponent, ref } from "vue";
 import { useResultStore } from "../../store/ligfinder/result";
 import { useToast } from "primevue";
 import { useParcelStore } from "../../store/ligfinder/parcel";
+import { closeSlideoverSidebar, openSlideoverSidebar } from "../../core/helpers/slideoverSidebarRegistry";
 
 const LIGGeometryFilter = defineAsyncComponent(async () => await import("./LIGGeometryFilter.vue"))
 const LIGCriteriaFilter = defineAsyncComponent(async () => await import("./LIGCriteriaFilter.vue"))
@@ -61,14 +63,8 @@ const LIGParcelMaximizer = defineAsyncComponent(async () => await import("./LIGP
 const toast = useToast()
 const resultStore = useResultStore()
 const ligFilterStore = useLigfinderMainStore()
-const mapStore = useMapStore()
 const parcelStore = useParcelStore()
 const sidebarID = "ligfinder-sidebar"
-const iconElement = document.createElement("span")
-iconElement.classList.add("material-icons-outlined")
-iconElement.textContent = "filter_alt"
-const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"), iconElement)
-mapStore.map.addControl(sidebarControl, "top-left")
 function applier(): void{
     ligFilterStore.applyAllFilters(`${import.meta.env.VITE_PARCEL_DATASET_LAYERNAME}`).then(()=>{
         resultStore.isFilterApplied = true
@@ -79,10 +75,7 @@ function applier(): void{
         if (ligFilterStore.isMaximizerActive) {
             parcelStore.getResults()
         }
-        const tableBar = document.getElementById("ligfinder-result-table")
-        if (tableBar !== null && !tableBar.classList.contains("collapsed")) {
-            tableBar.classList.add("collapsed")
-        }
+        closeSlideoverSidebar("ligfinder-result-table")
     }).catch((error)=>{
         console.error(error)
         toast.add({ severity: "error", summary: "Error", detail: error, life: 10000 })
@@ -98,21 +91,7 @@ function getTable(): void {
     resultStore.fetchAppliedFilterResult().then((response) => {
         resultStore.appliedFilterResult = response
         isTableDataLoading.value = false
-        const tableBar = document.getElementById("ligfinder-result-table")
-        if (tableBar !== null) {
-            if (tableBar.classList.contains("collapsed")) {
-                tableBar.classList.remove("collapsed")
-            }
-            const position = tableBar.getAttribute("data-position")
-            if (position !== null) {
-                const siblingSidebars = document.querySelectorAll<HTMLElement>(`.sidebar[data-position="${position}"]`)
-                siblingSidebars.forEach((sidebar) => {
-                    if (sidebar !== tableBar && !sidebar.classList.contains("collapsed")) {
-                        sidebar.classList.add("collapsed")
-                    }
-                })
-            }
-        }
+        openSlideoverSidebar("ligfinder-result-table")
     }).catch((error) => {
         console.error(error)
         toast.add({ severity: "error", summary: "Error", detail: "Failed to fetch table result", life: 10000 })

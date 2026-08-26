@@ -1,5 +1,8 @@
 <template>
-    <SidebarLayout :id="sidebarID" position="right">
+    <BaseSlideoverSidebarComponent :id="sidebarID" side="right" :collapsed="true">
+        <template #header>
+            <span>{{ $t('map.sideFrame.layers') }}</span>
+        </template>
         <div class="w-full" v-if="visibleLayers.length > 0">
             <draggable
                 :model-value="visibleLayers"
@@ -18,7 +21,7 @@
         <div class="w-full" v-else>
             <InlineMessage class="w-full" severity="info">There is no layer on map</InlineMessage>
         </div>
-    </SidebarLayout>
+    </BaseSlideoverSidebarComponent>
 </template>
 
 <script setup lang="ts">
@@ -26,11 +29,10 @@ import { computed } from "vue";
 import InlineMessage from "primevue/inlinemessage";
 import draggable from "vuedraggable";
 // components
-import SidebarLayout from "../../base/SidebarLayout.vue";
+import BaseSlideoverSidebarComponent from "../../base/BaseSlideoverSidebarComponent.vue";
 import MapLayerListingItem from "./MapLayerListingItem.vue";
 // JS imports
 import { useMapStore } from "../../../store/maplibre/map";
-import { SidebarControl } from "../../../core/helpers/sidebarControl"
 
 const mapStore = useMapStore()
 
@@ -44,11 +46,6 @@ function reorderLayer(event: any): void {
     mapStore.reorderVisibleMapLayer(element.id, newIndex);
 }
 
-const iconElement = document.createElement("span")
-iconElement.classList.add("material-icons-outlined")
-iconElement.textContent = "layers"
-const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"), iconElement)
-mapStore.map.addControl(sidebarControl, "top-right")
 </script>
 
 <style scoped>

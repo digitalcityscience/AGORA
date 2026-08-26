@@ -1,6 +1,10 @@
 <template>
     <div class="mapview">
-        <MapContainer></MapContainer>
+        <MapSideFrame side="left"></MapSideFrame>
+        <div class="mapview-map">
+            <MapContainer></MapContainer>
+        </div>
+        <MapSideFrame side="right"></MapSideFrame>
         <WorkspaceListing :workspaces="geoserverStore.workspaceList"></WorkspaceListing>
         <MapLayerListing></MapLayerListing>
         <MapDrawingTool></MapDrawingTool>
@@ -15,6 +19,7 @@
 import { defineAsyncComponent, onMounted } from "vue";
 import { useGeoserverStore } from "../store/api/geoserver";
 import MapContainer from "../components/map/MapContainer.vue";
+import MapSideFrame from "../components/map/MapSideFrame.vue";
 const WorkspaceListing = defineAsyncComponent(async () => await import("../components/data/WorkspaceListing.vue"));
 const MapLayerListing = defineAsyncComponent(async () => await import("../components/map/layer/MapLayerListing.vue"));
 const MapDrawingTool = defineAsyncComponent(async () => await import("../components/map/interactions/MapDrawingTool.vue"))
@@ -34,6 +39,17 @@ onMounted(()=>{
 .mapview{
     width:100%;
     height:100%;
+    min-width: 0;
+    min-height: 0;
     position: relative;
+    display: grid;
+    grid-template-columns: var(--agora-map-frame-width) minmax(0, 1fr) var(--agora-map-frame-width);
+    grid-template-rows: minmax(0, 1fr);
+}
+.mapview-map {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 </style>
