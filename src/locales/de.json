@@ -187,6 +187,12 @@
       "downloadGeoJSON": ".geojson",
       "downloadCSV": ".csv",
       "searchByColumn": "Nach {column} suchen",
+      "filters": "Spaltenfilter",
+      "clearFilters": "Filter löschen",
+      "rowsPerPage": "Zeilen pro Seite",
+      "expand": "Tabelle im Vollbild öffnen",
+      "focusParcel": "Flurstück auf der Karte fokussieren",
+      "downloadFormat": "Dateiformat",
       "headers": {
         "flurst_nr": "Flurstücksnummer",
 				"Shape_Area": "Flurstückfläche in m²",

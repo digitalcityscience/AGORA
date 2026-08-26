@@ -187,6 +187,12 @@
 			"downloadGeoJSON": ".geojson",
 			"downloadCSV": ".csv",
 			"searchByColumn": "Search by {column}",
+			"filters": "Column filters",
+			"clearFilters": "Clear filters",
+			"rowsPerPage": "Rows per page",
+			"expand": "Open fullscreen table",
+			"focusParcel": "Focus parcel on map",
+			"downloadFormat": "File format",
 			"headers": {
 				"flurst_nr": "Parcel Number",
 				"Shape_Area": "Land Area (m²)",
