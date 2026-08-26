@@ -8,6 +8,7 @@
         <WorkspaceListing :workspaces="geoserverStore.workspaceList"></WorkspaceListing>
         <MapLayerListing></MapLayerListing>
         <MapDrawingTool></MapDrawingTool>
+        <MapFeatureInspector></MapFeatureInspector>
         <LIGSidebar></LIGSidebar>
         <LIGResultTable></LIGResultTable>
         <Toast/>
@@ -23,6 +24,7 @@ import MapSideFrame from "../components/map/MapSideFrame.vue";
 const WorkspaceListing = defineAsyncComponent(async () => await import("../components/data/WorkspaceListing.vue"));
 const MapLayerListing = defineAsyncComponent(async () => await import("../components/map/layer/MapLayerListing.vue"));
 const MapDrawingTool = defineAsyncComponent(async () => await import("../components/map/interactions/MapDrawingTool.vue"))
+const MapFeatureInspector = defineAsyncComponent(async () => await import("../components/map/interactions/MapFeatureInspector.vue"))
 const LIGSidebar = defineAsyncComponent(async () => await import("../components/ligfinder/LIGSidebar.vue"))
 const LIGResultTable = defineAsyncComponent(async() => await import("../components/ligfinder/LIGResultTable.vue"))
 const Toast = defineAsyncComponent(async () => await import("primevue/toast"))

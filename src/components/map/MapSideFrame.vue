@@ -23,6 +23,8 @@ const leftItems = computed<FrameItem[]>(() => [
 const rightItems = computed<FrameItem[]>(() => [
     { id: "maplayerListing", label: t("map.sideFrame.layers"), icon: "i-lucide-layers" },
     { id: "ligfinder-result-table", label: t("map.sideFrame.results"), icon: "i-lucide-table-properties" },
+    { id: "map-drawing-tools", label: t("map.sideFrame.drawing"), icon: "i-lucide-pencil-ruler" },
+    { id: "map-feature-inspector", label: t("map.sideFrame.featureInspector"), icon: "i-lucide-info" },
 ])
 const frameItems = computed(() => props.side === "left" ? leftItems.value : rightItems.value)
 </script>

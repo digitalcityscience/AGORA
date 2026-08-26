@@ -285,7 +285,16 @@
       "datastores": "Datenspeicher",
       "ligfinder": "LIGFinder-Filter",
       "layers": "Ebenen",
-      "results": "Ergebnistabelle"
+      "results": "Ergebnistabelle",
+      "drawing": "Zeichenwerkzeuge",
+      "featureInspector": "Objektdetails"
+    },
+    "featureInspector": {
+      "title": "Objektdetails",
+      "empty": "Klicken Sie auf eine Geometrie in der Karte, um ihre Attribute anzuzeigen.",
+      "position": "Objekt {current} von {total}",
+      "selectFeature": "Ausgewähltes Objekt",
+      "zoomToFeature": "Zum Objekt zoomen"
     },
     "errors": {
       "pinia": {
@@ -404,6 +413,7 @@
     "downloadCSV": ".csv"
   },
   "drawing": {
+    "openTools": "Zeichenwerkzeuge",
     "createTitle": "Erstellen",
     "createSubtitle": "Wählen Sie einen Modus und beginnen Sie mit dem Zeichnen",
     "start": "Zeichnung starten",

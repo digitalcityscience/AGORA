@@ -4,22 +4,23 @@
 </template>
 
 <script setup lang="ts">
-import maplibre, { type MapMouseEvent, type Map } from "maplibre-gl"
-import { h, nextTick, onMounted, ref, render } from "vue";
+import maplibre, { type MapGeoJSONFeature, type MapMouseEvent } from "maplibre-gl"
+import { onMounted } from "vue";
 import { type LayerStyleListItem, type LayerStyleOptions, useMapStore } from "../../store/maplibre/map";
 import { useDrawStore } from "../../store/maplibre/draw";
 import { type StyleEntry, useGeoserverStore } from "../../store/api/geoserver";
 import { isNullOrEmpty } from "../../core/helpers/functions";
-import MapAttributeModal from "./interactions/MapAttributeModal.vue"
 import { useResultStore } from "../../store/ligfinder/result";
 import { useGeometryStore } from "../../store/ligfinder/geometry";
+import { useFeatureInspectorStore } from "../../store/maplibre/featureInspector";
 import { useToast } from "primevue/usetoast";
 import { BaseMapControl, type BaseMapControlOptions } from "../../core/helpers/baseMapControl";
+import { closeSlideoverSidebar } from "../../core/helpers/slideoverSidebarRegistry";
 
 const mapStore = useMapStore()
 const geoserver = useGeoserverStore()
 const toast = useToast()
-const clickedLayers = ref()
+const featureInspectorStore = useFeatureInspectorStore()
 
 const alkisLayerIds = [
     "0", "1", "2", "3", "4", "5", "6", "7",
@@ -47,6 +48,7 @@ onMounted(() => {
     })
     mapStore.map.on("styledata", () => {
         mapStore.paintVersion++;
+        featureInspectorStore.restoreHighlight();
     });
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibre.NavigationControl()
@@ -93,10 +95,7 @@ onMounted(() => {
                     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                     const matchedFeatures = clickedFeatures.filter((clickedLayer) => { return mapStore.layersOnMap.some((l) => { return !(clickedLayer.layer.id.includes("cluster")) && l.source === clickedLayer.source && l.showOnLayerList }) })
                     if (matchedFeatures.length > 0) {
-                        console.log("matched features", matchedFeatures)
-                        console.log(e)
                         const clustered = matchedFeatures.filter((feature) => { return feature.properties.cluster })
-                        console.log("clustered", clustered)
                         const unclusteredFeatures: any[] = []
                         while (clustered.length > 0) {
                             const firstCluster = clustered.pop();
@@ -133,47 +132,16 @@ onMounted(() => {
                         const otherFeatures = nonClustered.filter(f => f.layer.id !== targetLayerName);
                         const uniqueTargetFeatures = getUniqueFeatures(targetLayerFeatures, "UUID");
                         const uniqueNonClustered = otherFeatures.concat(uniqueTargetFeatures);
-                        console.log("non clustered", uniqueNonClustered)
-                        console.log("unclustered", unclusteredFeatures)
-                        clickedLayers.value = uniqueNonClustered.concat(unclusteredFeatures)
-                        console.log("clicked layers", clickedLayers.value)
-                        function calculatePopupAnchor(lngLat: maplibregl.LngLat, map: maplibregl.Map): "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" {
-                            // Modal boyutlarını piksel cinsine çevirin
-                            const modalWidthPx = 384;
-                            const modalHeightPx = 288;
-
-                            const mapBounds = map.getBounds();
-                            const northEastPx = map.project(mapBounds.getNorthEast());
-                            const southWestPx = map.project(mapBounds.getSouthWest());
-                            const pointPx = map.project(lngLat);
-                            // Kuzey, güney, doğu ve batıya olan piksel uzaklıklarını hesapla
-                            const distanceToNorthPx = pointPx.y - northEastPx.y;
-                            const distanceToSouthPx = southWestPx.y - pointPx.y;
-                            const distanceToEastPx = northEastPx.x - pointPx.x;
-                            const distanceToWestPx = pointPx.x - southWestPx.x;
-
-                            const t = distanceToNorthPx > modalHeightPx ? distanceToSouthPx > modalHeightPx ? "" : "bottom" : "top";
-                            const u = distanceToEastPx > modalWidthPx ? distanceToWestPx > modalWidthPx ? "" : "left" : "right";
-
-                            if ((t.length > 0) && (u.length > 0)) return `${t}-${u}` as "top-left" | "top-right" | "bottom-left" | "bottom-right";
-                            if (t.length > 0) return t as "top" | "bottom";
-                            if (u.length > 0) return u as "left" | "right";
-                            return "bottom"; // Varsayılan değer
-                        }
-
-                        const anchor = calculatePopupAnchor(e.lngLat, mapStore.map as Map);
-                        new maplibre.Popup({ maxWidth: "none", anchor })
-                            .setLngLat(e.lngLat)
-                            .setHTML("<div id='map-popup-content'></div>")
-                            .addTo(mapStore.map as Map)
-                        nextTick(() => {
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                            const popupComp = h(MapAttributeModal, {
-                                features: [...uniqueNonClustered.concat(unclusteredFeatures)],
-                            });
-                            render(popupComp, document.getElementById("map-popup-content")!);
-                        }).then(() => { }, () => { })
+                        featureInspectorStore.showFeatures(
+                            uniqueNonClustered.concat(unclusteredFeatures) as MapGeoJSONFeature[],
+                        );
+                    } else {
+                        featureInspectorStore.clearSelection();
+                        closeSlideoverSidebar("map-feature-inspector");
                     }
+                } else {
+                    featureInspectorStore.clearSelection();
+                    closeSlideoverSidebar("map-feature-inspector");
                 }
             }
         })
