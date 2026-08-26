@@ -56,6 +56,7 @@ import BaseSlideoverSidebarComponent from "../base/BaseSlideoverSidebarComponent
 import { useLigfinderMainStore } from "../../store/ligfinder/main";
 import { useResultStore } from "../../store/ligfinder/result";
 import { useParcelStore } from "../../store/ligfinder/parcel";
+import { useFeatureInspectorStore } from "../../store/maplibre/featureInspector";
 import {
     closeSlideoverSidebar,
     openSlideoverSidebar,
@@ -73,10 +74,12 @@ const { t } = useI18n();
 const resultStore = useResultStore();
 const ligFilterStore = useLigfinderMainStore();
 const parcelStore = useParcelStore();
+const featureInspectorStore = useFeatureInspectorStore();
 const sidebarID = "ligfinder-sidebar";
 const isTableDataLoading = ref(false);
 
 function applier(): void {
+    featureInspectorStore.dismiss();
     ligFilterStore.applyAllFilters(String(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME)).then(() => {
         resultStore.isFilterApplied = true;
         resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody();
@@ -94,11 +97,13 @@ function applier(): void {
 }
 
 function resetAppliedFilters(): void {
+    featureInspectorStore.dismiss();
     ligFilterStore.resetFilters();
     resultStore.resetResultInfo();
 }
 
 function getTable(): void {
+    featureInspectorStore.dismiss();
     isTableDataLoading.value = true;
     resultStore.fetchAppliedFilterResult().then((response) => {
         resultStore.appliedFilterResult = response;

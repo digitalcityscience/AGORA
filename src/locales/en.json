@@ -285,7 +285,16 @@
 			"datastores": "Datastores",
 			"ligfinder": "LIGFinder filters",
 			"layers": "Layers",
-			"results": "Results table"
+			"results": "Results table",
+			"drawing": "Drawing tools",
+			"featureInspector": "Feature details"
+		},
+		"featureInspector": {
+			"title": "Feature details",
+			"empty": "Click a geometry on the map to inspect its attributes.",
+			"position": "Feature {current} of {total}",
+			"selectFeature": "Selected feature",
+			"zoomToFeature": "Zoom to feature"
 		},
 		"errors":{
 			"pinia":{
@@ -404,6 +413,7 @@
 		"downloadCSV": ".csv"
 	},
 	"drawing": {
+		"openTools": "Drawing tools",
 		"createTitle": "Create",
 		"createSubtitle": "Select a mode and start drawing",
 		"start": "Start Drawing",

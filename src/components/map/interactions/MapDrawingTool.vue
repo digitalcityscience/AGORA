@@ -1,80 +1,132 @@
 <template>
-    <div>
-        <Popover ref="op" :dismissable="false" :close-on-escape="false">
-            <div class="flex flex-col min-w-72">
-                <div class="w-full">
-                    <Card>
-                        <template #title>{{ $t('drawing.createTitle') }}</template>
-                        <template #subtitle>{{ $t('drawing.createSubtitle') }}</template>
-                        <template #content>
-                                <div class="flex justify-between">
-                                    <div v-for="draw in drawTool.drawTypes" :key="draw.name" class="flex align-items-center">
-                                        <RadioButton :disabled="drawTool.drawOnProgress||drawTool.editOnProgress" v-model="drawTool.drawMode" :inputId="draw.name" :value="draw.name" />
-                                        <label :for="draw.name" class="ml-2">{{ draw.mode }}</label>
-                                    </div>
-                                </div>
-                        </template>
-                        <template #footer>
-                            <div class="w-full flex justify-between">
-                                <Button size="small" class="col" @click="drawTool.initDrawMode">
-                                    <span v-if="!(drawTool.drawOnProgress || drawTool.editOnProgress)">{{ $t('drawing.start') }}</span>
-                                    <span v-else>{{ $t('drawing.continue') }}</span>
-                                </Button>
-                                <Button size="small" v-if="(drawTool.drawOnProgress || drawTool.editOnProgress)" :disabled="!(drawTool.drawOnProgress || drawTool.editOnProgress)" @click="drawTool.stopDrawMode">{{ $t('drawing.cancel') }}</Button>
-                            </div>
-                        </template>
-                    </Card>
+    <BaseSlideoverSidebarComponent
+        :id="sidebarID"
+        side="right"
+        :collapsed="true"
+        width-class="w-[min(24rem,34vw)]"
+    >
+        <template #header>
+            <span>{{ $t("drawing.openTools") }}</span>
+        </template>
+
+        <div class="space-y-3">
+            <UCard
+                :ui="{
+                    header: 'p-3',
+                    body: 'p-3',
+                    footer: 'p-3',
+                }"
+            >
+                <template #header>
+                    <h2 class="font-semibold text-highlighted">{{ $t("drawing.createTitle") }}</h2>
+                    <p class="text-sm text-muted">{{ $t("drawing.createSubtitle") }}</p>
+                </template>
+
+                <URadioGroup
+                    v-model="drawTool.drawMode"
+                    :items="drawModeItems"
+                    value-key="value"
+                    orientation="horizontal"
+                    variant="card"
+                    size="sm"
+                    :disabled="drawTool.drawOnProgress || drawTool.editOnProgress"
+                    :ui="{
+                        fieldset: 'flex-wrap',
+                        item: 'min-w-20 flex-1 p-2',
+                    }"
+                />
+
+                <template #footer>
+                    <div class="grid grid-cols-2 gap-2">
+                        <UButton
+                            block
+                            :label="$t(drawTool.drawOnProgress || drawTool.editOnProgress ? 'drawing.continue' : 'drawing.start')"
+                            @click="drawTool.initDrawMode"
+                        />
+                        <UButton
+                            block
+                            color="neutral"
+                            variant="soft"
+                            :label="$t('drawing.cancel')"
+                            :disabled="!drawTool.drawOnProgress && !drawTool.editOnProgress"
+                            @click="drawTool.stopDrawMode"
+                        />
+                    </div>
+                </template>
+            </UCard>
+
+            <UCard
+                :ui="{
+                    header: 'p-3',
+                    body: 'p-3',
+                }"
+            >
+                <template #header>
+                    <h2 class="font-semibold text-highlighted">{{ $t("drawing.editTitle") }}</h2>
+                    <p class="text-sm text-muted">{{ $t("drawing.editSubtitle") }}</p>
+                </template>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <UButton
+                        block
+                        color="neutral"
+                        variant="soft"
+                        :label="$t('drawing.editButton')"
+                        :disabled="!drawTool.drawOnProgress"
+                        @click="drawTool.editMode"
+                    />
+                    <UButton
+                        block
+                        color="error"
+                        variant="soft"
+                        :label="$t('drawing.deleteSelected')"
+                        :disabled="!drawTool.editOnProgress"
+                        @click="drawTool.deleteSelectedFeatures"
+                    />
                 </div>
-                <div class="w-full pt-1">
-                    <Card>
-                        <template #title>{{ $t('drawing.editTitle') }}</template>
-                        <template #subtitle>{{ $t('drawing.editSubtitle') }}</template>
-                        <template #content>
-                            <Button size="small" :disabled="!drawTool.drawOnProgress" @click="drawTool.editMode">{{ $t('drawing.editButton') }}</Button>
-                            <Button size="small" :disabled="!drawTool.editOnProgress" @click="drawTool.deleteSelectedFeatures" class="ml-2">{{ $t('drawing.deleteSelected') }}</Button>
-                        </template>
-                    </Card>
-                </div>
-                <div class="w-full pt-1">
-                    <Card v-if="drawTool.drawOnProgress || drawTool.editOnProgress">
-                        <template #title>{{ $t('drawing.saveTitle') }}</template>
-                        <template #subtitle>{{ $t('drawing.saveSubtitle') }}</template>
-                        <template #content>
-                            <InputText v-model="drawTool.layerName" :placeholder="$t('drawing.layerNamePlaceholder')"></InputText>
-                        </template>
-                        <template #footer>
-                            <Button size="small" @click="drawTool.saveAsLayer" :disabled="drawTool.layerName.length === 0">{{ $t('drawing.addLayer') }}</Button>
-                        </template>
-                    </Card>
-                </div>
-            </div>
-        </Popover>
-    </div>
+            </UCard>
+
+            <UCard
+                v-if="drawTool.drawOnProgress || drawTool.editOnProgress"
+                :ui="{
+                    header: 'p-3',
+                    body: 'p-3',
+                    footer: 'p-3',
+                }"
+            >
+                <template #header>
+                    <h2 class="font-semibold text-highlighted">{{ $t("drawing.saveTitle") }}</h2>
+                    <p class="text-sm text-muted">{{ $t("drawing.saveSubtitle") }}</p>
+                </template>
+
+                <UInput
+                    v-model="drawTool.layerName"
+                    class="w-full"
+                    :placeholder="$t('drawing.layerNamePlaceholder')"
+                />
+
+                <template #footer>
+                    <UButton
+                        block
+                        :label="$t('drawing.addLayer')"
+                        :disabled="drawTool.layerName.trim().length === 0"
+                        @click="drawTool.saveAsLayer"
+                    />
+                </template>
+            </UCard>
+        </div>
+    </BaseSlideoverSidebarComponent>
 </template>
 
 <script setup lang="ts">
-import Card from "primevue/card";
-import RadioButton from "primevue/radiobutton";
-import Popover from "primevue/popover";
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import { ref } from "vue";
+import { computed } from "vue";
 import { useDrawStore } from "../../../store/maplibre/draw";
-import { useMapStore } from "../../../store/maplibre/map";
-import { DrawControl } from "../../../core/helpers/drawControl";
-const mapStore = useMapStore()
-const drawTool = useDrawStore()
-// Overlay Panel operations
-const op = ref()
-function toggle(event: Event): void {
-    op.value.toggle(event)
-}
+import BaseSlideoverSidebarComponent from "../../base/BaseSlideoverSidebarComponent.vue";
 
-// Terradraw operations
-const drawControl = new DrawControl(toggle)
-if (mapStore.map !== null || mapStore.map !== undefined) {
-    mapStore.map.addControl(drawControl, "top-right")
-}
+const sidebarID = "map-drawing-tools";
+const drawTool = useDrawStore();
+const drawModeItems = computed(() => drawTool.drawTypes.map(draw => ({
+    label: draw.mode,
+    value: draw.name,
+})));
 </script>
-
-<style scoped></style>
