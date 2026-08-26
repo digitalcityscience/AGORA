@@ -17,6 +17,7 @@
 	"datastore": {
 		"notFound":"No workspace found",
 		"layer": {
+			"loadError": "Failed to load workspace layers",
 			"keywords":"Keywords",
 			"datatype":"Type",
 			"add":"Add to map",

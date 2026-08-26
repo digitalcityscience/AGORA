@@ -17,6 +17,7 @@
   "datastore": {
     "notFound": "Kein workspace verfügbar",
     "layer": {
+      "loadError": "Workspace-Layer konnten nicht geladen werden",
       "keywords": "Schlüsselwörter",
       "datatype": "Typ",
       "add": "Zur Karte hinzufügen",

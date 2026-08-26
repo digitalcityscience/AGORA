@@ -1,6 +1,22 @@
 <template>
-    <div class="workspace-detail">
-        <WorkspaceLayerListing :list="layerList" :workspaceName="props.workspace.name"></WorkspaceLayerListing>
+    <div class="workspace-detail space-y-3 pt-1">
+        <div v-if="isLoading" class="space-y-2">
+            <USkeleton class="h-24 w-full rounded-md" />
+            <USkeleton class="h-24 w-full rounded-md" />
+        </div>
+        <UAlert
+            v-else-if="loadError"
+            class="w-full"
+            color="error"
+            variant="soft"
+            icon="i-lucide-circle-alert"
+            :description="$t('datastore.layer.loadError')"
+        />
+        <WorkspaceLayerListing
+            v-else
+            :list="layerList"
+            :workspace-name="props.workspace.name"
+        />
     </div>
 </template>
 
@@ -16,9 +32,16 @@ export interface Props {
 }
 const props = defineProps<Props>()
 const layerList = ref<GeoserverLayerListItem[]>()
+const isLoading = ref(true)
+const loadError = ref(false)
 onMounted(() => {
     geoserver.getLayerList(props.workspace.name).then((response) => {
-        layerList.value = response.layers.layer
-    }).catch(err => { console.log(err) })
+        layerList.value = response.layers.layer ?? []
+    }).catch((err) => {
+        console.error(err)
+        loadError.value = true
+    }).finally(() => {
+        isLoading.value = false
+    })
 })
 </script>
