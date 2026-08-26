@@ -1,45 +1,98 @@
 <template>
-    <div class="py-1">
+    <div class="py-1 space-y-3">
         <div class="py-1">
-            <label for="start-date">{{ $t('geoparsing.parliament.startDate') }}:</label>
-            <DatePicker id="start-date" v-model="startDate" :min-date="minDate" :max-date="new Date()" dateFormat="dd/mm/yy" showIcon fluid iconDisplay="input"/>
-        </div>
-        <div class="py-1">
-            <label for="end-date">{{ $t('geoparsing.parliament.endDate') }}:</label>
-            <DatePicker id="end-date" v-model="endDate" :max-date="maxDate" dateFormat="dd/mm/yy" showIcon fluid iconDisplay="input"/>
-        </div>
-        <div class="py-1">
-            <label for="topic-list">{{ $t('geoparsing.parliament.topicsLabel') }}:</label>
-            <Listbox id="topic-list" v-model="selectedTopics" :options="topics" optionLabel="name" multiple listStyle="max-height:150px">
-                <template #option="slotProps">
-                    <div class="flex items-center">
-                        <div>{{ $t(`geoparsing.parliament.topics.${slotProps.option.name}`) }}</div>
-                    </div>
+            <label for="start-date" class="block text-sm mb-1">{{ $t('geoparsing.parliament.startDate') }}:</label>
+            <UPopover :ui="{ content: 'z-[80]' }">
+                <UButton id="start-date" color="neutral" variant="outline" icon="i-lucide-calendar" block>
+                    {{ startDate ? formatDate(startDate) : $t('geoparsing.parliament.startDate') }}
+                </UButton>
+                <template #content>
+                    <UCalendar
+                        :model-value="startDateValue"
+                        :min-value="minDateValue"
+                        :max-value="todayValue"
+                        @update:model-value="(value) => startDate = value ? calendarDateToJsDate(value as DateValue) : null"
+                    />
                 </template>
-            </Listbox>
+            </UPopover>
+        </div>
+        <div class="py-1">
+            <label for="end-date" class="block text-sm mb-1">{{ $t('geoparsing.parliament.endDate') }}:</label>
+            <UPopover :ui="{ content: 'z-[80]' }">
+                <UButton id="end-date" color="neutral" variant="outline" icon="i-lucide-calendar" block>
+                    {{ endDate ? formatDate(endDate) : $t('geoparsing.parliament.endDate') }}
+                </UButton>
+                <template #content>
+                    <UCalendar
+                        :model-value="endDateValue"
+                        :max-value="maxDateValue"
+                        @update:model-value="(value) => endDate = value ? calendarDateToJsDate(value as DateValue) : null"
+                    />
+                </template>
+            </UPopover>
+        </div>
+        <div class="py-1">
+            <label for="topic-list" class="block text-sm mb-1">{{ $t('geoparsing.parliament.topicsLabel') }}:</label>
+            <USelectMenu
+                id="topic-list"
+                v-model="selectedTopicNames"
+                :items="topicItems"
+                value-key="value"
+                multiple
+                class="w-full"
+                :ui="{ content: 'z-[80] max-h-[150px] overflow-y-auto' }"
+            />
         </div>
         <div class="filter-control">
-                <div class="relation-control w-full flex flex-row ml-auto py-2 justify-between">
+                <div class="relation-control w-full flex flex-row ml-auto py-2 justify-between items-center">
                     <span class="self-center" v-if="relationType==='AND'">{{ $t("mapLayers.attributeFiltering.matchAll") }}</span>
                     <span class="self-center" v-else>{{ $t("mapLayers.attributeFiltering.matchAny") }}</span>
-                    <SelectButton v-model="relationType" :options="relationList" :allow-empty="false"></SelectButton>
+                    <UFieldGroup>
+                        <UButton
+                            :color="relationType==='AND' ? 'primary' : 'neutral'"
+                            :variant="relationType==='AND' ? 'solid' : 'outline'"
+                            size="sm"
+                            @click="relationType = 'AND'"
+                        >
+                            {{ $t("helpers.logical.and") }}
+                        </UButton>
+                        <UButton
+                            :color="relationType==='OR' ? 'primary' : 'neutral'"
+                            :variant="relationType==='OR' ? 'solid' : 'outline'"
+                            size="sm"
+                            @click="relationType = 'OR'"
+                        >
+                            {{ $t("helpers.logical.or") }}
+                        </UButton>
+                    </UFieldGroup>
                 </div>
             </div>
         <div class="py-1 w-full flex justify-between">
-            <Button size="small" @click="applyFilters">{{ $t('geoparsing.parliament.applyFilters') }}</Button>
-            <Button size="small" @click="clearFilters">{{ $t('geoparsing.parliament.clearFilters') }}</Button>
+            <UButton size="sm" @click="applyFilters">{{ $t('geoparsing.parliament.applyFilters') }}</UButton>
+            <UButton size="sm" color="neutral" variant="outline" @click="clearFilters">{{ $t('geoparsing.parliament.clearFilters') }}</UButton>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import DatePicker from "primevue/datepicker";
-import Listbox from "primevue/listbox";
-import Button from "primevue/button";
-import SelectButton from "primevue/selectbutton";
+import { type DateValue, fromDate, getLocalTimeZone, toCalendarDate, today } from "@internationalized/date";
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useMapStore, type LayerObjectWithAttributes } from "../../store/maplibre/map";
 import { type RelationTypes } from "../../store/maplibre/filter";
+
+const { t } = useI18n();
+const timeZone = getLocalTimeZone();
+
+function jsDateToCalendarDate(date: Date): DateValue {
+    return toCalendarDate(fromDate(date, timeZone));
+}
+function calendarDateToJsDate(value: DateValue): Date {
+    return value.toDate(timeZone);
+}
+function formatDate(date: Date): string {
+    return date.toLocaleDateString("de-DE");
+}
 
 export interface Props {
     layer: LayerObjectWithAttributes
@@ -75,60 +128,42 @@ const maxDate = computed(() => {
     }
     return dateArray.value[dateArray.value.length - 1]
 })
-const selectedTopics = ref<Topic[]>([
-    { name: "info_table_pdfs_baugb", value: "info_table_pdfs_baugb" },
-    { name: "info_table_pdfs_hafenbahn", value: "info_table_pdfs_hafenbahn" },
-    { name: "info_table_pdfs_hauptbahnhof", value: "info_table_pdfs_hauptbahnhof" },
-    { name: "info_table_pdfs_reeperbahn", value: "info_table_pdfs_reeperbahn" },
-    { name: "info_table_pdfs_stadtentwicklung", value: "info_table_pdfs_stadtentwicklung" },
-    { name: "info_table_pdfs_baulandmobilisierung", value: "info_table_pdfs_baulandmobilisierung" },
-    { name: "info_table_pdfs_busbeschleunigungsprogramm", value: "info_table_pdfs_busbeschleunigungsprogramm" },
-    { name: "info_table_pdfs_entwicklungsplan", value: "info_table_pdfs_entwicklungsplan" },
-    { name: "info_table_pdfs_finanzbehörde", value: "info_table_pdfs_finanzbehörde" },
-    { name: "info_table_pdfs_erbbaurechts", value: "info_table_pdfs_erbbaurechts" },
-    { name: "info_table_pdfs_fernwärme", value: "info_table_pdfs_fernwärme" },
-    { name: "info_table_pdfs_hochwasser", value: "info_table_pdfs_hochwasser" },
-    { name: "info_table_pdfs_immobilien", value: "info_table_pdfs_immobilien" },
-    { name: "info_table_pdfs_denkmalschutz", value: "info_table_pdfs_denkmalschutz" },
-    { name: "info_table_pdfs_bildung", value: "info_table_pdfs_bildung" },
-    { name: "info_table_pdfs_verkehr", value: "info_table_pdfs_verkehr" },
-    { name: "info_table_pdfs_stadtgrün", value: "info_table_pdfs_stadtgrün" },
-    { name: "info_table_pdfs_wohnungsbau", value: "info_table_pdfs_wohnungsbau" },
-    { name: "info_table_pdfs_erholung", value: "info_table_pdfs_erholung" },
-    { name: "info_table_pdfs_grundvermögen", value: "info_table_pdfs_grundvermögen" },
-    { name: "info_table_pdfs_vorkaufsrecht", value: "info_table_pdfs_vorkaufsrecht" },
-    { name: "hafenentwicklungsgesetz", value: "hafenentwicklungsgesetz" }
-])
-interface Topic {
-    name: string;
-    value: string;
-}
-const topics = [
-    { name: "info_table_pdfs_baugb", value: "info_table_pdfs_baugb" },
-    { name: "info_table_pdfs_hafenbahn", value: "info_table_pdfs_hafenbahn" },
-    { name: "info_table_pdfs_hauptbahnhof", value: "info_table_pdfs_hauptbahnhof" },
-    { name: "info_table_pdfs_reeperbahn", value: "info_table_pdfs_reeperbahn" },
-    { name: "info_table_pdfs_stadtentwicklung", value: "info_table_pdfs_stadtentwicklung" },
-    { name: "info_table_pdfs_baulandmobilisierung", value: "info_table_pdfs_baulandmobilisierung" },
-    { name: "info_table_pdfs_busbeschleunigungsprogramm", value: "info_table_pdfs_busbeschleunigungsprogramm" },
-    { name: "info_table_pdfs_entwicklungsplan", value: "info_table_pdfs_entwicklungsplan" },
-    { name: "info_table_pdfs_finanzbehörde", value: "info_table_pdfs_finanzbehörde" },
-    { name: "info_table_pdfs_erbbaurechts", value: "info_table_pdfs_erbbaurechts" },
-    { name: "info_table_pdfs_fernwärme", value: "info_table_pdfs_fernwärme" },
-    { name: "info_table_pdfs_hochwasser", value: "info_table_pdfs_hochwasser" },
-    { name: "info_table_pdfs_immobilien", value: "info_table_pdfs_immobilien" },
-    { name: "info_table_pdfs_denkmalschutz", value: "info_table_pdfs_denkmalschutz" },
-    { name: "info_table_pdfs_bildung", value: "info_table_pdfs_bildung" },
-    { name: "info_table_pdfs_verkehr", value: "info_table_pdfs_verkehr" },
-    { name: "info_table_pdfs_stadtgrün", value: "info_table_pdfs_stadtgrün" },
-    { name: "info_table_pdfs_wohnungsbau", value: "info_table_pdfs_wohnungsbau" },
-    { name: "info_table_pdfs_erholung", value: "info_table_pdfs_erholung" },
-    { name: "info_table_pdfs_grundvermögen", value: "info_table_pdfs_grundvermögen" },
-    { name: "info_table_pdfs_vorkaufsrecht", value: "info_table_pdfs_vorkaufsrecht" },
-    { name: "hafenentwicklungsgesetz", value: "hafenentwicklungsgesetz" }
-]
+const startDateValue = computed(() => startDate.value !== null ? jsDateToCalendarDate(startDate.value) : undefined)
+const endDateValue = computed(() => endDate.value !== null ? jsDateToCalendarDate(endDate.value) : undefined)
+const minDateValue = computed(() => minDate.value !== null ? jsDateToCalendarDate(minDate.value as Date) : undefined)
+const maxDateValue = computed(() => maxDate.value !== null ? jsDateToCalendarDate(maxDate.value as Date) : undefined)
+const todayValue = today(timeZone)
 
-const relationList = ["AND", "OR"]
+const topicNames = [
+    "info_table_pdfs_baugb",
+    "info_table_pdfs_hafenbahn",
+    "info_table_pdfs_hauptbahnhof",
+    "info_table_pdfs_reeperbahn",
+    "info_table_pdfs_stadtentwicklung",
+    "info_table_pdfs_baulandmobilisierung",
+    "info_table_pdfs_busbeschleunigungsprogramm",
+    "info_table_pdfs_entwicklungsplan",
+    "info_table_pdfs_finanzbehörde",
+    "info_table_pdfs_erbbaurechts",
+    "info_table_pdfs_fernwärme",
+    "info_table_pdfs_hochwasser",
+    "info_table_pdfs_immobilien",
+    "info_table_pdfs_denkmalschutz",
+    "info_table_pdfs_bildung",
+    "info_table_pdfs_verkehr",
+    "info_table_pdfs_stadtgrün",
+    "info_table_pdfs_wohnungsbau",
+    "info_table_pdfs_erholung",
+    "info_table_pdfs_grundvermögen",
+    "info_table_pdfs_vorkaufsrecht",
+    "hafenentwicklungsgesetz"
+]
+const topicItems = computed(() => topicNames.map((name) => ({
+    label: t(`geoparsing.parliament.topics.${name}`),
+    value: name
+})))
+const selectedTopicNames = ref<string[]>([...topicNames])
+
 const relationType = ref<RelationTypes>("OR")
 function applyFilters(): void {
     const features = props.layer.filterLayerData!.features;
@@ -147,11 +182,11 @@ function applyFilters(): void {
 
         // Topic filtering logic
         const topicMatches = relationType.value === "OR"
-            ? selectedTopics.value.some((topic) => {
-                return feature.properties![topic.value] === true;
+            ? selectedTopicNames.value.some((name) => {
+                return feature.properties![name] === true;
             })
-            : selectedTopics.value.every((topic) => {
-                return feature.properties![topic.value] === true;
+            : selectedTopicNames.value.every((name) => {
+                return feature.properties![name] === true;
             });
 
         return dateInRange && topicMatches;
@@ -164,7 +199,7 @@ function applyFilters(): void {
 }
 function clearFilters(): void{
     mapStore.map.getSource(props.layer.id)?.setData(props.layer.filterLayerData)
-    selectedTopics.value = topics
+    selectedTopicNames.value = [...topicNames]
     relationType.value = "OR"
     startDate.value = null
     endDate.value = null
