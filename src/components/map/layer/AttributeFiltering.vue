@@ -117,7 +117,7 @@
 
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import { useToast } from "primevue/usetoast"
+import { useToast } from "../../../core/helpers/toast"
 import { computed, ref } from "vue";
 import { type GeoServerFeatureTypeAttribute } from "../../../store/api/geoserver";
 import { type IntegerFilters, type StringFilters, useFilterStore, type RelationTypes, type AttributeFilterItem } from "../../../store/maplibre/filter";

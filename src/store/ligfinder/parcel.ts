@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
-import { useToast } from "primevue/usetoast";
+import { useToast } from "../../core/helpers/toast";
 import { useResultStore, type ResultTableAPIRequestBody } from "./result";
 import { ref } from "vue";
 import { type FeatureCollection } from "geojson";

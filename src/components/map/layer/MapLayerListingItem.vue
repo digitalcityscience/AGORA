@@ -137,7 +137,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref } from "vue";
 import { type LayerObjectWithAttributes, type MapLibreLayerTypes, useMapStore } from "../../../store/maplibre/map"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "../../../core/helpers/toast"
 import { isNullOrEmpty } from "../../../core/helpers/functions";
 import ParliamentDBFilter from "../../geoparsing/ParliamentDBFilter.vue";
 import ElbewochenblattDBFilter from "../../geoparsing/ElbewochenblattDBFilter.vue";
