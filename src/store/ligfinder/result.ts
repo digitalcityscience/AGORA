@@ -5,7 +5,7 @@ import { type FeatureCollection } from "geojson"
 import { useLigfinderMainStore } from "./main"
 import { useMapStore } from "../maplibre/map"
 import { type GeoServerFeatureTypeAttribute } from "../api/geoserver"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@nuxt/ui/composables"
 import { useCriteriaStore, type AppliedCriteria } from "./criteria"
 import { useGrzStore } from "./grz"
 import { useI18n } from "vue-i18n"
@@ -86,11 +86,11 @@ export const useResultStore = defineStore("result", () => {
      */
     function saveAsLayer(layerName: string): void {
         if (appliedFilterResult.value === undefined){
-            toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.noFilter"), life: 3000 });
+            showError(t("ligfinder.table.messages.noFilter"));
             return
         }
         if (appliedFilterResult.value.features.length === 0){
-            toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.noResults"), life: 3000 });
+            showError(t("ligfinder.table.messages.noResults"));
             return
         }
         const isOnMap = mapStore.layersOnMap.filter((layer) => layer.id === layerName).length > 0
@@ -116,14 +116,22 @@ export const useResultStore = defineStore("result", () => {
                     .then(() => {
                     }).catch(error => {
                         mapStore.map.value.removeSource(layerName)
-                        toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
+                        showError(error);
                     })
             }).catch((error) => {
-                toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
+                showError(error);
             })
         } else {
-            toast.add({ severity: "error", summary: "Error", detail: t("ligfinder.table.messages.layerNameInUse"), life: 3000 });
+            showError(t("ligfinder.table.messages.layerNameInUse"));
         }
+    }
+    function showError(error: unknown): void {
+        toast.add({
+            title: t("common.error"),
+            description: error instanceof Error ? error.message : String(error),
+            color: "error",
+            duration: 3000,
+        })
     }
     const tableHeaders: TableHeader[] =[
         { text: "Flurstücknummer", value: "flurst_nr" },
