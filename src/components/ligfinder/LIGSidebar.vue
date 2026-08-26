@@ -3,12 +3,12 @@
 		:id="sidebarID"
 		side="left"
 		:collapsed="false"
-		width-class="w-[min(33rem,calc(100vw-5rem))]"
+		width-class="w-[min(33rem,34vw)]"
 	>
 		<template #header>
 				<span>{{ $t('ligfinder.title') }}</span>
 		</template>
-		<div class="w-full">
+		<div class="ligfinder-content min-w-0 w-full">
 			<div class="pb-1">
 				<LIGParcelSyleSelection></LIGParcelSyleSelection>
 			</div>
@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<template #footer>
-			<div class="apply-filter w-full flex justify-around py-2">
+			<div class="apply-filter flex w-full flex-wrap justify-center gap-2 py-2">
 				<Button @click="applier">
 					<span v-if="ligFilterStore.isFilterApplying" class="pi pi-spinner animate-spin mr-1"></span>
 					{{ $t('ligfinder.filter.apply') }}</Button>
@@ -99,6 +99,22 @@ function getTable(): void {
     });
 }
 </script>
+
+<style scoped>
+.ligfinder-content :deep(.p-panel),
+.ligfinder-content :deep(.p-panel-content-container),
+.ligfinder-content :deep(.p-panel-content-wrapper),
+.ligfinder-content :deep(.p-panel-content) {
+	min-width: 0;
+	max-width: 100%;
+}
+
+.ligfinder-content :deep(.p-panel-content-wrapper),
+.ligfinder-content :deep(.p-panel-content) {
+	width: 100%;
+	box-sizing: border-box;
+}
+</style>
 
 <style scoped>
 </style>

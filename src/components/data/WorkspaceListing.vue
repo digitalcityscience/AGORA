@@ -3,7 +3,7 @@
             <template #header>
                 <span>{{ $t('map.sideFrame.datastores') }}</span>
             </template>
-            <div class="w-full p-3">
+            <div class="w-full">
                 <UAccordion
                     v-if="workspaceAccordionItems.length > 0"
                     :items="workspaceAccordionItems"

@@ -46,7 +46,7 @@
                 :description="$t('mapLayers.attributeFiltering.noFilter')"
             />
         </div>
-        <div v-if="currentFilters.length" class="flex w-full items-center justify-between gap-2 py-2">
+        <div v-if="currentFilters.length" class="flex w-full flex-wrap items-center justify-between gap-2 py-2">
             <span class="text-sm text-muted">
                 {{ relationType === 'AND' ? $t("mapLayers.attributeFiltering.matchAll") : $t("mapLayers.attributeFiltering.matchAny") }}
             </span>
