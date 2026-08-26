@@ -7,7 +7,7 @@
 		<template #header>
 			<span class="font-bold">{{ $t('ligfinder.filter.criteria.title')}}</span>
 		</template>
-		<div>
+		<div class="min-w-0 w-full">
 			<div class="used-criteria" v-if="criteria.criteriaInUse.length > 0">
 				<div class="included py-1">
 					<div class="text-surface-700 dark:text-surface-0 font-bold w-full flex">
@@ -37,19 +37,19 @@
 			<div class="no-criteria py-1" v-else>
 				<Message severity="info">{{ $t('ligfinder.filter.criteria.none')}}</Message>
 			</div>
-			<Tree :value="domains.data" :filter="true" filterMode="strict" class="w-full md:w-30rem" :pt="{nodeLabel:'w-full'}">
+			<Tree :value="domains.data" :filter="true" filterMode="strict" class="min-w-0 w-full" :pt="{nodeLabel:'min-w-0 w-full'}">
 			<template #default="slotProps">
-				<div class="w-full flex justify-between">
-					<div class="text flex flex-col justify-center">
-						<span class="label">{{ slotProps.node.label }}</span>
+				<div class="flex min-w-0 w-full justify-between gap-2">
+					<div class="text flex min-w-0 flex-1 flex-col justify-center">
+						<span class="label break-words">{{ slotProps.node.label }}</span>
 					</div>
-					<div v-if="!(slotProps.node.children && Object.prototype.hasOwnProperty.call(slotProps.node,'nutzungvalue'))">
+					<div v-if="!(slotProps.node.children && Object.prototype.hasOwnProperty.call(slotProps.node,'nutzungvalue'))" class="shrink-0">
 						<div class="actions min-w-24">
 							<Button icon="pi pi-search-plus" @click="addToAppliedCriteria(slotProps.node,'included')" text rounded aria-label="Include"></Button>
 							<Button icon="pi pi-search-minus" @click="addToAppliedCriteria(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
 						</div>
 					</div>
-					<div v-else>
+					<div v-else class="shrink-0">
 						<div class="actions min-w-24">
 							<Button icon="pi pi-search-plus" @click="addAllChildren(slotProps.node,'included')" text rounded aria-label="Include"></Button>
 							<Button icon="pi pi-search-minus" @click="addAllChildren(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>

@@ -3,7 +3,7 @@
 		:id="sidebarID"
 		side="right"
 		:collapsed="true"
-		width-class="w-[min(50rem,calc(100vw-5rem))]"
+		width-class="w-[min(50rem,44vw)]"
 	>
 		<template #header>
 			<span>{{ $t('ligfinder.table.title') }}</span>
@@ -12,10 +12,10 @@
 			<template #content>
 				<Dialog v-model:visible="isFullScreen" modal closable close-on-escape
 					:style="{ width: 'calc(100vw - 200px)' }">
-					<div class="w-full">
+					<div class="min-w-0 w-full">
 						<div v-if="resultStore.isFilterApplied">
 							<div v-if="resultStore.appliedFilterResult !== undefined">
-								<div v-if="filterResultTableItems.length > 0">
+								<div v-if="filterResultTableItems.length > 0" class="w-full overflow-x-auto">
 									<DataTable :value="filterResultTableItems" paginator :rows="10"
 										:rowsPerPageOptions="[10, 20, 50]" class="w-full" size="small"
 										table-class="w-full"
@@ -118,10 +118,10 @@
 						</div>
 					</div>
 				</Dialog>
-				<div class="w-full">
+				<div class="min-w-0 w-full">
 					<div v-if="resultStore.isFilterApplied">
 						<div v-if="resultStore.appliedFilterResult !== undefined">
-							<div v-if="filterResultTableItems.length > 0">
+							<div v-if="filterResultTableItems.length > 0" class="w-full overflow-x-auto">
 								<DataTable :value="filterResultTableItems" paginator :rows="10" stripedRows
 									:rowsPerPageOptions="[10, 20, 50]" class="w-full" size="small" table-class="w-full"
 									paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink NextPageLink LastPageLink"
@@ -238,32 +238,30 @@
 				</div>
 			</template>
 			<template #footer>
-				<div class="w-full 2xl:grid 2xl:grid-cols-2"
+				<div class="result-footer-grid w-full"
 					v-if="resultStore.isFilterApplied && resultStore.appliedFilterResult && resultStore.appliedFilterResult?.features.length > 0">
-					<div
-						class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
-						<div class="w-full flex flex-row-reverse lg:col-span-2">
-							<InputText class="h-full" type="text" v-model="layerName"
+					<div class="flex min-w-0 flex-wrap gap-2 p-1">
+						<div class="min-w-48 flex-1">
+							<InputText class="h-full w-full" type="text" v-model="layerName"
 								:placeholder="$t('ligfinder.table.layerName')"></InputText>
 						</div>
-						<div class="w-full flex lg:col-span-2">
-							<Button @click="addAsLayer" :disabled="layerName.length === 0" class="2xl:ml-3 lg:w-full 2xl:w-auto"
+						<div class="flex min-w-0 flex-1">
+							<Button @click="addAsLayer" :disabled="layerName.length === 0" class="w-full"
 								size="small">{{ $t('ligfinder.table.add') }}</Button>
 						</div>
 					</div>
-					<div
-						class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
-						<div class="w-full flex flex-row-reverse lg:col-span-2">
-							<InputGroup>
-								<InputText class="h-full rounded-l-lg" type="text" v-model="fileName"
+					<div class="flex min-w-0 flex-wrap gap-2 p-1">
+						<div class="min-w-64 flex-1">
+							<InputGroup class="w-full">
+								<InputText class="h-full min-w-0 flex-1 rounded-l-lg" type="text" v-model="fileName"
 									:placeholder="$t('ligfinder.table.fileName')"></InputText>
 								<InputGroupAddon>
 									<ToggleButton unstyled v-model="format" :offLabel="$t('ligfinder.table.downloadGeoJSON')" :onLabel="$t('ligfinder.table.downloadCSV')" class="rounded-l-none"/>
 								</InputGroupAddon>
 							</InputGroup>
 						</div>
-						<div class="w-full flex lg:col-span-2">
-							<Button :disabled="fileName.length === 0" class="ml-3" @click="format ? downloadCSVFromGeoJSON(resultStore.appliedFilterResult,fileName):downloadAsGeojson()">{{$t('ligfinder.table.download')}}</Button>
+						<div class="flex min-w-0 flex-1">
+							<Button :disabled="fileName.length === 0" class="w-full" @click="format ? downloadCSVFromGeoJSON(resultStore.appliedFilterResult,fileName):downloadAsGeojson()">{{$t('ligfinder.table.download')}}</Button>
 						</div>
 
 					</div>
@@ -424,6 +422,11 @@ const isFullScreen = ref<boolean>(false)
 </script>
 
 <style scoped>
+.result-footer-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: 0.5rem;
+}
 td>button{
 	padding: 0;
 }

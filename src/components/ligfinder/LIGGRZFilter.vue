@@ -7,19 +7,19 @@
 		<template #header>
 			<span class="font-bold">{{ $t('ligfinder.filter.grz.title')}}</span>
 		</template>
-		<div class="metric-filter">
-			<div class="filter-section">
+		<div class="metric-filter min-w-0">
+			<div class="filter-section min-w-0">
                 <div class="attribute w-full py-1"  v-for="(filter, key) in grz.grzFilters" :key="key">
                     <!-- Dynamically display filter name with some formatting -->
                     <p class="font-bold normal-case">{{$t(`ligfinder.filter.grz.labels.${key}`)}}</p>
-                    <div class="range-input flex flex-start">
-						<div class="input-group flex flex-col font-light text-xs italic">
+                    <div class="range-input flex min-w-0 gap-2">
+						<div class="input-group flex min-w-0 flex-1 flex-col font-light text-xs italic">
 							<label :for="`${key}-min`" class="pl-1">Min</label>
-							<InputNumber :inputId="`${key}-min`" v-model="filter.min" @update:model-value="() => validateAndSet(filter, key)" :min="0" :max="grz.isRatioFilter(key)?0.99: undefined" :minFractionDigits="grz.isRatioFilter(key)?2:undefined"></InputNumber>
+							<InputNumber class="w-full" input-class="w-full min-w-0" :inputId="`${key}-min`" v-model="filter.min" @update:model-value="() => validateAndSet(filter, key)" :min="0" :max="grz.isRatioFilter(key)?0.99: undefined" :minFractionDigits="grz.isRatioFilter(key)?2:undefined"></InputNumber>
 						</div>
-						<div class="input-group flex flex-col font-light text-xs italic pl-2">
+						<div class="input-group flex min-w-0 flex-1 flex-col font-light text-xs italic">
 							<label :for="`${key}-max`" class="pl-1">Max</label>
-							<InputNumber :inputId="`${key}-max`" v-model="filter.max" @update:model-value="() => validateAndSet(filter, key)" :min="0" :max="grz.isRatioFilter(key)?1: undefined" :minFractionDigits="grz.isRatioFilter(key)?2:undefined"></InputNumber>
+							<InputNumber class="w-full" input-class="w-full min-w-0" :inputId="`${key}-max`" v-model="filter.max" @update:model-value="() => validateAndSet(filter, key)" :min="0" :max="grz.isRatioFilter(key)?1: undefined" :minFractionDigits="grz.isRatioFilter(key)?2:undefined"></InputNumber>
 						</div>
                     </div>
                 </div>

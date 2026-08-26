@@ -33,7 +33,7 @@
                         @click="collapse"
                     />
                 </header>
-                <main class="min-h-0 flex-1 overflow-y-auto px-3 py-2">
+                <main class="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto px-3 py-2">
                     <slot />
                 </main>
                 <footer v-if="$slots.footer" class="min-h-8 border-t border-muted px-3 py-1.5">
@@ -64,7 +64,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     side: "right",
     collapsed: true,
-    widthClass: "w-[min(24rem,calc(100vw-5rem))]",
+    widthClass: "w-[min(24rem,40vw)]",
 })
 const emit = defineEmits<{
     afterOpen: []
