@@ -1,9 +1,12 @@
 <template>
-	<SidebarLayout :id="sidebarID" position="right" classes="lg:w-1/2 2xl:w-1/2 3xl:w-1/2" width="50vw">
+	<BaseSlideoverSidebarComponent
+		:id="sidebarID"
+		side="right"
+		:collapsed="true"
+		width-class="w-[min(50rem,calc(100vw-5rem))]"
+	>
 		<template #header>
-			<div class="h-full flex flex-col justify-center px-1">
-				<p class="font-bold text-xl text-slate-50 align-middle">{{ $t('ligfinder.table.title') }}</p>
-			</div>
+			<span>{{ $t('ligfinder.table.title') }}</span>
 		</template>
 		<Card>
 			<template #content>
@@ -267,7 +270,7 @@
 				</div>
 			</template>
 		</Card>
-	</SidebarLayout>
+	</BaseSlideoverSidebarComponent>
 </template>
 
 <script setup lang="ts">
@@ -281,10 +284,9 @@ import ToggleButton from "primevue/togglebutton";
 import InputGroup from "primevue/inputgroup";
 import InputGroupAddon from "primevue/inputgroupaddon";
 import InputText from "primevue/inputtext";
-import SidebarLayout from "../base/SidebarLayout.vue";
+import BaseSlideoverSidebarComponent from "../base/BaseSlideoverSidebarComponent.vue";
 import { useMapStore } from "../../store/maplibre/map"
 import { useResultStore } from "../../store/ligfinder/result"
-import { SidebarControl } from "../../core/helpers/sidebarControl";
 import { computed, ref } from "vue";
 import { FilterMatchMode } from "@primevue/core/api";
 import { formatNumber, downloadCSVFromGeoJSON } from "../../core/helpers/functions";
@@ -296,10 +298,6 @@ const { t } = useI18n()
 const mapStore = useMapStore()
 const resultStore = useResultStore()
 const sidebarID = "ligfinder-result-table"
-const iconElement = document.createElement("span")
-iconElement.classList.add("material-icons-outlined")
-iconElement.textContent = "table_chart"
-const sidebarControl = new SidebarControl("", sidebarID, document.createElement("div"), iconElement)
 const layerName = ref<string>("")
 const fileName = ref<string>("")
 const filterResultTableItems = computed(() => {
@@ -330,8 +328,6 @@ const tableHeaderColumns = computed(() => {
     return columns
 })
 const format = ref<boolean>(false)
-mapStore.map.addControl(sidebarControl, "top-left")
-
 function addAsLayer(): void {
     const sanitizedLayerName = layerName.value.replace(/[^a-zA-Z0-9-_]/g, "");
     resultStore.saveAsLayer(sanitizedLayerName)

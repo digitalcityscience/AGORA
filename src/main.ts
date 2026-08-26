@@ -3,10 +3,8 @@
 /* eslint "@typescript-eslint/no-unsafe-argument": "off" */
 import { createApp } from "vue"
 import { createPinia } from "pinia"
-import { createI18n } from "vue-i18n"
 import { createRouter, createWebHistory } from "vue-router"
 import ui from "@nuxt/ui/vue-plugin"
-import messages from "@intlify/unplugin-vue-i18n/messages"
 import PrimeVue from "primevue/config"
 import ToastService from "primevue/toastservice"
 import Lara from "@primevue/themes/lara"
@@ -15,23 +13,15 @@ import "./style.css"
 import App from "./App.vue"
 import "@material-design-icons/font";
 import Tooltip from "primevue/tooltip"
+import { i18n } from "./core/i18n"
 
 const pinia = createPinia()
 const router = createRouter({
 	history: createWebHistory(),
-	routes: [],
-})
-
-// Get the browser language
-const browserLanguage = navigator.language.split("-")[0]; // This will extract "en" from "en-US"
-// Set locale based on the browser language
-const locale = browserLanguage === "de" ? "de" : "en";
-
-const i18n = createI18n({
-	legacy:false,
-	missingWarn: false,
-	locale,
-	messages
+	routes: [{
+		path: "/:pathMatch(.*)*",
+		component: { render: () => null },
+	}],
 })
 
 const agoraPresets = definePreset(Lara, {

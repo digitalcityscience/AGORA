@@ -59,6 +59,8 @@
 --surface-800: rgb(30, 41, 59);
 --surface-900: rgb(15, 23, 42);
 --surface-950: rgb(3, 6, 23);
+--agora-app-header-height: 3rem;
+--agora-map-frame-width: 3.75rem;
 }
 
 html, body {

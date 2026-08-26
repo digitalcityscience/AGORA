@@ -8,7 +8,20 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
 export default defineConfig({
   plugins: [
     vue(),
-    ui(),
+    ui({
+      ui: {
+        button: {
+          slots: {
+            base: "cursor-pointer justify-center",
+          },
+        },
+        select: {
+          slots: {
+            content: "z-[80]",
+          },
+        },
+      },
+    }),
     VueI18nPlugin({
       include: [path.resolve(__dirname, "./src/locales/**")],
     }),
