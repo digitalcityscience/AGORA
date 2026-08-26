@@ -1,76 +1,102 @@
 <template>
-    <Card class="w-full">
-        <template #title>{{
-            $t("ligfinder.filter.geometry.drawn.title")
-            }}</template>
-        <template #content>
-            <div class="w-full py-1" v-if="geometry.selectedDrawnGeometry.length > 0">
-                <ChipWrapper v-for="feature in geometry.selectedDrawnGeometry" :key="feature.id"
-                    :label="feature.properties?.name" @remove="removeFromSelectedDrawnGeometries(feature)" removable
-                    severity="secondary" />
-            </div>
-            <div class="w-full grid lg:grid-cols-1 2xl:grid-cols-3">
-                <div class="p-1" v-if="!drawTool.drawOnProgress && !drawTool.editOnProgress">
-                    <Button class="w-full" size="small" @click="startDraw">{{
-                        $t("ligfinder.filter.geometry.drawn.start")
-                        }}</Button>
-                </div>
-                <div class="p-1" v-if="drawTool.drawOnProgress || drawTool.editOnProgress">
-                    <Button class="w-full" size="small"
-                        :disabled="!(drawTool.drawOnProgress || drawTool.editOnProgress)"
-                        @click="drawTool.stopDrawMode">{{ $t("ligfinder.filter.geometry.drawn.cancel") }}</Button>
-                </div>
-                <div class="p-1" v-if="!drawTool.editOnProgress && drawTool.drawOnProgress">
-                    <Button class="w-full" size="small" :disabled="!drawTool.drawOnProgress"
-                        @click="drawTool.editMode">{{ $t("ligfinder.filter.geometry.drawn.edit") }}</Button>
-                </div>
-                <div class="p-1" v-else>
-                    <Button class="w-full" size="small" :disabled="!drawTool.editOnProgress" @click="startDraw">{{
-                        $t("ligfinder.filter.geometry.drawn.continue") }}</Button>
-                </div>
-                <div class="p-1">
-                    <Button class="w-full" size="small" :disabled="drawTool.drawMode !== 'polygon'"
-                        @click="addToDrawnArea">{{ $t("ligfinder.filter.geometry.drawn.add") }}</Button>
-                </div>
-            </div>
+    <UCard
+        class="min-w-0 w-full"
+        variant="subtle"
+        :ui="{ header: 'p-3 pb-2', body: 'min-w-0 p-3 pt-1' }"
+    >
+        <template #header>
+            <div class="text-sm font-semibold text-highlighted">{{ $t("ligfinder.filter.geometry.drawn.title") }}</div>
         </template>
-    </Card>
+        <div class="min-w-0 space-y-2">
+            <div v-if="geometry.selectedDrawnGeometry.length > 0" class="flex min-w-0 flex-wrap gap-1">
+                <ChipWrapper
+                    v-for="feature in geometry.selectedDrawnGeometry"
+                    :key="feature.id"
+                    :label="String(feature.properties?.name ?? '')"
+                    severity="secondary"
+                    removable
+                    @remove="removeFromSelectedDrawnGeometries(feature)"
+                />
+            </div>
+            <div class="draw-actions">
+                <UButton
+                    v-if="!drawTool.drawOnProgress && !drawTool.editOnProgress"
+                    block
+                    size="sm"
+                    :label="$t('ligfinder.filter.geometry.drawn.start')"
+                    @click="startDraw"
+                />
+                <UButton
+                    v-if="drawTool.drawOnProgress || drawTool.editOnProgress"
+                    block
+                    color="neutral"
+                    variant="outline"
+                    size="sm"
+                    :label="$t('ligfinder.filter.geometry.drawn.cancel')"
+                    @click="drawTool.stopDrawMode"
+                />
+                <UButton
+                    v-if="drawTool.drawOnProgress && !drawTool.editOnProgress"
+                    block
+                    color="neutral"
+                    variant="soft"
+                    size="sm"
+                    :label="$t('ligfinder.filter.geometry.drawn.edit')"
+                    @click="drawTool.editMode"
+                />
+                <UButton
+                    v-if="drawTool.editOnProgress"
+                    block
+                    color="neutral"
+                    variant="soft"
+                    size="sm"
+                    :label="$t('ligfinder.filter.geometry.drawn.continue')"
+                    @click="startDraw"
+                />
+                <UButton
+                    block
+                    size="sm"
+                    :disabled="drawTool.drawMode !== 'polygon'"
+                    :label="$t('ligfinder.filter.geometry.drawn.add')"
+                    @click="addToDrawnArea"
+                />
+            </div>
+        </div>
+    </UCard>
 </template>
 
 <script setup lang="ts">
-import Card from "primevue/card";
-import Button from "primevue/button";
+import type { Feature } from "geojson";
 import ChipWrapper from "../base/ChipWrapper.vue";
 import { useDrawStore } from "../../store/maplibre/draw";
 import { useGeometryStore } from "../../store/ligfinder/geometry";
-import { type Feature } from "geojson";
 
 const geometry = useGeometryStore();
 const drawTool = useDrawStore();
 const drawMode = "polygon";
+
 function startDraw(): void {
     drawTool.drawMode = drawMode;
     drawTool.initDrawMode();
 }
+
 function addToDrawnArea(): void {
-    if (drawMode === "polygon") {
-        const drawnAreas = drawTool.getSnapshot();
-        if (drawnAreas.length > 0) {
-            drawnAreas.forEach((feature) => {
-                try {
-                    geometry.addToSelectedDrawnGeometry(feature);
-                } catch (error) {
-                    console.error(error);
-                }
-            });
-            drawTool.stopDrawMode();
-        } else {
-            console.error("there is no polygon to add");
-        }
-    } else {
-        console.error("You are trying to add invalid data type");
+    if (drawMode !== "polygon") return;
+    const drawnAreas = drawTool.getSnapshot();
+    if (drawnAreas.length === 0) {
+        console.error("There is no polygon to add");
+        return;
     }
+    drawnAreas.forEach((feature) => {
+        try {
+            geometry.addToSelectedDrawnGeometry(feature);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+    drawTool.stopDrawMode();
 }
+
 function removeFromSelectedDrawnGeometries(item: Feature): void {
     try {
         geometry.removeFromSelectedDrawnGeometry(item);
@@ -81,4 +107,10 @@ function removeFromSelectedDrawnGeometries(item: Feature): void {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.draw-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: 0.5rem;
+}
+</style>

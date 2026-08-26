@@ -1,112 +1,206 @@
 <template>
-	<Panel toggleable>
-		<template #toggleicon="slotProps">
-                <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
-                <i v-else class="pi pi-chevron-down"></i>
-            </template>
-		<template #header>
-			<span class="font-bold">{{ $t('ligfinder.filter.criteria.title')}}</span>
-		</template>
-		<div class="min-w-0 w-full">
-			<div class="used-criteria" v-if="criteria.criteriaInUse.length > 0">
-				<div class="included py-1">
-					<div class="text-surface-700 dark:text-surface-0 font-bold w-full flex">
-						{{ $t('ligfinder.filter.criteria.included')}}
-						<span v-if="includedCriteria.length > 0" @click="removeAllSelectedCriteria('included')" class="ml-auto cursor-pointer font-light text-sm underline underline-offset-2">{{ $t('ligfinder.filter.criteria.removeall')}}</span>
-					</div>
-					<div class="w-full flex flex-wrap p-1">
-						<span v-for="(crit, index) in includedCriteria" :key="crit.key" class="flex items-center gap-1 flex-wrap p-1">
-							<ChipWrapper :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="success"/>
-							<span v-if="index < includedCriteria.length - 1" class="italic text-xs text-surface-500 dark:text-surface-400">{{ $t('helpers.logical.or')}}</span>
-						</span>
-					</div>
-				</div>
-				<div class="excluded py-1">
-					<div class="text-surface-700 dark:text-surface-0 font-bold w-full flex">
-						{{ $t('ligfinder.filter.criteria.excluded')}}
-						<span v-if="excludedCriteria.length > 0" @click="removeAllSelectedCriteria('excluded')" class="ml-auto cursor-pointer font-light text-sm underline underline-offset-2">{{ $t('ligfinder.filter.criteria.removeall')}}</span>
-					</div>
-					<div class="w-full flex flex-wrap p-1">
-						<span v-for="(crit, index) in excludedCriteria" :key="crit.key" class="flex items-center gap-1 flex-wrap p-1">
-							<ChipWrapper :label="crit.label" @remove="removeFromAppliedCriteria(crit)" removable severity="danger"/>
-							<span v-if="index < excludedCriteria.length - 1" class="italic text-xs text-surface-500 dark:text-surface-400">{{ $t('helpers.logical.and')}}</span>
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="no-criteria py-1" v-else>
-				<Message severity="info">{{ $t('ligfinder.filter.criteria.none')}}</Message>
-			</div>
-			<Tree :value="domains.data" :filter="true" filterMode="strict" class="min-w-0 w-full" :pt="{nodeLabel:'min-w-0 w-full'}">
-			<template #default="slotProps">
-				<div class="flex min-w-0 w-full justify-between gap-2">
-					<div class="text flex min-w-0 flex-1 flex-col justify-center">
-						<span class="label break-words">{{ slotProps.node.label }}</span>
-					</div>
-					<div v-if="!(slotProps.node.children && Object.prototype.hasOwnProperty.call(slotProps.node,'nutzungvalue'))" class="shrink-0">
-						<div class="actions min-w-24">
-							<Button icon="pi pi-search-plus" @click="addToAppliedCriteria(slotProps.node,'included')" text rounded aria-label="Include"></Button>
-							<Button icon="pi pi-search-minus" @click="addToAppliedCriteria(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
-						</div>
-					</div>
-					<div v-else class="shrink-0">
-						<div class="actions min-w-24">
-							<Button icon="pi pi-search-plus" @click="addAllChildren(slotProps.node,'included')" text rounded aria-label="Include"></Button>
-							<Button icon="pi pi-search-minus" @click="addAllChildren(slotProps.node,'excluded')" severity="danger" text rounded aria-label="Exclude"></Button>
-						</div>
-					</div>
-				</div>
-			</template>
-			</Tree>
-		</div>
-	</Panel>
-	</template>
+    <LIGFilterSection value="criteria-filters" :title="$t('ligfinder.filter.criteria.title')">
+        <div class="min-w-0 space-y-3">
+            <div v-if="criteria.criteriaInUse.length > 0" class="space-y-3">
+                <section v-if="includedCriteria.length > 0" class="space-y-1">
+                    <div class="flex min-w-0 items-center justify-between gap-2">
+                        <h3 class="min-w-0 text-sm font-semibold text-highlighted">
+                            {{ $t("ligfinder.filter.criteria.included") }}
+                        </h3>
+                        <UButton
+                            class="shrink-0"
+                            :label="$t('ligfinder.filter.criteria.removeall')"
+                            color="neutral"
+                            variant="link"
+                            size="xs"
+                            @click="removeAllSelectedCriteria('included')"
+                        />
+                    </div>
+                    <div class="flex min-w-0 flex-wrap items-center gap-1">
+                        <template v-for="(criterion, index) in includedCriteria" :key="criterion.key">
+                            <ChipWrapper
+                                :label="criterion.label"
+                                severity="success"
+                                removable
+                                @remove="removeFromAppliedCriteria(criterion)"
+                            />
+                            <span v-if="index < includedCriteria.length - 1" class="text-xs italic text-muted">
+                                {{ $t("helpers.logical.or") }}
+                            </span>
+                        </template>
+                    </div>
+                </section>
+                <section v-if="excludedCriteria.length > 0" class="space-y-1">
+                    <div class="flex min-w-0 items-center justify-between gap-2">
+                        <h3 class="min-w-0 text-sm font-semibold text-highlighted">
+                            {{ $t("ligfinder.filter.criteria.excluded") }}
+                        </h3>
+                        <UButton
+                            class="shrink-0"
+                            :label="$t('ligfinder.filter.criteria.removeall')"
+                            color="neutral"
+                            variant="link"
+                            size="xs"
+                            @click="removeAllSelectedCriteria('excluded')"
+                        />
+                    </div>
+                    <div class="flex min-w-0 flex-wrap items-center gap-1">
+                        <template v-for="(criterion, index) in excludedCriteria" :key="criterion.key">
+                            <ChipWrapper
+                                :label="criterion.label"
+                                severity="danger"
+                                removable
+                                @remove="removeFromAppliedCriteria(criterion)"
+                            />
+                            <span v-if="index < excludedCriteria.length - 1" class="text-xs italic text-muted">
+                                {{ $t("helpers.logical.and") }}
+                            </span>
+                        </template>
+                    </div>
+                </section>
+            </div>
+            <UAlert
+                v-else
+                color="info"
+                variant="soft"
+                :description="$t('ligfinder.filter.criteria.none')"
+            />
+
+            <UInput
+                v-model="criteriaSearch"
+                class="w-full"
+                :placeholder="$t('ligfinder.filter.geometry.administrative.search')"
+                :aria-label="$t('ligfinder.filter.geometry.administrative.search')"
+            />
+            <UTree
+                v-model:expanded="expandedKeys"
+                class="min-w-0 w-full"
+                :items="filteredCriteriaNodes"
+                :get-key="getCriteriaKey"
+                size="sm"
+                :ui="{
+                    root: 'min-w-0 w-full',
+                    link: 'min-w-0 gap-2 py-1.5',
+                    linkLeadingIcon: 'hidden',
+                    linkLabel: 'min-w-0 whitespace-normal break-words text-sm',
+                    linkTrailing: 'shrink-0',
+                }"
+                @select="preventTreeSelection"
+            >
+                <template #item-trailing="{ item }">
+                    <div class="flex shrink-0 items-center gap-0.5" @click.stop>
+                        <UButton
+                            icon="i-lucide-plus"
+                            color="success"
+                            variant="ghost"
+                            size="xs"
+                            square
+                            :aria-label="$t('common.include')"
+                            @click="includeNode(item as CriteriaTreeNode)"
+                        />
+                        <UButton
+                            icon="i-lucide-minus"
+                            color="error"
+                            variant="ghost"
+                            size="xs"
+                            square
+                            :aria-label="$t('common.exclude')"
+                            @click="excludeNode(item as CriteriaTreeNode)"
+                        />
+                    </div>
+                </template>
+            </UTree>
+        </div>
+    </LIGFilterSection>
+</template>
 
 <script setup lang="ts">
-import Panel from "primevue/panel";
-import Tree from "primevue/tree";
-import Button from "primevue/button";
-import Message from "primevue/message";
-import ChipWrapper from "../base/ChipWrapper.vue"
-import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria.ts"
-import { type TreeNode } from "primevue/treenode";
-import { computed } from "vue";
-import domains, { type LGBArtData, type LGBTypData, type NutzungItemData } from "../../domains.ts"
-const criteria = useCriteriaStore()
+import { computed, ref, watch } from "vue";
+import ChipWrapper from "../base/ChipWrapper.vue";
+import LIGFilterSection from "./LIGFilterSection.vue";
+import { type AppliedCriteria, useCriteriaStore } from "../../store/ligfinder/criteria.ts";
+import domains, {
+    type LGBArtData,
+    type LGBTypData,
+    type NutzungDomainData,
+    type NutzungItemData,
+} from "../../domains.ts";
 
-const includedCriteria = computed(()=> { return criteria.criteriaInUse.filter((crit)=> { return crit.status === "included" }) })
-const excludedCriteria = computed(()=> { return criteria.criteriaInUse.filter((crit)=> { return crit.status === "excluded" }) })
+type CriteriaStatus = "included" | "excluded";
+type CriteriaTreeNode = (LGBArtData | LGBTypData | NutzungDomainData | NutzungItemData) & {
+    children?: CriteriaTreeNode[]
+};
 
-type CriteriaStatus="included"|"excluded"
-function addToAppliedCriteria(node: TreeNode, stat: CriteriaStatus): void{
-    const criterium: AppliedCriteria = {
-        data: node as LGBArtData|LGBTypData|NutzungItemData,
-        status: stat,
-        label: node.label ?? "",
-        key: node.key
-    }
-    criteria.addCriteria(criterium)
-}
-function removeFromAppliedCriteria(crit: AppliedCriteria): void {
-    criteria.removeCriteria(crit)
-}
-function addAllChildren(node: TreeNode, stat: CriteriaStatus): void {
-	const children = node.children
-	if (children) {
-		children.forEach((child) => {
-			addToAppliedCriteria(child, stat)
-		})
-	}
+const criteria = useCriteriaStore();
+const criteriaSearch = ref("");
+const expandedKeys = ref<string[]>([]);
+const includedCriteria = computed(() => criteria.criteriaInUse.filter((criterion) => criterion.status === "included"));
+const excludedCriteria = computed(() => criteria.criteriaInUse.filter((criterion) => criterion.status === "excluded"));
+const criteriaNodes = domains.data as CriteriaTreeNode[];
+const filteredCriteriaNodes = computed(() => filterNodes(criteriaNodes, criteriaSearch.value.trim().toLocaleLowerCase()));
+
+watch(criteriaSearch, (search) => {
+    expandedKeys.value = search.trim() === "" ? [] : collectParentKeys(filteredCriteriaNodes.value);
+});
+
+function filterNodes(nodes: CriteriaTreeNode[], search: string): CriteriaTreeNode[] {
+    if (search === "") return nodes;
+    return nodes.flatMap((node) => {
+        const children = node.children === undefined ? [] : filterNodes(node.children, search);
+        if (node.label.toLocaleLowerCase().includes(search) || children.length > 0) {
+            return [{ ...node, ...(node.children === undefined ? {} : { children }) } as CriteriaTreeNode];
+        }
+        return [];
+    });
 }
 
-function removeAllSelectedCriteria(stat: CriteriaStatus): void {
-	const children = criteria.criteriaInUse.filter((crit)=> { return crit.status === stat })
-	children.forEach((child) => {
-		removeFromAppliedCriteria(child)
-	})
+function collectParentKeys(nodes: CriteriaTreeNode[]): string[] {
+    return nodes.flatMap((node) => node.children?.length
+        ? [node.key, ...collectParentKeys(node.children)]
+        : []);
+}
+
+function getCriteriaKey(node: CriteriaTreeNode): string {
+    return node.key;
+}
+
+function preventTreeSelection(event: { preventDefault: () => void }): void {
+    event.preventDefault();
+}
+
+function isAggregateUsageNode(node: CriteriaTreeNode): node is NutzungDomainData & { children: CriteriaTreeNode[] } {
+    return node.children !== undefined && Object.prototype.hasOwnProperty.call(node, "nutzungvalue");
+}
+
+function includeNode(node: CriteriaTreeNode): void {
+    isAggregateUsageNode(node) ? addAllChildren(node, "included") : addToAppliedCriteria(node, "included");
+}
+
+function excludeNode(node: CriteriaTreeNode): void {
+    isAggregateUsageNode(node) ? addAllChildren(node, "excluded") : addToAppliedCriteria(node, "excluded");
+}
+
+function addToAppliedCriteria(node: CriteriaTreeNode, status: CriteriaStatus): void {
+    const criterion: AppliedCriteria = {
+        data: node,
+        status,
+        label: node.label,
+        key: node.key,
+    };
+    criteria.addCriteria(criterion);
+}
+
+function removeFromAppliedCriteria(criterion: AppliedCriteria): void {
+    criteria.removeCriteria(criterion);
+}
+
+function addAllChildren(node: { children: CriteriaTreeNode[] }, status: CriteriaStatus): void {
+    node.children.forEach((child) => addToAppliedCriteria(child, status));
+}
+
+function removeAllSelectedCriteria(status: CriteriaStatus): void {
+    criteria.criteriaInUse
+        .filter((criterion) => criterion.status === status)
+        .forEach((criterion) => criteria.removeCriteria(criterion));
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -3,7 +3,14 @@
     "title": "LIGFinder"
   },
   "common": {
-    "collapseSidebar": "Seitenleiste einklappen"
+    "collapseSidebar": "Seitenleiste einklappen",
+    "removeItem": "{item} entfernen",
+    "include": "Einschließen",
+    "exclude": "Ausschließen",
+    "minimum": "Minimum",
+    "maximum": "Maximum",
+    "clear": "Leeren",
+    "error": "Fehler"
   },
   "theme": {
     "switchToLight": "Zum hellen Modus wechseln",
@@ -97,6 +104,13 @@
         },
         "isochrone": {
           "title": "Isochrone Bereiche",
+          "selectCenter": "Mittelpunkt auswählen",
+          "cancelCenter": "Mittelpunktauswahl abbrechen",
+          "travelMode": "Verkehrsmittel",
+          "travelTime": "Reisezeit (Minuten)",
+          "walk": "Zu Fuß",
+          "bike": "Fahrrad",
+          "drive": "Auto",
           "create": "Erstellen",
           "add": "Isochrone hinzufügen",
           "cancel": "Abbrechen"
@@ -117,8 +131,11 @@
 				"createHeader": "Finde joined parcels",
 				"saveHeader": "Speichere joined parcels",
         "threshold": "Schwellenwert (m²)",
+        "thresholdDescription": "Mindestfläche der zusammengeführten Flurstücke.",
         "layerName": "Ebenenname",
+        "layerNameDescription": "Verwenden Sie zwischen 3 und 35 Zeichen.",
         "layerType": "Ebenentyp",
+        "layerTypeDescription": "Wählen Sie die Darstellung der gespeicherten Ebene.",
         "exclusion": "Folgende Nutzungskategorien werden aus den Ergebnissen ausgeschlossen:",
         "exclusionList": "Straßenverkehr, Weg, Fließgewässer, Stehendes Gewässer, Meer, Moor, Sumpf, Friedhof, Flugverkehr, Schiffsverkehr, Bahnverkehr, Platz, Wald, Gehölz, Heide, Hafenbecken, Sport-/Freizeit-/Erholungsfläche, Unland/vegetationslose Fläche.",
         "getResults": "Ergebnisse erhalten",

@@ -1,78 +1,116 @@
 <template>
-    <Card class="w-full isochrone-filter">
-        <template #title>{{ $t('ligfinder.filter.geometry.isochrone.title') }}</template>
-        <template #content>
-            <div class="w-full py-1" v-if="geometry.selectedIsochrone.length > 0">
-                <ChipWrapper v-for="(_isochrone, index) in geometry.selectedIsochrone" :key="index"
-                    :label="_isochrone.properties?.name || 'Isochrone'" @remove="geometry.removeSelectedIsochrone"
-                    removable severity="secondary" />
-            </div>
-            <div
-                class="w-full 2xl:flex 2xl:justify-between 2xl:grid-cols-none lg:grid lg:grid-cols-4 lg:gap-2 2xl:gap-0 p-1 ">
-                <div class="">
-                    <Button v-if="!geometry.selectionOnProgress" size="small"
-                        class="text-xs leading-4 2xl:grow-0 lg:w-full" @click="geometry.startCenterSelection">
-                        <template #icon>
-                            <i class="material-icons">add_location_alt</i>
-                        </template>
-                    </Button>
-                    <Button v-else size="small" class="text-xs leading-4 2xl:grow-0"
-                        @click="geometry.cancelCenterSelection">
-                        <template #icon>
-                            <i class="material-icons">wrong_location</i>
-                        </template>
-                    </Button>
-                </div>
-                <div class="lg:grid lg:grid-cols-subgrid lg:col-span-3 2xl:grid-cols-none">
-                    <SelectButton class="2xl:grow-0 lg:col-span-3 travel-mode flex"
-                        v-model="geometry.selectedTravelMode" :options="geometry.traveModeList" optionLabel="name"
-                        dataKey="value" aria-labelledby="custom">
-                        <template #option="slotProps">
-                            <i class="material-icons  mx-auto">{{ slotProps.option.icon }}</i>
-                        </template>
-                    </SelectButton>
-                </div>
-                <div class="lg:grid lg:grid-cols-subgrid lg:col-span-4 2xl:grid-cols-none">
-                    <InputNumber v-model="geometry.travelTime" input-class="grow lg:col-span-4" suffix="min" :min="0">
-                    </InputNumber>
-                </div>
-                <div class="lg:grid lg:grid-cols-subgrid lg:col-span-4 2xl:grid-cols-none">
-                    <Button size="small" class="lg:col-span-4 2xl:grow-0" :disabled="geometry.centerPoint === undefined"
-                        @click="geometry.createIsochrone">{{ $t('ligfinder.filter.geometry.isochrone.create')
-                        }}</Button>
-                </div>
-            </div>
-            <div class="w-full grid grid-cols-4 pt-1"
-                v-if="geometry.isochroneOnTheMap && geometry.isochroneOnTheMapData">
-                <div class="p-1 lg:col-span-2">
-                    <Button class="w-full" size="small"
-                        @click="geometry.addSelectedIsochrone(geometry.isochroneOnTheMapData)">{{
-                            $t('ligfinder.filter.geometry.isochrone.add') }}</Button>
-                </div>
-                <div class="p-1 lg:col-span-2">
-                    <Button class="w-full" size="small" @click="geometry.cancelIsochroneSelection()">{{
-                        $t('ligfinder.filter.geometry.isochrone.cancel') }}</Button>
-                </div>
-            </div>
+    <UCard
+        class="min-w-0 w-full"
+        variant="subtle"
+        :ui="{ header: 'p-3 pb-2', body: 'min-w-0 p-3 pt-1' }"
+    >
+        <template #header>
+            <div class="text-sm font-semibold text-highlighted">{{ $t("ligfinder.filter.geometry.isochrone.title") }}</div>
         </template>
-    </Card>
+        <div class="min-w-0 space-y-3">
+            <div v-if="geometry.selectedIsochrone.length > 0" class="flex min-w-0 flex-wrap gap-1">
+                <ChipWrapper
+                    v-for="(isochrone, index) in geometry.selectedIsochrone"
+                    :key="index"
+                    :label="String(isochrone.properties?.name ?? 'Isochrone')"
+                    severity="secondary"
+                    removable
+                    @remove="geometry.removeSelectedIsochrone"
+                />
+            </div>
+
+            <UButton
+                v-if="!geometry.selectionOnProgress"
+                block
+                size="sm"
+                :label="$t('ligfinder.filter.geometry.isochrone.selectCenter')"
+                @click="geometry.startCenterSelection"
+            />
+            <UButton
+                v-else
+                block
+                color="neutral"
+                variant="outline"
+                size="sm"
+                :label="$t('ligfinder.filter.geometry.isochrone.cancelCenter')"
+                @click="geometry.cancelCenterSelection"
+            />
+
+            <URadioGroup
+                v-model="selectedTravelMode"
+                class="w-full"
+                :legend="$t('ligfinder.filter.geometry.isochrone.travelMode')"
+                :items="travelModeItems"
+                value-key="value"
+                variant="card"
+                orientation="horizontal"
+                size="sm"
+                :ui="{ fieldset: 'flex flex-wrap gap-2', item: 'min-w-0 flex-1 basis-24' }"
+            />
+
+            <UFormField :label="$t('ligfinder.filter.geometry.isochrone.travelTime')" size="sm">
+                <UInputNumber
+                    v-model="geometry.travelTime"
+                    class="w-full"
+                    :increment="false"
+                    :decrement="false"
+                    :min="0"
+                />
+            </UFormField>
+
+            <UButton
+                block
+                size="sm"
+                :disabled="geometry.centerPoint === undefined || geometry.travelTime <= 0"
+                :label="$t('ligfinder.filter.geometry.isochrone.create')"
+                @click="geometry.createIsochrone"
+            />
+
+            <div v-if="geometry.isochroneOnTheMap && geometry.isochroneOnTheMapData" class="isochrone-actions">
+                <UButton
+                    block
+                    size="sm"
+                    :label="$t('ligfinder.filter.geometry.isochrone.add')"
+                    @click="geometry.addSelectedIsochrone(geometry.isochroneOnTheMapData)"
+                />
+                <UButton
+                    block
+                    color="neutral"
+                    variant="outline"
+                    size="sm"
+                    :label="$t('ligfinder.filter.geometry.isochrone.cancel')"
+                    @click="geometry.cancelIsochroneSelection"
+                />
+            </div>
+        </div>
+    </UCard>
 </template>
 
 <script setup lang="ts">
-import Card from "primevue/card"
-import SelectButton from "primevue/selectbutton";
-import InputNumber from "primevue/inputnumber";
-import Button from "primevue/button";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import ChipWrapper from "../base/ChipWrapper.vue";
-import { useGeometryStore } from "../../store/ligfinder/geometry";
+import { useGeometryStore, type TravelModes } from "../../store/ligfinder/geometry";
 
-const geometry = useGeometryStore()
+const geometry = useGeometryStore();
+const { t } = useI18n();
+const selectedTravelMode = computed<TravelModes>({
+    get: () => geometry.selectedTravelMode.value,
+    set: (value) => {
+        const mode = geometry.traveModeList.find((item) => item.value === value);
+        if (mode !== undefined) geometry.selectedTravelMode = mode;
+    },
+});
+const travelModeItems = computed(() => geometry.traveModeList.map((mode) => ({
+    label: t(`ligfinder.filter.geometry.isochrone.${mode.name}`),
+    value: mode.value,
+})));
 </script>
 
 <style scoped>
-@media screen and (max-width: 1440px) {
-    .isochrone-filter div.travel-mode:deep(div.h-full) {
-        width: 100%;
-    }
+.isochrone-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: 0.5rem;
 }
 </style>

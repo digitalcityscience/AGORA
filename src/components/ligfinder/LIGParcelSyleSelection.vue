@@ -1,55 +1,60 @@
 <template>
-    <Panel>
-        <template #toggleicon="slotProps">
-            <i v-if="slotProps.collapsed" class="pi pi-chevron-up"></i>
-            <i v-else class="pi pi-chevron-down"></i>
+    <UCard
+        class="min-w-0 w-full"
+        variant="subtle"
+        :ui="{ header: 'p-3 pb-2', body: 'p-3 pt-1' }"
+    >
+        <template #header>
+            <div class="text-sm font-semibold text-highlighted">{{ $t("ligfinder.styler.title") }}</div>
         </template>
-		<template #header>
-			<span class="font-bold">{{ $t('ligfinder.styler.title')}}</span>
-		</template>
-        <div class="style-selector">
-            <SelectButton v-model="selectedStyle" :options="options" optionLabel="name" @change="changeParcelStyle"/>
-        </div>
-    </Panel>
+        <URadioGroup
+            v-model="selectedStyleName"
+            class="w-full"
+            :items="styleOptions"
+            value-key="value"
+            variant="card"
+            orientation="horizontal"
+            size="sm"
+            :ui="{ fieldset: 'flex flex-wrap gap-2', item: 'min-w-0 flex-1 basis-32' }"
+        />
+    </UCard>
 </template>
 
 <script setup lang="ts">
-import Panel from "primevue/panel";
-import SelectButton from "primevue/selectbutton";
-import { type LayerStyleListItem, useMapStore } from "../../store/maplibre/map";
-import { computed, ref, watch, toRaw } from "vue";
+import { computed, ref, toRaw, watch } from "vue";
+import { useMapStore } from "../../store/maplibre/map";
 
-const selectedStyle = ref<LayerStyleListItem>();
 const mapStore = useMapStore();
-const options = computed(() => {
-    return mapStore.parcelDataStyles.filter((style) => style.type === "fill" && style.options?.paint != null);
-});
-watch(options, (newValue) => {
-    if (newValue.length > 0) {
-        console.log("Selected style: ", newValue[0]);
-        const selected = newValue[0];
-        selectedStyle.value = selected;
+const availableStyles = computed(() => mapStore.parcelDataStyles.filter((style) => style.type === "fill" && style.options?.paint != null));
+const styleOptions = computed(() => availableStyles.value.map((style) => ({
+    label: style.name,
+    value: style.name,
+})));
+const selectedStyleName = ref("");
+
+watch(availableStyles, (styles) => {
+    if (styles.length > 0 && !styles.some((style) => style.name === selectedStyleName.value)) {
+        selectedStyleName.value = styles[0].name;
     }
 }, { immediate: true });
 
-function changeParcelStyle(event: { originalEvent: Event; value: any }): void {
-    console.log("Selected style: ", event.value);
-    const selectedStyle = event.value as LayerStyleListItem;
+watch(selectedStyleName, (name) => {
+    const selectedStyle = availableStyles.value.find((style) => style.name === name);
+    if (selectedStyle === undefined) return;
     const map = toRaw(mapStore.map);
     if (map === undefined) return;
-    const layerId = `${String(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME)}`
-    if (map.getLayer(layerId) !== undefined) {
-        if (selectedStyle.options.paint != null && selectedStyle.options.paint !== undefined) {
-            Object.entries(selectedStyle.options.paint).forEach(([prop, value]) => {
-                map.setPaintProperty(layerId, prop, JSON.parse(JSON.stringify(value)));
-            });
-        }
-        if (selectedStyle.options.layout != null && selectedStyle.options.layout !== undefined) {
-            Object.entries(selectedStyle.options.layout).forEach(([prop, value]) => {
-                map.setLayoutProperty(layerId, prop, JSON.parse(JSON.stringify(value)));
-            });
-        }
-        map.triggerRepaint();
+    const layerId = String(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME);
+    if (map.getLayer(layerId) === undefined) return;
+    if (selectedStyle.options.paint != null) {
+        Object.entries(selectedStyle.options.paint).forEach(([property, value]) => {
+            map.setPaintProperty(layerId, property, JSON.parse(JSON.stringify(value)));
+        });
     }
-}
+    if (selectedStyle.options.layout != null) {
+        Object.entries(selectedStyle.options.layout).forEach(([property, value]) => {
+            map.setLayoutProperty(layerId, property, JSON.parse(JSON.stringify(value)));
+        });
+    }
+    map.triggerRepaint();
+});
 </script>
