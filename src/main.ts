@@ -6,7 +6,6 @@ import { createPinia } from "pinia"
 import { createRouter, createWebHistory } from "vue-router"
 import ui from "@nuxt/ui/vue-plugin"
 import PrimeVue from "primevue/config"
-import ToastService from "primevue/toastservice"
 import Lara from "@primevue/themes/lara"
 import { definePreset } from "@primevue/themes"
 import "./style.css"
@@ -129,7 +128,6 @@ createApp(App)
 	.use(router)
 	.use(ui)
 	.use(PrimeVue, { theme: { preset: agoraPresets, options:{ darkModeSelector: ".agora-dark" } } })
-	.use(ToastService)
 	.use(i18n)
 	.directive("tooltip", Tooltip)
 	.mount("#app")

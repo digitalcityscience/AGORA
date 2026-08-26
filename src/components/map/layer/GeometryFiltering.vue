@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from "primevue/usetoast";
+import { useToast } from "../../../core/helpers/toast";
 import { type CustomAddLayerObject, useMapStore, type LayerObjectWithAttributes } from "../../../store/maplibre/map";
 import { computed, onMounted, ref } from "vue";
 import bbox from "@turf/bbox"

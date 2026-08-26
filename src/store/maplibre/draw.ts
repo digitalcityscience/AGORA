@@ -6,7 +6,7 @@ import { useMapStore } from "./map";
 import { type Map } from "maplibre-gl"
 import { type Feature, type FeatureCollection } from "geojson";
 import { useGeometryStore } from "../ligfinder/geometry";
-import { useToast } from "primevue/usetoast";
+import { useToast } from "../../core/helpers/toast";
 
 export const useDrawStore = defineStore("draw", () => {
     const mapStore = useMapStore()

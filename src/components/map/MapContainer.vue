@@ -13,7 +13,7 @@ import { isNullOrEmpty } from "../../core/helpers/functions";
 import { useResultStore } from "../../store/ligfinder/result";
 import { useGeometryStore } from "../../store/ligfinder/geometry";
 import { useFeatureInspectorStore } from "../../store/maplibre/featureInspector";
-import { useToast } from "primevue/usetoast";
+import { useToast } from "../../core/helpers/toast";
 import { BaseMapControl, type BaseMapControlOptions } from "../../core/helpers/baseMapControl";
 import { closeSlideoverSidebar } from "../../core/helpers/slideoverSidebarRegistry";
 

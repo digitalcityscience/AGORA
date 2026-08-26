@@ -59,7 +59,7 @@ import { computed, ref } from "vue";
 import { type GeoServerFeatureType, type GeoserverLayerInfo, type GeoserverLayerListItem, useGeoserverStore } from "../../store/api/geoserver";
 import { type LayerStyleOptions, useMapStore } from "../../store/maplibre/map";
 import { isNullOrEmpty } from "../../core/helpers/functions";
-import { useToast } from "primevue/usetoast";
+import { useToast } from "../../core/helpers/toast";
 
 export interface Props {
     item: GeoserverLayerListItem
