@@ -5,13 +5,9 @@ import { createApp } from "vue"
 import { createPinia } from "pinia"
 import { createRouter, createWebHistory } from "vue-router"
 import ui from "@nuxt/ui/vue-plugin"
-import PrimeVue from "primevue/config"
-import Lara from "@primevue/themes/lara"
-import { definePreset } from "@primevue/themes"
 import "./style.css"
 import App from "./App.vue"
 import "@material-design-icons/font";
-import Tooltip from "primevue/tooltip"
 import { i18n } from "./core/i18n"
 
 const pinia = createPinia()
@@ -23,111 +19,9 @@ const router = createRouter({
 	}],
 })
 
-const agoraPresets = definePreset(Lara, {
-	semantic: {
-		primary: {
-			50: "#EBECF6",
-			100: "#C4C6E5",
-			200: "#9CA0D4",
-			300: "#757AC3",
-			400: "#4D53B2",
-			500: "#363273",
-			600: "#3C418A",
-			700: "#2B2E63",
-			800: "#1A1C3B",
-			900: "#090914",
-			950: "#022C22",
-		},
-		colorScheme: {
-			light: {
-				surface: {
-					0: "#ffffff",
-					50: "{zinc.50}",
-					100: "{zinc.100}",
-					200: "{zinc.200}",
-					300: "{zinc.300}",
-					400: "{zinc.400}",
-					500: "{zinc.500}",
-					600: "{zinc.600}",
-					700: "{zinc.700}",
-					800: "{zinc.800}",
-					900: "{zinc.900}",
-					950: "{zinc.950}"
-				}
-			},
-			dark: {
-				surface: {
-					0: "#ffffff",
-					50: "{slate.50}",
-					100: "{slate.100}",
-					200: "{slate.200}",
-					300: "{slate.300}",
-					400: "{slate.400}",
-					500: "{slate.500}",
-					600: "{slate.600}",
-					700: "{slate.700}",
-					800: "{slate.800}",
-					900: "{slate.900}",
-					950: "{slate.950}"
-				}
-			}
-		}
-	},
-	components: {
-		panel: {
-			colorScheme: {
-				light: {
-					root: {
-						background: "{surface.50}"
-					}
-				}
-			},
-			content: {
-				padding: "1rem"
-			}
-		},
-		tag: {
-			font: {
-				weight: "thin"
-			}
-		},
-		chip: {
-			padding: {
-				x: "0.25rem",
-				y: "0.25rem"
-			}
-		},
-		card: {
-			body: {
-				padding: "1rem"
-			}
-		},
-		togglebutton: {
-			padding: "0.5rem 1rem"
-		},
-		inputtext: {
-			padding: {
-				x: "0.625rem",
-				y: "0.5rem"
-			}
-		},
-		datatable: {
-			body: {
-				cell: {
-					sm: {
-						padding: "0.25rem"
-					}
-				}
-			}
-		}
-	}
-})
-
 createApp(App)
 	.use(pinia)
 	.use(router)
 	.use(ui)
-	.use(PrimeVue, { theme: { preset: agoraPresets, options:{ darkModeSelector: ".agora-dark" } } })
 	.use(i18n)
-	.directive("tooltip", Tooltip)
 	.mount("#app")

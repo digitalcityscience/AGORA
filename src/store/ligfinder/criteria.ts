@@ -1,11 +1,11 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue";
-import { type TreeNode } from "primevue/treenode";
 import { type LGBTypData, type Domain, type NutzungItemData, type LGBArtData } from "../../domains";
 import domains from "../../../domain_structure.json"
 import { unwrapIfAll } from "../../core/helpers/maplibreExpressions";
 
-export interface AppliedCriteria extends TreeNode {
+export interface AppliedCriteria {
+    key: string,
     status: "included"|"excluded",
     data: LGBArtData|LGBTypData|NutzungItemData,
     label: string
