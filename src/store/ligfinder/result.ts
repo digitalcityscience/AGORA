@@ -131,7 +131,7 @@ export const useResultStore = defineStore("result", () => {
         { text: "Grundflächenzahl B-Plan", value: "grz_xplanung" },
         { text: "Grundflächenzahl tatsächlich", value: "grz_alkis" },
         { text: "Verdichtungspotential", value: "grz_potential" },
-        { text: "Grundfläche", value: "grz_potential_area" },
+        { text: "Zusätzlich bebaubare Fläche auf Flurstück", value: "grz_potential_area" },
         { text: "X-Plan ID", value: "xplanung_id" }
     ]
     return {
