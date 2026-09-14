@@ -90,7 +90,7 @@ export const useMapStore = defineStore("map", () => {
 			map.value.addSource(identifier, {
 				type: "vector",
 				tiles: [
-					`${import.meta.env.VITE_GEOSERVER_BASE_URL}/gwc/service/wmts
+					`${import.meta.env.VITE_AGORA_API_BASE_URL}/geoserver/gwc/service/wmts
 					?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0
 					&LAYER=${workspaceName}:${layer.featureType.name}
 					&STYLE=

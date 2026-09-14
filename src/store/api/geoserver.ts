@@ -120,7 +120,13 @@ export interface WorkspaceListResponse {
 function rewriteUrlToProxy(url: string): string {
   // Convert http://geoserver:8080/... to http://dev.api.agora.dcs.hcu-hamburg.de/geoserver/...
   if (url.includes("geoserver:8080")) {
-    return url.replace("http://geoserver:8080", "http://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
+    return url.replace("http://geoserver:8080", import.meta.env.VITE_AGORA_API_BASE_URL);
+  }
+  if (url.includes("geoserver-dev:8080")) {
+    return url.replace("http://geoserver-dev:8080", import.meta.env.VITE_AGORA_API_BASE_URL);
+  }
+  if (url.includes("geoserver-prod:8080")) {
+    return url.replace("http://geoserver-prod:8080", import.meta.env.VITE_AGORA_API_BASE_URL);
   }
   // Also rewrite production GeoServer URLs to use the proxy (just replace the domain)
   if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {
@@ -151,7 +157,7 @@ export const useGeoserverStore = defineStore("geoserver", () => {
    */
   async function getLayerDataGeoJSON(layer: string, workspace: string, bbox: string): Promise<FeatureCollection> {
     const url = new URL(
-      `${import.meta.env.VITE_GEOSERVER_BASE_URL}/${workspace}/wms?service=WMS&version=1.1.0&request=GetMap&layers=${workspace}:${layer}&bbox=${bbox}&width=512&height=512&srs=EPSG:4326&format=geojson&styles=`
+      `${import.meta.env.VITE_AGORA_API_BASE_URL}/geoserver/${workspace}/wms?service=WMS&version=1.1.0&request=GetMap&layers=${workspace}:${layer}&bbox=${bbox}&width=512&height=512&srs=EPSG:4326&format=geojson&styles=`
     );
     if (workspace === undefined || workspace === "") {
       throw new Error(t("geoserver.errors.pinia.workspaceRequired"));
@@ -180,13 +186,13 @@ export const useGeoserverStore = defineStore("geoserver", () => {
   async function getLayerList(
     workspaceName?: string
   ): Promise<GeoserverLayerListResponse> {
-    let url = new URL(`${import.meta.env.VITE_GEOSERVER_REST_URL}/layers`);
+    let url = new URL(`${import.meta.env.VITE_AGORA_API_BASE_URL}/geoserver/rest/layers`);
     /* eslint-disable */
     if (workspaceName) {
       url = new URL(
         `${
-          import.meta.env.VITE_GEOSERVER_REST_URL
-        }/workspaces/${workspaceName}/layers`
+          import.meta.env.VITE_AGORA_API_BASE_URL
+        }/geoserver/rest/workspaces/${workspaceName}/layers`
       );
     }
     const response = await fetch(url, {
