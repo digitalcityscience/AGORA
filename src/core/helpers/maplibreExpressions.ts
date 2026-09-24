@@ -75,7 +75,7 @@ export function isValidMapLibreExpression(expr: any): boolean {
     const validOperators = new Set([
         "all", "any", "none", "in", "!", "==", "!=", "<", "<=", ">", ">=",
         "has", "!has", "get", "literal", "case", "match",
-        "boolean", "string", "number"
+        "boolean", "string", "number", "concat", "coalesce"
     ]);
 
     const operator = expr[0];
@@ -98,7 +98,10 @@ export function isValidMapLibreExpression(expr: any): boolean {
         Array.isArray(expr[2]) &&
         (
             (expr[2][0] === "get" && typeof expr[2][1] === "string") ||
-          (expr[2][0] === "literal" && Array.isArray(expr[2][1]))
+          (expr[2][0] === "literal" && Array.isArray(expr[2][1])) ||
+          // advanced criteria filter: haystack built as ["concat", ",", ["coalesce", ["get", prop], ""], ","]
+          // for exact-token matching against comma-joined text columns (see criteriaAdvanced.ts)
+          expr[2][0] === "concat"
         )
         );
     }

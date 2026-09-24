@@ -30,7 +30,7 @@
             </h2>
             <div class="flex min-w-0 flex-wrap gap-2">
                 <UBadge
-                    v-for="(criteria, index) in resultStore.lastAppliedFilter.criteria"
+                    v-for="(criteria, index) in simpleCriteriaSummary"
                     :key="`criteria-${index}`"
                     color="primary"
                     variant="subtle"
@@ -39,6 +39,14 @@
                     {{ criteria.status === "included"
                         ? $t("ligfinder.table.summary.included", [criteria.data.label])
                         : $t("ligfinder.table.summary.excluded", [criteria.data.label]) }}
+                </UBadge>
+                <UBadge
+                    v-if="hasAdvancedCriteriaSummary"
+                    color="primary"
+                    variant="subtle"
+                    class="max-w-full whitespace-normal"
+                >
+                    {{ $t("ligfinder.table.summary.advancedCriteria") }}
                 </UBadge>
                 <UBadge
                     v-for="(metric, index) in resultStore.lastAppliedFilter.metric"
@@ -179,6 +187,16 @@ const paginationOptions = { getPaginationRowModel: getPaginationRowModel() };
 const pageSizeOptions = [10, 20, 50];
 
 const filterResultTableItems = computed<Feature[]>(() => resultStore.appliedFilterResult?.features ?? []);
+// lastAppliedFilter is either the simple (flat criteria list) or advanced (criteria_group tree)
+// request body - only one of the two summaries below applies, depending on which was sent.
+const simpleCriteriaSummary = computed(() => {
+    const filter = resultStore.lastAppliedFilter;
+    return filter !== undefined && "criteria" in filter ? filter.criteria : [];
+});
+const hasAdvancedCriteriaSummary = computed(() => {
+    const filter = resultStore.lastAppliedFilter;
+    return filter !== undefined && "criteria_group" in filter && filter.criteria_group !== null;
+});
 
 const resultColumns = computed<ResultColumn[]>(() => {
     if (resultStore.attributeList.length > 0) {

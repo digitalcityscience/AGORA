@@ -56,7 +56,23 @@
         "included": "Eingeschlossene Kriterien",
         "excluded": "Ausgeschlossene Kriterien",
         "removeall": "Alles entfernen",
-        "none": "Keine Kriterien ausgewählt"
+        "none": "Keine Kriterien ausgewählt",
+        "advanced": {
+          "modeSimple": "Einfach",
+          "modeAdvanced": "Erweitert",
+          "noBlocks": "Noch keine Blöcke erstellt",
+          "addBlock": "Block hinzufügen",
+          "editBlock": "Block bearbeiten",
+          "removeBlock": "Block entfernen",
+          "saveBlock": "Block speichern",
+          "cancelBlock": "Abbrechen",
+          "blockLabel": "Block {index}",
+          "blockOperatorLabel": "Verknüpfung innerhalb des Blocks",
+          "blockMatchAll": "Alle (UND)",
+          "blockMatchAny": "Beliebig (ODER)",
+          "blocksOperatorLabel": "Blöcke verknüpfen mit",
+          "blockConditionsNone": "Diesem Block wurden noch keine Kriterien hinzugefügt"
+        }
       },
       "metrics": {
         "title": "Filterung nach Metriken",
@@ -158,6 +174,7 @@
           "fetchFailedSummary": "Fehler",
           "unknown": "Unbekannter Fehler",
           "unknownSummary": "Fehler",
+          "advancedNotSupported": "Parzellen zusammenfassen unterstützt den erweiterten Kriterienfilter noch nicht. Bitte zum einfachen Filter wechseln.",
           "pinia": {
             "noFilterApplied": "Es wurden keine Filter angewendet.",
             "emptyData": "Keine Ergebnisse gefunden.",
@@ -205,6 +222,7 @@
         "title": "Verwendete Filter",
         "included":"{0} ist eingeschlossen",
         "excluded":"{0} ist ausgeschlossen",
+        "advancedCriteria": "Erweiterter Kriterienfilter angewendet",
         "geometry":"Geometriefilter angewendet"
 			},
       "messages":{
