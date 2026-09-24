@@ -118,16 +118,22 @@ export interface WorkspaceListResponse {
  * Rewrites internal GeoServer URLs to use the proxy
  */
 function rewriteUrlToProxy(url: string): string {
-  // Convert http://geoserver:8080/... to http://dev.api.agora.dcs.hcu-hamburg.de/geoserver/...
+  // Convert internal Docker URLs to external base URL
   // The docker service is "geoserver-dev" / "geoserver" depending on the compose file.
-  const internalGeoserver = /^http:\/\/geoserver(?:-dev|-prod)?:8080/;
+  const internalGeoserver = /^http:\/\/geoserver(?:-dev|-prod)?:8080\/geoserver/;
   if (internalGeoserver.test(url)) {
     return url.replace(internalGeoserver, import.meta.env.VITE_GEOSERVER_ROOT_URL as string);
   }
-  // Also rewrite production GeoServer URLs to use the proxy (just replace the domain)
+  
+  // Rewrite production GeoServer URLs to use the configured API base from env
+  const apiBaseUrl = import.meta.env.VITE_AGORA_API_BASE_URL as string;
   if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {
-    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de");
+    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", apiBaseUrl + "/geoserver");
   }
+  if (url.includes("https://geoserver-dev.agora.dcs.hcu-hamburg.de")) {
+    return url.replace("https://geoserver-dev.agora.dcs.hcu-hamburg.de", apiBaseUrl + "/geoserver");
+  }
+  
   // Fix any double slashes in the URL (common issue when base URL already contains /geoserver)
   return url.replace(/([^:]\/)\/+/g, "$1");
 }
