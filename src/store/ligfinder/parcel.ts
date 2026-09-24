@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
 import { useToast } from "../../core/helpers/toast";
-import { useResultStore, type ResultTableAPIRequestBody } from "./result";
+import { useResultStore, type ResultTableAPIRequestBody, type AdvancedFilterRequestBody } from "./result";
 import { ref } from "vue";
 import { type FeatureCollection } from "geojson";
 import { useMapStore } from "../maplibre/map";
@@ -9,6 +9,15 @@ import { useLigfinderMainStore } from "./main";
 import domainStructure, { type NutzungDomainData } from "../../domains";
 interface ParcelMaximizationRequestBody extends ResultTableAPIRequestBody {
     threshold: number
+}
+
+/**
+ * Parcel maximization only understands the simple (flat criteria list) filter
+ * shape - the advanced criteria_group tree isn't wired into the maximizer
+ * endpoint. This narrows lastAppliedFilter down to that shape.
+ */
+function isSimpleFilter(filter: ResultTableAPIRequestBody | AdvancedFilterRequestBody): filter is ResultTableAPIRequestBody {
+    return "criteria" in filter;
 }
 
 export const useParcelStore = defineStore("parcelStore", () => {
@@ -209,7 +218,14 @@ export const useParcelStore = defineStore("parcelStore", () => {
  * for maximized parcel results. Handles user error feedback with toasts.
  */
     function getResults(): void {
-        const overlapping = resultStore.lastAppliedFilter?.criteria.filter(c =>
+        const lastFilter = resultStore.lastAppliedFilter;
+        const simpleFilter = lastFilter !== undefined && isSimpleFilter(lastFilter) ? lastFilter : undefined;
+
+        if (lastFilter !== undefined && simpleFilter === undefined) {
+            toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.noFilterAppliedSummary"), detail: t("ligfinder.filter.parcel.errors.advancedNotSupported"), life: 10000 });
+            return;
+        }
+        const overlapping = simpleFilter?.criteria.filter(c =>
             c.status === "included" &&
         typeof c.data === "object" &&
         "nutzungvalue" in c.data &&
@@ -224,11 +240,11 @@ export const useParcelStore = defineStore("parcelStore", () => {
             toast.add({ severity: "warn", summary: t("ligfinder.filter.parcel.errors.thresholdInvalidSummary"), detail: t("ligfinder.filter.parcel.errors.thresholdInvalid"), life: 10000 });
             return;
         }
-        if (resultStore.lastAppliedFilter === undefined) {
+        if (simpleFilter === undefined) {
             toast.add({ severity: "error", summary: t("ligfinder.filter.parcel.errors.noFilterAppliedSummary"), detail: t("ligfinder.filter.parcel.errors.noFilterApplied"), life: 10000 });
             return;
         }
-        fetchParcelMaximizationResult(resultStore.lastAppliedFilter, threshold.value, include.value)
+        fetchParcelMaximizationResult(simpleFilter, threshold.value, include.value)
             .then((response) => {
                 try {
                     addTempMaximizedParcels(response);

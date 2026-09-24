@@ -56,7 +56,23 @@
 				"included": "Included Criteria",
 				"excluded": "Excluded Criteria",
 				"removeall": "Remove all",
-				"none": "No criteria selected"
+				"none": "No criteria selected",
+				"advanced": {
+					"modeSimple": "Simple",
+					"modeAdvanced": "Advanced",
+					"noBlocks": "No blocks created yet",
+					"addBlock": "Add block",
+					"editBlock": "Edit block",
+					"removeBlock": "Remove block",
+					"saveBlock": "Save block",
+					"cancelBlock": "Cancel",
+					"blockLabel": "Block {index}",
+					"blockOperatorLabel": "Match within block",
+					"blockMatchAll": "All (AND)",
+					"blockMatchAny": "Any (OR)",
+					"blocksOperatorLabel": "Combine blocks with",
+					"blockConditionsNone": "No criteria added to this block yet"
+				}
 			},
 			"metrics": {
 				"title": "Metric Based Filtering",
@@ -158,6 +174,7 @@
 				  "fetchFailedSummary": "Error",
 				  "unknown": "Unknown error",
 				  "unknownSummary": "Error",
+				  "advancedNotSupported": "Join Parcels doesn't support the advanced criteria filter yet. Switch to the simple filter to use it.",
 				  "pinia":{
 					"noFilterApplied": "No filter has been applied.",
 					"emptyData": "No result found.",
@@ -205,6 +222,7 @@
 				"title":"Used filters",
 				"included":"{0} is included",
 				"excluded":"{0} is excluded",
+				"advancedCriteria": "Advanced criteria filter applied",
 				"geometry":"Geometry filter applied"
 			},
 			"messages":{

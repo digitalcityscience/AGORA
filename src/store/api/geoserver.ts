@@ -119,8 +119,10 @@ export interface WorkspaceListResponse {
  */
 function rewriteUrlToProxy(url: string): string {
   // Convert http://geoserver:8080/... to http://dev.api.agora.dcs.hcu-hamburg.de/geoserver/...
-  if (url.includes("geoserver:8080")) {
-    return url.replace("http://geoserver:8080", "http://dev.api.agora.dcs.hcu-hamburg.de/geoserver");
+  // The docker service is "geoserver-dev" / "geoserver" depending on the compose file.
+  const internalGeoserver = /^http:\/\/geoserver(?:-dev|-prod)?:8080/;
+  if (internalGeoserver.test(url)) {
+    return url.replace(internalGeoserver, import.meta.env.VITE_GEOSERVER_ROOT_URL as string);
   }
   // Also rewrite production GeoServer URLs to use the proxy (just replace the domain)
   if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {

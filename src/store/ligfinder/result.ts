@@ -7,6 +7,7 @@ import { useMapStore } from "../maplibre/map"
 import { type GeoServerFeatureTypeAttribute } from "../api/geoserver"
 import { useToast } from "@nuxt/ui/composables"
 import { useCriteriaStore, type AppliedCriteria } from "./criteria"
+import { useCriteriaAdvancedStore, type CriteriaGroupNode } from "./criteriaAdvanced"
 import { useGrzStore } from "./grz"
 import { useI18n } from "vue-i18n"
 interface TableHeader {
@@ -20,9 +21,17 @@ export interface ResultTableAPIRequestBody {
     grz: ResultMetric[],
     table_name?: string
 }
+export interface AdvancedFilterRequestBody {
+    geometry: number[],
+    criteria_group: CriteriaGroupNode | null,
+    metric: ResultMetric[],
+    grz: ResultMetric[],
+    table_name?: string
+}
 export const useResultStore = defineStore("result", () => {
     const mapStore = useMapStore()
     const criteria = useCriteriaStore()
+    const criteriaAdvanced = useCriteriaAdvancedStore()
     const metric = useMetricStore()
     const ligfinder = useLigfinderMainStore()
     const grz = useGrzStore()
@@ -31,9 +40,12 @@ export const useResultStore = defineStore("result", () => {
     const attributeList = ref<GeoServerFeatureTypeAttribute[]>([])
     const isFilterApplied = ref<boolean>(false)
     const appliedFilterResult = ref<FeatureCollection>()
-    const lastAppliedFilter = ref<ResultTableAPIRequestBody>()
+    const lastAppliedFilter = ref<ResultTableAPIRequestBody | AdvancedFilterRequestBody>()
     /**
      * Fetches the result of the currently applied filter from the backend.
+     * Posts to the advanced endpoint when the last applied filter carries a
+     * criteria_group (advanced mode was active), otherwise the simple one -
+     * mirroring the mode check in useLigfinderMainStore.applyAllFilters.
      * @returns A Promise resolving to a FeatureCollection of filtered results.
      * @throws Error if no filter is applied or the fetch fails.
      */
@@ -41,7 +53,8 @@ export const useResultStore = defineStore("result", () => {
         if (lastAppliedFilter.value === undefined) {
             throw new Error(t("ligfinder.table.errors.pinia.noFilterApplied"))
         }
-        const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}/ligfinder/filter`,
+        const endpoint = "criteria_group" in lastAppliedFilter.value ? "/ligfinder/filter/advanced" : "/ligfinder/filter"
+        const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}${endpoint}`,
             {
                 method: "POST",
                 headers: {
@@ -58,12 +71,22 @@ export const useResultStore = defineStore("result", () => {
     }
     /**
      * Creates the request body for the currently applied filter, including geometry, criteria, metric, and grz.
+     * Builds the advanced (criteria_group) shape when advanced mode is active, otherwise the simple one.
      * @returns The request body for the filter API.
      */
-    function createAppliedFilterBody(): ResultTableAPIRequestBody{
+    function createAppliedFilterBody(): ResultTableAPIRequestBody | AdvancedFilterRequestBody {
         const usedMetrics = metric.createMetricFilter(metric.metricFilters, ligfinder.isMaximizerActive)
         const usedGrz = grz.createMetricFilter(grz.grzFilters)
         const usedGeometryResult = ligfinder.appliedGeometryFilterResult
+        if (criteriaAdvanced.isActive) {
+            const advancedFilter: AdvancedFilterRequestBody = {
+                geometry: usedGeometryResult,
+                criteria_group: criteriaAdvanced.buildCriteriaTree(),
+                metric: usedMetrics,
+                grz: usedGrz,
+            }
+            return advancedFilter
+        }
         const filter: ResultTableAPIRequestBody = {
             geometry: usedGeometryResult,
             criteria: criteria.criteriaInUse,

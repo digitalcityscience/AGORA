@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { useI18n } from "vue-i18n";
 import { useCriteriaStore } from "./criteria"
+import { useCriteriaAdvancedStore } from "./criteriaAdvanced"
 import { useMetricStore } from "./metric"
 import { useGrzStore } from "./grz"
 import { useGeometryStore, type ExtendedFeatureCollection } from "./geometry"
@@ -12,6 +13,7 @@ import { useParcelStore } from "./parcel"
 export const useLigfinderMainStore = defineStore("main", () => {
     const { t } = useI18n();
     const criteriaStore = useCriteriaStore()
+    const criteriaAdvancedStore = useCriteriaAdvancedStore()
     const metric = useMetricStore()
     const geometry = useGeometryStore()
     const grz = useGrzStore()
@@ -34,7 +36,11 @@ export const useLigfinderMainStore = defineStore("main", () => {
         try {
             isFilterApplying.value = true
 
-            const criteriaExpression = criteriaStore.createCriteriaFilter()
+            // Whichever filter mode is selected decides both which expression is
+            // applied to the map here and which API endpoint result.ts posts to.
+            const criteriaExpression = criteriaAdvancedStore.isActive
+                ? criteriaAdvancedStore.buildCriteriaExpression()
+                : criteriaStore.createCriteriaFilter()
             const metricExpression = metric.createGeneralExpression(isMaximizerActive.value)
             const grzExpression = grz.createGeneralExpression()
             const areaFilterResult = await geometry.createGeometryFilter()
@@ -115,6 +121,7 @@ export const useLigfinderMainStore = defineStore("main", () => {
         mapStore.map.setFilter(layerName, null)
         metric.resetMetricFilters()
         criteriaStore.resetCriteriaFilters()
+        criteriaAdvancedStore.resetAdvancedCriteria()
         geometry.resetSelectedAreas()
         grz.resetGrzFilters()
         parcelStore.cancelTempMaximizedParcels()
