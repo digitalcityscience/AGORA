@@ -15,6 +15,6 @@ services:
         VITE_PARCEL_DATASET_LAYERINFORMATION_URL: ${VITE_PARCEL_DATASET_LAYERINFORMATION_URL}
         VITE_AGORA_API_BASE_URL: ${VITE_AGORA_API_BASE_URL}
     ports:
-      - "5175:80"
-    container_name: agora
+      - "${FRONTEND_PORT}:80"
+    container_name: agora_dev
     restart: unless-stopped
