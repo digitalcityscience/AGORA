@@ -129,8 +129,8 @@ function rewriteUrlToProxy(url: string): string {
     return url.replace("http://geoserver-prod:8080", import.meta.env.VITE_AGORA_API_BASE_URL);
   }
   // Also rewrite production GeoServer URLs to use the proxy (just replace the domain)
-  if (url.includes("https://geoserver.agora.dcs.hcu-hamburg.de")) {
-    return url.replace("https://geoserver.agora.dcs.hcu-hamburg.de", "https://dev.api.agora.dcs.hcu-hamburg.de");
+  if (url.includes(import.meta.env.VITE_GEOSERVER_URL)) {
+    return url.replace(import.meta.env.VITE_GEOSERVER_URL, import.meta.env.VITE_AGORA_API_BASE_URL);
   }
   // Fix any double slashes in the URL (common issue when base URL already contains /geoserver)
   return url.replace(/([^:]\/)\/+/g, "$1");
@@ -211,7 +211,7 @@ export const useGeoserverStore = defineStore("geoserver", () => {
    */
   async function getWorkspaceList(): Promise<WorkspaceListResponse> {
     const url = new URL(
-      `${import.meta.env.VITE_GEOSERVER_REST_URL}/workspaces`
+      `${import.meta.env.VITE_AGORA_API_BASE_URL}/geoserver/rest/workspaces`
     );
     const response = await fetch(url, {
       method: "GET",
@@ -236,8 +236,8 @@ export const useGeoserverStore = defineStore("geoserver", () => {
   ): Promise<GeoserverLayerInfoResponse> {
     const url = new URL(
       `${
-        import.meta.env.VITE_GEOSERVER_REST_URL
-      }/workspaces/${workspace}/layers/${layer.name}`
+        import.meta.env.VITE_AGORA_API_BASE_URL
+      }/geoserver/rest/workspaces/${workspace}/layers/${layer.name}`
     );
     const response = await fetch(url, {
       method: "GET",
