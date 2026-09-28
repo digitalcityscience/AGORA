@@ -14,9 +14,9 @@
             size="sm"
             :ui="{
                 root: 'min-w-0 w-full',
-                link: 'min-w-0 gap-2 py-1.5',
+                link: 'min-w-0 gap-2 py-1.5 text-start',
                 linkLeadingIcon: 'hidden',
-                linkLabel: 'min-w-0 whitespace-normal break-words text-sm',
+                linkLabel: 'min-w-0 flex-1 whitespace-normal break-words text-sm text-start',
                 linkTrailing: 'shrink-0',
             }"
             @select="preventTreeSelection"
