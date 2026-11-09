@@ -6,6 +6,7 @@ import { type GeoServerFeatureType } from "../api/geoserver";
 import { type SourceSpecification, type AddLayerObject } from "maplibre-gl";
 import { generateDistinctHexColors, getRandomHexColor, isNullOrEmpty } from "../../core/helpers/functions";
 import { type FeatureCollection } from "geojson";
+import type { LigfinderFilterSnapshot } from "../ligfinder/result";
 import { useToast } from "../../core/helpers/toast";
 import { useI18n } from "vue-i18n";
 export interface LayerStyleOptions {
@@ -34,7 +35,9 @@ export interface CustomAddLayerObject {
 	showOnLayerList?: boolean,
 	clustered?: boolean,
 	keepOnTop?: boolean,
-	companionLayerIds?: string[]
+	companionLayerIds?: string[],
+	/** The LIG-Finder filter that produced this layer; set only on layers saved from the result table. */
+	filterSnapshot?: LigfinderFilterSnapshot
 }
 export interface LayerObjectWithAttributes extends CustomAddLayerObject {
 	details?: GeoServerFeatureType;

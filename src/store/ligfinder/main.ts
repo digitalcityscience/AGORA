@@ -49,10 +49,11 @@ export const useLigfinderMainStore = defineStore("main", () => {
             ? geometry.createGeometryFilterExpression(areaFilterResult.UUIDs)
             : [];
 
-            if (areaFilterResult.UUIDs.length > 0) {
-                appliedGeometryFilterResult.value = areaFilterResult.UUIDs
-                appliedGeometry.value = geometry.createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
-            }
+            // Always overwrite, so removing all areas and re-applying doesn't send the previous UUIDs again
+            appliedGeometryFilterResult.value = areaFilterResult.UUIDs
+            appliedGeometry.value = areaFilterResult.UUIDs.length > 0
+                ? geometry.createSelectedGeometryGeoJSON(true) as ExtendedFeatureCollection
+                : null
 
             const rawFilterExpression = mergeAllExpressions(
                 criteriaExpression,
@@ -125,6 +126,8 @@ export const useLigfinderMainStore = defineStore("main", () => {
         geometry.resetSelectedAreas()
         grz.resetGrzFilters()
         parcelStore.cancelTempMaximizedParcels()
+        appliedGeometryFilterResult.value = []
+        appliedGeometry.value = null
     }
     return {
         applyAllFilters,

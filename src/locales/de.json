@@ -379,8 +379,21 @@
       "addFilter": "Filter hinzufügen",
       "activeFilterMessage": "Sie haben einen Geometrie-Filter"
     },
+    "savedFilter": {
+      "title": "LIG-Finder-Filter",
+      "description": "Diese Ebene wurde aus einem LIG-Finder-Ergebnis gespeichert. Aktualisieren Sie sie mit den aktuellen Daten oder laden Sie ihren Filter, um ihn zu ändern.",
+      "refresh": "Aktualisieren",
+      "refreshSuccessSummary": "Ebene aktualisiert",
+      "refreshSuccess": "Die Ebene enthält jetzt {count} Flurstücke.",
+      "edit": "Filter bearbeiten",
+      "editHeader": "LIG-Finder-Filter bearbeiten",
+      "editQuestion": "Ihre aktuellen LIG-Finder-Filtereinstellungen und Ergebnisse werden durch den Filter dieser Ebene ersetzt. Wenden Sie ihn an und speichern Sie das Ergebnis als neue Ebene, um Ihre Änderungen zu behalten.",
+      "editConfirm": "Filter laden"
+    },
     "errors": {
       "pinia": {
+        "noStoredFilter": "Diese Ebene hat keinen gespeicherten Filter.",
+        "noParcelsInAreas": "Die ausgewählten Gebiete dieser Ebene enthalten keine Flurstücke mehr.",
         "duplicateFilter": "Angeforderter Filter bereits gesetzt: {attribute} {operand} {value}",
         "filterNotFound": "Filter nicht gefunden: {attribute} {operand} {value}",
         "layerNotFound": "Layer nicht gefunden: {layername}",
