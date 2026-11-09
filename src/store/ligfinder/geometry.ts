@@ -59,6 +59,13 @@ export interface UnionSelectionItem {
 export interface GeometryFilterAPIResponse {
     UUIDs: number[];
 }
+/** The areas that made up a geometry filter, kept so the filter can be re-run or edited later. */
+export interface GeometrySelectionSnapshot {
+    administrative: AdministrativeFeature[];
+    drawn: Feature[];
+    isochrone: Feature[];
+    union: boolean;
+}
 export const useGeometryStore = defineStore("geometry", () => {
     const { t } = useI18n();
     const mapStore = useMapStore();
@@ -522,6 +529,16 @@ export const useGeometryStore = defineStore("geometry", () => {
                 );
             }
         }
+        return await fetchGeometryFilter(featureCollection);
+    }
+    /**
+   * Sends a FeatureCollection of areas to the backend and returns the UUIDs of the parcels they cover.
+   * Used directly when re-running a stored geometry selection (e.g. refreshing a saved layer).
+   * @param featureCollection - The areas plus union/intersection flag and parcel table name.
+   * @returns A promise resolving to the geometry filter API response.
+   * @throws Error if the fetch fails.
+   */
+    async function fetchGeometryFilter(featureCollection: ExtendedFeatureCollection): Promise<GeometryFilterAPIResponse> {
         const response = await fetch(
             `${import.meta.env.VITE_AGORA_API_BASE_URL}/geometry/filter`,
             {
@@ -872,6 +889,31 @@ export const useGeometryStore = defineStore("geometry", () => {
         selectedDrawnGeometry.value = [];
         updateSelectedAreasTempLayer();
     }
+    /**
+     * Returns a detached copy of the current area selection, safe to store alongside a saved layer.
+     * @returns The selected administrative, drawn and isochrone areas plus the union/intersection choice.
+     */
+    function getSelectedAreasSnapshot(): GeometrySelectionSnapshot {
+        return JSON.parse(JSON.stringify({
+            administrative: selectedAdministrativeFeaturesList.value,
+            drawn: selectedDrawnGeometry.value,
+            isochrone: selectedIsochrone.value,
+            union: isUnion.value.value === "union",
+        }));
+    }
+    /**
+     * Replaces the current area selection with a previously stored one (e.g. when editing a saved layer's filter).
+     * @param selection - The stored administrative, drawn and isochrone areas plus the union/intersection choice.
+     */
+    function restoreSelectedAreas(selection: GeometrySelectionSnapshot): void {
+        // Copy, so later edits in the filter panel don't change the stored snapshot
+        const copy: GeometrySelectionSnapshot = JSON.parse(JSON.stringify(selection));
+        selectedAdministrativeFeaturesList.value = copy.administrative;
+        selectedDrawnGeometry.value = copy.drawn;
+        selectedIsochrone.value = copy.isochrone;
+        isUnion.value = unionSelectionList.value.find((item) => item.value === (copy.union ? "union" : "intersection")) ?? isUnion.value;
+        updateSelectedAreasTempLayer();
+    }
     return {
         activeAdministrativeArea,
         administrativeBoundariesList,
@@ -903,6 +945,7 @@ export const useGeometryStore = defineStore("geometry", () => {
         cancelIsochroneSelection,
         selectionOnProgress,
         createGeometryFilter,
+        fetchGeometryFilter,
         createGeometryFilterExpression,
         geometryFilterResult,
         addToGeometryFilterResult,
@@ -917,6 +960,8 @@ export const useGeometryStore = defineStore("geometry", () => {
         updateActiveAdminLayer,
         deleteActiveAdminLayer,
         resetSelectedAreas,
+        getSelectedAreasSnapshot,
+        restoreSelectedAreas,
     };
 });
 

@@ -123,6 +123,51 @@
                     <AttributeFiltering :layer="props.layer"></AttributeFiltering>
                     <GeometryFiltering :layer="props.layer"></GeometryFiltering>
                 </section>
+                <section v-if="props.layer.filterSnapshot !== undefined" class="layer-section">
+                    <h4 class="layer-section-title">{{ $t('mapLayers.savedFilter.title') }}</h4>
+                    <p class="mb-2 text-xs text-muted">{{ $t('mapLayers.savedFilter.description') }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        <UButton
+                            size="sm"
+                            color="neutral"
+                            variant="outline"
+                            icon="i-lucide-refresh-cw"
+                            :loading="isRefreshing"
+                            @click="refreshSavedLayer"
+                        >
+                            {{ $t('mapLayers.savedFilter.refresh') }}
+                        </UButton>
+                        <UButton
+                            size="sm"
+                            color="neutral"
+                            variant="outline"
+                            icon="i-lucide-pencil"
+                            :disabled="isRefreshing"
+                            @click="editFilterDialogVisibility = true"
+                        >
+                            {{ $t('mapLayers.savedFilter.edit') }}
+                        </UButton>
+                    </div>
+                    <UModal
+                        v-model:open="editFilterDialogVisibility"
+                        :title="$t('mapLayers.savedFilter.editHeader')"
+                        :ui="{ content: 'max-w-[25rem]' }"
+                    >
+                        <template #body>
+                            <span class="block text-muted">{{ $t('mapLayers.savedFilter.editQuestion') }}</span>
+                        </template>
+                        <template #footer>
+                            <div class="flex w-full justify-end gap-2">
+                                <UButton size="sm" type="button" color="neutral" variant="soft" @click="editFilterDialogVisibility = false">
+                                    {{ $t("mapLayers.actions.cancel") }}
+                                </UButton>
+                                <UButton size="sm" type="button" @click="editSavedFilter">
+                                    {{ $t("mapLayers.savedFilter.editConfirm") }}
+                                </UButton>
+                            </div>
+                        </template>
+                    </UModal>
+                </section>
                 <section
                     v-if="props.layer.sourceType === 'geojson' && props.layer.filterLayerData !== undefined && props.layer.filterLayerData !== null"
                     class="layer-section"
@@ -136,7 +181,10 @@
 
 <script setup lang="ts">
 import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { type LayerObjectWithAttributes, type MapLibreLayerTypes, useMapStore } from "../../../store/maplibre/map"
+import { useResultStore } from "../../../store/ligfinder/result"
+import { openSlideoverSidebar } from "../../../core/helpers/slideoverSidebarRegistry"
 import { useToast } from "../../../core/helpers/toast"
 import { isNullOrEmpty } from "../../../core/helpers/functions";
 import ParliamentDBFilter from "../../geoparsing/ParliamentDBFilter.vue";
@@ -413,6 +461,31 @@ function deleteLayerConfirmation(layer: LayerObjectWithAttributes): void {
         toast.add({ severity: "error", summary: "Error", detail: error, life: 3000 });
     })
     confirmDialogVisibility.value = false
+}
+const { t } = useI18n()
+const resultStore = useResultStore()
+const isRefreshing = ref<boolean>(false)
+const editFilterDialogVisibility = ref<boolean>(false)
+function refreshSavedLayer(): void {
+    isRefreshing.value = true
+    resultStore.refreshLayer(props.layer.id).then((result) => {
+        toast.add({
+            severity: "success",
+            summary: t("mapLayers.savedFilter.refreshSuccessSummary"),
+            detail: t("mapLayers.savedFilter.refreshSuccess", { count: result.features.length }),
+            life: 3000
+        })
+    }).catch((error) => {
+        toast.add({ severity: "error", summary: t("common.error"), detail: error, life: 5000 })
+    }).finally(() => {
+        isRefreshing.value = false
+    })
+}
+function editSavedFilter(): void {
+    editFilterDialogVisibility.value = false
+    if (props.layer.filterSnapshot === undefined) return
+    resultStore.loadFilterSnapshot(props.layer.filterSnapshot)
+    openSlideoverSidebar("ligfinder-sidebar")
 }
 </script>
 

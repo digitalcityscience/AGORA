@@ -379,8 +379,21 @@
 			"addFilter": "Add Filter",
 			"activeFilterMessage": "You have a geometry filter"
 		},
+		"savedFilter": {
+			"title": "LIG-Finder Filter",
+			"description": "This layer was saved from a LIG-Finder result. Refresh it against the current data, or load its filter to change it.",
+			"refresh": "Refresh",
+			"refreshSuccessSummary": "Layer refreshed",
+			"refreshSuccess": "The layer now contains {count} parcels.",
+			"edit": "Edit filter",
+			"editHeader": "Edit LIG-Finder Filter",
+			"editQuestion": "This replaces your current LIG-Finder filter settings and results with this layer's filter. Apply it and save the result as a new layer to keep your changes.",
+			"editConfirm": "Load filter"
+		},
 		"errors":{
 			"pinia":{
+				"noStoredFilter": "This layer has no stored filter.",
+				"noParcelsInAreas": "The selected areas of this layer no longer contain any parcels.",
 				"duplicateFilter": "Requested filter already set: {attribute} {operand} {value}",
 				"filterNotFound": "Filter not found: {attribute} {operand} {value}",
 				"layerNotFound": "Layer not found: {layername}",
