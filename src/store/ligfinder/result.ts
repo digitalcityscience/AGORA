@@ -1,14 +1,15 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { ref } from "vue"
-import { useMetricStore, type ResultMetric } from "./metric"
+import { useMetricStore, type ResultMetric, type RangeInput } from "./metric"
 import { type FeatureCollection } from "geojson"
 import { useLigfinderMainStore } from "./main"
 import { useMapStore } from "../maplibre/map"
 import { type GeoServerFeatureTypeAttribute } from "../api/geoserver"
 import { useToast } from "@nuxt/ui/composables"
 import { useCriteriaStore, type AppliedCriteria } from "./criteria"
-import { useCriteriaAdvancedStore, type CriteriaGroupNode } from "./criteriaAdvanced"
+import { useCriteriaAdvancedStore, type CriteriaGroupNode, type CriteriaBlock, type CriteriaOperator } from "./criteriaAdvanced"
 import { useGrzStore } from "./grz"
+import { useGeometryStore, type ExtendedFeatureCollection, type GeometrySelectionSnapshot } from "./geometry"
 import { useI18n } from "vue-i18n"
 interface TableHeader {
     text: string,
@@ -28,6 +29,22 @@ export interface AdvancedFilterRequestBody {
     grz: ResultMetric[],
     table_name?: string
 }
+/**
+ * Everything needed to re-run or edit the filter behind a saved layer: the exact request body
+ * plus the filter panel state it was built from. Stored on the layer instead of the GeoJSON result.
+ */
+export interface LigfinderFilterSnapshot {
+    request: ResultTableAPIRequestBody | AdvancedFilterRequestBody,
+    geometry: GeometrySelectionSnapshot,
+    advanced: {
+        isActive: boolean,
+        blocks: CriteriaBlock[],
+        blocksOperator: CriteriaOperator
+    },
+    metricFilters: RangeInput,
+    grzFilters: RangeInput,
+    isMaximizerActive: boolean
+}
 export const useResultStore = defineStore("result", () => {
     const mapStore = useMapStore()
     const criteria = useCriteriaStore()
@@ -35,17 +52,19 @@ export const useResultStore = defineStore("result", () => {
     const metric = useMetricStore()
     const ligfinder = useLigfinderMainStore()
     const grz = useGrzStore()
+    const geometry = useGeometryStore()
     const toast = useToast()
     const { t } = useI18n()
     const attributeList = ref<GeoServerFeatureTypeAttribute[]>([])
     const isFilterApplied = ref<boolean>(false)
     const appliedFilterResult = ref<FeatureCollection>()
     const lastAppliedFilter = ref<ResultTableAPIRequestBody | AdvancedFilterRequestBody>()
+    /** Snapshot of the filter panel taken when the filter was last applied. */
+    const lastAppliedSnapshot = ref<LigfinderFilterSnapshot>()
+    /** Snapshot of the filter that produced `appliedFilterResult`; the two always belong together. */
+    const appliedResultSnapshot = ref<LigfinderFilterSnapshot>()
     /**
      * Fetches the result of the currently applied filter from the backend.
-     * Posts to the advanced endpoint when the last applied filter carries a
-     * criteria_group (advanced mode was active), otherwise the simple one -
-     * mirroring the mode check in useLigfinderMainStore.applyAllFilters.
      * @returns A Promise resolving to a FeatureCollection of filtered results.
      * @throws Error if no filter is applied or the fetch fails.
      */
@@ -53,14 +72,25 @@ export const useResultStore = defineStore("result", () => {
         if (lastAppliedFilter.value === undefined) {
             throw new Error(t("ligfinder.table.errors.pinia.noFilterApplied"))
         }
-        const endpoint = "criteria_group" in lastAppliedFilter.value ? "/ligfinder/filter/advanced" : "/ligfinder/filter"
+        return await fetchFilterResult(lastAppliedFilter.value)
+    }
+    /**
+     * Posts a filter request body to the backend. Uses the advanced endpoint when the body
+     * carries a criteria_group (advanced mode was active), otherwise the simple one -
+     * mirroring the mode check in useLigfinderMainStore.applyAllFilters.
+     * @param body - The filter request body to send.
+     * @returns A Promise resolving to a FeatureCollection of filtered results.
+     * @throws Error if the fetch fails.
+     */
+    async function fetchFilterResult(body: ResultTableAPIRequestBody | AdvancedFilterRequestBody): Promise<FeatureCollection>{
+        const endpoint = "criteria_group" in body ? "/ligfinder/filter/advanced" : "/ligfinder/filter"
         const response = await fetch(`${import.meta.env.VITE_AGORA_API_BASE_URL}${endpoint}`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(lastAppliedFilter.value)
+                body: JSON.stringify(body)
             }
         )
         if (!response.ok) {
@@ -96,12 +126,34 @@ export const useResultStore = defineStore("result", () => {
         return filter
     }
     /**
+     * Records the filter that was just applied: the request body plus a detached snapshot
+     * of the filter panel, so a layer saved from its result can later be refreshed or edited.
+     */
+    function recordAppliedFilter(): void {
+        const body = createAppliedFilterBody()
+        lastAppliedFilter.value = body
+        lastAppliedSnapshot.value = JSON.parse(JSON.stringify({
+            request: body,
+            geometry: geometry.getSelectedAreasSnapshot(),
+            advanced: {
+                isActive: criteriaAdvanced.isActive,
+                blocks: criteriaAdvanced.blocks,
+                blocksOperator: criteriaAdvanced.blocksOperator
+            },
+            metricFilters: metric.metricFilters,
+            grzFilters: grz.grzFilters,
+            isMaximizerActive: ligfinder.isMaximizerActive
+        } satisfies LigfinderFilterSnapshot))
+    }
+    /**
      * Resets the result information, clearing filter state and results.
      */
     function resetResultInfo(): void{
         isFilterApplied.value = false
         appliedFilterResult.value = undefined
         lastAppliedFilter.value = undefined
+        lastAppliedSnapshot.value = undefined
+        appliedResultSnapshot.value = undefined
     }
     /**
      * Saves the currently applied filter result as a new map layer.
@@ -137,8 +189,14 @@ export const useResultStore = defineStore("result", () => {
                     appliedFilterResult.value,
                     false)
                     .then(() => {
+                        const savedLayer = mapStore.layersOnMap.find((layer) => layer.id === layerName)
+                        if (savedLayer !== undefined && appliedResultSnapshot.value !== undefined) {
+                            savedLayer.filterSnapshot = JSON.parse(JSON.stringify(appliedResultSnapshot.value))
+                        }
                     }).catch(error => {
-                        mapStore.map.value.removeSource(layerName)
+                        if (mapStore.map.getSource(layerName) !== undefined) {
+                            mapStore.map.removeSource(layerName)
+                        }
                         showError(error);
                     })
             }).catch((error) => {
@@ -147,6 +205,69 @@ export const useResultStore = defineStore("result", () => {
         } else {
             showError(t("ligfinder.table.messages.layerNameInUse"));
         }
+    }
+    /**
+     * Re-runs the stored filter of a saved layer against the current data and swaps in the new result.
+     * Stored areas are sent to the geometry filter again, so the parcel list follows the current data.
+     * @param layerId - The id of the saved layer to refresh.
+     * @returns A Promise resolving to the new result.
+     * @throws Error if the layer has no stored filter, the stored areas no longer cover any parcels, or a fetch fails.
+     */
+    async function refreshLayer(layerId: string): Promise<FeatureCollection> {
+        const layer = mapStore.layersOnMap.find((item) => item.id === layerId)
+        const snapshot = layer?.filterSnapshot
+        if (layer === undefined || snapshot === undefined) {
+            throw new Error(t("mapLayers.errors.pinia.noStoredFilter"))
+        }
+        const request: ResultTableAPIRequestBody | AdvancedFilterRequestBody = JSON.parse(JSON.stringify(snapshot.request))
+        const areas = snapshot.geometry
+        const areaFeatures = [
+            ...areas.administrative.map((item) => item.data),
+            ...areas.drawn,
+            ...areas.isochrone
+        ]
+        if (areaFeatures.length > 0) {
+            const areaFilter: ExtendedFeatureCollection = {
+                type: "FeatureCollection",
+                features: areaFeatures,
+                union: areas.union,
+                tableName: import.meta.env.VITE_PARCEL_DATASET_LAYERNAME
+            }
+            const { UUIDs } = await geometry.fetchGeometryFilter(areaFilter)
+            // An empty list would mean "no area filter" to the backend and return every parcel
+            if (UUIDs.length === 0) {
+                throw new Error(t("mapLayers.errors.pinia.noParcelsInAreas"))
+            }
+            request.geometry = UUIDs
+        }
+        const result = await fetchFilterResult(request)
+        const source = mapStore.map.getSource(layer.source)
+        if (source === undefined) {
+            throw new Error(t("map.errors.pinia.sourceNotFound", { identifier: layer.source }))
+        }
+        source.setData(result)
+        layer.filterLayerData = result
+        return result
+    }
+    /**
+     * Replaces the whole LIG-Finder filter panel with a saved layer's stored filter, so it can be changed and applied again.
+     * Clears the current filters and results first, the same way "Reset All" does.
+     * @param snapshot - The stored filter to load.
+     */
+    function loadFilterSnapshot(snapshot: LigfinderFilterSnapshot): void {
+        const copy: LigfinderFilterSnapshot = JSON.parse(JSON.stringify(snapshot))
+        ligfinder.resetFilters()
+        resetResultInfo()
+        if ("criteria" in copy.request) {
+            criteria.criteriaInUse = copy.request.criteria
+        }
+        criteriaAdvanced.blocks = copy.advanced.blocks
+        criteriaAdvanced.setBlocksOperator(copy.advanced.blocksOperator)
+        criteriaAdvanced.setActive(copy.advanced.isActive)
+        metric.metricFilters = copy.metricFilters
+        grz.grzFilters = copy.grzFilters
+        ligfinder.isMaximizerActive = copy.isMaximizerActive
+        geometry.restoreSelectedAreas(copy.geometry)
     }
     function showError(error: unknown): void {
         toast.add({
@@ -170,11 +291,16 @@ export const useResultStore = defineStore("result", () => {
         attributeList,
         fetchAppliedFilterResult,
         createAppliedFilterBody,
+        recordAppliedFilter,
         resetResultInfo,
         appliedFilterResult,
         lastAppliedFilter,
+        lastAppliedSnapshot,
+        appliedResultSnapshot,
         tableHeaders,
-        saveAsLayer
+        saveAsLayer,
+        refreshLayer,
+        loadFilterSnapshot
     }
 })
 

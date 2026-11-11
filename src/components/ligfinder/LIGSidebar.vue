@@ -82,7 +82,7 @@ function applier(): void {
     featureInspectorStore.dismiss();
     ligFilterStore.applyAllFilters(String(import.meta.env.VITE_PARCEL_DATASET_LAYERNAME)).then(() => {
         resultStore.isFilterApplied = true;
-        resultStore.lastAppliedFilter = resultStore.createAppliedFilterBody();
+        resultStore.recordAppliedFilter();
         if (parcelStore.maximizedParcelsOnMap) {
             parcelStore.cancelTempMaximizedParcels(false, false);
         }
@@ -105,8 +105,11 @@ function resetAppliedFilters(): void {
 function getTable(): void {
     featureInspectorStore.dismiss();
     isTableDataLoading.value = true;
+    // Taken before the request, so an Apply during the fetch can't pair this result with a newer filter
+    const snapshot = resultStore.lastAppliedSnapshot;
     resultStore.fetchAppliedFilterResult().then((response) => {
         resultStore.appliedFilterResult = response;
+        resultStore.appliedResultSnapshot = snapshot;
         openSlideoverSidebar("ligfinder-result-table");
     }).catch((error) => {
         console.error(error);
