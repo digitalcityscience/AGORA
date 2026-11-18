@@ -16,7 +16,7 @@
                     @click.stop
                 />
                 <USwitch v-model="checked" class="shrink-0" @update:model-value="changeLayerVisibility" />
-                <UTooltip :text="layerFullName">
+                <UTooltip :text="layerFullName" :ui="{ content: 'z-[80]' }">
                     <h3 class="layer-name mr-auto ml-2 truncate capitalize">{{ layerDisplayName }}</h3>
                 </UTooltip>
                 <div class="layer-actions">

@@ -43,7 +43,7 @@ watch(themeMode, (mode) => {
         <h1 class="app-brand">{{ t("app.title") }}</h1>
         <div class="flex items-center gap-1">
           <LocaleSwitcher />
-          <UTooltip :text="themeToggleLabel">
+          <UTooltip :text="themeToggleLabel" :ui="{ content: 'z-[80]' }">
             <UButton
               class="size-8 p-0"
               :icon="themeToggleIcon"

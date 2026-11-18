@@ -39,6 +39,8 @@ const frameItems = computed(() => props.side === "left" ? leftItems.value : righ
       :key="item.id"
       :text="item.label"
       :delay-duration="0"
+      :content="{ side: props.side === 'left' ? 'right' : 'left' }"
+      :ui="{ content: 'z-[80]' }"
     >
       <UButton
         class="map-frame-button"
