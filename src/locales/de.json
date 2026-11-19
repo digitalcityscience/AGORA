@@ -80,23 +80,23 @@
           "Shape_Area": "Grundstücksgröße in m²",
           "bgf_sum": "Verfügbare Bruttogeschossfläche in m²",
           "fl_unbeb_a": "Verfügbare unbebaute Fläche auf Flurstück in m²",
-          "dist_train_station": "Distanz zur nächsten Schnellbahn-Haltestelle in meter",
-          "dist_supermarket": "Entfernung zum nächsten Supermarkt in meter",
-          "dist_kindergarten": "Entfernung zur nächsten Kita in meter",
-          "dist_bus_stop": "Entfernung zur nächsten Bushaltestelle in meter",
-          "dist_hospitals": "Entfernung zum nächsten Krankenhaus in meter",
-          "dist_pharmacies": "Entfernung zum nächsten Apotheke in meter",
+          "dist_train_station": "Distanz zur nächsten Schnellbahn-Haltestelle in Metern",
+          "dist_supermarket": "Entfernung zum nächsten Supermarkt in Metern",
+          "dist_kindergarten": "Entfernung zur nächsten Kita in Metern",
+          "dist_bus_stop": "Entfernung zur nächsten Bushaltestelle in Metern",
+          "dist_hospitals": "Entfernung zum nächsten Krankenhaus in Metern",
+          "dist_pharmacies": "Entfernung zur nächsten Apotheke in Metern",
           "dist_airport": "Entfernung zum nächsten Flughafen in Metern",
           "dist_fire_departments": "Entfernung zur nächsten Feuerwehrstation in Metern"
         }
       },
       "grz":{
-				"title": "Baunutzungsrechtliche Filterung",
+				"title": "Baunutzungsrechtliche Filterung (Metriken)",
 				"labels":{
-					"grz_alkis":"Grundflächenzahl tatsächlich" ,
-					"grz_xplanung":"Grundflächenzahl B-Plan" ,
-					"grz_potential": "Verdichtungspotential",
-					"grz_potential_area":"Zusätzlich bebaubare Fläche auf Flurstück"
+					"grz_alkis":"Grundflächenzahl tatsächlich (0,0 bis 1,0)" ,
+					"grz_xplanung":"Grundflächenzahl B-Plan (0,0 bis 1,0)" ,
+					"grz_potential": "Verdichtungspotential (0,0 bis 1,0)",
+					"grz_potential_area":"Zusätzlich bebaubare Fläche auf Flurstück in m²"
 			}},
       "geometry": {
         "title": "Filterung nach Geometrie",

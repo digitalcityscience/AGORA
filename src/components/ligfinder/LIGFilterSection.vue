@@ -29,7 +29,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    defaultOpen: true,
+    defaultOpen: false,
 })
 const sectionValue = computed(() => props.value)
 const items = computed(() => [{

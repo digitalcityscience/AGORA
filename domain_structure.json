@@ -929,7 +929,7 @@
     },
     {
       "key": "nutzung",
-      "label": "Nutzung Kategorien",
+      "label": "Nutzungskategorien",
       "label_en": "Land Use Categories",
       "nutzungvalue": [""],
       "children": [
