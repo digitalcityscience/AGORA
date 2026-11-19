@@ -91,12 +91,12 @@
         }
       },
       "grz":{
-				"title": "Baunutzungsrechtliche Filterung",
+				"title": "Baunutzungsrechtliche Filterung (Metriken)",
 				"labels":{
-					"grz_alkis":"Grundflächenzahl tatsächlich" ,
-					"grz_xplanung":"Grundflächenzahl B-Plan" ,
-					"grz_potential": "Verdichtungspotential",
-					"grz_potential_area":"Zusätzlich bebaubare Fläche auf Flurstück"
+					"grz_alkis":"Grundflächenzahl tatsächlich (0,0 bis 1,0)" ,
+					"grz_xplanung":"Grundflächenzahl B-Plan (0,0 bis 1,0)" ,
+					"grz_potential": "Verdichtungspotential (0,0 bis 1,0)",
+					"grz_potential_area":"Zusätzlich bebaubare Fläche auf Flurstück in m²"
 			}},
       "geometry": {
         "title": "Filterung nach Geometrie",
